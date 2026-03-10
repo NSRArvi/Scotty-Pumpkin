@@ -1,4 +1,3 @@
-import React from 'react';
 import { Twitter, Github, Paperclip } from 'lucide-react';
 
 export default function Footer() {
@@ -22,7 +21,7 @@ export default function Footer() {
         {/* Footer Links */}
         <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 lg:gap-8 mb-6 md:mb-8">
           {footerLinks.map((link, index) => (
-            <React.Fragment key={link.label}>
+            <div key={link.label}>
               <a 
                 href={link.href}
                 className="text-sm md:text-base text-purple-200 hover:text-white transition-colors"
@@ -32,7 +31,7 @@ export default function Footer() {
               {index < footerLinks.length - 1 && (
                 <span className="text-purple-500/50 hidden sm:inline">•</span>
               )}
-            </React.Fragment>
+            </div>
           ))}
         </div>
 

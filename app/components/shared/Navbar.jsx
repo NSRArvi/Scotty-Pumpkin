@@ -13,7 +13,8 @@ export default function Navbar() {
     { label: 'Ecosystem', href: '/ecosystem' },
     { label: 'Market', href: 'https://bfinit.com/bfinit-ecomerce-platform' },
     { label: 'Create', href: 'https://sosay.org/' },
-    // { label: 'Blog', href: '/blog' },
+    { label: 'NFT Studio', href: '/nft-studio' },
+    { label: 'Purchase', href: '/purchase' },
   ];
 
   // Prevent body scroll when mobile menu is open
