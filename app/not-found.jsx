@@ -210,13 +210,13 @@ export default function MaintenancePage() {
             <div className="flex items-center justify-center gap-3">
               <span className="sp-wrench text-2xl">🔧</span>
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black nf-shimmer">
-                Under Maintenance
+                Coming Soon
               </h1>
               <span className="sp-wrench text-2xl" style={{ animationDelay: "0.6s" }}>🔧</span>
             </div>
             <p className="text-white/55 text-base md:text-lg leading-relaxed max-w-md mx-auto">
-              Scotty is busy brewing something magical. We&apos;re sprucing up the pumpkin patch —
-              check back very soon!
+              Something amazing is brewing! Get ready for an incredible experience.
+              We&apos;ll be here very soon!
             </p>
           </div>
 

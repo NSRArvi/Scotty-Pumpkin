@@ -1,5 +1,6 @@
 import heroImg from "@/public/assets/hero.png";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -48,12 +49,12 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-4 md:pt-6 justify-center md:justify-start">
-              <button className="px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-green-700 to-green-900 rounded-lg hover:from-green-600 hover:to-green-800 transition-all font-semibold text-base md:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95">
+              <Link href="https://bfinit.com/bfinit-ecomerce-platform" target="_blank" className="px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-green-700 to-green-900 rounded-lg hover:from-green-600 hover:to-green-800 transition-all font-semibold text-base md:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95">
                 Join the Eco Online Shop
-              </button>
-              <button className="px-6 md:px-8 py-3 md:py-4 border-2 border-purple-400 rounded-lg hover:bg-purple-800/50 transition-all font-semibold text-base md:text-lg hover:border-purple-300">
+              </Link>
+              <Link href="https://sosay.org/spump-market" target="_blank" className="px-6 md:px-8 py-3 md:py-4 border-2 border-purple-400 rounded-lg hover:bg-purple-800/50 transition-all font-semibold text-base md:text-lg hover:border-purple-300">
                 Discover Scotty Marketplace
-              </button>
+              </Link>
             </div>
           </div>
         </div>
