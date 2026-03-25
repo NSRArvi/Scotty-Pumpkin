@@ -1,4 +1,4 @@
-import { Twitter, Github, Paperclip } from 'lucide-react';
+import { Twitter, Github, Globe, MessageCircle } from 'lucide-react';
 
 export default function Footer() {
   const footerLinks = [
@@ -10,9 +10,10 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { Icon: Github, href: 'https://github.com/spump-coin', label: 'GitHub' },
-    { Icon: Paperclip, href: 'https://github.com/SPUMP-COIN/white_paper', label: 'White Paper' },
-    { Icon: Twitter, href: 'https://x.com/SpumpCoin', label: 'Twitter' },
+    { Icon: Twitter, href: 'https://x.com/SpumpCoin', label: 'X' },
+    { Icon: Globe, href: 'https://www.reddit.com/user/SpumpCoin/', label: 'Reddit' },
+    { Icon: Github, href: 'https://github.com/SPUMP-COIN', label: 'GitHub' },
+    { Icon: MessageCircle, href: 'https://t.me/spump_token', label: 'Telegram' },
   ];
 
   return (

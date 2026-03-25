@@ -1,21 +1,154 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import heroImg from "@/public/assets/hero.png";
 import Image from "next/image";
 import centralized from "@/public/assets/buy/centralized.png";
 import dex from "@/public/assets/buy/dex.png";
+import Link from "next/link";
 
 const WALLET_ADDRESS = "8HVXp9...9peL6s";
 const WALLET_FULL = "8HVXp9ABCDEFGHIJKLMNOPQRSTUVWXYZabcd9peL6s";
 
-export default function page() {
+export default function Page() {
   const [copied, setCopied] = useState(false);
+  const [isTokenDetailsOpen, setIsTokenDetailsOpen] = useState(false);
+  const [isDexListingOpen, setIsDexListingOpen] = useState(false);
+
+  const tokenDetails = [
+    {
+      title: "COINGECHO",
+      description:
+        "Tracks live price, volume, and market cap of SPUMP via GeckoTerminal",
+      href: "https://www.geckoterminal.com/solana/pools/2gkymgcngo7ZVJD4899cHkJ1B91fkHv3ZnohCuxsU67n",
+    },
+    {
+      title: "COIN MARKET CAP",
+      description:
+        "Analyze the market, track rankings, and calculate the total valuation of SPUMP via COIN MARKET CAP",
+      href: "https://dex.coinmarketcap.com/token/solana/AKdCsQHoLKCpu3n2QcMS3BK8vQTWDcSDpujLr8UjeyNT",
+    },
+  ];
+
+  const otherPopularAggregators = [
+    {
+      title: "Photon-SOL",
+      description:
+        "Offers a web-based, user-friendly interface with features like real-time price feeds and one-click transaction capabilities.",
+      href: "https://photon-sol.tinyastro.io/en/lp/2gkymgcngo7ZVJD4899cHkJ1B91fkHv3ZnohCuxsU67n",
+    },
+    {
+      title: "DEX Tools",
+      description:
+        "DEXTools is a leading analytics platform and trading interface for decentralized finance (DeFi) traders, offering real-time data, price charting, and insights into decentralized exchanges (DEXs).",
+      href: "https://www.dextools.io/app/solana/pair-explorer/2gkymgcngo7ZVJD4899cHkJ1B91fkHv3ZnohCuxsU67n",
+    },
+  ];
+
+  const dexListings = [
+    {
+      title: "RADIUM SWAP",
+      description:
+        "Swap your tokens to SPUMP directly from your wallets, such as Phantom, without needing a centralized intermediary.",
+      href: "https://raydium.io/swap/?inputMint=AKdCsQHoLKCpu3n2QcMS3BK8vQTWDcSDpujLr8UjeyNT&outputMint=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+    },
+    {
+      title: "JUPITER SWAP",
+      description:
+        "Swap your crypto coin to SPUMP at low slippage and cheap transaction fees at JUPITER.",
+      href: "https://jup.ag/?buy=AKdCsQHoLKCpu3n2QcMS3BK8vQTWDcSDpujLr8UjeyNT",
+    },
+  ];
 
   function handleCopy() {
     navigator.clipboard.writeText(WALLET_FULL).catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  }
+
+  useEffect(() => {
+    if (isTokenDetailsOpen || isDexListingOpen) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [isTokenDetailsOpen, isDexListingOpen]);
+
+  useEffect(() => {
+    function onKeyDown(event) {
+      if (event.key === "Escape") {
+        setIsTokenDetailsOpen(false);
+        setIsDexListingOpen(false);
+      }
+    }
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
+  function renderModal({ isOpen, onClose, title, subtitle, items, extraContent }) {
+    if (!isOpen || typeof window === "undefined") return null;
+
+    return createPortal(
+      <div
+        className="fixed inset-0 overflow-y-auto p-3 sm:p-4"
+        style={{ zIndex: 2147483647 }}
+        onClick={onClose}
+      >
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+        <div className="relative z-10 flex min-h-full items-start sm:items-center justify-center">
+          <div
+            className="w-full max-w-2xl rounded-2xl border border-purple-500/35 bg-[#12061f]/95 p-5 md:p-7 shadow-2xl max-h-[88vh] overflow-y-auto"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mb-5 flex items-start justify-between gap-4">
+              <div>
+                <h3 className="text-2xl md:text-3xl font-bold text-white">{title}</h3>
+                <p className="mt-1 text-sm md:text-base text-white/65">{subtitle}</p>
+              </div>
+              <button
+                onClick={onClose}
+                className="rounded-lg border border-white/15 px-3 py-1.5 text-white/80 hover:bg-white/10"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {items.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-xl border border-purple-500/30 bg-white/5 p-4 md:p-5"
+                >
+                  <h4 className="text-lg font-bold text-amber-300">{item.title}</h4>
+                  <p className="mt-1 text-sm md:text-base text-white/70">
+                    {item.description}
+                  </p>
+                  <Link
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex rounded-lg border border-purple-400/45 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-500/20"
+                  >
+                    Open Link
+                  </Link>
+                </div>
+              ))}
+              {extraContent}
+            </div>
+          </div>
+        </div>
+      </div>,
+      document.body
+    );
   }
 
   return (
@@ -145,10 +278,16 @@ export default function page() {
                 marketplace.
               </p>
               <div className="flex flex-col gap-3">
-                <button className="sp-gradient-btn px-7 py-3.5 rounded-xl font-bold text-base text-white flex items-center justify-center gap-2">
+                <Link
+                  href="/coming-soon"
+                  className="sp-gradient-btn px-7 py-3.5 rounded-xl font-bold text-base text-white flex items-center justify-center gap-2"
+                >
                   <span>🟡</span> Buy on Official Exchange (CEX)
-                </button>
-                <button className="sp-outline-btn px-7 py-3.5 rounded-xl font-semibold text-base text-white">
+                </Link>
+                <button
+                  onClick={() => setIsTokenDetailsOpen(true)}
+                  className="sp-outline-btn px-7 py-3.5 rounded-xl font-semibold text-base text-white flex items-center justify-center gap-2"
+                >
                   View Token Details
                 </button>
               </div>
@@ -199,13 +338,16 @@ export default function page() {
                       </p>
                     ))}
                   </div>
-                  <button className="sp-gradient-btn px-8 py-3.5 rounded-xl font-bold text-base text-white mt-2">
+                  <Link
+                    href="/coming-soon"
+                    className="sp-gradient-btn px-8 py-3.5 rounded-xl font-bold text-base text-white mt-2 flex w-fit"
+                  >
                     Visit Official Exchange
-                  </button>
+                  </Link>
                 </div>
 
                 <div
-                  className="hidden sm:flex size-48 items-center justify-center rounded-2xl flex-shrink-0"
+                  className="hidden sm:flex size-48 items-center justify-center rounded-2xl shrink-0"
                   style={{
                     background: "rgba(245,158,11,0.07)",
                     border: "1px solid rgba(245,158,11,0.15)",
@@ -252,13 +394,16 @@ export default function page() {
                       </p>
                     ))}
                   </div>
-                  <button className="sp-dex-btn px-8 py-3.5 rounded-xl font-bold text-base text-white mt-2">
+                  <button
+                    onClick={() => setIsDexListingOpen(true)}
+                    className="sp-dex-btn px-8 py-3.5 rounded-xl font-bold text-base text-white mt-2"
+                  >
                     View DEX Listing
                   </button>
                 </div>
 
                 <div
-                  className="hidden sm:flex size-48 items-center justify-center rounded-2xl flex-shrink-0"
+                  className="hidden sm:flex size-48 items-center justify-center rounded-2xl shrink-0"
                   style={{
                     background: "rgba(168,85,247,0.07)",
                     border: "1px solid rgba(168,85,247,0.15)",
@@ -279,6 +424,50 @@ export default function page() {
           </p>
         </div>
       </section>
+
+      {renderModal({
+        isOpen: isTokenDetailsOpen,
+        onClose: () => setIsTokenDetailsOpen(false),
+        title: "Token Details",
+        subtitle: "Explore trusted market tracking links for SPUMP.",
+        items: tokenDetails,
+        extraContent: (
+          <>
+            <div className="pt-2">
+              <h4 className="text-base md:text-lg font-bold text-purple-200">
+                Other Popular Aggregators
+              </h4>
+            </div>
+            {otherPopularAggregators.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-xl border border-purple-500/30 bg-white/5 p-4 md:p-5"
+              >
+                <h4 className="text-lg font-bold text-amber-300">{item.title}</h4>
+                <p className="mt-1 text-sm md:text-base text-white/70">
+                  {item.description}
+                </p>
+                <Link
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex rounded-lg border border-purple-400/45 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-500/20"
+                >
+                  Open Link
+                </Link>
+              </div>
+            ))}
+          </>
+        ),
+      })}
+
+      {renderModal({
+        isOpen: isDexListingOpen,
+        onClose: () => setIsDexListingOpen(false),
+        title: "DEX Listing",
+        subtitle: "Trade SPUMP through decentralized swap interfaces.",
+        items: dexListings,
+      })}
     </>
   );
 }
