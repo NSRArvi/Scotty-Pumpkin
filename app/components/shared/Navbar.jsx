@@ -18,7 +18,13 @@ export default function Navbar() {
         { label: 'Crypto risk warning and no obligation', href: '/risk-warning' },
       ],
     },
-    { label: 'Ecosystem', href: '/ecosystem' },
+    {
+      label: 'Ecosystem',
+      dropdown: [
+        { label: 'SPUMP Economic Engine', href: '/ecosystem/spump-economic-engine' },
+        { label: 'A Real Utility Ecosystem', href: '/ecosystem/a-real-utility-ecosystem' },
+      ],
+    },
     {
       label: 'NFT',
       dropdown: [

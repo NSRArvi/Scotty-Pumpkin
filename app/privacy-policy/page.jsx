@@ -119,69 +119,6 @@ export default function PrivacyPolicyPage() {
 
   return (
     <>
-      <style>{`
-        @keyframes sp-glow-pulse {
-          0%, 100% { opacity: 0.5; }
-          50%       { opacity: 1; }
-        }
-        @keyframes sp-fade-in {
-          from { opacity: 0; transform: translateY(8px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .sp-section-card {
-          background: rgba(255,255,255,0.04);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.08);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
-          transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-          cursor: pointer;
-        }
-        .sp-section-card:hover {
-          transform: translateX(6px);
-          border-color: rgba(168,85,247,0.35);
-          box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 30px rgba(168,85,247,0.12);
-        }
-        .sp-section-card.active {
-          border-color: rgba(168,85,247,0.5);
-          box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 40px rgba(168,85,247,0.18);
-        }
-        .sp-section-body {
-          animation: sp-fade-in 0.25s ease forwards;
-        }
-        .sp-number {
-          background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(139,92,246,0.15));
-          border: 1px solid rgba(168,85,247,0.4);
-          box-shadow: 0 0 20px rgba(168,85,247,0.2);
-          animation: sp-glow-pulse 3s ease-in-out infinite;
-        }
-        .sp-subsection {
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.06);
-        }
-        .sp-check {
-          color: #4ade80;
-          filter: drop-shadow(0 0 4px rgba(74,222,128,0.6));
-          flex-shrink: 0;
-        }
-        .sp-badge {
-          background: rgba(245,158,11,0.15);
-          border: 1px solid rgba(245,158,11,0.3);
-          color: #fbbf24;
-        }
-        .sp-footer-note {
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.06);
-        }
-        .sp-chevron {
-          transition: transform 0.25s ease;
-        }
-        .sp-chevron.open {
-          transform: rotate(180deg);
-        }
-      `}</style>
-
       <section className="relative z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
         <div className="max-w-4xl mx-auto space-y-10 md:space-y-14">
 
@@ -222,7 +159,7 @@ export default function PrivacyPolicyPage() {
                 >
                   {/* Header */}
                   <div className="flex items-center gap-4 px-6 py-5 md:px-8">
-                    <div className="flex-shrink-0">
+                    <div className="shrink-0">
                       <div className="sp-number w-11 h-11 rounded-xl flex items-center justify-center">
                         <span className="text-purple-300 font-black text-base">{section.number}</span>
                       </div>
@@ -234,7 +171,7 @@ export default function PrivacyPolicyPage() {
                       </h2>
                     </div>
                     <svg
-                      className={`sp-chevron flex-shrink-0 w-5 h-5 text-purple-400 ${isOpen ? "open" : ""}`}
+                      className={`sp-chevron shrink-0 w-5 h-5 text-purple-400 ${isOpen ? "open" : ""}`}
                       fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -243,7 +180,7 @@ export default function PrivacyPolicyPage() {
 
                   {/* Body */}
                   {isOpen && (
-                    <div className="sp-section-body px-6 pb-6 md:px-8 md:pb-7 space-y-4 border-t border-white/[0.06]">
+                    <div className="sp-section-body px-6 pb-6 md:px-8 md:pb-7 space-y-4 border-t border-white/6">
                       <div className="h-1" />
 
                       {/* Paragraph content */}

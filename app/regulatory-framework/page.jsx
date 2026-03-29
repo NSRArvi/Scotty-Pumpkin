@@ -88,190 +88,6 @@ export default function RegulatoryFrameworkPage() {
 
   return (
     <>
-      <style>{`
-        @keyframes sp-fade-in {
-          from { opacity: 0; transform: translateY(8px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes sp-glow-pulse {
-          0%, 100% { opacity: 0.5; }
-          50%       { opacity: 1; }
-        }
-        @keyframes sp-bar-grow {
-          from { width: 0%; }
-          to   { width: var(--bar-w); }
-        }
-
-        /* Two-column layout */
-        .sp-layout {
-          display: grid;
-          grid-template-columns: 220px 1fr;
-          gap: 20px;
-          align-items: start;
-        }
-        @media (max-width: 768px) {
-          .sp-layout {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        /* Sidebar nav */
-        .sp-sidebar {
-          background: rgba(255,255,255,0.03);
-          backdrop-filter: blur(16px);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 18px;
-          overflow: hidden;
-          position: sticky;
-          top: 24px;
-        }
-        .sp-nav-item {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 13px 16px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          border-left: 3px solid transparent;
-        }
-        .sp-nav-item:hover {
-          background: rgba(255,255,255,0.04);
-        }
-        .sp-nav-item.active {
-          background: rgba(168,85,247,0.1);
-          border-left-color: rgba(168,85,247,0.7);
-        }
-        .sp-nav-sep {
-          height: 1px;
-          background: rgba(255,255,255,0.05);
-          margin: 0 12px;
-        }
-        .sp-nav-number {
-          width: 24px;
-          height: 24px;
-          border-radius: 6px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 0.7rem;
-          font-weight: 900;
-          flex-shrink: 0;
-          background: rgba(168,85,247,0.15);
-          border: 1px solid rgba(168,85,247,0.3);
-          color: rgba(168,85,247,0.9);
-          animation: sp-glow-pulse 3s ease-in-out infinite;
-        }
-        .sp-nav-item.active .sp-nav-number {
-          background: rgba(168,85,247,0.3);
-          border-color: rgba(168,85,247,0.6);
-          color: #c084fc;
-        }
-
-        /* Mobile nav scroll */
-        .sp-mobile-nav {
-          display: flex;
-          gap: 8px;
-          overflow-x: auto;
-          padding-bottom: 4px;
-          scrollbar-width: none;
-        }
-        .sp-mobile-nav::-webkit-scrollbar { display: none; }
-        .sp-mobile-btn {
-          flex-shrink: 0;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 10px;
-          padding: 8px 14px;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
-        .sp-mobile-btn.active {
-          background: rgba(168,85,247,0.12);
-          border-color: rgba(168,85,247,0.4);
-        }
-
-        /* Content panel */
-        .sp-panel {
-          background: rgba(255,255,255,0.03);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.08);
-          border-radius: 18px;
-          padding: 28px;
-          box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-          animation: sp-fade-in 0.3s ease forwards;
-        }
-
-        /* Entity grid cards */
-        .sp-entity-item {
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 12px;
-          padding: 14px 16px;
-        }
-
-        /* Sub-cards */
-        .sp-item-row {
-          display: flex;
-          align-items: flex-start;
-          gap: 10px;
-          padding: 10px 14px;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.06);
-          border-radius: 10px;
-        }
-        .sp-item-row.warn {
-          background: rgba(239,68,68,0.05);
-          border-color: rgba(239,68,68,0.15);
-        }
-        .sp-item-row.risk {
-          background: rgba(245,158,11,0.04);
-          border-color: rgba(245,158,11,0.15);
-        }
-
-        /* Checks */
-        .sp-check    { color: #4ade80; filter: drop-shadow(0 0 4px rgba(74,222,128,0.6)); flex-shrink: 0; margin-top: 2px; }
-        .sp-warn-icon{ color: #f87171; filter: drop-shadow(0 0 4px rgba(248,113,113,0.5)); flex-shrink: 0; margin-top: 2px; }
-        .sp-risk-icon{ color: #fbbf24; filter: drop-shadow(0 0 4px rgba(251,191,36,0.6)); flex-shrink: 0; margin-top: 2px; }
-
-        /* Bars */
-        .sp-bar-track { background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; height: 7px; }
-        .sp-bar-fill  { height: 100%; border-radius: 999px; animation: sp-bar-grow 0.9s ease forwards; }
-
-        /* Highlight box */
-        .sp-highlight {
-          background: rgba(245,158,11,0.08);
-          border: 1px solid rgba(245,158,11,0.25);
-          border-radius: 12px;
-          padding: 12px 16px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-        .sp-jurisdiction {
-          background: rgba(99,102,241,0.1);
-          border: 1px solid rgba(99,102,241,0.3);
-          border-radius: 12px;
-          padding: 12px 16px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        /* Badges */
-        .sp-badge-amber  { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3);  color: #fbbf24; }
-        .sp-badge-indigo { background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3);  color: #a5b4fc; }
-        .sp-badge-green  { background: rgba(74,222,128,0.10); border: 1px solid rgba(74,222,128,0.25); color: #4ade80; }
-        .sp-badge-red    { background: rgba(239,68,68,0.10);  border: 1px solid rgba(239,68,68,0.25);  color: #f87171; }
-
-        .sp-footer-note {
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.06);
-        }
-      `}</style>
-
       <section className="relative z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
         <div className="max-w-5xl mx-auto space-y-10 md:space-y-12">
 
@@ -315,7 +131,7 @@ export default function RegulatoryFrameworkPage() {
 
             {/* Sidebar (desktop only) */}
             <div className="sp-sidebar hidden md:block">
-              <div className="px-4 py-3 border-b border-white/[0.05]">
+              <div className="px-4 py-3 border-b border-white/5">
                 <p className="text-white/35 text-xs font-bold uppercase tracking-widest">Sections</p>
               </div>
               {SECTIONS.map((s, i) => (
@@ -330,7 +146,7 @@ export default function RegulatoryFrameworkPage() {
                         {s.title}
                       </p>
                     </div>
-                    <span className="ml-auto text-sm flex-shrink-0">{s.icon}</span>
+                    <span className="ml-auto text-sm shrink-0">{s.icon}</span>
                   </div>
                   {i < SECTIONS.length - 1 && <div className="sp-nav-sep" />}
                 </div>
@@ -427,13 +243,13 @@ export default function RegulatoryFrameworkPage() {
 
                     {/* Footer note */}
                     {s.footer && (
-                      <p className="text-white/35 text-xs italic mt-1 border-t border-white/[0.05] pt-3">{s.footer}</p>
+                      <p className="text-white/35 text-xs italic mt-1 border-t border-white/5 pt-3">{s.footer}</p>
                     )}
 
                   </div>
 
                   {/* Navigation arrows */}
-                  <div className="flex justify-between items-center mt-8 pt-5 border-t border-white/[0.05]">
+                  <div className="flex justify-between items-center mt-8 pt-5 border-t border-white/5">
                     <button
                       onClick={() => setActiveSection((p) => Math.max(1, p - 1))}
                       disabled={activeSection === 1}

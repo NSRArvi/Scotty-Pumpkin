@@ -2,11 +2,30 @@
 
 import { useState } from "react";
 
-const ENTITY = {
-  name: "Scotty Pumpkin Ltd",
-  address: "[Insert Registered Address]",
-  contact: "legal@scottypumpkin.com",
-  law: "England & Wales",
+const LEGAL_ENTITIES = {
+  principal: {
+    title: "Principal Entity (France / EU)",
+    name: "SAS Association Familiale Fin (AFFIN)",
+    registration: "803 965 227 RCS Montpellier",
+    addressLines: ["8 Rue Dublin", "34200 Sete", "France"],
+    role: [
+      "Group Holding Entity and Principal Administrative Structure",
+      "Administration and Entity Management for USFRANC and Scotty Pumpkin",
+    ],
+  },
+  uk: {
+    title: "United Kingdom Entity",
+    name: "USFRANC LTD",
+    registration: "10325829",
+    addressLines: [
+      "4th Floor, Silverstream House",
+      "45 Fitzroy Street",
+      "London",
+      "W1T 6EB",
+      "United Kingdom",
+    ],
+  },
+  contactEmail: "usfranc@bobosohomail.com",
 };
 
 const SECTIONS = [
@@ -112,7 +131,7 @@ const SECTIONS = [
         title: "2. Revenue Allocation Disclosure",
         intro: "After-tax inflows from first sales and 1% administrative fees are allocated as:",
         allocation: [
-          { label: "Ecosystem sustainability investments (government securities)", value: "60%", color: "rgba(245,158,11,0.9)" },
+          { label: "Ecosystem Growth & Innovation", value: "60%", color: "rgba(245,158,11,0.9)" },
           { label: "Operational reserves", value: "10%", color: "rgba(168,85,247,0.9)" },
           { label: "Liquidity support", value: "10%", color: "rgba(99,102,241,0.9)" },
           { label: "Operating expenses", value: "10%", color: "rgba(59,130,246,0.9)" },
@@ -163,121 +182,6 @@ export default function LegalPackPage() {
 
   return (
     <>
-      <style>{`
-        @keyframes sp-fade-in {
-          from { opacity: 0; transform: translateY(10px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes sp-glow-pulse {
-          0%, 100% { opacity: 0.5; }
-          50%       { opacity: 1; }
-        }
-        @keyframes sp-bar-grow {
-          from { width: 0%; }
-          to   { width: var(--bar-w); }
-        }
-
-        /* Entity info card */
-        .sp-entity-card {
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
-          backdrop-filter: blur(16px);
-        }
-
-        /* Tab nav */
-        .sp-tab {
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
-          transition: all 0.25s ease;
-          cursor: pointer;
-          position: relative;
-          overflow: hidden;
-        }
-        .sp-tab:hover {
-          background: rgba(255,255,255,0.06);
-        }
-        .sp-tab.active {
-          background: rgba(255,255,255,0.07);
-        }
-        .sp-tab-indicator {
-          position: absolute;
-          bottom: 0; left: 0; right: 0;
-          height: 2px;
-          border-radius: 2px 2px 0 0;
-          transition: opacity 0.25s ease;
-        }
-
-        /* Content panel */
-        .sp-content-panel {
-          background: rgba(255,255,255,0.03);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.07);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-          animation: sp-fade-in 0.3s ease forwards;
-        }
-
-        /* Sub-section card */
-        .sp-sub-card {
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 14px;
-          padding: 18px 20px;
-        }
-        .sp-sub-card.warn {
-          background: rgba(239,68,68,0.05);
-          border-color: rgba(239,68,68,0.18);
-        }
-        .sp-sub-card.risk {
-          background: rgba(245,158,11,0.05);
-          border-color: rgba(245,158,11,0.18);
-        }
-        .sp-sub-card.highlight {
-          background: rgba(245,158,11,0.06);
-          border-color: rgba(245,158,11,0.2);
-        }
-
-        /* Checks */
-        .sp-check { color: #4ade80; filter: drop-shadow(0 0 4px rgba(74,222,128,0.6)); flex-shrink: 0; }
-        .sp-warn-icon { color: #fbbf24; filter: drop-shadow(0 0 4px rgba(251,191,36,0.6)); flex-shrink: 0; }
-        .sp-risk-icon { color: #f87171; filter: drop-shadow(0 0 4px rgba(248,113,113,0.5)); flex-shrink: 0; }
-
-        /* Bar */
-        .sp-bar-track { background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; height: 7px; }
-        .sp-bar-fill  { height: 100%; border-radius: 999px; animation: sp-bar-grow 0.9s ease forwards; }
-
-        /* Badge */
-        .sp-badge-amber {
-          background: rgba(245,158,11,0.15);
-          border: 1px solid rgba(245,158,11,0.3);
-          color: #fbbf24;
-        }
-        .sp-badge-indigo {
-          background: rgba(99,102,241,0.15);
-          border: 1px solid rgba(99,102,241,0.3);
-          color: #a5b4fc;
-        }
-        .sp-badge-green {
-          background: rgba(74,222,128,0.1);
-          border: 1px solid rgba(74,222,128,0.25);
-          color: #4ade80;
-        }
-
-        /* Footer */
-        .sp-footer-note {
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.06);
-        }
-
-        /* Section number badge */
-        .sp-sec-num {
-          font-size: 0.65rem;
-          font-weight: 800;
-          letter-spacing: 0.08em;
-          opacity: 0.5;
-        }
-      `}</style>
-
       <section className="relative z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
         <div className="max-w-5xl mx-auto space-y-10 md:space-y-14">
 
@@ -297,21 +201,55 @@ export default function LegalPackPage() {
             </div>
           </div>
 
-          {/* ── Entity Info ── */}
-          <div className="sp-entity-card rounded-2xl p-5 md:p-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              { label: "Legal Entity", value: ENTITY.name },
-              { label: "Registered Address", value: ENTITY.address },
-              { label: "Legal Contact", value: ENTITY.contact, isEmail: true },
-              { label: "Governing Law", value: ENTITY.law },
-            ].map((item) => (
-              <div key={item.label} className="space-y-1">
-                <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">{item.label}</p>
-                <p className={`text-sm font-medium ${item.isEmail ? "text-purple-300" : "text-white/80"}`}>
-                  {item.value}
+          {/* ── Legal Entity Structure ── */}
+          <div className="sp-entity-card rounded-2xl p-5 md:p-6 space-y-4">
+            <div className="space-y-1">
+              <p className="sp-entity-title">Legal Entity Structure</p>
+              <p className="text-white/55 text-sm">Principal entity, UK entity, and secure legal contact details.</p>
+            </div>
+
+            <div className="grid lg:grid-cols-2 gap-4">
+              <div className="sp-entity-subcard space-y-3">
+                <p className="text-amber-300 text-xs font-bold uppercase tracking-widest">{LEGAL_ENTITIES.principal.title}</p>
+                <p className="text-white text-base font-bold">{LEGAL_ENTITIES.principal.name}</p>
+                <p className="text-white/65 text-sm">
+                  <span className="font-semibold text-white/80">Registration No:</span> {LEGAL_ENTITIES.principal.registration}
                 </p>
+                <div className="space-y-1">
+                  <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">Registered Address</p>
+                  {LEGAL_ENTITIES.principal.addressLines.map((line) => (
+                    <p key={line} className="text-white/75 text-sm">{line}</p>
+                  ))}
+                </div>
+                <div className="space-y-1">
+                  <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">Role</p>
+                  <ul className="sp-entity-list list-disc pl-4">
+                    {LEGAL_ENTITIES.principal.role.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            ))}
+
+              <div className="sp-entity-subcard space-y-3">
+                <p className="text-amber-300 text-xs font-bold uppercase tracking-widest">{LEGAL_ENTITIES.uk.title}</p>
+                <p className="text-white text-base font-bold">{LEGAL_ENTITIES.uk.name}</p>
+                <p className="text-white/65 text-sm">
+                  <span className="font-semibold text-white/80">Registration No:</span> {LEGAL_ENTITIES.uk.registration}
+                </p>
+                <div className="space-y-1">
+                  <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">Registered Address</p>
+                  {LEGAL_ENTITIES.uk.addressLines.map((line) => (
+                    <p key={line} className="text-white/75 text-sm">{line}</p>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="sp-entity-subcard space-y-2">
+              <p className="text-amber-300 text-xs font-bold uppercase tracking-widest">Secure Contact Email</p>
+              <p className="text-purple-300 font-semibold text-sm md:text-base">{LEGAL_ENTITIES.contactEmail}</p>
+            </div>
           </div>
 
           <div className="sp-divider" />
@@ -381,7 +319,7 @@ export default function LegalPackPage() {
                       {/* Highlight callout */}
                       {sub.highlight && (
                         <div className="mt-3 flex items-center gap-2 rounded-xl px-4 py-2.5" style={{ background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)" }}>
-                          <span className="text-amber-400 flex-shrink-0">⏱️</span>
+                          <span className="text-amber-400 shrink-0">⏱️</span>
                           <p className="text-amber-300 text-sm font-semibold">{sub.highlight}</p>
                         </div>
                       )}
@@ -438,7 +376,7 @@ export default function LegalPackPage() {
           <div className="sp-footer-note rounded-2xl p-6 text-center space-y-2">
             <p className="text-white/50 text-sm">
               For legal enquiries contact{" "}
-              <span className="text-purple-300 font-medium">legal@scottypumpkin.com</span>
+              <span className="text-purple-300 font-medium">usfranc@bobosohomail.com</span>
             </p>
             <p className="text-white/30 text-xs">
               Scotty Pumpkin Ltd — Governing Law: England &amp; Wales — Effective Date: February 26, 2026

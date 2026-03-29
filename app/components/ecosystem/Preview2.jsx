@@ -329,6 +329,37 @@ export default function EcosystemPage() {
           background: linear-gradient(to left, transparent, rgba(245,158,11,0.5));
         }
 
+        .eco-hero-head {
+          background: rgba(99,102,241,0.08);
+          border: 1px solid rgba(99,102,241,0.24);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          box-shadow: 0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+          border-radius: 16px;
+          padding: 22px;
+        }
+        .eco-hero-kicker {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 12px;
+          border-radius: 999px;
+          background: rgba(245,158,11,0.12);
+          border: 1px solid rgba(245,158,11,0.35);
+          color: #fbbf24;
+          font-size: 0.72rem;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+        .eco-hero-title {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          margin-top: 10px;
+        }
+
         /* Arrow SVG pulse */
         .eco-arrow { animation: sp-arrow-flow 2s ease-in-out infinite; }
         .eco-arrow-delay { animation: sp-arrow-flow 2s ease-in-out 0.5s infinite; }
@@ -339,7 +370,17 @@ export default function EcosystemPage() {
         <div className="max-w-5xl mx-auto space-y-20">
 
           {/* ── Section 1: Hero intro ── */}
-          <div className="text-center space-y-6" style={{ animation: "sp-fade-up 0.4s ease both" }}>
+          <div className="eco-hero-head text-center space-y-6" style={{ animation: "sp-fade-up 0.4s ease both" }}>
+            <div className="eco-hero-kicker mx-auto">
+              <span>🎃</span>
+              <span>Scotty Pumpkin Ecosystem</span>
+            </div>
+            <div className="eco-hero-title">
+              <span className="text-3xl md:text-4xl" style={{ animation: "sp-float 4s ease-in-out infinite" }}>🌐</span>
+              <h2 className="eco-shimmer-white text-2xl md:text-4xl font-black leading-tight">
+                A Real Utility Ecosystem
+              </h2>
+            </div>
             <p className="text-white/60 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
               SPUMP powers a complete ecosystem where users can create shops, sell products and services,
               monetize content, and accept crypto or fiat payments through one connected digital economy.

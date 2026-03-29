@@ -48,82 +48,6 @@ export default function MaintenancePage() {
           0%, 100% { transform: rotate(-15deg); }
           50%       { transform: rotate(15deg); }
         }
-
-        .nf-shimmer {
-          background: linear-gradient(90deg,
-            rgba(255,255,255,0.6) 0%,
-            #fff 35%,
-            rgba(255,255,255,0.6) 65%,
-            #fff 100%
-          );
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: sp-shimmer 5s linear infinite;
-        }
-
-        .nf-divider {
-          height: 1px;
-          background: linear-gradient(to right, transparent, rgba(255,255,255,0.08) 20%, rgba(168,85,247,0.25) 50%, rgba(255,255,255,0.08) 80%, transparent);
-        }
-
-        .nf-card {
-          background: rgba(255,255,255,0.04);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.08);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
-        }
-
-        .nf-progress-track {
-          background: rgba(255,255,255,0.06);
-          border-radius: 999px;
-          overflow: hidden;
-          height: 8px;
-          width: 100%;
-        }
-        .nf-progress-fill {
-          height: 100%;
-          border-radius: 999px;
-          background: linear-gradient(90deg, #f59e0b, #a78bfa);
-          box-shadow: 0 0 12px rgba(245,158,11,0.5);
-          animation: sp-progress 3s ease forwards;
-        }
-
-        .nf-status-dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: #f59e0b;
-          box-shadow: 0 0 8px rgba(245,158,11,0.8);
-          animation: sp-blink 1.5s ease-in-out infinite;
-          flex-shrink: 0;
-        }
-
-        .nf-notify-btn {
-          background: linear-gradient(135deg, #15803d, #166534);
-          box-shadow: 0 4px 24px rgba(21,128,61,0.45);
-          transition: all 0.25s ease;
-        }
-        .nf-notify-btn:hover {
-          background: linear-gradient(135deg, #16a34a, #15803d);
-          transform: scale(1.05);
-          box-shadow: 0 6px 36px rgba(21,128,61,0.65);
-        }
-        .nf-social-btn {
-          border: 2px solid rgba(168,85,247,0.55);
-          transition: all 0.25s ease;
-        }
-        .nf-social-btn:hover {
-          background: rgba(168,85,247,0.15);
-          border-color: rgba(168,85,247,0.9);
-          transform: scale(1.05);
-        }
-
-        .nf-star { position: absolute; border-radius: 50%; background: white; }
-
-        .sp-wrench { display: inline-block; animation: sp-wrench 1.2s ease-in-out infinite; transform-origin: bottom center; }
       `}</style>
 
       <div className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden">
@@ -269,7 +193,7 @@ export default function MaintenancePage() {
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto" style={{ animation: "sp-fade-up 0.7s ease 0.5s both" }}>
             <Link
-              href="mailto:support@scottypumpkin.com"
+              href="/contact"
               className="nf-notify-btn px-8 py-3.5 rounded-xl font-bold text-base text-white text-center"
             >
               ✉️ Contact Us

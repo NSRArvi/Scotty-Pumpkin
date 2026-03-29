@@ -175,13 +175,6 @@ export default function Background() {
             "radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(2,0,10,0.55) 100%)",
         }}
       />
-
-      <style>{`
-        @keyframes twinkle {
-          0%, 100% { opacity: var(--base-op, 0.4); transform: scale(1); }
-          50%       { opacity: 1;                   transform: scale(1.5); }
-        }
-      `}</style>
     </div>
   );
 }

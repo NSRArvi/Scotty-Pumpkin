@@ -52,108 +52,6 @@ export default function EcoFinancialPage() {
 
   return (
     <>
-      <style>{`
-        @keyframes sp-fade-in {
-          from { opacity: 0; transform: translateY(10px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes sp-glow-pulse {
-          0%, 100% { opacity: 0.4; }
-          50%       { opacity: 1; }
-        }
-        @keyframes sp-bar-grow {
-          from { width: 0%; }
-          to   { width: var(--bar-w); }
-        }
-        @keyframes sp-scale-in {
-          from { transform: scale(0.95); opacity: 0; }
-          to   { transform: scale(1); opacity: 1; }
-        }
-
-        /* Disclaimer banner */
-        .sp-disclaimer {
-          background: rgba(239,68,68,0.06);
-          border: 1px solid rgba(239,68,68,0.2);
-          backdrop-filter: blur(16px);
-        }
-
-        /* Allocation section */
-        .sp-alloc-card {
-          background: rgba(255,255,255,0.03);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255,255,255,0.08);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        }
-
-        /* Donut/ring visual */
-        .sp-ring-wrap {
-          position: relative;
-          width: 160px;
-          height: 160px;
-          flex-shrink: 0;
-        }
-        .sp-ring-center {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-        }
-
-        /* Bar track */
-        .sp-bar-track { background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; height: 8px; }
-        .sp-bar-fill  { height: 100%; border-radius: 999px; animation: sp-bar-grow 1s ease forwards; }
-
-        /* No-rights list */
-        .sp-no-rights-card {
-          background: rgba(239,68,68,0.05);
-          border: 1px solid rgba(239,68,68,0.18);
-          backdrop-filter: blur(16px);
-        }
-        .sp-no-rights-item {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 10px 14px;
-          background: rgba(239,68,68,0.04);
-          border: 1px solid rgba(239,68,68,0.12);
-          border-radius: 10px;
-        }
-
-        /* Market cards */
-        .sp-market-card {
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border-radius: 20px;
-          padding: 28px;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          animation: sp-scale-in 0.35s ease forwards;
-        }
-        .sp-market-card:hover {
-          transform: translateY(-4px);
-        }
-        .sp-tag {
-          border-radius: 999px;
-          padding: 3px 10px;
-          font-size: 0.7rem;
-          font-weight: 700;
-        }
-
-        /* Final notice */
-        .sp-notice {
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.06);
-        }
-
-        /* Badges */
-        .sp-badge-amber  { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3);  color: #fbbf24; }
-        .sp-badge-indigo { background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3);  color: #a5b4fc; }
-        .sp-badge-red    { background: rgba(239,68,68,0.12);  border: 1px solid rgba(239,68,68,0.25);  color: #f87171; }
-        .sp-badge-green  { background: rgba(74,222,128,0.10); border: 1px solid rgba(74,222,128,0.25); color: #4ade80; }
-      `}</style>
-
       <section className="relative z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
         <div className="max-w-5xl mx-auto space-y-10 md:space-y-14">
 
@@ -179,7 +77,7 @@ export default function EcoFinancialPage() {
 
           {/* ── Red Disclaimer Banner ── */}
           <div className="sp-disclaimer rounded-2xl px-6 py-4 flex items-start gap-4">
-            <span className="text-2xl flex-shrink-0 mt-0.5">⚠️</span>
+            <span className="text-2xl shrink-0 mt-0.5">⚠️</span>
             <p className="text-red-200/80 text-sm md:text-base leading-relaxed">
               All proceeds generated from first sales and administrative transaction fees remain the{" "}
               <span className="font-bold text-red-300">exclusive property</span> of the Scotty Pumpkin operating
@@ -202,7 +100,7 @@ export default function EcoFinancialPage() {
               <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
 
                 {/* SVG Donut chart */}
-                <div className="sp-ring-wrap flex-shrink-0">
+                <div className="sp-ring-wrap shrink-0">
                   <svg viewBox="0 0 160 160" className="w-full h-full -rotate-90">
                     {(() => {
                       let offset = 0;
@@ -270,7 +168,7 @@ export default function EcoFinancialPage() {
             <div className="sp-no-rights-card rounded-2xl p-5 md:p-6 space-y-3">
               {NO_RIGHTS.map((item, i) => (
                 <div key={i} className="sp-no-rights-item">
-                  <span className="text-red-400 text-lg flex-shrink-0" style={{ filter: "drop-shadow(0 0 4px rgba(248,113,113,0.5))" }}>✕</span>
+                  <span className="text-red-400 text-lg shrink-0" style={{ filter: "drop-shadow(0 0 4px rgba(248,113,113,0.5))" }}>✕</span>
                   <span className="text-red-200/80 text-sm md:text-base">{item}</span>
                 </div>
               ))}
@@ -283,7 +181,7 @@ export default function EcoFinancialPage() {
 
             {/* SPUMP utility callout */}
             <div className="rounded-2xl px-6 py-5 flex items-center gap-4" style={{ background: "rgba(168,85,247,0.08)", border: "1px solid rgba(168,85,247,0.25)", boxShadow: "0 0 40px rgba(168,85,247,0.08)" }}>
-              <span className="text-3xl flex-shrink-0" style={{ animation: "sp-glow-pulse 3s ease-in-out infinite" }}>🎃</span>
+              <span className="text-3xl shrink-0" style={{ animation: "sp-glow-pulse 3s ease-in-out infinite" }}>🎃</span>
               <p className="text-purple-200 text-sm md:text-base leading-relaxed">
                 <span className="font-black text-white">SPUMP</span> is a utility payment token used exclusively within the{" "}
                 <span className="font-bold text-white">Scotty Pumpkin Eco Market System</span>.

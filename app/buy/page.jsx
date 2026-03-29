@@ -154,109 +154,6 @@ export default function Page() {
 
   return (
     <>
-      <style>{`
-        @keyframes sp-glow-pulse {
-          0%, 100% { opacity: 0.5; }
-          50%       { opacity: 1; }
-        }
-
-        .sp-cex-card {
-          background: rgba(255, 255, 255, 0.04);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(245,158,11,0.35);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 40px rgba(245,158,11,0.08), inset 0 1px 0 rgba(255,255,255,0.05);
-          transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-        .sp-cex-card:hover {
-          border-color: rgba(245,158,11,0.55);
-          box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 50px rgba(245,158,11,0.15);
-        }
-        .sp-dex-card {
-          background: rgba(255, 255, 255, 0.04);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border: 1px solid rgba(168,85,247,0.3);
-          box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 40px rgba(168,85,247,0.08), inset 0 1px 0 rgba(255,255,255,0.05);
-          transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-        .sp-dex-card:hover {
-          border-color: rgba(168,85,247,0.5);
-          box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 50px rgba(168,85,247,0.15);
-        }
-
-        .sp-gradient-btn {
-          background: linear-gradient(135deg, #15803d, #166534);
-          transition: all 0.25s ease;
-          box-shadow: 0 4px 20px rgba(21,128,61,0.4);
-        }
-        .sp-gradient-btn:hover {
-          background: linear-gradient(135deg, #16a34a, #15803d);
-          transform: scale(1.04);
-          box-shadow: 0 6px 30px rgba(21,128,61,0.6);
-        }
-        .sp-dex-btn {
-          background: rgba(168,85,247,0.12);
-          border: 1px solid rgba(168,85,247,0.5);
-          transition: all 0.25s ease;
-          box-shadow: 0 4px 20px rgba(168,85,247,0.2);
-        }
-        .sp-dex-btn:hover {
-          background: rgba(168,85,247,0.25);
-          border-color: rgba(168,85,247,0.8);
-          transform: scale(1.04);
-          box-shadow: 0 6px 30px rgba(168,85,247,0.35);
-        }
-        .sp-outline-btn {
-          border: 1.5px solid rgba(168,85,247,0.55);
-          transition: all 0.25s ease;
-        }
-        .sp-outline-btn:hover {
-          background: rgba(168,85,247,0.12);
-          border-color: rgba(168,85,247,0.85);
-          transform: scale(1.04);
-        }
-
-        .sp-check {
-          color: #4ade80;
-          filter: drop-shadow(0 0 4px rgba(74,222,128,0.6));
-          flex-shrink: 0;
-        }
-
-        .sp-risk-wrap {
-          background: rgba(245,158,11,0.08);
-          border: 1px solid rgba(245,158,11,0.3);
-          border-radius: 12px;
-          padding: 14px;
-        }
-        .sp-risk-tab {
-          border: 1px solid rgba(255,255,255,0.16);
-          border-radius: 10px;
-          padding: 8px 14px;
-          font-size: 0.85rem;
-          font-weight: 600;
-          color: rgba(255,255,255,0.82);
-          background: rgba(255,255,255,0.04);
-          transition: all 0.2s ease;
-        }
-        .sp-risk-tab:hover {
-          border-color: rgba(245,158,11,0.45);
-          background: rgba(245,158,11,0.1);
-        }
-        .sp-risk-tab.active {
-          color: #fbbf24;
-          background: rgba(245,158,11,0.16);
-          border-color: rgba(245,158,11,0.52);
-        }
-        .sp-risk-panel {
-          margin-top: 12px;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.12);
-          border-radius: 12px;
-          padding: 16px;
-        }
-      `}</style>
-
       <section className="relative z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
         <div className="max-w-5xl mx-auto space-y-12 md:space-y-16">
           {/* ── Hero Banner ── */}
@@ -434,7 +331,7 @@ export default function Page() {
 
           <div className="pt-1 pb-2">
             <div className="sp-risk-wrap">
-              <h3 className="text-white font-semibold">Crypto rish warning</h3>
+              <h3 className="text-white font-semibold">Crypto risk warning</h3>
               <div className="mt-3 flex flex-wrap gap-2">
                 <button
                   type="button"

@@ -45,6 +45,759 @@ body {
   box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 60px rgba(99,102,241,0.12), inset 0 1px 0 rgba(255,255,255,0.07);
 }
 
+@keyframes sp-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sp-glow-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes sp-bar-grow {
+  from { width: 0%; }
+  to { width: var(--bar-w, var(--bar-width)); }
+}
+
+@keyframes sp-scale-in {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.sp-section-card {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.sp-section-card:hover {
+  transform: translateX(6px);
+  border-color: rgba(168,85,247,0.35);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 30px rgba(168,85,247,0.12);
+}
+
+.sp-section-card.active {
+  border-color: rgba(168,85,247,0.5);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 40px rgba(168,85,247,0.18);
+}
+
+.sp-section-body {
+  animation: sp-fade-in 0.25s ease forwards;
+}
+
+.sp-number,
+.sp-nav-number {
+  background: linear-gradient(135deg, rgba(168,85,247,0.25), rgba(139,92,246,0.15));
+  border: 1px solid rgba(168,85,247,0.4);
+  box-shadow: 0 0 20px rgba(168,85,247,0.2);
+  animation: sp-glow-pulse 3s ease-in-out infinite;
+}
+
+.sp-subsection,
+.sp-sub-card,
+.sp-entity-item,
+.sp-item-row {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.sp-sub-card {
+  border-radius: 14px;
+  padding: 18px 20px;
+}
+
+.sp-sub-card.warn,
+.sp-item-row.warn {
+  background: rgba(239,68,68,0.05);
+  border-color: rgba(239,68,68,0.18);
+}
+
+.sp-sub-card.risk,
+.sp-item-row.risk {
+  background: rgba(245,158,11,0.05);
+  border-color: rgba(245,158,11,0.18);
+}
+
+.sp-sub-card.highlight {
+  background: rgba(245,158,11,0.06);
+  border-color: rgba(245,158,11,0.2);
+}
+
+.sp-item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+
+.sp-check,
+.sp-x,
+.sp-warn-icon,
+.sp-risk-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.sp-check { color: #4ade80; filter: drop-shadow(0 0 4px rgba(74,222,128,0.6)); }
+.sp-x,
+.sp-warn-icon { color: #f87171; filter: drop-shadow(0 0 4px rgba(248,113,113,0.6)); }
+.sp-risk-icon { color: #fbbf24; filter: drop-shadow(0 0 4px rgba(251,191,36,0.6)); }
+
+.sp-badge,
+.sp-badge-amber { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); color: #fbbf24; }
+.sp-badge-indigo { background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3); color: #a5b4fc; }
+.sp-badge-green { background: rgba(74,222,128,0.10); border: 1px solid rgba(74,222,128,0.25); color: #4ade80; }
+.sp-badge-red { background: rgba(239,68,68,0.10); border: 1px solid rgba(239,68,68,0.25); color: #f87171; }
+
+.sp-footer-note {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.sp-chevron { transition: transform 0.25s ease; }
+.sp-chevron.open { transform: rotate(180deg); }
+
+.sp-bar-track {
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+  height: 8px;
+}
+
+.sp-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  animation: sp-bar-grow 0.9s ease forwards;
+}
+
+.sp-highlight,
+.sp-highlight-box {
+  background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.25);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+.sp-highlight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sp-warn-box {
+  background: rgba(239,68,68,0.07);
+  border: 1px solid rgba(239,68,68,0.2);
+}
+
+.sp-jurisdiction {
+  background: rgba(99,102,241,0.1);
+  border: 1px solid rgba(99,102,241,0.3);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sp-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .sp-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sp-sidebar {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
+  overflow: hidden;
+  position: sticky;
+  top: 24px;
+}
+
+.sp-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+}
+
+.sp-nav-item:hover {
+  background: rgba(255,255,255,0.04);
+}
+
+.sp-nav-item.active {
+  background: rgba(168,85,247,0.1);
+  border-left-color: rgba(168,85,247,0.7);
+}
+
+.sp-nav-sep {
+  height: 1px;
+  background: rgba(255,255,255,0.05);
+  margin: 0 12px;
+}
+
+.sp-nav-number {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.sp-nav-item.active .sp-nav-number {
+  background: rgba(168,85,247,0.3);
+  border-color: rgba(168,85,247,0.6);
+  color: #c084fc;
+}
+
+.sp-mobile-nav {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.sp-mobile-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.sp-mobile-btn {
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sp-mobile-btn.active {
+  background: rgba(168,85,247,0.12);
+  border-color: rgba(168,85,247,0.4);
+}
+
+.sp-panel,
+.sp-content-panel,
+.sp-alloc-card,
+.sp-entity-card,
+.sp-disclaimer,
+.sp-no-rights-card,
+.sp-notice,
+.sp-tab {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.sp-panel,
+.sp-content-panel,
+.sp-alloc-card,
+.sp-entity-card,
+.sp-tab {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+}
+
+.sp-panel {
+  border-radius: 18px;
+  padding: 28px;
+  animation: sp-fade-in 0.3s ease forwards;
+}
+
+.sp-disclaimer {
+  background: rgba(239,68,68,0.06);
+  border: 1px solid rgba(239,68,68,0.2);
+}
+
+.sp-no-rights-card {
+  background: rgba(239,68,68,0.05);
+  border: 1px solid rgba(239,68,68,0.18);
+}
+
+.sp-no-rights-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(239,68,68,0.04);
+  border: 1px solid rgba(239,68,68,0.12);
+  border-radius: 10px;
+}
+
+.sp-ring-wrap {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  flex-shrink: 0;
+}
+
+.sp-ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.sp-market-card {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 28px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: sp-scale-in 0.35s ease forwards;
+}
+
+.sp-market-card:hover {
+  transform: translateY(-4px);
+}
+
+.sp-tag {
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.sp-entity-title {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(168,85,247,0.9);
+}
+
+.sp-entity-subcard {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.sp-entity-list li {
+  color: rgba(255,255,255,0.72);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin-top: 6px;
+}
+
+.sp-tab {
+  transition: all 0.25s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.sp-tab:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.sp-tab.active {
+  background: rgba(255,255,255,0.07);
+}
+
+.sp-tab-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 2px 2px 0 0;
+  transition: opacity 0.25s ease;
+}
+
+.sp-sec-num {
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  opacity: 0.5;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: var(--base-op, 0.4); transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+
+/* Buy page */
+.sp-cex-card,
+.sp-dex-card {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.sp-cex-card {
+  border: 1px solid rgba(245,158,11,0.35);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 40px rgba(245,158,11,0.08), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.sp-cex-card:hover {
+  border-color: rgba(245,158,11,0.55);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 50px rgba(245,158,11,0.15);
+}
+
+.sp-dex-card {
+  border: 1px solid rgba(168,85,247,0.3);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 40px rgba(168,85,247,0.08), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.sp-dex-card:hover {
+  border-color: rgba(168,85,247,0.5);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 50px rgba(168,85,247,0.15);
+}
+
+.sp-gradient-btn {
+  background: linear-gradient(135deg, #15803d, #166534);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(21,128,61,0.4);
+}
+
+.sp-gradient-btn:hover {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  transform: scale(1.04);
+  box-shadow: 0 6px 30px rgba(21,128,61,0.6);
+}
+
+.sp-dex-btn {
+  background: rgba(168,85,247,0.12);
+  border: 1px solid rgba(168,85,247,0.5);
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 20px rgba(168,85,247,0.2);
+}
+
+.sp-dex-btn:hover {
+  background: rgba(168,85,247,0.25);
+  border-color: rgba(168,85,247,0.8);
+  transform: scale(1.04);
+  box-shadow: 0 6px 30px rgba(168,85,247,0.35);
+}
+
+.sp-outline-btn {
+  border: 1.5px solid rgba(168,85,247,0.55);
+  transition: all 0.25s ease;
+}
+
+.sp-outline-btn:hover {
+  background: rgba(168,85,247,0.12);
+  border-color: rgba(168,85,247,0.85);
+  transform: scale(1.04);
+}
+
+.sp-risk-wrap {
+  background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.sp-risk-tab {
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.82);
+  background: rgba(255,255,255,0.04);
+  transition: all 0.2s ease;
+}
+
+.sp-risk-tab:hover {
+  border-color: rgba(245,158,11,0.45);
+  background: rgba(245,158,11,0.1);
+}
+
+.sp-risk-tab.active {
+  color: #fbbf24;
+  background: rgba(245,158,11,0.16);
+  border-color: rgba(245,158,11,0.52);
+}
+
+.sp-risk-panel {
+  margin-top: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+/* Not-found page */
+.nf-shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0.6) 0%, #fff 35%, rgba(255,255,255,0.6) 65%, #fff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: sp-shimmer 5s linear infinite;
+}
+
+.nf-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.08) 20%, rgba(168,85,247,0.25) 50%, rgba(255,255,255,0.08) 80%, transparent);
+}
+
+.nf-card {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.nf-progress-track {
+  background: rgba(255,255,255,0.06);
+  border-radius: 999px;
+  overflow: hidden;
+  height: 8px;
+  width: 100%;
+}
+
+.nf-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #f59e0b, #a78bfa);
+  box-shadow: 0 0 12px rgba(245,158,11,0.5);
+  animation: sp-progress 3s ease forwards;
+}
+
+.nf-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 8px rgba(245,158,11,0.8);
+  animation: sp-blink 1.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.nf-notify-btn {
+  background: linear-gradient(135deg, #15803d, #166534);
+  box-shadow: 0 4px 24px rgba(21,128,61,0.45);
+  transition: all 0.25s ease;
+}
+
+.nf-notify-btn:hover {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  transform: scale(1.05);
+  box-shadow: 0 6px 36px rgba(21,128,61,0.65);
+}
+
+.nf-social-btn {
+  border: 2px solid rgba(168,85,247,0.55);
+  transition: all 0.25s ease;
+}
+
+.nf-social-btn:hover {
+  background: rgba(168,85,247,0.15);
+  border-color: rgba(168,85,247,0.9);
+  transform: scale(1.05);
+}
+
+.nf-star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+}
+
+.sp-wrench {
+  display: inline-block;
+  animation: sp-wrench 1.2s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* Checkout page */
+.co-title {
+  background: linear-gradient(135deg, #f59e0b 0%, #fcd34d 40%, #f59e0b 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: sp-shimmer 4s linear infinite;
+  filter: drop-shadow(0 0 20px rgba(245,158,11,0.35));
+}
+
+.co-outer {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(245,158,11,0.3);
+  box-shadow: 0 0 0 1px rgba(245,158,11,0.08), 0 12px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+  animation: sp-border-pulse 4s ease-in-out infinite;
+}
+
+.co-section {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.co-tab-bar { background: rgba(0,0,0,0.2); border: 1px solid rgba(245,158,11,0.25); border-radius: 10px; padding: 3px; display: flex; gap: 2px; }
+.co-tab { flex: 1; padding: 9px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; text-align: center; cursor: pointer; transition: all 0.22s ease; color: rgba(255,255,255,0.45); border: 1px solid transparent; }
+.co-tab.active { background: rgba(245,158,11,0.15); border-color: rgba(245,158,11,0.4); color: #fbbf24; box-shadow: 0 0 16px rgba(245,158,11,0.2); }
+.co-tab:hover:not(.active) { color: rgba(255,255,255,0.7); background: rgba(255,255,255,0.04); }
+
+.co-section-label { font-size: 0.72rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: #f59e0b; text-align: center; }
+
+.co-gen-btn { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.4); transition: all 0.22s ease; animation: sp-glow-pulse 3s ease-in-out infinite; }
+.co-gen-btn:hover { background: rgba(245,158,11,0.18); border-color: rgba(245,158,11,0.7); transform: scale(1.02); }
+.co-gen-btn.done { background: rgba(74,222,128,0.1); border-color: rgba(74,222,128,0.4); animation: none; }
+
+.co-detail-row { display: flex; align-items: center; gap: 8px; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.82rem; }
+.co-detail-row:last-child { border-bottom: none; }
+.co-detail-label { color: rgba(255,255,255,0.45); flex-shrink: 0; min-width: 140px; }
+.co-detail-value { color: rgba(255,255,255,0.85); font-weight: 600; flex: 1; word-break: break-all; }
+
+.co-copy-inline { background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.35); border-radius: 7px; padding: 4px 10px; font-size: 0.72rem; font-weight: 700; color: #fbbf24; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; white-space: nowrap; }
+.co-copy-inline:hover { background: rgba(245,158,11,0.22); border-color: rgba(245,158,11,0.6); }
+
+.co-timer { font-family: monospace; font-size: 1rem; font-weight: 900; animation: sp-timer-pulse 1s ease-in-out infinite, sp-tick 1s ease-in-out infinite; }
+
+.co-action-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(245,158,11,0.3); transition: all 0.22s ease; flex: 1; padding: 11px; border-radius: 10px; font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.75); text-align: center; cursor: pointer; }
+.co-action-btn:hover { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.55); color: #fbbf24; }
+
+.co-checkout-btn { background: rgba(255,255,255,0.05); border: 2px solid rgba(245,158,11,0.55); transition: all 0.25s ease; box-shadow: 0 4px 24px rgba(245,158,11,0.15); animation: sp-glow-pulse 3s ease-in-out infinite; }
+.co-checkout-btn:hover { background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.85); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(245,158,11,0.3); }
+.co-checkout-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; animation: none; }
+.co-checkout-btn.done { background: rgba(74,222,128,0.12); border-color: rgba(74,222,128,0.6); animation: none; }
+
+.co-radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; transition: all 0.2s ease; }
+.co-radio.active { border-color: rgba(245,158,11,0.8); background: rgba(245,158,11,0.12); }
+.co-radio-dot { width: 7px; height: 7px; border-radius: 50%; background: #f59e0b; }
+
+.co-checkbox { width: 16px; height: 16px; border-radius: 4px; border: 2px solid rgba(245,158,11,0.4); display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; transition: all 0.2s ease; }
+.co-checkbox.checked { background: rgba(245,158,11,0.8); border-color: rgba(245,158,11,1); }
+
+.co-qr-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 100; animation: sp-fade-up 0.2s ease both; }
+.co-qr-modal { background: rgba(15,5,30,0.9); border: 1px solid rgba(245,158,11,0.4); border-radius: 20px; padding: 32px; text-align: center; box-shadow: 0 0 60px rgba(245,158,11,0.2); }
+
+.co-nft-thumb { width: 80px; height: 80px; border-radius: 10px; border: 1px solid rgba(245,158,11,0.3); object-fit: cover; flex-shrink: 0; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; }
+.co-divider { height: 1px; background: linear-gradient(to right, transparent, rgba(245,158,11,0.25) 50%, transparent); }
+.co-wallet-mono { background: rgba(0,0,0,0.2); border: 1px solid rgba(245,158,11,0.2); border-radius: 10px; padding: 10px 14px; font-family: monospace; font-size: 0.72rem; color: rgba(245,158,11,0.8); word-break: break-all; line-height: 1.6; }
+
+/* Purchase page */
+.pu-title { background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 40%, #f59e0b 100%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: sp-shimmer 4s linear infinite; filter: drop-shadow(0 0 20px rgba(245,158,11,0.4)); }
+.pu-divider { height: 1px; background: linear-gradient(to right, transparent, rgba(245,158,11,0.3) 50%, transparent); }
+.pu-panel { background: rgba(255,255,255,0.05); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.07); }
+.pu-method { border-radius: 14px; padding: 14px 16px; cursor: pointer; transition: all 0.22s ease; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.04); position: relative; overflow: hidden; }
+.pu-method:hover { border-color: rgba(245,158,11,0.3); background: rgba(255,255,255,0.06); }
+.pu-badge { border-radius: 6px; padding: 2px 8px; font-size: 0.65rem; font-weight: 900; letter-spacing: 0.04em; }
+
+.pu-radio { width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease; }
+.pu-radio.active { border-color: rgba(245,158,11,0.8); background: rgba(245,158,11,0.15); box-shadow: 0 0 10px rgba(245,158,11,0.4); }
+.pu-radio-dot { width: 8px; height: 8px; border-radius: 50%; background: #f59e0b; }
+
+.pu-wallet-box { background: rgba(0,0,0,0.25); border: 1px solid rgba(245,158,11,0.2); border-radius: 10px; padding: 10px 14px; font-family: monospace; font-size: 0.7rem; color: rgba(255,255,255,0.7); word-break: break-all; line-height: 1.5; }
+.pu-copy-btn { background: linear-gradient(135deg, #991b1b, #7f1d1d); border: 1px solid rgba(239,68,68,0.4); transition: all 0.22s ease; box-shadow: 0 4px 16px rgba(239,68,68,0.3); }
+.pu-copy-btn:hover { background: linear-gradient(135deg, #b91c1c, #991b1b); transform: scale(1.04); }
+
+.pu-connect-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(245,158,11,0.4); transition: all 0.25s ease; width: 100%; }
+.pu-connect-btn:hover { background: rgba(245,158,11,0.1); border-color: rgba(245,158,11,0.7); }
+
+.pu-confirm-btn { background: linear-gradient(135deg, #991b1b, #7f1d1d); border: 1px solid rgba(239,68,68,0.5); box-shadow: 0 4px 24px rgba(239,68,68,0.4), inset 0 1px 0 rgba(255,255,255,0.08); transition: all 0.25s ease; width: 100%; animation: sp-glow-pulse 3s ease-in-out infinite; }
+.pu-confirm-btn:hover { background: linear-gradient(135deg, #b91c1c, #991b1b); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(239,68,68,0.55); }
+
+.pu-input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); border-radius: 8px; padding: 10px 14px; font-size: 0.8rem; width: 100%; outline: none; transition: border-color 0.2s ease; }
+.pu-input:focus { border-color: rgba(245,158,11,0.5); background: rgba(255,255,255,0.08); }
+.pu-input::placeholder { color: rgba(255,255,255,0.2); font-style: italic; }
+
+.pu-delivery-opt { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; border: 1px solid transparent; }
+.pu-delivery-opt:hover { background: rgba(255,255,255,0.04); }
+.pu-delivery-opt.active { background: rgba(245,158,11,0.07); border-color: rgba(245,158,11,0.2); }
+
+.pu-checkbox { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.2); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; cursor: pointer; transition: all 0.2s ease; }
+.pu-checkbox.checked { background: rgba(245,158,11,0.8); border-color: rgba(245,158,11,0.9); }
+
+.pu-price-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
+.pu-warn-strip { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); border-radius: 8px; padding: 8px 12px; font-size: 0.72rem; }
+.pu-nft-thumb { width: 72px; height: 72px; border-radius: 10px; border: 1px solid rgba(245,158,11,0.3); background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; font-size: 2rem; flex-shrink: 0; overflow: hidden; }
+.pu-1of1 { background: linear-gradient(135deg, #92400e, #78350f); border: 2px solid rgba(245,158,11,0.5); border-radius: 50%; width: 44px; height: 44px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 0 16px rgba(245,158,11,0.3); }
+
+.pu-section-label { font-size: 0.65rem; font-weight: 900; letter-spacing: 0.14em; text-transform: uppercase; color: #f59e0b; text-align: center; position: relative; }
+.pu-section-label::before,
+.pu-section-label::after { content: "◆ ◆"; opacity: 0.4; font-size: 0.45rem; margin: 0 6px; }
+
+.pu-arrow { color: #f59e0b; font-size: 1.4rem; animation: sp-arrow-bounce 1.5s ease-in-out infinite; }
+
+/* NFT studio page */
+.nft-page { min-height: 100vh; }
+.nft-hero-title { background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 30%, #f59e0b 60%, #d97706 100%); background-size: 200% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: sp-shimmer 4s linear infinite; filter: drop-shadow(0 0 30px rgba(245,158,11,0.4)); }
+.nft-fee-banner { background: rgba(255,255,255,0.05); border: 1px solid rgba(245,158,11,0.2); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+.nft-panel { background: rgba(255,255,255,0.06); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08); }
+.nft-section-label { color: #f59e0b; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.nft-step { color: rgba(255,255,255,0.5); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid rgba(245,158,11,0.2); padding-bottom: 6px; margin-bottom: 10px; }
+
+.nft-connect-btn { background: linear-gradient(135deg, #15803d, #166534); border: 1px solid rgba(74,222,128,0.3); transition: all 0.25s ease; box-shadow: 0 4px 20px rgba(21,128,61,0.4); }
+.nft-connect-btn:hover { background: linear-gradient(135deg, #16a34a, #15803d); transform: scale(1.04); box-shadow: 0 6px 28px rgba(21,128,61,0.6); }
+.nft-connect-btn.connected { background: linear-gradient(135deg, #065f46, #064e3b); border-color: rgba(74,222,128,0.5); }
+
+.nft-dropzone { background: rgba(255,255,255,0.04); border: 2px dashed rgba(255,255,255,0.15); transition: all 0.25s ease; cursor: pointer; }
+.nft-dropzone:hover,
+.nft-dropzone.active { border-color: rgba(245,158,11,0.6); background: rgba(245,158,11,0.05); }
+
+.nft-buy-btn { background: linear-gradient(135deg, #92400e, #78350f); border: 1px solid rgba(245,158,11,0.5); box-shadow: 0 4px 20px rgba(245,158,11,0.3), inset 0 1px 0 rgba(255,255,255,0.1); transition: all 0.25s ease; animation: sp-glow-pulse 3s ease-in-out infinite; }
+.nft-buy-btn:hover { background: linear-gradient(135deg, #b45309, #92400e); transform: scale(1.04); box-shadow: 0 6px 28px rgba(245,158,11,0.5); }
+
+.nft-input { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.85); border-radius: 8px; padding: 8px 12px; font-size: 0.8rem; width: 100%; transition: border-color 0.2s ease; outline: none; }
+.nft-input:focus { border-color: rgba(245,158,11,0.5); background: rgba(255,255,255,0.09); }
+.nft-input::placeholder { color: rgba(255,255,255,0.25); }
+
+.nft-select { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); border-radius: 8px; padding: 7px 10px; font-size: 0.8rem; outline: none; cursor: pointer; }
+
+.nft-trait-btn { background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.3); color: rgba(168,85,247,0.9); border-radius: 8px; padding: 6px 12px; font-size: 0.75rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease; }
+.nft-trait-btn:hover { background: rgba(168,85,247,0.2); border-color: rgba(168,85,247,0.6); }
+
+.nft-summary { background: rgba(255,255,255,0.05); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.07); }
+.nft-check { color: #f59e0b; font-weight: 900; }
+.nft-calc-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.8rem; }
+.nft-total-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 10px; margin-top: 8px; }
+
+.nft-mint-btn { background: linear-gradient(135deg, #15803d, #166534); border: 1px solid rgba(74,222,128,0.4); box-shadow: 0 4px 24px rgba(21,128,61,0.5), inset 0 1px 0 rgba(255,255,255,0.1); transition: all 0.25s ease; width: 100%; padding: 14px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; color: white; letter-spacing: 0.05em; cursor: pointer; }
+.nft-mint-btn:hover { background: linear-gradient(135deg, #16a34a, #15803d); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(21,128,61,0.7); }
+
+.nft-trend-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; overflow: hidden; transition: all 0.25s ease; }
+.nft-trend-card:hover { border-color: rgba(245,158,11,0.4); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.3), 0 0 30px rgba(245,158,11,0.08); }
+.nft-trend-img { height: 100px; display: flex; align-items: center; justify-content: center; font-size: 3rem; background: radial-gradient(circle, rgba(168,85,247,0.15) 0%, rgba(0,0,0,0.4) 100%); position: relative; overflow: hidden; }
+
+.nft-trend-buy { background: linear-gradient(135deg, #15803d, #166534); border: none; color: white; font-weight: 800; font-size: 0.8rem; padding: 8px; width: 100%; cursor: pointer; letter-spacing: 0.08em; transition: all 0.2s ease; }
+.nft-trend-buy:hover { background: linear-gradient(135deg, #16a34a, #15803d); }
+
+.nft-divider { height: 1px; background: linear-gradient(to right, transparent, rgba(245,158,11,0.3) 50%, transparent); margin: 10px 0; }
+.nft-star { display: none; }
+.nft-section-title { display: flex; align-items: center; gap: 8px; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #f59e0b; margin-bottom: 14px; }
+.nft-section-title::before,
+.nft-section-title::after { content: "◆"; font-size: 0.5rem; opacity: 0.6; }
+.nft-status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+
 @layer components {
   .ui-shell {
     @apply bg-violet-900/30 backdrop-blur-xl border border-violet-500/25 rounded-2xl shadow-xl;
