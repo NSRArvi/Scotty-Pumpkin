@@ -41,10 +41,6 @@ export default function CheckoutPage() {
   return (
     <>
       <style>{`
-        @keyframes sp-shimmer {
-          0%   { background-position: -200% center; }
-          100% { background-position:  200% center; }
-        }
         @keyframes sp-fade-up {
           from { opacity: 0; transform: translateY(14px); }
           to   { opacity: 1; transform: translateY(0); }
@@ -415,7 +411,7 @@ export default function CheckoutPage() {
                 {/* Generate button */}
                 <button
                   onClick={() => setGenerated(true)}
-                  className={`co-gen-btn w-full py-3.5 rounded-xl font-black text-sm tracking-wider flex items-center justify-center gap-2 ${generated ? "done" : ""}`}
+                  className={`co-gen-btn ui-btn ui-btn-warn w-full py-3.5 rounded-xl font-black text-sm tracking-wider flex items-center justify-center gap-2 ${generated ? "done" : ""}`}
                 >
                   {generated
                     ? <><span className="text-green-400">✓</span> Payment Request Generated</>
@@ -466,8 +462,8 @@ export default function CheckoutPage() {
                 {/* Open in wallet / Show QR */}
                 {generated && (
                   <div className="flex gap-3">
-                    <button className="co-action-btn">📱 Open in Wallet</button>
-                    <button className="co-action-btn" onClick={() => setShowQR(true)}>
+                    <button className="co-action-btn ui-btn ui-btn-secondary">📱 Open in Wallet</button>
+                    <button className="co-action-btn ui-btn ui-btn-secondary" onClick={() => setShowQR(true)}>
                       <span className="inline-block mr-1">▦</span> Show QR
                     </button>
                   </div>
@@ -545,7 +541,7 @@ export default function CheckoutPage() {
             <button
               disabled={!confirmed}
               onClick={() => confirmed && setCheckedOut(true)}
-              className={`co-checkout-btn w-full py-4 rounded-xl font-bold text-lg text-white tracking-wide flex items-center justify-center gap-3 ${checkedOut ? "done" : ""}`}
+              className={`co-checkout-btn ui-btn ui-btn-success w-full py-4 rounded-xl font-bold text-lg text-white tracking-wide flex items-center justify-center gap-3 ${checkedOut ? "done" : ""}`}
             >
               {checkedOut ? "✓ Purchase Complete!" : <>Checkout Purchase <span className="text-amber-400">→</span></>}
             </button>

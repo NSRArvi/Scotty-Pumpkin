@@ -34,7 +34,7 @@ export default function Hero() {
               Web3 Creator Marketplace
             </h1>
 
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold bg-gradient-to-r from-purple-200 to-pink-200 bg-clip-text text-transparent">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold bg-linear-to-r from-purple-200 to-pink-200 bg-clip-text text-transparent">
               Create. Sell. Get paid.
             </h2>
 
@@ -49,10 +49,10 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-4 md:pt-6 justify-center md:justify-start">
-              <Link href="https://bfinit.com/bfinit-ecomerce-platform" target="_blank" className="px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-green-700 to-green-900 rounded-lg hover:from-green-600 hover:to-green-800 transition-all font-semibold text-base md:text-lg shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95">
+              <Link href="https://bfinit.com/bfinit-ecomerce-platform" target="_blank" className="ui-btn ui-btn-success px-6 md:px-8 py-3 md:py-4 text-base md:text-lg">
                 Join the Eco Online Shop
               </Link>
-              <Link href="https://sosay.org/spump-market" target="_blank" className="px-6 md:px-8 py-3 md:py-4 border-2 border-purple-400 rounded-lg hover:bg-purple-800/50 transition-all font-semibold text-base md:text-lg hover:border-purple-300">
+              <Link href="https://sosay.org/spump-market" target="_blank" className="ui-btn ui-btn-secondary px-6 md:px-8 py-3 md:py-4 text-base md:text-lg">
                 Discover Scotty Marketplace
               </Link>
             </div>

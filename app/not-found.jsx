@@ -10,10 +10,6 @@ export default function MaintenancePage() {
           0%, 100% { transform: translateY(0px) rotate(-3deg); }
           50%       { transform: translateY(-18px) rotate(3deg); }
         }
-        @keyframes sp-shimmer {
-          0%   { background-position: -200% center; }
-          100% { background-position:  200% center; }
-        }
         @keyframes sp-glow-pulse {
           0%, 100% { opacity: 0.5; text-shadow: 0 0 40px rgba(245,158,11,0.4), 0 0 80px rgba(245,158,11,0.2); }
           50%       { opacity: 1;   text-shadow: 0 0 60px rgba(245,158,11,0.9), 0 0 120px rgba(245,158,11,0.5), 0 0 200px rgba(245,158,11,0.2); }
@@ -272,20 +268,20 @@ export default function MaintenancePage() {
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto" style={{ animation: "sp-fade-up 0.7s ease 0.5s both" }}>
-            <a
+            <Link
               href="mailto:support@scottypumpkin.com"
               className="nf-notify-btn px-8 py-3.5 rounded-xl font-bold text-base text-white text-center"
             >
               ✉️ Contact Us
-            </a>
-            <a
-              href="https://twitter.com/scottypumpkin"
+            </Link>
+            <Link
+              href="https://x.com/SpumpCoin"
               target="_blank"
               rel="noopener noreferrer"
               className="nf-social-btn px-8 py-3.5 rounded-xl font-semibold text-base text-white text-center"
             >
               🐦 Follow for Updates
-            </a>
+            </Link>
           </div>
 
           {/* Footer */}

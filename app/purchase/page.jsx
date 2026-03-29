@@ -111,10 +111,6 @@ export default function PurchasePage() {
   return (
     <>
       <style>{`
-        @keyframes sp-shimmer {
-          0%   { background-position: -200% center; }
-          100% { background-position:  200% center; }
-        }
         @keyframes sp-fade-up {
           from { opacity: 0; transform: translateY(14px); }
           to   { opacity: 1; transform: translateY(0); }
@@ -453,7 +449,7 @@ export default function PurchasePage() {
               </div>
 
               {/* Connect Wallet */}
-              <button className="pu-connect-btn py-3.5 rounded-xl font-bold text-white text-sm mt-2">
+              <button className="pu-connect-btn ui-btn ui-btn-secondary py-3.5 rounded-xl font-bold text-white text-sm mt-2">
                 Connect Wallet to Pay
               </button>
 
@@ -543,7 +539,7 @@ export default function PurchasePage() {
                     <span>Network: Solana (SOL)</span>
                     <span className="text-white/30">»»»</span>
                   </div>
-                  <button onClick={handleCopy} className="pu-copy-btn px-5 py-2 rounded-lg text-white text-xs font-black tracking-wider flex-shrink-0">
+                  <button onClick={handleCopy} className="pu-copy-btn ui-btn ui-btn-danger px-5 py-2 rounded-lg text-white text-xs font-black tracking-wider flex-shrink-0">
                     {copied ? "✓ Copied!" : "Copy Address"}
                   </button>
                 </div>
@@ -607,7 +603,7 @@ export default function PurchasePage() {
 
                 {/* CTA */}
                 <button
-                  className="pu-confirm-btn py-4 rounded-xl font-black text-lg text-white tracking-wide"
+                  className="pu-confirm-btn ui-btn ui-btn-danger py-4 rounded-xl font-black text-lg text-white tracking-wide"
                   onClick={() => confirmed && setSent(true)}
                   style={sent ? { background: "linear-gradient(135deg, #065f46, #064e3b)", animation: "none" } : {}}
                 >

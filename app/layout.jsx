@@ -2,6 +2,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Background from "./components/shared/Background";
 import Footer from "./components/shared/Footer";
+import HighRiskWarning from "./components/shared/HighRiskWarning";
 import Navbar from "./components/shared/Navbar";
 
 const inter = Inter({ 
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
         <Navbar />
         {/* Main content with relative positioning */}
         <div className="relative z-10">{children}</div>
+        <HighRiskWarning />
         {/* Footer */}
         <Footer/>
       </body>

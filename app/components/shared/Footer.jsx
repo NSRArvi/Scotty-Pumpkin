@@ -1,4 +1,5 @@
-import { Twitter, Github, Globe, MessageCircle } from 'lucide-react';
+import { Github } from 'lucide-react';
+import { BsTwitterX , BsTelegram } from "react-icons/bs";
 
 export default function Footer() {
   const footerLinks = [
@@ -10,10 +11,10 @@ export default function Footer() {
   ];
 
   const socialLinks = [
-    { Icon: Twitter, href: 'https://x.com/SpumpCoin', label: 'X' },
-    { Icon: Globe, href: 'https://www.reddit.com/user/SpumpCoin/', label: 'Reddit' },
+    { Icon: BsTwitterX, href: 'https://x.com/SpumpCoin', label: 'X' },
+    // { Icon: Globe, href: 'https://www.reddit.com/user/SpumpCoin/', label: 'Reddit' },
     { Icon: Github, href: 'https://github.com/SPUMP-COIN', label: 'GitHub' },
-    { Icon: MessageCircle, href: 'https://t.me/spump_token', label: 'Telegram' },
+    { Icon: BsTelegram, href: 'https://t.me/spump_token', label: 'Telegram' },
   ];
 
   return (
@@ -25,7 +26,7 @@ export default function Footer() {
             <div key={link.label}>
               <a 
                 href={link.href}
-                className="text-sm md:text-base text-purple-200 hover:text-white transition-colors"
+                className="ui-link text-sm md:text-base"
               >
                 {link.label}
               </a>
@@ -43,7 +44,7 @@ export default function Footer() {
               key={label}
               href={href}
               aria-label={label}
-              className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-purple-800/30 hover:bg-purple-700/50 border border-purple-500/30 hover:border-purple-400/50 transition-all hover:scale-110"
+              className="ui-icon-btn"
             >
               <Icon className="w-5 h-5 md:w-6 md:h-6 text-purple-200" />
             </a>

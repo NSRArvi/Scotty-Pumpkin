@@ -47,10 +47,6 @@ export default function NFTStudioPage() {
   return (
     <>
       <style>{`
-        @keyframes sp-shimmer {
-          0%   { background-position: -200% center; }
-          100% { background-position:  200% center; }
-        }
         @keyframes sp-float {
           0%, 100% { transform: translateY(0px); }
           50%       { transform: translateY(-6px); }
@@ -409,7 +405,7 @@ export default function NFTStudioPage() {
                   </div>
                   <button
                     onClick={() => setConnected((v) => !v)}
-                    className={`nft-connect-btn px-5 py-2 rounded-lg text-sm font-bold text-white ${connected ? "connected" : ""}`}
+                    className={`nft-connect-btn ui-btn ui-btn-success px-5 py-2 rounded-lg text-sm font-bold text-white ${connected ? "connected" : ""}`}
                   >
                     {connected ? "Disconnect" : "Connect Wallet"}
                   </button>
@@ -446,7 +442,7 @@ export default function NFTStudioPage() {
                     </>
                   )}
                   <button
-                    className="nft-buy-btn px-6 py-2.5 rounded-lg text-sm font-black text-amber-200 tracking-wider"
+                    className="nft-buy-btn ui-btn ui-btn-warn px-6 py-2.5 rounded-lg text-sm font-black text-amber-200 tracking-wider"
                     onClick={(e) => e.stopPropagation()}
                   >
                     🎃 BUY NFT
@@ -559,7 +555,7 @@ export default function NFTStudioPage() {
                   <span className="text-amber-400 font-black text-xl">€{TOTAL.toFixed(2)}</span>
                 </div>
 
-                <button className="nft-mint-btn">
+                <button className="nft-mint-btn ui-btn ui-btn-warn">
                   🎃 Mint NFT
                 </button>
               </div>
@@ -596,7 +592,7 @@ export default function NFTStudioPage() {
                       )}
                     </div>
                   </div>
-                  <button className="nft-trend-buy tracking-widest">BUY</button>
+                  <button className="nft-trend-buy ui-btn ui-btn-warn tracking-widest">BUY</button>
                 </div>
               ))}
             </div>

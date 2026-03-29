@@ -164,14 +164,6 @@ export default function LegalPackPage() {
   return (
     <>
       <style>{`
-        @keyframes sp-float {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(-8px); }
-        }
-        @keyframes sp-shimmer {
-          0%   { background-position: -200% center; }
-          100% { background-position: 200% center; }
-        }
         @keyframes sp-fade-in {
           from { opacity: 0; transform: translateY(10px); }
           to   { opacity: 1; transform: translateY(0); }
@@ -183,33 +175,6 @@ export default function LegalPackPage() {
         @keyframes sp-bar-grow {
           from { width: 0%; }
           to   { width: var(--bar-w); }
-        }
-
-        .sp-shimmer-heading {
-          background: linear-gradient(90deg,
-            rgba(255,255,255,0.7) 0%,
-            rgba(255,255,255,1) 30%,
-            rgba(255,255,255,0.7) 60%,
-            rgba(255,255,255,1) 90%
-          );
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: sp-shimmer 5s linear infinite;
-        }
-        .sp-divider {
-          height: 1px;
-          background: linear-gradient(to right, transparent, rgba(255,255,255,0.1) 20%, rgba(168,85,247,0.3) 50%, rgba(255,255,255,0.1) 80%, transparent);
-        }
-
-        /* Hero */
-        .sp-hero-card {
-          background: rgba(99,102,241,0.08);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
-          border: 1px solid rgba(99,102,241,0.25);
-          box-shadow: 0 8px 40px rgba(0,0,0,0.4), 0 0 60px rgba(99,102,241,0.12), inset 0 1px 0 rgba(255,255,255,0.07);
         }
 
         /* Entity info card */

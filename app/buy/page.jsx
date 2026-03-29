@@ -15,6 +15,7 @@ export default function Page() {
   const [copied, setCopied] = useState(false);
   const [isTokenDetailsOpen, setIsTokenDetailsOpen] = useState(false);
   const [isDexListingOpen, setIsDexListingOpen] = useState(false);
+  const [riskTab, setRiskTab] = useState("en");
 
   const tokenDetails = [
     {
@@ -154,17 +155,9 @@ export default function Page() {
   return (
     <>
       <style>{`
-        @keyframes sp-float {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(-10px); }
-        }
         @keyframes sp-glow-pulse {
           0%, 100% { opacity: 0.5; }
           50%       { opacity: 1; }
-        }
-        @keyframes sp-shimmer {
-          0%   { background-position: -200% center; }
-          100% { background-position: 200% center; }
         }
 
         .sp-cex-card {
@@ -224,27 +217,43 @@ export default function Page() {
           transform: scale(1.04);
         }
 
-        .sp-shimmer-heading {
-          background: linear-gradient(90deg,
-            rgba(255,255,255,0.7) 0%,
-            rgba(255,255,255,1) 30%,
-            rgba(255,255,255,0.7) 60%,
-            rgba(255,255,255,1) 90%
-          );
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: sp-shimmer 5s linear infinite;
-        }
-        .sp-divider {
-          height: 1px;
-          background: linear-gradient(to right, transparent, rgba(255,255,255,0.1) 20%, rgba(168,85,247,0.3) 50%, rgba(255,255,255,0.1) 80%, transparent);
-        }
         .sp-check {
           color: #4ade80;
           filter: drop-shadow(0 0 4px rgba(74,222,128,0.6));
           flex-shrink: 0;
+        }
+
+        .sp-risk-wrap {
+          background: rgba(245,158,11,0.08);
+          border: 1px solid rgba(245,158,11,0.3);
+          border-radius: 12px;
+          padding: 14px;
+        }
+        .sp-risk-tab {
+          border: 1px solid rgba(255,255,255,0.16);
+          border-radius: 10px;
+          padding: 8px 14px;
+          font-size: 0.85rem;
+          font-weight: 600;
+          color: rgba(255,255,255,0.82);
+          background: rgba(255,255,255,0.04);
+          transition: all 0.2s ease;
+        }
+        .sp-risk-tab:hover {
+          border-color: rgba(245,158,11,0.45);
+          background: rgba(245,158,11,0.1);
+        }
+        .sp-risk-tab.active {
+          color: #fbbf24;
+          background: rgba(245,158,11,0.16);
+          border-color: rgba(245,158,11,0.52);
+        }
+        .sp-risk-panel {
+          margin-top: 12px;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.12);
+          border-radius: 12px;
+          padding: 16px;
         }
       `}</style>
 
@@ -280,13 +289,13 @@ export default function Page() {
               <div className="flex flex-col gap-3">
                 <Link
                   href="/coming-soon"
-                  className="sp-gradient-btn px-7 py-3.5 rounded-xl font-bold text-base text-white flex items-center justify-center gap-2"
+                  className="sp-gradient-btn ui-btn ui-btn-success px-7 py-3.5 rounded-xl font-bold text-base text-white flex items-center justify-center gap-2"
                 >
                   <span>🟡</span> Buy on Official Exchange (CEX)
                 </Link>
                 <button
                   onClick={() => setIsTokenDetailsOpen(true)}
-                  className="sp-outline-btn px-7 py-3.5 rounded-xl font-semibold text-base text-white flex items-center justify-center gap-2"
+                  className="sp-outline-btn ui-btn ui-btn-secondary px-7 py-3.5 rounded-xl font-semibold text-base text-white flex items-center justify-center gap-2"
                 >
                   View Token Details
                 </button>
@@ -340,7 +349,7 @@ export default function Page() {
                   </div>
                   <Link
                     href="/coming-soon"
-                    className="sp-gradient-btn px-8 py-3.5 rounded-xl font-bold text-base text-white mt-2 flex w-fit"
+                    className="sp-gradient-btn ui-btn ui-btn-success px-8 py-3.5 rounded-xl font-bold text-base text-white mt-2 flex w-fit"
                   >
                     Visit Official Exchange
                   </Link>
@@ -396,7 +405,7 @@ export default function Page() {
                   </div>
                   <button
                     onClick={() => setIsDexListingOpen(true)}
-                    className="sp-dex-btn px-8 py-3.5 rounded-xl font-bold text-base text-white mt-2"
+                    className="sp-dex-btn ui-btn ui-btn-primary px-8 py-3.5 rounded-xl font-bold text-base text-white mt-2"
                   >
                     View DEX Listing
                   </button>
@@ -422,6 +431,59 @@ export default function Page() {
             utility payment token used exclusively within the Scotty Pumpkin
             platform.
           </p>
+
+          <div className="pt-1 pb-2">
+            <div className="sp-risk-wrap">
+              <h3 className="text-white font-semibold">Crypto rish warning</h3>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => setRiskTab("en")}
+                  className={`sp-risk-tab ${riskTab === "en" ? "active" : ""}`}
+                >
+                  English
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setRiskTab("fr")}
+                  className={`sp-risk-tab ${riskTab === "fr" ? "active" : ""}`}
+                >
+                  France
+                </button>
+              </div>
+
+              <div id="crypto-risk-warning" className="sp-risk-panel text-sm leading-relaxed space-y-4">
+                {riskTab === "en" ? (
+                  <div className="space-y-2">
+                    <h4 className="text-amber-300 font-bold">Risk Warning (UK)</h4>
+                    <p className="text-white/75">
+                      Investing in cryptoassets involves a high degree of risk. The value of cryptoassets can go down as well as up, and you may lose all of your investment.
+                    </p>
+                    <p className="text-white/75">
+                      Cryptoassets are not regulated financial products in the United Kingdom and are not covered by the Financial Services Compensation Scheme (FSCS) or the Financial Ombudsman Service (FOS).
+                    </p>
+                    <p className="text-white/75">
+                      You should carefully consider whether you understand how cryptoassets work before purchasing or using them.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <h4 className="text-amber-300 font-bold">🇪🇺 Risk warning — EU / FRANCE</h4>
+                    <p className="text-white font-semibold">Avertissement sur les risques</p>
+                    <p className="text-white/75">
+                      Les crypto-actifs sont volatils et présentent un risque élevé. Vous pouvez perdre tout ou partie de votre investissement.
+                    </p>
+                    <p className="text-white/75">
+                      Les crypto-actifs ne bénéficient pas nécessairement de protections réglementaires équivalentes aux instruments financiers traditionnels.
+                    </p>
+                    <p className="text-white/75">
+                      L&apos;utilisateur doit s&apos;assurer qu&apos;il comprend les risques avant toute utilisation.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
