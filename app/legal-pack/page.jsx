@@ -42,7 +42,7 @@ const SECTIONS = [
     subsections: [
       {
         title: "1. Data Controller",
-        content: "Scotty Pumpkin Ltd acts as the Data Controller for personal data processed within the Scotty Pumpkin Eco Market System.",
+        content: "USFRANC LTD acts as the Data Controller for personal data processed within the Scotty Pumpkin Eco Market System.",
       },
       {
         title: "2. Categories of Personal Data",
