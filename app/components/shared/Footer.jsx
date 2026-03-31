@@ -1,5 +1,4 @@
-import { Github } from 'lucide-react';
-import { BsTwitterX , BsTelegram } from "react-icons/bs";
+import { BsTwitterX , BsTelegram, BsLinkedin, BsGithub } from "react-icons/bs";
 
 export default function Footer() {
   const footerLinks = [
@@ -12,8 +11,8 @@ export default function Footer() {
 
   const socialLinks = [
     { Icon: BsTwitterX, href: 'https://x.com/SpumpCoin', label: 'X' },
-    // { Icon: Globe, href: 'https://www.reddit.com/user/SpumpCoin/', label: 'Reddit' },
-    { Icon: Github, href: 'https://github.com/SPUMP-COIN', label: 'GitHub' },
+    { Icon: BsLinkedin, href: 'https://www.linkedin.com/showcase/digital-commerce-web3-ecosystem/', label: 'LinkedIn' },
+    { Icon: BsGithub, href: 'https://github.com/SPUMP-COIN', label: 'GitHub' },
     { Icon: BsTelegram, href: 'https://t.me/spump_token', label: 'Telegram' },
   ];
 

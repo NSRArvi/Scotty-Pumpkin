@@ -6,6 +6,30 @@ import { smtpexpressClient } from "@/data/smtp";
 import { Copyright, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+const OFFICE_LOCATIONS = [
+  {
+    id: "fr",
+    title: "Principal Entity (France / EU)",
+    name: "SAS Association Familiale Fin (AFFIN)",
+    address: ["8 Rue Dublin", "34200 Sete", "France"],
+    mapSrc:
+      "https://maps.google.com/maps?q=8%20Rue%20Dublin%2C%2034200%20Sete%2C%20France&output=embed",
+  },
+  {
+    id: "uk",
+    title: "United Kingdom Entity",
+    name: "USFRANC LTD",
+    address: [
+      "4th Floor, Silverstream House",
+      "45 Fitzroy Street",
+      "London, W1T 6EB",
+      "United Kingdom",
+    ],
+    mapSrc:
+      "https://maps.google.com/maps?q=4th%20Floor%20Silverstream%20House%2045%20Fitzroy%20Street%20London%20W1T%206EB%20United%20Kingdom&output=embed",
+  },
+];
+
 const ContactForm = () => {
   const router = useRouter();
   const form = useRef();
@@ -349,17 +373,34 @@ const ContactForm = () => {
           </div>
         </form>
 
-        {/* Google Map */}
-        <div className="ui-card lg:w-1/2 min-h-115 overflow-hidden">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d5795.795980198256!2d3.708454!3d43.420958!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b1357c2efa6fbb%3A0xddfc93666aef9f37!2s8%20Rue%20de%20Dublin%2C%2034200%20S%C3%A8te%2C%20France!5e0!3m2!1sen!2sbd!4v1723619506631!5m2!1sen!2sbd"
-            width="100%"
-            height="100%"
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            className="w-full h-full min-h-115 rounded-2xl"
-          ></iframe>
+        {/* Google Maps */}
+        <div className="lg:w-1/2 space-y-6">
+          {OFFICE_LOCATIONS.map((office) => (
+            <div key={office.id} className="ui-card overflow-hidden p-4 md:p-5 space-y-3">
+              <div>
+                <p className="text-amber-300/90 text-xs md:text-sm font-semibold tracking-widest uppercase">
+                  {office.title}
+                </p>
+                <p className="text-white text-base font-semibold mt-1">{office.name}</p>
+                {office.address.map((line) => (
+                  <p key={`${office.id}-${line}`} className="text-white/70 text-sm">
+                    {line}
+                  </p>
+                ))}
+              </div>
+
+              <iframe
+                src={office.mapSrc}
+                title={`${office.name} Office Map`}
+                width="100%"
+                height="280"
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="w-full rounded-2xl border border-white/10"
+              ></iframe>
+            </div>
+          ))}
         </div>
       </div>
       </div>
