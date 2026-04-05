@@ -9,8 +9,9 @@ const LEGAL_ENTITIES = {
     registration: "803 965 227 RCS Montpellier",
     addressLines: ["8 Rue Dublin", "34200 Sete", "France"],
     role: [
-      "Group Holding Entity and Principal Administrative Structure",
-      "Administration and Entity Management for USFRANC and Scotty Pumpkin",
+      "Group Holding and Administrative Entity",
+      "Entity Management for USFRANC and Scotty Pumpkin Ecosystem: USFRANC LTD",
+      "Technology, Development and Ecosystem Operations Entity",
     ],
   },
   uk: {

@@ -319,6 +319,38 @@ export default function Page() {
                 </div>
               </div>
             </div>
+
+            <div className="sp-cex-card rounded-2xl p-6 md:p-8">
+              <div className="flex items-start gap-6">
+                <div className="flex-1 min-w-0 space-y-4">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <span className="text-2xl">🔐</span>
+                    <h2 className="text-xl md:text-2xl font-bold text-amber-300">
+                      Private Sale
+                    </h2>
+                  </div>
+                  <p className="text-white/75 text-sm md:text-base">
+                    Join the private sale with flexible payment methods. Choose
+                    online crypto payment or complete your purchase via bank
+                    transfer.
+                  </p>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <Link
+                      href="/online-purchase"
+                      className="sp-dex-btn ui-btn ui-btn-primary px-6 py-3.5 rounded-xl font-semibold text-base text-white text-center"
+                    >
+                      Pay with USDC / USDT / SOL
+                    </Link>
+                    <Link
+                      href="/bank-purchase"
+                      className="sp-outline-btn ui-btn ui-btn-secondary px-6 py-3.5 rounded-xl font-semibold text-base text-white text-center"
+                    >
+                      Bank Transfer
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* ── Footer note ── */}
