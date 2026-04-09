@@ -1,9 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import Background from "./components/shared/Background";
-import Footer from "./components/shared/Footer";
-import HighRiskWarning from "./components/shared/HighRiskWarning";
-import Navbar from "./components/shared/Navbar";
+import AppShell from "./components/shared/AppShell";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -22,15 +19,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.className} min-h-screen text-white relative overflow-x-hidden antialiased`}>
-        {/* Background with starfield - fixed position */}
-        <Background />
-        {/* Navigation */}
-        <Navbar />
-        {/* Main content with relative positioning */}
-        <div className="relative z-10">{children}</div>
-        <HighRiskWarning />
-        {/* Footer */}
-        <Footer/>
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

@@ -17,7 +17,7 @@ const OFFICE_LOCATIONS = [
     role: [
       "Group Holding and Administrative Entity",
       "Entity Management for USFRANC and Scotty Pumpkin Ecosystem: USFRANC LTD",
-      "Technology, Development and Ecosystem Operations Entity",
+      "Ecosystem Operational Entity",
     ],
   },
   {
