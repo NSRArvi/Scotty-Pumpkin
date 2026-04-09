@@ -1,7 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Toaster, toast } from "sonner";
+
+const SPUMP_PRICE_USD = 0.01;
+
+const COIN_TYPES = [
+  { label: "USDC", value: "usdc" },
+  { label: "USDT", value: "usdt" },
+  { label: "SOL", value: "sol" },
+];
 
 function generateRefNo() {
   return `SP-${Math.random().toString(36).slice(2, 10).toUpperCase()}`;
@@ -11,12 +19,66 @@ export default function OnlinePurchasePage() {
   const [showRiskModal, setShowRiskModal] = useState(true);
   const [txHash, setTxHash] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
+  const [selectedCoin, setSelectedCoin] = useState("usdc");
+  const [enteredValue, setEnteredValue] = useState("");
+  const [solRate, setSolRate] = useState(0);
+  const [loadingRate, setLoadingRate] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [referenceNo, setReferenceNo] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [submitResponse, setSubmitResponse] = useState(null);
+
+  useEffect(() => {
+    async function fetchSolRate() {
+      if (selectedCoin !== "sol") return;
+
+      try {
+        setLoadingRate(true);
+        const response = await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd",
+          { cache: "no-store" }
+        );
+
+        if (!response.ok) {
+          throw new Error("Unable to fetch SOL rate.");
+        }
+
+        const result = await response.json();
+        const rate = Number(result?.solana?.usd || 0);
+        if (!rate) {
+          throw new Error("Invalid SOL rate response.");
+        }
+
+        setSolRate(rate);
+      } catch (error) {
+        setSolRate(0);
+        toast.error(error?.message || "Unable to fetch SOL rate.");
+      } finally {
+        setLoadingRate(false);
+      }
+    }
+
+    fetchSolRate();
+  }, [selectedCoin]);
+
+  const usdEquivalent = useMemo(() => {
+    const value = Number(enteredValue || 0);
+    if (!value) return 0;
+
+    if (selectedCoin === "sol") {
+      if (!solRate) return 0;
+      return value * solRate;
+    }
+
+    return value;
+  }, [enteredValue, selectedCoin, solRate]);
+
+  const estimatedSpump = useMemo(() => {
+    if (!usdEquivalent) return 0;
+    return Math.floor(usdEquivalent / SPUMP_PRICE_USD);
+  }, [usdEquivalent]);
 
   function downloadSubmitDocument() {
     if (!submitResponse) return;
@@ -220,7 +282,45 @@ export default function OnlinePurchasePage() {
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-2xl p-6 space-y-4">
-            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-amber-400">Step 2 - Wallet Address</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-amber-400">Step 2 - Type, Value and Wallet</p>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <p className="mb-2 text-xs uppercase tracking-[0.12em] text-white/45">Select Type</p>
+                <select
+                  value={selectedCoin}
+                  onChange={(event) => setSelectedCoin(event.target.value)}
+                  className="w-full rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-white outline-none"
+                >
+                  {COIN_TYPES.map((coin) => (
+                    <option key={coin.value} value={coin.value} className="bg-[#0b1220]">
+                      {coin.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <p className="mb-2 text-xs uppercase tracking-[0.12em] text-white/45">Enter Value</p>
+                <input
+                  type="number"
+                  min="0"
+                  step="any"
+                  value={enteredValue}
+                  onChange={(event) => setEnteredValue(event.target.value)}
+                  placeholder={`Enter ${selectedCoin.toUpperCase()} amount`}
+                  className="w-full rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-white placeholder:text-white/30 outline-none"
+                />
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-indigo-300/25 bg-black/25 p-4 text-sm text-white/75 space-y-1">
+              <p>
+                SOL/USD rate: {selectedCoin === "sol" ? (loadingRate ? "Loading..." : solRate || "N/A") : "Not needed"}
+              </p>
+              <p>USD equivalent: ${usdEquivalent.toFixed(4)}</p>
+              <p>Estimated SPUMP: {estimatedSpump.toLocaleString()}</p>
+            </div>
 
             <div>
               <p className="mb-2 text-xs uppercase tracking-[0.12em] text-white/45">Wallet Address</p>
