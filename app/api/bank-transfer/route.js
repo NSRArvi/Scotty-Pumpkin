@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 function joinUrl(base, path) {
   const normalizedBase = base.endsWith("/") ? base.slice(0, -1) : base;
@@ -88,10 +89,18 @@ export async function GET() {
   }
 
   try {
+    const authToken = (await cookies()).get("authtoken")?.value;
+    if (!authToken) {
+      return NextResponse.json({ message: "Unauthorized." }, { status: 401 });
+    }
+
     const endpoint = joinUrl(rootApi, "/spump/sale/transfer/bank");
 
     const response = await fetch(endpoint, {
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
       cache: "no-store",
     });
 
@@ -137,6 +146,11 @@ export async function PUT(request) {
   }
 
   try {
+    const authToken = (await cookies()).get("authtoken")?.value;
+    if (!authToken) {
+      return NextResponse.json({ message: "Unauthorized." }, { status: 401 });
+    }
+
     const body = await request.json();
     const endpoint = joinUrl(rootApi, "/spump/sale/transfer/bank/verify");
 
@@ -144,6 +158,7 @@ export async function PUT(request) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
       },
       body: JSON.stringify({
         id: body?.id,

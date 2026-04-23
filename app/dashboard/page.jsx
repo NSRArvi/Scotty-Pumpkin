@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogClose,
@@ -11,7 +12,94 @@ import {
 } from "@/app/components/ui/dialog";
 import { Toaster, toast } from "sonner";
 
+// Skeleton Loader Component
+function SkeletonRow() {
+  return (
+    <tr className="animate-pulse border-b border-white/10">
+      <td className="px-4 py-3"><div className="h-4 w-20 rounded bg-white/10"></div></td>
+      <td className="px-4 py-3"><div className="h-4 w-32 rounded bg-white/10"></div></td>
+      <td className="px-4 py-3"><div className="h-4 w-24 rounded bg-white/10"></div></td>
+      <td className="px-4 py-3"><div className="h-4 w-16 rounded bg-white/10"></div></td>
+      <td className="px-4 py-3"><div className="h-4 w-16 rounded bg-white/10"></div></td>
+      <td className="px-4 py-3"><div className="h-6 w-12 rounded-full bg-white/10"></div></td>
+      <td className="px-4 py-3"><div className="h-6 w-12 rounded-full bg-white/10"></div></td>
+      <td className="px-4 py-3"><div className="h-8 w-16 rounded bg-white/10"></div></td>
+      <td className="px-4 py-3"><div className="h-8 w-16 rounded bg-white/10"></div></td>
+      <td className="px-4 py-3"><div className="h-8 w-16 rounded bg-white/10"></div></td>
+    </tr>
+  );
+}
+
+// Document Viewer Component
+function DocumentViewer({ path, type }) {
+  if (!path) {
+    return <div className="text-sm text-white/50">No document available</div>;
+  }
+
+  const fullUrl = `https://server.scottypumpkin.com/${path}`;
+  const fileExtension = path?.split('.')?.pop()?.toLowerCase() || '';
+  const isPdf = fileExtension === 'pdf';
+  const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileExtension);
+
+  return (
+    <div className="space-y-3">
+      <div className="text-xs text-white/50 break-all">
+        <span className="font-semibold">File:</span> {path}
+      </div>
+
+      {isImage ? (
+        <div className="rounded-lg border border-white/10 overflow-hidden bg-black/30">
+          <img
+            src={fullUrl}
+            alt="Document"
+            className="w-full h-auto max-h-96 object-contain"
+            onError={(e) => {
+              e.target.style.display = 'none';
+              if (e.target.nextElementSibling) {
+                e.target.nextElementSibling.style.display = 'block';
+              }
+            }}
+          />
+          <div
+            style={{ display: 'none' }}
+            className="flex items-center justify-center h-48 bg-black/50 text-white/50 text-sm"
+          >
+            Failed to load image
+          </div>
+        </div>
+      ) : isPdf ? (
+        <div className="rounded-lg border border-white/10 overflow-hidden bg-black/30">
+          <iframe
+            src={fullUrl}
+            title="Document PDF"
+            className="w-full h-96 bg-white"
+          />
+        </div>
+      ) : (
+        <div className="rounded-lg border border-white/10 bg-black/30 p-4 space-y-3">
+          <div className="flex items-center gap-3">
+            <div className="text-3xl">📄</div>
+            <div>
+              <p className="text-sm font-semibold text-white">{path.split('/').pop()}</p>
+              <p className="text-xs text-white/50">File type: {fileExtension.toUpperCase()}</p>
+            </div>
+          </div>
+          <a
+            href={fullUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block rounded-lg border border-blue-400/40 bg-blue-400/15 px-3 py-1.5 text-xs font-semibold text-blue-300 hover:bg-blue-400/25 transition-all"
+          >
+            Download File →
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function DashboardPage() {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [transferForms, setTransferForms] = useState([]);
   const [selectedForm, setSelectedForm] = useState(null);
@@ -30,10 +118,12 @@ export default function DashboardPage() {
         cache: "no-store",
       });
 
+      if (response.status === 401) {
+        router.replace("/dashboard/login");
+        return;
+      }
+
       const data = await response.json();
-
-      console.log("Bank transfer forms response:", data);
-
       if (!response.ok) {
         throw new Error(data?.message || "Failed to load bank transfer forms.");
       }
@@ -45,6 +135,15 @@ export default function DashboardPage() {
       console.error("Failed to load bank transfer forms:", fetchError);
     } finally {
       setIsLoading(false);
+    }
+  }
+
+  async function handleLogout() {
+    try {
+      await fetch("/api/auth/logout", { method: "POST" });
+    } finally {
+      router.replace("/dashboard/login");
+      router.refresh();
     }
   }
 
@@ -109,7 +208,16 @@ export default function DashboardPage() {
   return (
     <section className="min-h-screen px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-8xl p-5 sm:p-6">
-        <h1 className="text-2xl font-bold text-white">Dashboard</h1>
+        <div className="flex items-center justify-between gap-3">
+          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-white/70 hover:bg-white/10"
+          >
+            Logout
+          </button>
+        </div>
         <p className="mt-2 text-sm text-white/60">
           Bank transfer requests submitted by users will appear here.
           <br />
@@ -121,8 +229,34 @@ export default function DashboardPage() {
         </p>
 
         {isLoading ? (
-          <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-5 text-sm text-white/70">
-            Loading bank transfer forms...
+          <div className="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-black/20">
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-white/10 text-left text-sm">
+                <thead className="bg-white/5 text-white/70">
+                  <tr>
+                    <th className="px-4 py-3 font-semibold">Name</th>
+                    <th className="px-4 py-3 font-semibold">Email</th>
+                    <th className="px-4 py-3 font-semibold">Mobile</th>
+                    <th className="px-4 py-3 font-semibold">Amount</th>
+                    <th className="px-4 py-3 font-semibold">SPUMP</th>
+                    <th className="px-4 py-3 font-semibold">Verified</th>
+                    <th className="px-4 py-3 font-semibold">Approved</th>
+                    <th className="px-4 py-3 font-semibold">
+                      Verify Documents
+                    </th>
+                    <th className="px-4 py-3 font-semibold">
+                      Approve Transfer
+                    </th>
+                    <th className="px-4 py-3 font-semibold">Details</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/10 text-white/80">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <SkeletonRow key={`skeleton-${i}`} />
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         ) : (
           <div className="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-black/20">
@@ -222,77 +356,82 @@ export default function DashboardPage() {
       </div>
 
       <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
-        <DialogContent className="w-[95vw] max-w-2xl">
+        <DialogContent className="w-[95vw] max-h-[90vh] max-w-4xl overflow-y-auto">
           <DialogHeader>
             <DialogTitle>Transfer Details</DialogTitle>
             <DialogDescription>
-              Additional fields hidden from the table view.
+              Complete information about the transfer request
             </DialogDescription>
           </DialogHeader>
 
-          <div className="mt-5 grid grid-cols-1 gap-3 text-sm text-white/80 sm:grid-cols-2">
-            <div>
-              <span className="text-white/50">Name:</span>{" "}
-              {selectedForm?.name || "-"}
+          <div className="mt-5 grid grid-cols-1 gap-4 text-sm text-white/80 md:grid-cols-2">
+            <div className="rounded-lg bg-white/5 border border-white/10 p-3">
+              <span className="text-xs text-white/50 uppercase tracking-wider">Name</span>
+              <p className="mt-1 font-semibold text-white">{selectedForm?.name || "-"}</p>
             </div>
-            <div>
-              <span className="text-white/50">Email:</span>{" "}
-              {selectedForm?.email || "-"}
+            <div className="rounded-lg bg-white/5 border border-white/10 p-3">
+              <span className="text-xs text-white/50 uppercase tracking-wider">Email</span>
+              <p className="mt-1 break-all font-semibold text-white">{selectedForm?.email || "-"}</p>
             </div>
-            <div>
-              <span className="text-white/50">Mobile:</span>{" "}
-              {selectedForm?.mobile || "-"}
+            <div className="rounded-lg bg-white/5 border border-white/10 p-3">
+              <span className="text-xs text-white/50 uppercase tracking-wider">Mobile</span>
+              <p className="mt-1 font-semibold text-white">{selectedForm?.mobileCode} {selectedForm?.mobile || "-"}</p>
             </div>
-            <div>
-              <span className="text-white/50">Mobile Code:</span>{" "}
-              {selectedForm?.mobileCode || "-"}
+            <div className="rounded-lg bg-white/5 border border-white/10 p-3">
+              <span className="text-xs text-white/50 uppercase tracking-wider">Amount</span>
+              <p className="mt-1 font-semibold text-amber-300">${selectedForm?.userAmount ?? "-"}</p>
             </div>
-            <div>
-              <span className="text-white/50">Amount:</span>{" "}
-              {selectedForm?.userAmount ?? "-"}
+            <div className="rounded-lg bg-white/5 border border-white/10 p-3">
+              <span className="text-xs text-white/50 uppercase tracking-wider">SPUMP</span>
+              <p className="mt-1 font-semibold text-amber-300">{selectedForm?.spumpCount ?? "-"}</p>
             </div>
-            <div>
-              <span className="text-white/50">SPUMP:</span>{" "}
-              {selectedForm?.spumpCount ?? "-"}
+            <div className="rounded-lg bg-white/5 border border-white/10 p-3">
+              <span className="text-xs text-white/50 uppercase tracking-wider">Status</span>
+              <div className="mt-2 flex gap-2">
+                <span
+                  className={`inline-flex rounded-full px-2 py-0.5 text-xs font-semibold ${
+                    selectedForm?.formVerification
+                      ? "bg-emerald-400/15 text-emerald-300"
+                      : "bg-white/10 text-white/50"
+                  }`}
+                >
+                  Verified: {selectedForm?.formVerification ? "✓" : "✗"}
+                </span>
+                <span
+                  className={`inline-flex rounded-full px-2 py-0.5 text-xs font-semibold ${
+                    selectedForm?.approveTransfer
+                      ? "bg-emerald-400/15 text-emerald-300"
+                      : "bg-white/10 text-white/50"
+                  }`}
+                >
+                  Approved: {selectedForm?.approveTransfer ? "✓" : "✗"}
+                </span>
+              </div>
             </div>
-            <div>
-              <span className="text-white/50">Verified:</span>{" "}
-              {selectedForm?.formVerification ? "Yes" : "No"}
+            <div className="rounded-lg bg-white/5 border border-white/10 p-3">
+              <span className="text-xs text-white/50 uppercase tracking-wider">ID</span>
+              <p className="mt-1 break-all font-mono text-xs text-white">{selectedForm?.id || "-"}</p>
             </div>
-            <div>
-              <span className="text-white/50">Approved:</span>{" "}
-              {selectedForm?.approveTransfer ? "Yes" : "No"}
+            <div className="rounded-lg bg-white/5 border border-white/10 p-3">
+              <span className="text-xs text-white/50 uppercase tracking-wider">Reference</span>
+              <p className="mt-1 font-mono text-xs text-white">{selectedForm?.referenceNo || "-"}</p>
             </div>
-            <div>
-              <span className="text-white/50">ID:</span>{" "}
-              {selectedForm?.id || "-"}
+            <div className="rounded-lg bg-white/5 border border-white/10 p-3 md:col-span-2">
+              <span className="text-xs text-white/50 uppercase tracking-wider">Wallet Address</span>
+              <p className="mt-1 break-all font-mono text-xs text-white">{selectedForm?.walletAddress || "-"}</p>
             </div>
-            <div>
-              <span className="text-white/50">Reference No:</span>{" "}
-              {selectedForm?.referenceNo || "-"}
-            </div>
-            <div className="sm:col-span-2 break-all">
-              <span className="text-white/50">Wallet:</span>{" "}
-              {selectedForm?.walletAddress || "-"}
-            </div>
-            <div>
-              <span className="text-white/50">Created At:</span>{" "}
-              {selectedForm?.created_at || "-"}
+            <div className="rounded-lg bg-white/5 border border-white/10 p-3">
+              <span className="text-xs text-white/50 uppercase tracking-wider">Created</span>
+              <p className="mt-1 text-xs text-white">{selectedForm?.created_at || "-"}</p>
             </div>
           </div>
 
-          <div className="mt-5 rounded-xl border border-white/10 bg-white/5 p-4 text-sm text-white/80">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
-              Documents
+          {/* Document Section */}
+          <div className="mt-6 rounded-xl border border-white/10 bg-white/5 p-4">
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.12em] text-white/50">
+              Transfer Receipt Document
             </p>
-            {/* <p className="break-all text-white/70">
-              {selectedForm?.receiptPath || "No document path available."}
-            </p> */}
-            <img
-              src={`https://server.scottypumpkin.com/${selectedForm?.receiptPath}`}
-              alt="Receipt"
-              srcset=""
-            />
+            <DocumentViewer path={selectedForm?.receiptPath} type="receipt" />
           </div>
 
           <div className="mt-6 flex justify-end">

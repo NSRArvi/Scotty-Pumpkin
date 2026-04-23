@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import Link from "next/link";
 
@@ -117,7 +115,7 @@ const STEPS = [
   },
 ];
 
-export default function WalletHelpGuidePage() {
+export default function BankPurchaseHelpGuide() {
   const [activeStep, setActiveStep] = useState(null);
   const [copiedDemo, setCopiedDemo] = useState(false);
 

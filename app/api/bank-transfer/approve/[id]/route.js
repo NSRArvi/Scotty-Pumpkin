@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 function joinUrl(base, path) {
   const normalizedBase = base.endsWith("/") ? base.slice(0, -1) : base;
@@ -23,9 +24,17 @@ export async function POST(_request, { params }) {
   }
 
   try {
+    const authToken = (await cookies()).get("authtoken")?.value;
+    if (!authToken) {
+      return NextResponse.json({ message: "Unauthorized." }, { status: 401 });
+    }
+
     const endpoint = joinUrl(rootApi, `/spump/sale/transfer/bank/approve/${id}`);
     const response = await fetch(endpoint, {
       method: "POST",
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
       cache: "no-store",
     });
 
