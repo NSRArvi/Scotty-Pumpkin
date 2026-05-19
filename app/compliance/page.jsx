@@ -20,11 +20,23 @@ const SECTIONS = [
     title: "Ecosystem Allocation Model",
     icon: "📊",
     allocation: [
-      { label: "Ecosystem sustainability investments", value: "60%", color: "rgba(245,158,11,0.8)" },
+      {
+        label: "Ecosystem sustainability investments",
+        value: "60%",
+        color: "rgba(245,158,11,0.8)",
+      },
       { label: "Reserves", value: "10%", color: "rgba(168,85,247,0.8)" },
-      { label: "Liquidity support", value: "10%", color: "rgba(99,102,241,0.8)" },
+      {
+        label: "Liquidity support",
+        value: "10%",
+        color: "rgba(99,102,241,0.8)",
+      },
       { label: "Operating costs", value: "10%", color: "rgba(59,130,246,0.8)" },
-      { label: "Social & community welfare", value: "10%", color: "rgba(74,222,128,0.8)" },
+      {
+        label: "Social & community welfare",
+        value: "10%",
+        color: "rgba(74,222,128,0.8)",
+      },
     ],
     footer: "This allocation does not create rights for token holders.",
   },
@@ -75,26 +87,39 @@ export default function CompliancePage() {
 
   return (
     <>
-      <section className="relative z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
+      <section className="bg-primary-bg relative z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
         <div className="max-w-4xl mx-auto space-y-10 md:space-y-14">
-
           {/* ── Hero ── */}
-          <div className="sp-hero-card rounded-2xl p-8 md:p-10 text-center space-y-4">
-            <div style={{ animation: "sp-float 4s ease-in-out infinite" }} className="text-5xl md:text-6xl">📜</div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black sp-shimmer-heading">
+          <div className="bg-white/80 rounded-2xl p-8 md:p-10 text-center space-y-4">
+            <div
+              style={{ animation: "sp-float 4s ease-in-out infinite" }}
+              className="text-5xl md:text-6xl">
+              📜
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-secondary">
               Compliance Policy
             </h1>
-            <p className="text-purple-200 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
-              How <span className="font-bold text-white">Scotty Pumpkin</span> operates responsibly within Web3 commerce, regulatory frameworks, and user protection standards.
+            <p className="text-secondary/80 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+              How{" "}
+              <span className="font-bold text-secondary">Scotty Pumpkin</span>{" "}
+              operates responsibly within Web3 commerce, regulatory frameworks,
+              and user protection standards.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <span className="sp-badge text-xs font-semibold px-3 py-1 rounded-full">
+              <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
                 Effective Date: February 26, 2026
               </span>
-              <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{ background: "rgba(99,102,241,0.15)", border: "1px solid rgba(99,102,241,0.3)", color: "#a5b4fc" }}>
+              <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
                 Web3 Commerce Infrastructure
               </span>
-              <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{ background: "rgba(74,222,128,0.1)", border: "1px solid rgba(74,222,128,0.25)", color: "#4ade80" }}>
+              <span
+                className="text-xs font-semibold px-3 py-1 rounded-full"
+                style={{
+                  background: "rgba(255,255,255,1)",
+                  border: "1px solid rgba(241,112,5,0.15)",
+                  color: "#0f2027",
+                  backdropFilter: "blur(12px)",
+                }}>
                 AML Compliant
               </span>
             </div>
@@ -113,26 +138,35 @@ export default function CompliancePage() {
                   key={section.number}
                   id={`section-${section.number}`}
                   className={`sp-section-card rounded-2xl overflow-hidden ${isOpen ? "active" : ""}`}
-                  onClick={() => setActiveSection(isOpen ? null : section.number)}
-                >
+                  onClick={() =>
+                    setActiveSection(isOpen ? null : section.number)
+                  }>
                   {/* Header */}
                   <div className="flex items-center gap-4 px-6 py-5 md:px-8">
                     <div className="shrink-0">
                       <div className="sp-number w-11 h-11 rounded-xl flex items-center justify-center">
-                        <span className="text-purple-300 font-black text-base">{section.number}</span>
+                        <span className="text-secondary font-black text-base">
+                          {section.number}
+                        </span>
                       </div>
                     </div>
                     <div className="flex items-center gap-3 flex-1 min-w-0">
                       <span className="text-xl">{section.icon}</span>
-                      <h2 className="text-base md:text-lg font-bold text-white truncate">
+                      <h2 className="text-base md:text-lg font-bold text-secondary truncate">
                         {section.title}
                       </h2>
                     </div>
                     <svg
                       className={`sp-chevron shrink-0 w-5 h-5 text-purple-400 ${isOpen ? "open" : ""}`}
-                      fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
                     </svg>
                   </div>
 
@@ -143,7 +177,7 @@ export default function CompliancePage() {
 
                       {/* Paragraph */}
                       {"content" in section && section.content && (
-                        <p className="text-white/75 text-sm md:text-base leading-relaxed">
+                        <p className="text-secondary/80 text-sm md:text-base leading-relaxed">
                           {section.content}
                         </p>
                       )}
@@ -151,8 +185,12 @@ export default function CompliancePage() {
                       {/* Highlight box (escrow) */}
                       {"highlight" in section && section.highlight && (
                         <div className="sp-highlight-box rounded-xl px-4 py-3 flex items-center gap-3">
-                          <span className="text-amber-400 text-lg shrink-0">⏱️</span>
-                          <p className="text-amber-300 text-sm font-semibold">{section.highlight}</p>
+                          <span className="text-primary text-lg shrink-0">
+                            ⏱️
+                          </span>
+                          <p className="text-primary text-sm font-semibold">
+                            {section.highlight}
+                          </p>
                         </div>
                       )}
 
@@ -162,8 +200,14 @@ export default function CompliancePage() {
                           {section.allocation.map((row, i) => (
                             <div key={i} className="space-y-1.5">
                               <div className="flex justify-between items-center">
-                                <span className="text-white/75 text-sm">{row.label}</span>
-                                <span className="font-black text-sm" style={{ color: row.color }}>{row.value}</span>
+                                <span className="text-secondary/80 text-sm">
+                                  {row.label}
+                                </span>
+                                <span
+                                  className="font-black text-sm"
+                                  style={{ color: row.color }}>
+                                  {row.value}
+                                </span>
                               </div>
                               <div className="sp-bar-track">
                                 <div
@@ -184,13 +228,16 @@ export default function CompliancePage() {
                       {"items" in section && section.items && (
                         <div className="space-y-2">
                           {section.items.map((item, i) => (
-                            <p key={i} className="flex items-start gap-2 text-white/80 text-sm md:text-base">
-                              {section.number === 6
-                                ? <span className="sp-x mt-0.5">✕</span>
-                                : isWarn
-                                ? <span className="sp-risk-icon">⚠</span>
-                                : <span className="sp-check mt-0.5">✓</span>
-                              }
+                            <p
+                              key={i}
+                              className="flex items-start gap-2 text-secondary/80 text-sm md:text-base">
+                              {section.number === 6 ? (
+                                <span className="sp-x mt-0.5">✕</span>
+                              ) : isWarn ? (
+                                <span className="sp-risk-icon">⚠</span>
+                              ) : (
+                                <span className="sp-check mt-0.5">✓</span>
+                              )}
                               {item}
                             </p>
                           ))}
@@ -200,15 +247,19 @@ export default function CompliancePage() {
                       {/* Warning box for risk section */}
                       {isWarn && (
                         <div className="sp-warn-box rounded-xl px-4 py-3">
-                          <p className="text-red-300/80 text-xs leading-relaxed">
-                            Scotty Pumpkin does not provide financial advice. Participation in Web3 ecosystems carries inherent risk. Please conduct your own due diligence.
+                          <p className="text-red-400 text-xs leading-relaxed">
+                            Scotty Pumpkin does not provide financial advice.
+                            Participation in Web3 ecosystems carries inherent
+                            risk. Please conduct your own due diligence.
                           </p>
                         </div>
                       )}
 
                       {/* Footer note */}
                       {"footer" in section && section.footer && (
-                        <p className="text-white/40 text-xs italic mt-1">{section.footer}</p>
+                        <p className="text-white/40 text-xs italic mt-1">
+                          {section.footer}
+                        </p>
                       )}
                     </div>
                   )}
@@ -221,15 +272,18 @@ export default function CompliancePage() {
 
           {/* ── Footer ── */}
           <div className="sp-footer-note rounded-2xl p-6 text-center space-y-2">
-            <p className="text-white/50 text-sm leading-relaxed">
+            <p className="text-secondary/80 text-sm leading-relaxed">
               For compliance inquiries, contact us at{" "}
-              <span className="text-purple-300 font-medium">support@scottypumpkin.com</span>.
+              <span className="text-secondary font-medium">
+                support@scottypumpkin.com
+              </span>
+              .
             </p>
-            <p className="text-white/30 text-xs">
-              Scotty Pumpkin — Utility payment token used exclusively within the Scotty Pumpkin platform.
+            <p className="text-secondary text-xs">
+              Scotty Pumpkin — Utility payment token used exclusively within the
+              Scotty Pumpkin platform.
             </p>
           </div>
-
         </div>
       </section>
     </>

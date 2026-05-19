@@ -16,7 +16,7 @@ export default function AppShell({ children }) {
 
   return (
     <>
-      <Background />
+      {/* <Background /> */}
       <Navbar />
       <div className="relative z-10">{children}</div>
       <HighRiskWarning />

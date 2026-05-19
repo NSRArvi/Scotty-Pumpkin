@@ -17,7 +17,7 @@ const Captcha = ({ onCaptchaGenerated }) => {
     canvas.height = 40;
 
     // Set the background color to green
-    context.fillStyle = "#0073e6";
+    context.fillStyle = "#f17005";
     context.fillRect(0, 0, canvas.width, canvas.height);
 
     context.font = "16px Arial";
@@ -42,7 +42,7 @@ const Captcha = ({ onCaptchaGenerated }) => {
   return (
     <div>
       <canvas ref={canvasRef} />
-      <button onClick={generateCaptcha} className="text-xs">
+      <button onClick={generateCaptcha} className="text-xs text-primary">
         Refresh Captcha
       </button>
     </div>

@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import OnlinePurchase from "./OnlinePurchase";
 import OnlinePurchaseHelpGuide from "./OnlinePurchaseHelpGuide";
+import Container from "../components/shared/Container";
 
 const SPUMP_TOKEN = "AKdCsQHoLKCpu3n2QcMS3BK8vQTWDcSDpujLr8UjeyNT";
 const DEFAULT_SPUMP_PRICE = 0.01;
@@ -22,19 +23,19 @@ export default function Page() {
       try {
         const response = await fetch(
           `https://api-v3.raydium.io/mint/price?mints=${SPUMP_TOKEN}`,
-          { cache: "no-store" }
+          { cache: "no-store" },
         );
         if (!response.ok) return;
 
         const data = await response.json();
-        if(data?.success === true){
-          const price = Number(data?.data?.AKdCsQHoLKCpu3n2QcMS3BK8vQTWDcSDpujLr8UjeyNT);
+        if (data?.success === true) {
+          const price = Number(
+            data?.data?.AKdCsQHoLKCpu3n2QcMS3BK8vQTWDcSDpujLr8UjeyNT,
+          );
           if (Number.isFinite(price) && price > 0) {
             setSpumpPriceUsd(price);
           }
         }
-
-      
       } catch {
         // Keep fallback price.
       }
@@ -85,53 +86,53 @@ export default function Page() {
   }, []);
 
   return (
-    <div>
-      {/* Tab Navigation */}
-      <div className="max-w-2xl mx-auto px-4 md:px-10">
-        <div className="flex justify-center gap-2 py-4">
-          <button
-            onClick={() => setActiveTab("experienced")}
-            className={`px-6 py-2.5 rounded-lg font-bold text-sm uppercase tracking-wide transition-all ${
-              activeTab === "experienced"
-                ? "bg-emerald-400/20 border border-emerald-400/35 text-emerald-300"
-                : "bg-white/5 border border-white/10 text-white/60 hover:bg-white/10"
-            }`}
-          >
-            ⚡ Experienced User
-          </button>
+    <div className="bg-primary-bg">
+      <Container>
+        {/* Tab Navigation */}
+        <div className="max-w-2xl mx-auto px-4 md:px-10">
+          <div className="flex justify-center gap-2 py-4">
+            <button
+              onClick={() => setActiveTab("experienced")}
+              className={`px-6 py-2.5 rounded-lg font-bold text-sm uppercase tracking-wide transition-all ${
+                activeTab === "experienced"
+                  ? "bg-primary border border-emerald-400/35 text-white"
+                  : "bg-secondary/80 border border-white/10 text-white hover:bg-primary"
+              }`}>
+              ⚡ Experienced User
+            </button>
 
-          <button
-            onClick={() => setActiveTab("firsttime")}
-            className={`px-6 py-2.5 rounded-lg font-bold text-sm uppercase tracking-wide transition-all ${
-              activeTab === "firsttime"
-                ? "bg-amber-400/20 border border-amber-400/35 text-amber-300"
-                : "bg-white/5 border border-white/10 text-white/60 hover:bg-white/10"
-            }`}
-          >
-            📚 First Time Here?
-          </button>
+            <button
+              onClick={() => setActiveTab("firsttime")}
+              className={`px-6 py-2.5 rounded-lg font-bold text-sm uppercase tracking-wide transition-all ${
+                activeTab === "firsttime"
+                  ? "bg-primary border border-amber-400/35 text-white"
+                  : "bg-secondary/80 border border-white/10 text-white hover:bg-primary"
+              }`}>
+              📚 First Time Here?
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Tab Content */}
-      <div>
-        {activeTab === "firsttime" && (
-          <OnlinePurchaseHelpGuide
-            spumpPriceUsd={spumpPriceUsd}
-            fetchSolRateAction={fetchSolRate}
-            verifySignatureRequest={verifySignatureRequest}
-            submitCryptoTransfer={submitCryptoTransfer}
-          />
-        )}
-        {activeTab === "experienced" && (
-          <OnlinePurchase
-            spumpPriceUsd={spumpPriceUsd}
-            fetchSolRateAction={fetchSolRate}
-            verifySignatureRequest={verifySignatureRequest}
-            submitCryptoTransfer={submitCryptoTransfer}
-          />
-        )}
-      </div>
+        {/* Tab Content */}
+        <div>
+          {activeTab === "firsttime" && (
+            <OnlinePurchaseHelpGuide
+              spumpPriceUsd={spumpPriceUsd}
+              fetchSolRateAction={fetchSolRate}
+              verifySignatureRequest={verifySignatureRequest}
+              submitCryptoTransfer={submitCryptoTransfer}
+            />
+          )}
+          {activeTab === "experienced" && (
+            <OnlinePurchase
+              spumpPriceUsd={spumpPriceUsd}
+              fetchSolRateAction={fetchSolRate}
+              verifySignatureRequest={verifySignatureRequest}
+              submitCryptoTransfer={submitCryptoTransfer}
+            />
+          )}
+        </div>
+      </Container>
     </div>
   );
 }

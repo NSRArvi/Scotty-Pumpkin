@@ -43,7 +43,8 @@ const SECTIONS = [
     subsections: [
       {
         title: "1. Data Controller",
-        content: "USFRANC LTD acts as the Data Controller for personal data processed within the Scotty Pumpkin Eco Market System.",
+        content:
+          "USFRANC LTD acts as the Data Controller for personal data processed within the Scotty Pumpkin Eco Market System.",
       },
       {
         title: "2. Categories of Personal Data",
@@ -66,16 +67,19 @@ const SECTIONS = [
       },
       {
         title: "4. International Transfers",
-        content: "Where data is transferred outside the EEA/UK, appropriate safeguards such as Standard Contractual Clauses (SCCs) are implemented.",
+        content:
+          "Where data is transferred outside the EEA/UK, appropriate safeguards such as Standard Contractual Clauses (SCCs) are implemented.",
       },
       {
         title: "5. Data Subject Rights",
-        content: "Users may request access, rectification, erasure, restriction, portability, or objection to processing by contacting: legal@scottypumpkin.com",
+        content:
+          "Users may request access, rectification, erasure, restriction, portability, or objection to processing by contacting: legal@scottypumpkin.com",
         isContact: true,
       },
       {
         title: "6. Data Security",
-        content: "Scotty Pumpkin implements encryption, access controls, and secure wallet integrations. Users remain responsible for safeguarding private keys.",
+        content:
+          "Scotty Pumpkin implements encryption, access controls, and secure wallet integrations. Users remain responsible for safeguarding private keys.",
       },
     ],
   },
@@ -92,15 +96,18 @@ const SECTIONS = [
     subsections: [
       {
         title: "1. Platform Nature",
-        content: "Scotty Pumpkin operates as a Web3 commerce infrastructure integrating ecommerce, marketplace, and social commerce functionalities.",
+        content:
+          "Scotty Pumpkin operates as a Web3 commerce infrastructure integrating ecommerce, marketplace, and social commerce functionalities.",
       },
       {
         title: "2. Utility Token Positioning",
-        content: "SPUMP functions exclusively as a utility payment token within the ecosystem. It does not represent securities, shares, or investment contracts.",
+        content:
+          "SPUMP functions exclusively as a utility payment token within the ecosystem. It does not represent securities, shares, or investment contracts.",
       },
       {
         title: "3. No Financial Rights",
-        content: "Token holders receive no ownership, dividend, governance, or profit-sharing rights.",
+        content:
+          "Token holders receive no ownership, dividend, governance, or profit-sharing rights.",
         isWarning: true,
       },
       {
@@ -126,19 +133,42 @@ const SECTIONS = [
     subsections: [
       {
         title: "1. Token Classification Statement",
-        content: "SPUMP is a utility token used within the Scotty Pumpkin Eco Market System. It does not grant equity, debt, revenue rights, or profit participation.",
+        content:
+          "SPUMP is a utility token used within the Scotty Pumpkin Eco Market System. It does not grant equity, debt, revenue rights, or profit participation.",
       },
       {
         title: "2. Revenue Allocation Disclosure",
-        intro: "After-tax inflows from first sales and 1% administrative fees are allocated as:",
+        intro:
+          "After-tax inflows from first sales and 1% administrative fees are allocated as:",
         allocation: [
-          { label: "Ecosystem Growth & Innovation", value: "60%", color: "rgba(245,158,11,0.9)" },
-          { label: "Operational reserves", value: "10%", color: "rgba(168,85,247,0.9)" },
-          { label: "Liquidity support", value: "10%", color: "rgba(99,102,241,0.9)" },
-          { label: "Operating expenses", value: "10%", color: "rgba(59,130,246,0.9)" },
-          { label: "Community welfare initiatives", value: "10%", color: "rgba(74,222,128,0.9)" },
+          {
+            label: "Ecosystem Growth & Innovation",
+            value: "60%",
+            color: "rgba(245,158,11,0.9)",
+          },
+          {
+            label: "Operational reserves",
+            value: "10%",
+            color: "rgba(168,85,247,0.9)",
+          },
+          {
+            label: "Liquidity support",
+            value: "10%",
+            color: "rgba(99,102,241,0.9)",
+          },
+          {
+            label: "Operating expenses",
+            value: "10%",
+            color: "rgba(59,130,246,0.9)",
+          },
+          {
+            label: "Community welfare initiatives",
+            value: "10%",
+            color: "rgba(74,222,128,0.9)",
+          },
         ],
-        footer: "These allocations remain property of the operating entity and do not create financial claims for token holders.",
+        footer:
+          "These allocations remain property of the operating entity and do not create financial claims for token holders.",
       },
       {
         title: "3. Risk Disclosure",
@@ -164,12 +194,14 @@ const SECTIONS = [
     subsections: [
       {
         title: "Web3 Payment & Escrow Clause",
-        content: "SPUMP may be used as a payment method within Bfinit, Sosay, and Scotty Marketplace. For marketplace transactions involving physical goods, escrow release occurs 48 hours after confirmed delivery unless a dispute is raised.",
+        content:
+          "SPUMP may be used as a payment method within Bfinit, Sosay, and Scotty Marketplace. For marketplace transactions involving physical goods, escrow release occurs 48 hours after confirmed delivery unless a dispute is raised.",
         highlight: "48-hour escrow release window after confirmed delivery.",
       },
       {
         title: "Platform Fee Ownership",
-        content: "All financial inflows generated from platform fees remain the exclusive property of the operating entity.",
+        content:
+          "All financial inflows generated from platform fees remain the exclusive property of the operating entity.",
         isWarning: true,
       },
     ],
@@ -183,22 +215,40 @@ export default function LegalPackPage() {
 
   return (
     <>
-      <section className="relative z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
+      <section className="relative bg-primary-bg z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
         <div className="max-w-5xl mx-auto space-y-10 md:space-y-14">
-
           {/* ── Hero ── */}
           <div className="sp-hero-card rounded-2xl p-8 md:p-10 text-center space-y-5">
-            <div style={{ animation: "sp-float 4s ease-in-out infinite" }} className="text-5xl md:text-6xl">⚖️</div>
+            <div
+              style={{ animation: "sp-float 4s ease-in-out infinite" }}
+              className="text-5xl md:text-6xl">
+              ⚖️
+            </div>
             <div className="space-y-2">
-              <p className="text-purple-300/70 text-xs font-bold uppercase tracking-widest">Scotty Pumpkin Eco Market System</p>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black sp-shimmer-heading">
+              <p className="text-secondary text-xs font-bold uppercase tracking-widest">
+                Scotty Pumpkin Eco Market System
+              </p>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-secondary">
                 Master Legal &amp; Compliance Pack
               </h1>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
-              <span className="sp-badge-amber text-xs font-semibold px-3 py-1 rounded-full">England &amp; Wales</span>
-              <span className="sp-badge-indigo text-xs font-semibold px-3 py-1 rounded-full">GDPR Enhanced</span>
-              <span className="sp-badge-green text-xs font-semibold px-3 py-1 rounded-full">AML Compliant</span>
+              <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
+                England &amp; Wales
+              </span>
+              <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
+                GDPR Enhanced
+              </span>
+              <span
+                className="text-xs font-semibold px-3 py-1 rounded-full"
+                style={{
+                  background: "rgba(255,255,255,1)",
+                  border: "1px solid rgba(241,112,5,0.15)",
+                  color: "#0f2027",
+                  backdropFilter: "blur(12px)",
+                }}>
+                AML Compliant
+              </span>
             </div>
           </div>
 
@@ -206,24 +256,39 @@ export default function LegalPackPage() {
           <div className="sp-entity-card rounded-2xl p-5 md:p-6 space-y-4">
             <div className="space-y-1">
               <p className="sp-entity-title">Legal Entity Structure</p>
-              <p className="text-white/55 text-sm">Principal entity, UK entity, and secure legal contact details.</p>
+              <p className="text-white/55 text-sm">
+                Principal entity, UK entity, and secure legal contact details.
+              </p>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-4">
               <div className="sp-entity-subcard space-y-3">
-                <p className="text-amber-300 text-xs font-bold uppercase tracking-widest">{LEGAL_ENTITIES.principal.title}</p>
-                <p className="text-white text-base font-bold">{LEGAL_ENTITIES.principal.name}</p>
+                <p className="text-amber-300 text-xs font-bold uppercase tracking-widest">
+                  {LEGAL_ENTITIES.principal.title}
+                </p>
+                <p className="text-white text-base font-bold">
+                  {LEGAL_ENTITIES.principal.name}
+                </p>
                 <p className="text-white/65 text-sm">
-                  <span className="font-semibold text-white/80">Registration No:</span> {LEGAL_ENTITIES.principal.registration}
+                  <span className="font-semibold text-white/80">
+                    Registration No:
+                  </span>{" "}
+                  {LEGAL_ENTITIES.principal.registration}
                 </p>
                 <div className="space-y-1">
-                  <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">Registered Address</p>
+                  <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">
+                    Registered Address
+                  </p>
                   {LEGAL_ENTITIES.principal.addressLines.map((line) => (
-                    <p key={line} className="text-white/75 text-sm">{line}</p>
+                    <p key={line} className="text-white/75 text-sm">
+                      {line}
+                    </p>
                   ))}
                 </div>
                 <div className="space-y-1">
-                  <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">Role</p>
+                  <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">
+                    Role
+                  </p>
                   <ul className="sp-entity-list list-disc pl-4">
                     {LEGAL_ENTITIES.principal.role.map((line) => (
                       <li key={line}>{line}</li>
@@ -233,23 +298,38 @@ export default function LegalPackPage() {
               </div>
 
               <div className="sp-entity-subcard space-y-3">
-                <p className="text-amber-300 text-xs font-bold uppercase tracking-widest">{LEGAL_ENTITIES.uk.title}</p>
-                <p className="text-white text-base font-bold">{LEGAL_ENTITIES.uk.name}</p>
+                <p className="text-amber-300 text-xs font-bold uppercase tracking-widest">
+                  {LEGAL_ENTITIES.uk.title}
+                </p>
+                <p className="text-white text-base font-bold">
+                  {LEGAL_ENTITIES.uk.name}
+                </p>
                 <p className="text-white/65 text-sm">
-                  <span className="font-semibold text-white/80">Registration No:</span> {LEGAL_ENTITIES.uk.registration}
+                  <span className="font-semibold text-white/80">
+                    Registration No:
+                  </span>{" "}
+                  {LEGAL_ENTITIES.uk.registration}
                 </p>
                 <div className="space-y-1">
-                  <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">Registered Address</p>
+                  <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">
+                    Registered Address
+                  </p>
                   {LEGAL_ENTITIES.uk.addressLines.map((line) => (
-                    <p key={line} className="text-white/75 text-sm">{line}</p>
+                    <p key={line} className="text-white/75 text-sm">
+                      {line}
+                    </p>
                   ))}
                 </div>
               </div>
             </div>
 
             <div className="sp-entity-subcard space-y-2">
-              <p className="text-amber-300 text-xs font-bold uppercase tracking-widest">Secure Contact Email</p>
-              <p className="text-purple-300 font-semibold text-sm md:text-base">{LEGAL_ENTITIES.contactEmail}</p>
+              <p className="text-amber-300 text-xs font-bold uppercase tracking-widest">
+                Secure Contact Email
+              </p>
+              <p className="text-purple-300 font-semibold text-sm md:text-base">
+                {LEGAL_ENTITIES.contactEmail}
+              </p>
             </div>
           </div>
 
@@ -261,15 +341,18 @@ export default function LegalPackPage() {
               <button
                 key={s.id}
                 onClick={() => setActiveSection(s.id)}
-                className={`sp-tab rounded-xl px-4 py-3.5 text-left ${activeSection === s.id ? "active" : ""}`}
-              >
+                className={`sp-tab rounded-xl px-4 py-3.5 text-left ${activeSection === s.id ? "active" : ""}`}>
                 <div
                   className="sp-tab-indicator"
-                  style={{ background: s.accentColor, opacity: activeSection === s.id ? 1 : 0 }}
+                  style={{
+                    background: s.accentColor,
+                    opacity: activeSection === s.id ? 1 : 0,
+                  }}
                 />
                 <p className="sp-sec-num text-white">{s.tag}</p>
                 <p className="text-lg mt-1">{s.icon}</p>
-                <p className={`text-sm font-bold mt-1 ${activeSection === s.id ? "text-white" : "text-white/55"}`}>
+                <p
+                  className={`text-sm font-bold mt-1 ${activeSection === s.id ? "text-white" : "text-white/55"}`}>
                   {s.title}
                 </p>
               </button>
@@ -281,14 +364,22 @@ export default function LegalPackPage() {
             <div
               key={current.id}
               className="sp-content-panel rounded-2xl p-6 md:p-8 space-y-5"
-              style={{ borderColor: current.accentBorder, boxShadow: `0 8px 40px rgba(0,0,0,0.35), 0 0 50px ${current.accentGlow}` }}
-            >
+              style={{
+                borderColor: current.accentBorder,
+                boxShadow: `0 8px 40px rgba(0,0,0,0.35), 0 0 50px ${current.accentGlow}`,
+              }}>
               {/* Panel header */}
               <div className="flex items-center gap-4 pb-2">
                 <span className="text-3xl">{current.icon}</span>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-widest" style={{ color: current.accentColor }}>{current.tag}</p>
-                  <h2 className="text-xl md:text-2xl font-black text-white">{current.title}</h2>
+                  <p
+                    className="text-xs font-bold uppercase tracking-widest"
+                    style={{ color: current.accentColor }}>
+                    {current.tag}
+                  </p>
+                  <h2 className="text-xl md:text-2xl font-black text-white">
+                    {current.title}
+                  </h2>
                   <p className="text-white/45 text-sm">{current.subtitle}</p>
                 </div>
               </div>
@@ -298,30 +389,46 @@ export default function LegalPackPage() {
               {/* Sub-sections */}
               <div className="space-y-4">
                 {current.subsections.map((sub, i) => {
-                  const cardClass = sub.isWarning ? "sp-sub-card warn" : sub.isRisk ? "sp-sub-card risk" : "sp-sub-card";
+                  const cardClass = sub.isWarning
+                    ? "sp-sub-card warn"
+                    : sub.isRisk
+                      ? "sp-sub-card risk"
+                      : "sp-sub-card";
                   return (
                     <div key={i} className={cardClass}>
-                      <h3 className="font-bold text-white/90 text-sm md:text-base mb-3" style={{ color: "rgba(255,255,255,0.9)" }}>
+                      <h3
+                        className="font-bold text-white/90 text-sm md:text-base mb-3"
+                        style={{ color: "rgba(255,255,255,0.9)" }}>
                         {sub.title}
                       </h3>
 
                       {/* Intro text */}
                       {sub.intro && (
-                        <p className="text-white/60 text-xs mb-3 italic">{sub.intro}</p>
+                        <p className="text-white/60 text-xs mb-3 italic">
+                          {sub.intro}
+                        </p>
                       )}
 
                       {/* Paragraph */}
                       {sub.content && (
-                        <p className={`text-sm md:text-base leading-relaxed ${sub.isWarning ? "text-red-300/80" : sub.isContact ? "text-purple-300" : "text-white/70"}`}>
+                        <p
+                          className={`text-sm md:text-base leading-relaxed ${sub.isWarning ? "text-red-300/80" : sub.isContact ? "text-purple-300" : "text-white/70"}`}>
                           {sub.content}
                         </p>
                       )}
 
                       {/* Highlight callout */}
                       {sub.highlight && (
-                        <div className="mt-3 flex items-center gap-2 rounded-xl px-4 py-2.5" style={{ background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.2)" }}>
+                        <div
+                          className="mt-3 flex items-center gap-2 rounded-xl px-4 py-2.5"
+                          style={{
+                            background: "rgba(245,158,11,0.08)",
+                            border: "1px solid rgba(245,158,11,0.2)",
+                          }}>
                           <span className="text-amber-400 shrink-0">⏱️</span>
-                          <p className="text-amber-300 text-sm font-semibold">{sub.highlight}</p>
+                          <p className="text-amber-300 text-sm font-semibold">
+                            {sub.highlight}
+                          </p>
                         </div>
                       )}
 
@@ -329,11 +436,14 @@ export default function LegalPackPage() {
                       {sub.items && (
                         <div className="space-y-2 mt-1">
                           {sub.items.map((item, ii) => (
-                            <p key={ii} className="flex items-start gap-2 text-white/75 text-sm md:text-base">
-                              {sub.isRisk
-                                ? <span className="sp-risk-icon mt-0.5">⚠</span>
-                                : <span className="sp-check mt-0.5">✓</span>
-                              }
+                            <p
+                              key={ii}
+                              className="flex items-start gap-2 text-white/75 text-sm md:text-base">
+                              {sub.isRisk ? (
+                                <span className="sp-risk-icon mt-0.5">⚠</span>
+                              ) : (
+                                <span className="sp-check mt-0.5">✓</span>
+                              )}
                               {item}
                             </p>
                           ))}
@@ -346,13 +456,23 @@ export default function LegalPackPage() {
                           {sub.allocation.map((row, ri) => (
                             <div key={ri} className="space-y-1.5">
                               <div className="flex justify-between items-center">
-                                <span className="text-white/65 text-xs md:text-sm">{row.label}</span>
-                                <span className="font-black text-sm" style={{ color: row.color }}>{row.value}</span>
+                                <span className="text-white/65 text-xs md:text-sm">
+                                  {row.label}
+                                </span>
+                                <span
+                                  className="font-black text-sm"
+                                  style={{ color: row.color }}>
+                                  {row.value}
+                                </span>
                               </div>
                               <div className="sp-bar-track">
                                 <div
                                   className="sp-bar-fill"
-                                  style={{ "--bar-w": row.value, width: row.value, background: row.color }}
+                                  style={{
+                                    "--bar-w": row.value,
+                                    width: row.value,
+                                    background: row.color,
+                                  }}
                                 />
                               </div>
                             </div>
@@ -362,7 +482,9 @@ export default function LegalPackPage() {
 
                       {/* Sub-footer */}
                       {sub.footer && (
-                        <p className="text-white/35 text-xs italic mt-3">{sub.footer}</p>
+                        <p className="text-white/35 text-xs italic mt-3">
+                          {sub.footer}
+                        </p>
                       )}
                     </div>
                   );
@@ -377,13 +499,15 @@ export default function LegalPackPage() {
           <div className="sp-footer-note rounded-2xl p-6 text-center space-y-2">
             <p className="text-white/50 text-sm">
               For legal enquiries contact{" "}
-              <span className="text-purple-300 font-medium">usfranc@bobosohomail.com</span>
+              <span className="text-purple-300 font-medium">
+                usfranc@bobosohomail.com
+              </span>
             </p>
             <p className="text-white/30 text-xs">
-              Scotty Pumpkin Ltd — Governing Law: England &amp; Wales — Effective Date: February 26, 2026
+              Scotty Pumpkin Ltd — Governing Law: England &amp; Wales —
+              Effective Date: February 26, 2026
             </p>
           </div>
-
         </div>
       </section>
     </>

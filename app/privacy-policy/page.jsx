@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Container from "../components/shared/Container";
 
 const SECTIONS = [
   {
@@ -119,133 +120,169 @@ export default function PrivacyPolicyPage() {
 
   return (
     <>
-      <section className="relative z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
-        <div className="max-w-4xl mx-auto space-y-10 md:space-y-14">
+      <section className="bg-primary-bg relative z-10 py-12 md:py-16 lg:py-24">
+        <Container>
+          <div className="max-w-5xl mx-auto space-y-10 md:space-y-14">
+            {/* ── Hero ── */}
+            <div className="bg-white/80 rounded-2xl p-8 md:p-10 text-center space-y-4">
+              <div
+                style={{ animation: "sp-float 4s ease-in-out infinite" }}
+                className="text-5xl md:text-6xl">
+                🎃
+              </div>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-secondary">
+                Privacy Policy
+              </h1>
+              <p className="text-secondary/80 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+                How{" "}
+                <span className="font-bold text-secondary">Scotty Pumpkin</span>{" "}
+                collects, uses, and protects your data across our ecosystem.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
+                  Effective Date: February 26, 2026
+                </span>
+                <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
+                  Last Updated: February 26, 2026
+                </span>
+                <span
+                  className="text-xs font-semibold px-3 py-1 rounded-full"
+                  style={{
+                    background: "rgba(255,255,255,1)",
+                    border: "1px solid rgba(241,112,5,0.15)",
+                    color: "#0f2027",
+                    backdropFilter: "blur(12px)",
+                  }}>
+                  GDPR &amp; UK GDPR Compliant
+                </span>
+              </div>
+            </div>
 
-          {/* ── Hero ── */}
-          <div className="sp-hero-card rounded-2xl p-8 md:p-10 text-center space-y-4">
-            <div style={{ animation: "sp-float 4s ease-in-out infinite" }} className="text-5xl md:text-6xl">🎃</div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black sp-shimmer-heading">
-              Privacy Policy
-            </h1>
-            <p className="text-purple-200 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
-              How <span className="font-bold text-white">Scotty Pumpkin</span> collects, uses, and protects your data across our ecosystem.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <span className="sp-badge text-xs font-semibold px-3 py-1 rounded-full">
-                Effective Date: February 26, 2026
-              </span>
-              <span className="sp-badge text-xs font-semibold px-3 py-1 rounded-full">
-                Last Updated: February 26, 2026
-              </span>
-              <span className="text-xs font-semibold px-3 py-1 rounded-full" style={{ background: "rgba(99,102,241,0.15)", border: "1px solid rgba(99,102,241,0.3)", color: "#a5b4fc" }}>
-                GDPR &amp; UK GDPR Compliant
-              </span>
+            <div className="sp-divider" />
+
+            {/* ── Sections ── */}
+            <div className="space-y-4">
+              {SECTIONS.map((section) => {
+                const isOpen = activeSection === section.number;
+                return (
+                  <div
+                    key={section.number}
+                    id={`section-${section.number}`}
+                    className={`sp-section-card rounded-2xl overflow-hidden ${isOpen ? "active" : ""}`}
+                    onClick={() =>
+                      setActiveSection(isOpen ? null : section.number)
+                    }>
+                    {/* Header */}
+                    <div className="flex items-center gap-4 px-6 py-5 md:px-8">
+                      <div className="shrink-0">
+                        <div className="sp-number w-11 h-11 rounded-xl flex items-center justify-center">
+                          <span className="text-secondary font-black text-base">
+                            {section.number}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <span className="text-xl">{section.icon}</span>
+                        <h2 className="text-base md:text-lg font-bold text-secondary/80 truncate">
+                          {section.title}
+                        </h2>
+                      </div>
+                      <svg
+                        className={`sp-chevron shrink-0 w-5 h-5 text-purple-400 ${isOpen ? "open" : ""}`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}>
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
+
+                    {/* Body */}
+                    {isOpen && (
+                      <div className="sp-section-body px-6 pb-6 md:px-8 md:pb-7 space-y-4 border-t border-white/6">
+                        <div className="h-1" />
+
+                        {/* Paragraph content */}
+                        {"content" in section && section.content && (
+                          <p className="text-secondary/80 text-sm md:text-base leading-relaxed">
+                            {section.content}
+                          </p>
+                        )}
+
+                        {/* Simple item list */}
+                        {"items" in section && section.items && (
+                          <div className="space-y-2">
+                            {section.items.map((item, i) => (
+                              <p
+                                key={i}
+                                className="flex items-start gap-2 text-secondary/80 text-sm md:text-base">
+                                <span className="sp-check mt-0.5">✓</span>
+                                {item}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Subsections */}
+                        {"subsections" in section && section.subsections && (
+                          <div className="space-y-3">
+                            {section.subsections.map((sub, si) => (
+                              <div
+                                key={si}
+                                className="sp-subsection rounded-xl p-4 space-y-2">
+                                <p className="text-primary text-sm font-bold">
+                                  {sub.label}
+                                </p>
+                                <div className="space-y-1.5">
+                                  {sub.items.map((item, ii) => (
+                                    <p
+                                      key={ii}
+                                      className="flex items-start gap-2 text-secondary/80 text-sm">
+                                      <span className="sp-check mt-0.5">✓</span>
+                                      {item}
+                                    </p>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Footer note */}
+                        {"footer" in section && section.footer && (
+                          <p className="text-white/45 text-xs italic mt-2">
+                            {section.footer}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="sp-divider" />
+
+            {/* ── Footer note ── */}
+            <div className="sp-footer-note rounded-2xl p-6 text-center space-y-2">
+              <p className="text-secondary/80 text-sm leading-relaxed">
+                For privacy inquiries, contact us at{" "}
+                <span className="text-secondary font-medium">
+                  support@scottypumpkin.com
+                </span>
+                .
+              </p>
+              <p className="text-secondary text-xs">
+                Scotty Pumpkin — Utility payment token used exclusively within
+                the Scotty Pumpkin platform.
+              </p>
             </div>
           </div>
-
-          <div className="sp-divider" />
-
-          {/* ── Sections ── */}
-          <div className="space-y-4">
-            {SECTIONS.map((section) => {
-              const isOpen = activeSection === section.number;
-              return (
-                <div
-                  key={section.number}
-                  id={`section-${section.number}`}
-                  className={`sp-section-card rounded-2xl overflow-hidden ${isOpen ? "active" : ""}`}
-                  onClick={() => setActiveSection(isOpen ? null : section.number)}
-                >
-                  {/* Header */}
-                  <div className="flex items-center gap-4 px-6 py-5 md:px-8">
-                    <div className="shrink-0">
-                      <div className="sp-number w-11 h-11 rounded-xl flex items-center justify-center">
-                        <span className="text-purple-300 font-black text-base">{section.number}</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <span className="text-xl">{section.icon}</span>
-                      <h2 className="text-base md:text-lg font-bold text-white truncate">
-                        {section.title}
-                      </h2>
-                    </div>
-                    <svg
-                      className={`sp-chevron shrink-0 w-5 h-5 text-purple-400 ${isOpen ? "open" : ""}`}
-                      fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-
-                  {/* Body */}
-                  {isOpen && (
-                    <div className="sp-section-body px-6 pb-6 md:px-8 md:pb-7 space-y-4 border-t border-white/6">
-                      <div className="h-1" />
-
-                      {/* Paragraph content */}
-                      {"content" in section && section.content && (
-                        <p className="text-white/75 text-sm md:text-base leading-relaxed">
-                          {section.content}
-                        </p>
-                      )}
-
-                      {/* Simple item list */}
-                      {"items" in section && section.items && (
-                        <div className="space-y-2">
-                          {section.items.map((item, i) => (
-                            <p key={i} className="flex items-start gap-2 text-white/80 text-sm md:text-base">
-                              <span className="sp-check mt-0.5">✓</span>
-                              {item}
-                            </p>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Subsections */}
-                      {"subsections" in section && section.subsections && (
-                        <div className="space-y-3">
-                          {section.subsections.map((sub, si) => (
-                            <div key={si} className="sp-subsection rounded-xl p-4 space-y-2">
-                              <p className="text-amber-400 text-sm font-bold">{sub.label}</p>
-                              <div className="space-y-1.5">
-                                {sub.items.map((item, ii) => (
-                                  <p key={ii} className="flex items-start gap-2 text-white/75 text-sm">
-                                    <span className="sp-check mt-0.5">✓</span>
-                                    {item}
-                                  </p>
-                                ))}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Footer note */}
-                      {"footer" in section && section.footer && (
-                        <p className="text-white/45 text-xs italic mt-2">{section.footer}</p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="sp-divider" />
-
-          {/* ── Footer note ── */}
-          <div className="sp-footer-note rounded-2xl p-6 text-center space-y-2">
-            <p className="text-white/50 text-sm leading-relaxed">
-              For privacy inquiries, contact us at{" "}
-              <span className="text-purple-300 font-medium">support@scottypumpkin.com</span>.
-            </p>
-            <p className="text-white/30 text-xs">
-              Scotty Pumpkin — Utility payment token used exclusively within the Scotty Pumpkin platform.
-            </p>
-          </div>
-
-        </div>
+        </Container>
       </section>
     </>
   );

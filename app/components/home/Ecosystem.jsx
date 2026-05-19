@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from "react";
 import EcosystemImage from "@/public/assets/eco sys (1).png";
+import EcoSystemImg from "@/public/assets/eco_system.png";
 import Image from "next/image";
 
 export default function Ecosystem() {
@@ -16,15 +17,15 @@ export default function Ecosystem() {
     const rect = cardRef.current.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
-    const dx = (e.clientX - cx) / (rect.width / 2);   // -1 to 1
-    const dy = (e.clientY - cy) / (rect.height / 2);  // -1 to 1
+    const dx = (e.clientX - cx) / (rect.width / 2); // -1 to 1
+    const dy = (e.clientY - cy) / (rect.height / 2); // -1 to 1
 
     const glowX = ((e.clientX - rect.left) / rect.width) * 100;
     const glowY = ((e.clientY - rect.top) / rect.height) * 100;
 
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(() => {
-      setTilt({ x: dy * -7, y: dx * 7 });  // max 7deg tilt
+      setTilt({ x: dy * -7, y: dx * 7 }); // max 7deg tilt
       setGlowPos({ x: glowX, y: glowY });
     });
   }
@@ -35,16 +36,49 @@ export default function Ecosystem() {
     setGlowPos({ x: 50, y: 50 });
   }
 
-  // Floating orb positions — deterministic
   const orbs = [
-    { size: 180, left: '8%',  top: '15%',  color: 'rgba(168,85,247,0.18)',  dur: '6s',  delay: '0s'   },
-    { size: 120, left: '75%', top: '10%',  color: 'rgba(99,102,241,0.16)',  dur: '8s',  delay: '1.5s' },
-    { size: 90,  left: '85%', top: '65%',  color: 'rgba(236,72,153,0.14)',  dur: '7s',  delay: '0.8s' },
-    { size: 140, left: '5%',  top: '60%',  color: 'rgba(245,158,11,0.14)',  dur: '9s',  delay: '2s'   },
-    { size: 70,  left: '50%', top: '80%',  color: 'rgba(16,185,129,0.16)',  dur: '5s',  delay: '1s'   },
+    {
+      size: 180,
+      left: "8%",
+      top: "15%",
+      color: "rgba(168,85,247,0.18)",
+      dur: "6s",
+      delay: "0s",
+    },
+    {
+      size: 120,
+      left: "75%",
+      top: "10%",
+      color: "rgba(99,102,241,0.16)",
+      dur: "8s",
+      delay: "1.5s",
+    },
+    {
+      size: 90,
+      left: "85%",
+      top: "65%",
+      color: "rgba(236,72,153,0.14)",
+      dur: "7s",
+      delay: "0.8s",
+    },
+    {
+      size: 140,
+      left: "5%",
+      top: "60%",
+      color: "rgba(245,158,11,0.14)",
+      dur: "9s",
+      delay: "2s",
+    },
+    {
+      size: 70,
+      left: "50%",
+      top: "80%",
+      color: "rgba(16,185,129,0.16)",
+      dur: "5s",
+      delay: "1s",
+    },
   ];
 
-  // Particle ring dots
   const particles = Array.from({ length: 16 }, (_, i) => i);
 
   return (
@@ -118,21 +152,23 @@ export default function Ecosystem() {
 
       <section className="relative z-10 px-4 py-16 md:py-24 lg:py-32 lg:px-16">
         <div className="max-w-7xl mx-auto">
-
           {/* Heading */}
           <div className="text-center mb-12 md:mb-16 lg:mb-20">
             <div className="flex items-center justify-center gap-2 md:gap-3 mb-4">
-              <span className="text-3xl md:text-4xl lg:text-5xl" style={{ animation: 'eco-float 4s ease-in-out infinite' }}>🌍</span>
-              <h2 className="eco-shimmer-text text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold">
+              <span
+                className="text-3xl md:text-4xl lg:text-5xl"
+                style={{ animation: "eco-float 4s ease-in-out infinite" }}>
+                🌍
+              </span>
+              <h2 className=" text-secondary text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black">
                 Our Eco-Cycle
               </h2>
             </div>
           </div>
 
-          {/* === Image Card with all effects === */}
-          <div
+          {/* <div
             ref={cardRef}
-            className={`eco-card relative rounded-2xl cursor-pointer select-none ${isHovered ? 'tilting' : ''}`}
+            className={`eco-card relative rounded-2xl cursor-pointer select-none ${isHovered ? "tilting" : ""}`}
             style={{
               transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
               boxShadow: isHovered
@@ -141,37 +177,33 @@ export default function Ecosystem() {
             }}
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={handleMouseLeave}
-          >
-            {/* Outer pulse ring — always animating */}
+            onMouseLeave={handleMouseLeave}>
             <div
               className="absolute rounded-2xl pointer-events-none"
               style={{
-                inset: '-3px',
-                border: '1.5px solid rgba(168,85,247,0.4)',
-                borderRadius: '18px',
-                animation: 'eco-pulse-ring 3s ease-in-out infinite',
+                inset: "-3px",
+                border: "1.5px solid rgba(168,85,247,0.4)",
+                borderRadius: "18px",
+                animation: "eco-pulse-ring 3s ease-in-out infinite",
               }}
             />
             <div
               className="absolute rounded-2xl pointer-events-none"
               style={{
-                inset: '-7px',
-                border: '1px solid rgba(168,85,247,0.18)',
-                borderRadius: '22px',
-                animation: 'eco-pulse-ring 3s ease-in-out infinite',
-                animationDelay: '1.5s',
+                inset: "-7px",
+                border: "1px solid rgba(168,85,247,0.18)",
+                borderRadius: "22px",
+                animation: "eco-pulse-ring 3s ease-in-out infinite",
+                animationDelay: "1.5s",
               }}
             />
 
-            {/* Rotating particle ring — always on */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
-                borderRadius: '18px',
-                animation: 'eco-spin-slow 18s linear infinite',
-              }}
-            >
+                borderRadius: "18px",
+                animation: "eco-spin-slow 18s linear infinite",
+              }}>
               {particles.map((_, i) => {
                 const angle = (i / particles.length) * 360;
                 return (
@@ -179,49 +211,53 @@ export default function Ecosystem() {
                     key={i}
                     className="absolute w-1.5 h-1.5 rounded-full"
                     style={{
-                      background: i % 3 === 0 ? '#a78bfa' : i % 3 === 1 ? '#f472b6' : '#fbbf24',
-                      top: '50%',
-                      left: '50%',
+                      background:
+                        i % 3 === 0
+                          ? "#a78bfa"
+                          : i % 3 === 1
+                            ? "#f472b6"
+                            : "#fbbf24",
+                      top: "50%",
+                      left: "50%",
                       transform: `rotate(${angle}deg) translateX(calc(50% + 12px)) translateY(-50%)`,
-                      transformOrigin: 'left center',
+                      transformOrigin: "left center",
                       animation: `eco-particle ${1.5 + (i % 4) * 0.4}s ease-in-out infinite`,
                       animationDelay: `${i * 0.12}s`,
-                      filter: 'blur(0.5px)',
+                      filter: "blur(0.5px)",
                     }}
                   />
                 );
               })}
             </div>
 
-            {/* Counter-rotating inner particle ring */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
-                borderRadius: '18px',
-                animation: 'eco-spin-rev 25s linear infinite',
-              }}
-            >
-              {particles.filter((_, i) => i % 2 === 0).map((_, i) => {
-                const angle = (i / 8) * 360 + 22.5;
-                return (
-                  <div
-                    key={i}
-                    className="absolute w-1 h-1 rounded-full"
-                    style={{
-                      background: '#34d399',
-                      top: '50%',
-                      left: '50%',
-                      transform: `rotate(${angle}deg) translateX(calc(50% + 22px)) translateY(-50%)`,
-                      transformOrigin: 'left center',
-                      animation: `eco-particle 2s ease-in-out infinite`,
-                      animationDelay: `${i * 0.2}s`,
-                    }}
-                  />
-                );
-              })}
+                borderRadius: "18px",
+                animation: "eco-spin-rev 25s linear infinite",
+              }}>
+              {particles
+                .filter((_, i) => i % 2 === 0)
+                .map((_, i) => {
+                  const angle = (i / 8) * 360 + 22.5;
+                  return (
+                    <div
+                      key={i}
+                      className="absolute w-1 h-1 rounded-full"
+                      style={{
+                        background: "#34d399",
+                        top: "50%",
+                        left: "50%",
+                        transform: `rotate(${angle}deg) translateX(calc(50% + 22px)) translateY(-50%)`,
+                        transformOrigin: "left center",
+                        animation: `eco-particle 2s ease-in-out infinite`,
+                        animationDelay: `${i * 0.2}s`,
+                      }}
+                    />
+                  );
+                })}
             </div>
 
-            {/* Floating ambient orbs — always animating */}
             {orbs.map((orb, i) => (
               <div
                 key={i}
@@ -232,18 +268,20 @@ export default function Ecosystem() {
                   left: orb.left,
                   top: orb.top,
                   background: `radial-gradient(circle, ${orb.color}, transparent 70%)`,
-                  filter: 'blur(24px)',
+                  filter: "blur(24px)",
                   animation: `eco-float ${orb.dur} ease-in-out infinite`,
                   animationDelay: orb.delay,
-                  transform: 'translateZ(0)',
+                  transform: "translateZ(0)",
                 }}
               />
             ))}
 
-            {/* The image */}
-            <div className="relative w-full overflow-hidden rounded-2xl" style={{ zIndex: 2 }}>
+            <div
+              className="relative w-full overflow-hidden rounded-2xl"
+              style={{ zIndex: 2 }}>
               <Image
-                src={EcosystemImage}
+                // src={EcosystemImage}
+                src={EcoSystemImg}
                 alt="Ecosystem Diagram"
                 className="eco-img w-full h-full rounded-2xl"
                 style={{
@@ -252,12 +290,11 @@ export default function Ecosystem() {
                     translateX(${tilt.y * 0.4}px)
                     translateY(${tilt.x * 0.4}px)
                   `,
-                  display: 'block',
+                  display: "block",
                 }}
                 priority
               />
 
-              {/* Mouse-tracking spotlight glow overlay */}
               <div
                 className="eco-glow-layer absolute inset-0 rounded-2xl"
                 style={{
@@ -266,48 +303,67 @@ export default function Ecosystem() {
                 }}
               />
 
-              {/* Hover edge vignette that pulses */}
               <div
                 className="absolute inset-0 rounded-2xl pointer-events-none"
                 style={{
-                  boxShadow: 'inset 0 0 60px rgba(139,92,246,0.25)',
+                  boxShadow: "inset 0 0 60px rgba(139,92,246,0.25)",
                   opacity: isHovered ? 1 : 0.4,
-                  transition: 'opacity 0.4s ease',
-                  animation: 'eco-pulse-ring 3s ease-in-out infinite',
+                  transition: "opacity 0.4s ease",
+                  animation: "eco-pulse-ring 3s ease-in-out infinite",
                 }}
               />
             </div>
 
-            {/* Scan-line shimmer overlay — always slow crawl */}
             <div
               className="absolute inset-0 pointer-events-none rounded-2xl overflow-hidden"
-              style={{ zIndex: 3 }}
-            >
+              style={{ zIndex: 3 }}>
               <div
                 style={{
-                  position: 'absolute',
-                  top: 0, left: 0, right: 0,
-                  height: '3px',
-                  background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.6), rgba(251,191,36,0.6), transparent)',
-                  filter: 'blur(1px)',
-                  animation: 'eco-shimmer 3s linear infinite',
-                  backgroundSize: '200% auto',
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: "3px",
+                  background:
+                    "linear-gradient(90deg, transparent, rgba(168,85,247,0.6), rgba(251,191,36,0.6), transparent)",
+                  filter: "blur(1px)",
+                  animation: "eco-shimmer 3s linear infinite",
+                  backgroundSize: "200% auto",
                 }}
               />
             </div>
+          </div> */}
+
+          <div
+            className="relative w-full overflow-hidden rounded-2xl"
+            style={{ zIndex: 2 }}>
+            <Image
+              // src={EcosystemImage}
+              src={EcoSystemImg}
+              alt="Ecosystem Diagram"
+              className="eco-img w-full h-full rounded-2xl"
+              style={{
+                transform: `
+                    scale(${isHovered ? 1.025 : 1})
+                    translateX(${tilt.y * 0.4}px)
+                    translateY(${tilt.x * 0.4}px)
+                  `,
+                display: "block",
+              }}
+              priority
+            />
           </div>
 
           {/* Bottom Text */}
           <div className="text-center mt-12 md:mt-16 lg:mt-24 space-y-3 md:space-y-4 px-4">
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold text-secondary">
               A self-sustained creator economy.
             </p>
-            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold">
-              No investors.{' '}
-              <span className="eco-green-text text-green-400">No middlemen.</span>
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-secondary">
+              No investors.{" "}
+              <span className="eco-green-text text-primary">No middlemen.</span>
             </p>
           </div>
-
         </div>
       </section>
     </>

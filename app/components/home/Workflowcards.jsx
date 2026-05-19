@@ -1,50 +1,54 @@
-import Image from 'next/image';
+import Image from "next/image";
 import createImg from "@/public/assets/features/create.png";
 import brandImg from "@/public/assets/features/brand.png";
 import storeImg from "@/public/assets/features/store.png";
 import paidImg from "@/public/assets/features/paid.png";
+import Container from "../shared/Container";
 
 const cards = [
   {
-    title: 'Create',
-    gradient: 'from-purple-500/60 via-indigo-500/40 to-purple-600/60',
-    glowColor: 'rgba(168,85,247,0.5)',
+    title: "Create",
+    gradient: "from-purple-500/60 via-indigo-500/40 to-purple-600/60",
+    glowColor: "rgba(168,85,247,0.5)",
     description: [
-      { text: 'Create NFTs, digital art, or physical creations', highlight: true },
-      { text: 'Fashion, jewelry, accessories, art & more', highlight: false },
+      {
+        text: "Create NFTs, digital art, or physical creations",
+        highlight: true,
+      },
+      { text: "Fashion, jewelry, accessories, art & more", highlight: false },
     ],
     image: createImg,
   },
   {
-    title: 'Brand',
-    gradient: 'from-pink-500/60 via-purple-500/40 to-pink-600/60',
-    glowColor: 'rgba(236,72,153,0.5)',
+    title: "Brand",
+    gradient: "from-pink-500/60 via-purple-500/40 to-pink-600/60",
+    glowColor: "rgba(236,72,153,0.5)",
     description: [
-      { text: 'Brand your artist name or fashion label', highlight: true },
-      { text: 'Create collections & limited editions', highlight: false },
+      { text: "Brand your artist name or fashion label", highlight: true },
+      { text: "Create collections & limited editions", highlight: false },
     ],
     image: brandImg,
   },
   {
-    title: 'Your Web3 Store',
-    gradient: 'from-indigo-500/60 via-blue-500/40 to-indigo-600/60',
-    glowColor: 'rgba(99,102,241,0.5)',
+    title: "Your Web3 Store",
+    gradient: "from-indigo-500/60 via-blue-500/40 to-indigo-600/60",
+    glowColor: "rgba(99,102,241,0.5)",
     description: [
-      { text: 'Your own Web3 shop', highlight: true },
-      { text: 'Sell goods, fashion items and content', highlight: false },
+      { text: "Your own Web3 shop", highlight: true },
+      { text: "Sell goods, fashion items and content", highlight: false },
     ],
     image: storeImg,
   },
   {
-    title: 'Get Paid',
-    subtitle: 'with Scotty ⭐',
-    gradient: 'from-amber-500/60 via-yellow-500/40 to-amber-600/60',
-    glowColor: 'rgba(245,158,11,0.5)',
+    title: "Get Paid",
+    subtitle: "with Scotty ⭐",
+    gradient: "from-amber-500/60 via-yellow-500/40 to-amber-600/60",
+    glowColor: "rgba(245,158,11,0.5)",
     description: [
-      { text: 'Use Scotty (SPUMP) to:', highlight: true },
-      { text: '✓ Accept payments', highlight: false },
-      { text: '✓ Pay creators', highlight: false },
-      { text: '✓ Buy & sell on the marketplace', highlight: false },
+      { text: "Use Scotty (SPUMP) to:", highlight: true },
+      { text: "✓ Accept payments", highlight: false },
+      { text: "✓ Pay creators", highlight: false },
+      { text: "✓ Buy & sell on the marketplace", highlight: false },
     ],
     image: paidImg,
   },
@@ -59,14 +63,14 @@ export default function WorkflowCards() {
           border-radius: 20px;
           /* glass base */
           background: rgba(255, 255, 255, 0.04);
-          backdrop-filter: blur(18px);
-          -webkit-backdrop-filter: blur(18px);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          // backdrop-filter: blur(18px);
+          // -webkit-backdrop-filter: blur(18px);
+          border: 1px solid rgb(241, 112, 5);
           overflow: hidden;
           transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
                       box-shadow 0.35s ease,
                       border-color 0.35s ease;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35),
+          box-shadow: 0 8px 32px rgba(241, 112, 5, 0.3),
                       inset 0 1px 0 rgba(255,255,255,0.07);
         }
 
@@ -118,7 +122,7 @@ export default function WorkflowCards() {
           background: linear-gradient(
             to bottom,
             transparent 40%,
-            rgba(10, 5, 30, 0.65) 100%
+            rgb(15, 32, 39, 0) 100%
           );
         }
 
@@ -208,70 +212,80 @@ export default function WorkflowCards() {
         }
       `}</style>
 
-      <section className="relative z-10 px-4 py-12 md:py-16 lg:px-16">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
-            {cards.map((card, index) => (
-              <div
-                key={index}
-                className="wf-card"
-                style={{
-                  '--card-gradient': `linear-gradient(135deg, ${card.gradient.replace(/from-|via-|to-|\//g, '').split(' ').join(', ')})`,
-                  '--card-glow': card.glowColor,
-                  // We compute the gradient string properly below
-                }}
-              >
-                {/* Gradient border pseudo override via inline style */}
-                <style>{`
+      <Container>
+        <section className="relative z-10 py-12 md:py-16">
+          <div className="">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+              {cards.map((card, index) => (
+                <div
+                  key={index}
+                  className="wf-card"
+                  style={{
+                    "--card-gradient": `linear-gradient(135deg, ${card.gradient
+                      .replace(/from-|via-|to-|\//g, "")
+                      .split(" ")
+                      .join(", ")})`,
+                    "--card-glow": card.glowColor,
+                    // We compute the gradient string properly below
+                  }}>
+                  {/* Gradient border pseudo override via inline style */}
+                  <style>{`
                   .wf-card:nth-child(${index + 1})::before {
                     background: linear-gradient(135deg, ${
-                      index === 0 ? 'rgba(168,85,247,0.9), rgba(99,102,241,0.9), rgba(168,85,247,0.9)' :
-                      index === 1 ? 'rgba(236,72,153,0.9), rgba(168,85,247,0.9), rgba(236,72,153,0.9)' :
-                      index === 2 ? 'rgba(99,102,241,0.9), rgba(59,130,246,0.9), rgba(99,102,241,0.9)' :
-                                   'rgba(245,158,11,0.9), rgba(234,179,8,0.9), rgba(245,158,11,0.9)'
+                      index === 0
+                        ? "rgba(168,85,247,0.9), rgba(99,102,241,0.9), rgba(168,85,247,0.9)"
+                        : index === 1
+                          ? "rgba(236,72,153,0.9), rgba(168,85,247,0.9), rgba(236,72,153,0.9)"
+                          : index === 2
+                            ? "rgba(99,102,241,0.9), rgba(59,130,246,0.9), rgba(99,102,241,0.9)"
+                            : "rgba(245,158,11,0.9), rgba(234,179,8,0.9), rgba(245,158,11,0.9)"
                     });
                   }
                 `}</style>
 
-                {/* Full-width image */}
-                <div className="wf-img-wrap">
-                  <Image
-                    src={card.image}
-                    alt={card.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    className="object-cover"
-                    style={{ objectFit: 'cover' }}
-                  />
-                </div>
+                  {/* Full-width image */}
+                  <div className="wf-img-wrap">
+                    <Image
+                      src={card.image}
+                      alt={card.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover"
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
 
-                {/* Content */}
-                <div className="wf-body">
-                  <h3 className="wf-title">
-                    {card.title}
-                    {card.subtitle && (
-                      <span className="wf-subtitle">{card.subtitle}</span>
-                    )}
-                  </h3>
+                  {/* Content */}
+                  <div className="wf-body">
+                    <h3 className="text-secondary font-bold text-lg leading-tight">
+                      {card.title}
+                      {card.subtitle && (
+                        <span className="font-semibold text-secondary text-base block">
+                          {card.subtitle}
+                        </span>
+                      )}
+                    </h3>
 
-                  <div className="wf-divider" />
+                    <div className="wf-divider" />
 
-                  <div className="space-y-1">
-                    {card.description.map((line, lineIndex) => (
-                      <p
-                        key={lineIndex}
-                        className={line.highlight ? 'wf-desc-highlight' : 'wf-desc-normal'}
-                      >
-                        {line.text}
-                      </p>
-                    ))}
+                    <div className="space-y-1">
+                      {card.description.map((line, lineIndex) => (
+                        <p
+                          key={lineIndex}
+                          className={`font-semibold text-sm text-secondary/80
+                          
+                        `}>
+                          {line.text}
+                        </p>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </Container>
     </>
   );
 }

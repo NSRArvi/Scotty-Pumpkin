@@ -31,7 +31,8 @@ export default function OnlinePurchaseHelpGuide({
   const [walletAddress, setWalletAddress] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const effectiveSpumpPrice = Number(spumpPriceUsd) > 0 ? Number(spumpPriceUsd) : 0.01;
+  const effectiveSpumpPrice =
+    Number(spumpPriceUsd) > 0 ? Number(spumpPriceUsd) : 0.01;
 
   useEffect(() => {
     async function loadSolRate() {
@@ -61,7 +62,14 @@ export default function OnlinePurchaseHelpGuide({
       return value * solRate;
     }
     return value;
-  }, [enteredValue, enteredSpump, selectedCoin, solRate, calcMode, effectiveSpumpPrice]);
+  }, [
+    enteredValue,
+    enteredSpump,
+    selectedCoin,
+    solRate,
+    calcMode,
+    effectiveSpumpPrice,
+  ]);
 
   const estimatedSpump = useMemo(() => {
     if (calcMode === "spump") return Number(enteredSpump || 0);
@@ -101,7 +109,9 @@ export default function OnlinePurchaseHelpGuide({
       setVerifyMeta({
         tokenSymbol: result?.data?.baseCoin || selectedCoin.toUpperCase(),
         tokenCount: Number(result?.data?.baseValue ?? usdEquivalent).toFixed(4),
-        spumpCount: Number(result?.data?.spumpCount ?? estimatedSpump).toFixed(3),
+        spumpCount: Number(result?.data?.spumpCount ?? estimatedSpump).toFixed(
+          3,
+        ),
       });
     } catch (error) {
       setIsVerified(false);
@@ -116,7 +126,10 @@ export default function OnlinePurchaseHelpGuide({
     if (!isVerified || !walletAddress.trim()) return;
     try {
       setSubmitting(true);
-      await submitCryptoTransfer({ walletAddress: walletAddress.trim(), txHash: txHash.trim() });
+      await submitCryptoTransfer({
+        walletAddress: walletAddress.trim(),
+        txHash: txHash.trim(),
+      });
       setSubmitted(true);
     } catch (error) {
       alert(error?.message || "Unable to submit.");
@@ -126,10 +139,30 @@ export default function OnlinePurchaseHelpGuide({
   }
 
   const accentMap = {
-    amber:  { border: "border-amber-500/30",  bg: "bg-amber-500/5",  text: "text-amber-400",  num: "bg-amber-500/15  border-amber-500/30  text-amber-300"  },
-    indigo: { border: "border-indigo-500/30", bg: "bg-indigo-500/5", text: "text-indigo-400", num: "bg-indigo-500/15 border-indigo-500/30 text-indigo-300" },
-    purple: { border: "border-purple-500/30", bg: "bg-purple-500/5", text: "text-purple-400", num: "bg-purple-500/15 border-purple-500/30 text-purple-300" },
-    emerald:{ border: "border-emerald-500/30",bg: "bg-emerald-500/5",text: "text-emerald-400",num: "bg-emerald-500/15 border-emerald-500/30 text-emerald-300"},
+    amber: {
+      border: "border-amber-500/30",
+      bg: "bg-amber-500/5",
+      text: "text-amber-400",
+      num: "bg-amber-500/15  border-amber-500/30  text-amber-300",
+    },
+    indigo: {
+      border: "border-indigo-500/30",
+      bg: "bg-indigo-500/5",
+      text: "text-indigo-400",
+      num: "bg-indigo-500/15 border-indigo-500/30 text-indigo-300",
+    },
+    purple: {
+      border: "border-purple-500/30",
+      bg: "bg-purple-500/5",
+      text: "text-purple-400",
+      num: "bg-purple-500/15 border-purple-500/30 text-purple-300",
+    },
+    emerald: {
+      border: "border-emerald-500/30",
+      bg: "bg-emerald-500/5",
+      text: "text-emerald-400",
+      num: "bg-emerald-500/15 border-emerald-500/30 text-emerald-300",
+    },
   };
 
   const STEPS = [
@@ -143,14 +176,24 @@ export default function OnlinePurchaseHelpGuide({
       content: (
         <div className="space-y-4">
           <div className="space-y-3">
-            <p className="text-white/80 text-sm font-bold">1. Download the Solflare wallet app</p>
+            <p className="text-white/80 text-sm font-bold">
+              1. Download the Solflare wallet app
+            </p>
             <div className="space-y-2.5 pl-3 border-l-2 border-amber-500/30">
               <p className="text-white/65 text-sm leading-relaxed">
-                On your phone or computer, search for <span className="text-amber-300 font-bold">SOLFLARE Wallet</span>. Install it and open it.
+                On your phone or computer, search for{" "}
+                <span className="text-amber-300 font-bold">
+                  SOLFLARE Wallet
+                </span>
+                . Install it and open it.
               </p>
               <p className="text-white/65 text-sm leading-relaxed">
-                Follow the on-screen prompts to create a new wallet. Write down your secret recovery phrase and store it somewhere safe —{" "}
-                <span className="text-red-300 font-bold">never share it with anyone</span>.
+                Follow the on-screen prompts to create a new wallet. Write down
+                your secret recovery phrase and store it somewhere safe —{" "}
+                <span className="text-red-300 font-bold">
+                  never share it with anyone
+                </span>
+                .
               </p>
             </div>
           </div>
@@ -158,26 +201,31 @@ export default function OnlinePurchaseHelpGuide({
           {/* Bank Transfer banner */}
           <div className="rounded-xl border border-purple-500/30 bg-purple-500/8 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
-              <p className="text-purple-300 text-xs font-black uppercase tracking-widest mb-0.5">Also Available</p>
-              <p className="text-white/75 text-sm font-medium">Bank Transfer method also available for buying SPUMP.</p>
+              <p className="text-purple-300 text-xs font-black uppercase tracking-widest mb-0.5">
+                Also Available
+              </p>
+              <p className="text-white/75 text-sm font-medium">
+                Bank Transfer method also available for buying SPUMP.
+              </p>
             </div>
             <Link
               href="/bank-purchase"
-              className="shrink-0 rounded-lg border border-purple-400/40 bg-purple-500/15 px-4 py-2 text-xs font-black text-purple-300 hover:bg-purple-500/25 transition-all whitespace-nowrap"
-            >
+              className="shrink-0 rounded-lg border border-purple-400/40 bg-purple-500/15 px-4 py-2 text-xs font-black text-purple-300 hover:bg-purple-500/25 transition-all whitespace-nowrap">
               Bank Transfer →
             </Link>
           </div>
 
           {/* Skip note */}
           <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/5 px-4 py-3 flex items-start gap-2.5">
-            <span className="text-emerald-400 shrink-0 text-base mt-0.5">✓</span>
+            <span className="text-emerald-400 shrink-0 text-base mt-0.5">
+              ✓
+            </span>
             <p className="text-white/60 text-sm leading-relaxed">
-              Already have a wallet or an exchange account (Binance, Coinbase, etc.) with USDC, USDT, or SOL?{" "}
+              Already have a wallet or an exchange account (Binance, Coinbase,
+              etc.) with USDC, USDT, or SOL?{" "}
               <button
                 onClick={() => setExpandedStep("s2")}
-                className="text-emerald-300 font-bold underline underline-offset-2 cursor-pointer bg-transparent border-none"
-              >
+                className="text-emerald-300 font-bold underline underline-offset-2 cursor-pointer bg-transparent border-none">
                 Skip to Step 2
               </button>
             </p>
@@ -198,7 +246,8 @@ export default function OnlinePurchaseHelpGuide({
             Select the token you want to use for your transfer:{" "}
             <span className="text-white/85 font-bold">USDC</span>,{" "}
             <span className="text-white/85 font-bold">USDT</span>, or{" "}
-            <span className="text-white/85 font-bold">SOL</span> on the Solana network.
+            <span className="text-white/85 font-bold">SOL</span> on the Solana
+            network.
           </p>
 
           {/* Token selector */}
@@ -212,8 +261,7 @@ export default function OnlinePurchaseHelpGuide({
                   selectedCoin === coin.value
                     ? "border-indigo-400/60 bg-indigo-400/20 text-indigo-300"
                     : "border-white/15 bg-black/25 text-white/50 hover:border-white/25 hover:text-white/75"
-                }`}
-              >
+                }`}>
                 {coin.label}
               </button>
             ))}
@@ -222,7 +270,9 @@ export default function OnlinePurchaseHelpGuide({
           {/* SPUMP Calculator */}
           <div className="rounded-xl border border-indigo-400/20 bg-black/20 p-4 space-y-4">
             <div className="flex items-center justify-between">
-              <p className="text-indigo-300 text-xs font-black uppercase tracking-widest">SPUMP Count Calculator</p>
+              <p className="text-indigo-300 text-xs font-black uppercase tracking-widest">
+                SPUMP Count Calculator
+              </p>
               <div className="flex rounded-lg border border-white/10 overflow-hidden text-xs font-bold">
                 <button
                   type="button"
@@ -230,8 +280,7 @@ export default function OnlinePurchaseHelpGuide({
                     setCalcMode("usd");
                     setEnteredSpump("");
                   }}
-                  className={`px-3 py-1.5 transition-all ${calcMode === "usd" ? "bg-amber-400/20 text-amber-300" : "bg-black/20 text-white/40 hover:text-white/60"}`}
-                >
+                  className={`px-3 py-1.5 transition-all ${calcMode === "usd" ? "bg-amber-400/20 text-amber-300" : "bg-black/20 text-white/40 hover:text-white/60"}`}>
                   By Amount
                 </button>
                 <button
@@ -240,8 +289,7 @@ export default function OnlinePurchaseHelpGuide({
                     setCalcMode("spump");
                     setEnteredValue("");
                   }}
-                  className={`px-3 py-1.5 transition-all ${calcMode === "spump" ? "bg-amber-400/20 text-amber-300" : "bg-black/20 text-white/40 hover:text-white/60"}`}
-                >
+                  className={`px-3 py-1.5 transition-all ${calcMode === "spump" ? "bg-amber-400/20 text-amber-300" : "bg-black/20 text-white/40 hover:text-white/60"}`}>
                   By SPUMP
                 </button>
               </div>
@@ -249,7 +297,9 @@ export default function OnlinePurchaseHelpGuide({
 
             {calcMode === "usd" ? (
               <div>
-                <p className="mb-1.5 text-xs text-white/40 uppercase tracking-widest">Enter Amount ({selectedCoin.toUpperCase()})</p>
+                <p className="mb-1.5 text-xs text-white/40 uppercase tracking-widest">
+                  Enter Amount ({selectedCoin.toUpperCase()})
+                </p>
                 <input
                   type="number"
                   min="0"
@@ -262,7 +312,9 @@ export default function OnlinePurchaseHelpGuide({
               </div>
             ) : (
               <div>
-                <p className="mb-1.5 text-xs text-white/40 uppercase tracking-widest">Enter Desired SPUMP Count</p>
+                <p className="mb-1.5 text-xs text-white/40 uppercase tracking-widest">
+                  Enter Desired SPUMP Count
+                </p>
                 <input
                   type="number"
                   min="0"
@@ -277,13 +329,17 @@ export default function OnlinePurchaseHelpGuide({
 
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 text-center">
               <div className="rounded-lg bg-white/5 border border-white/8 px-3 py-2.5">
-                <p className="text-[10px] text-white/35 uppercase tracking-wider mb-0.5">USD Equivalent</p>
+                <p className="text-[10px] text-white/35 uppercase tracking-wider mb-0.5">
+                  USD Equivalent
+                </p>
                 <p className="text-sm font-bold text-white/80">
                   ${usdEquivalent > 0 ? usdEquivalent.toFixed(4) : "0.0000"}
                 </p>
               </div>
               <div className="rounded-lg bg-amber-500/10 border border-amber-500/25 px-3 py-2.5">
-                <p className="text-[10px] text-amber-400/70 uppercase tracking-wider mb-0.5">Est. SPUMP</p>
+                <p className="text-[10px] text-amber-400/70 uppercase tracking-wider mb-0.5">
+                  Est. SPUMP
+                </p>
                 <p className="text-sm font-bold text-amber-300">
                   {estimatedSpump > 0 ? estimatedSpump.toLocaleString() : "0"}
                 </p>
@@ -303,17 +359,24 @@ export default function OnlinePurchaseHelpGuide({
                 </div>
               ) : (
                 <div className="rounded-lg bg-white/5 border border-white/8 px-3 py-2.5">
-                  <p className="text-[10px] text-white/35 uppercase tracking-wider mb-0.5">SOL/USD Rate</p>
+                  <p className="text-[10px] text-white/35 uppercase tracking-wider mb-0.5">
+                    SOL/USD Rate
+                  </p>
                   <p className="text-sm font-bold text-white/80">
                     {selectedCoin === "sol"
-                      ? loadingRate ? "..." : solRate ? `$${solRate}` : "N/A"
+                      ? loadingRate
+                        ? "..."
+                        : solRate
+                          ? `$${solRate}`
+                          : "N/A"
                       : "N/A"}
                   </p>
                 </div>
               )}
             </div>
             <p className="text-white/20 text-xs" suppressHydrationWarning>
-              Rate: ${effectiveSpumpPrice.toFixed(6)} USD = 1 SPUMP · All figures are estimates
+              Rate: ${effectiveSpumpPrice.toFixed(6)} USD = 1 SPUMP · All
+              figures are estimates
             </p>
           </div>
         </div>
@@ -329,24 +392,27 @@ export default function OnlinePurchaseHelpGuide({
       content: (
         <div className="space-y-4">
           <p className="text-white/60 text-sm leading-relaxed">
-            Copy the Official Treasury Wallet address below. This is the destination for your crypto transfer.
+            Copy the Official Treasury Wallet address below. This is the
+            destination for your crypto transfer.
           </p>
           <div className="rounded-xl border border-amber-500/25 bg-amber-500/5 p-4 space-y-3">
-            <p className="text-amber-400 text-xs font-black uppercase tracking-widest">Official Treasury Wallet</p>
+            <p className="text-amber-400 text-xs font-black uppercase tracking-widest">
+              Official Treasury Wallet
+            </p>
             <p className="font-mono text-amber-300/85 text-xs break-all leading-loose bg-black/25 rounded-lg px-3 py-3 border border-amber-500/15 select-all">
               {TREASURY_WALLET}
             </p>
             <button
               onClick={copyWallet}
-              className="flex items-center gap-2 bg-amber-500/12 border border-amber-500/35 text-amber-400 text-xs font-black px-4 py-2 rounded-lg cursor-pointer transition-all hover:bg-amber-500/22"
-            >
+              className="flex items-center gap-2 bg-amber-500/12 border border-amber-500/35 text-amber-400 text-xs font-black px-4 py-2 rounded-lg cursor-pointer transition-all hover:bg-amber-500/22">
               {copiedWallet ? "✓ Copied!" : "📋 Copy Treasury Address"}
             </button>
           </div>
           <div className="flex items-start gap-2.5 bg-red-500/6 border border-red-500/20 rounded-xl px-4 py-3">
             <span className="text-red-400 shrink-0">⚠️</span>
             <p className="text-red-300/75 text-xs leading-relaxed">
-              Verify the address multiple times before confirming. Sending to the wrong address is irreversible.
+              Verify the address multiple times before confirming. Sending to
+              the wrong address is irreversible.
             </p>
           </div>
         </div>
@@ -362,7 +428,8 @@ export default function OnlinePurchaseHelpGuide({
       content: (
         <div className="space-y-3">
           <p className="text-white/60 text-sm leading-relaxed">
-            Open your wallet and send your chosen token to the Treasury Wallet address.
+            Open your wallet and send your chosen token to the Treasury Wallet
+            address.
           </p>
           {[
             "Open your wallet and tap 'Send'",
@@ -372,7 +439,9 @@ export default function OnlinePurchaseHelpGuide({
             "Verify the recipient address, amount, and network (Solana) once more",
             "Confirm and submit the transaction",
           ].map((item, i) => (
-            <div key={i} className="flex items-start gap-3 py-2 border-b border-white/5 last:border-b-0">
+            <div
+              key={i}
+              className="flex items-start gap-3 py-2 border-b border-white/5 last:border-b-0">
               <span className="shrink-0 w-5 h-5 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[10px] font-black flex items-center justify-center mt-0.5">
                 {i + 1}
               </span>
@@ -392,14 +461,17 @@ export default function OnlinePurchaseHelpGuide({
       content: (
         <div className="space-y-4">
           <p className="text-white/60 text-sm leading-relaxed">
-            After submitting, wait for the Solana network to confirm your transaction.
+            After submitting, wait for the Solana network to confirm your
+            transaction.
           </p>
           {[
             "Wait until the transaction shows 'Success'",
             "After confirming, go to your wallet's Activity or History tab — the transaction should appear there",
             "Do not close the app until you can see the confirmed transaction",
           ].map((item, i) => (
-            <div key={i} className="flex items-start gap-2.5 py-1.5 border-b border-white/4 last:border-b-0">
+            <div
+              key={i}
+              className="flex items-start gap-2.5 py-1.5 border-b border-white/4 last:border-b-0">
               <span className="text-emerald-400 shrink-0 mt-0.5">✓</span>
               <p className="text-white/65 text-sm leading-relaxed">{item}</p>
             </div>
@@ -408,8 +480,8 @@ export default function OnlinePurchaseHelpGuide({
             <span className="text-xl">✅</span>
             <p className="text-white/60 text-sm">
               Look for status:{" "}
-              <span className="text-green-400 font-black">SUCCESS</span>
-              {" "}in your wallet activity
+              <span className="text-green-400 font-black">SUCCESS</span> in your
+              wallet activity
             </p>
           </div>
         </div>
@@ -425,7 +497,8 @@ export default function OnlinePurchaseHelpGuide({
       content: (
         <div className="space-y-3">
           <p className="text-white/60 text-sm leading-relaxed">
-            Find and copy the Transaction Signature (TxHash) from your wallet or the Solana explorer.
+            Find and copy the Transaction Signature (TxHash) from your wallet or
+            the Solana explorer.
           </p>
           {[
             "Open the Activity tab in your wallet",
@@ -434,7 +507,9 @@ export default function OnlinePurchaseHelpGuide({
             "On SOLSCAN, verify the From address, To address, and amount transferred",
             "Once verified, copy the Transfer Signature shown at the top of the page",
           ].map((item, i) => (
-            <div key={i} className="flex items-start gap-3 py-2 border-b border-white/5 last:border-b-0">
+            <div
+              key={i}
+              className="flex items-start gap-3 py-2 border-b border-white/5 last:border-b-0">
               <span className="shrink-0 w-5 h-5 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-[10px] font-black flex items-center justify-center mt-0.5">
                 {i + 1}
               </span>
@@ -463,12 +538,15 @@ export default function OnlinePurchaseHelpGuide({
       isFinal: true,
       content: (
         <div className="space-y-5">
-
           {/* Signature Verify */}
           <div className="space-y-3">
             <div>
-              <p className="text-emerald-300 text-xs font-black uppercase tracking-widest mb-1">Signature Verify</p>
-              <p className="text-white/40 text-xs mb-3">Paste Your Transaction Signature copied from Step 6</p>
+              <p className="text-emerald-300 text-xs font-black uppercase tracking-widest mb-1">
+                Signature Verify
+              </p>
+              <p className="text-white/40 text-xs mb-3">
+                Paste Your Transaction Signature copied from Step 6
+              </p>
               <div className="flex gap-3">
                 <input
                   type="text"
@@ -482,9 +560,12 @@ export default function OnlinePurchaseHelpGuide({
                   type="button"
                   onClick={verifySignature}
                   disabled={verifying || isVerified || !txHash.trim()}
-                  className="rounded-xl border border-amber-400/35 bg-amber-400/15 px-5 py-2.5 text-sm font-black text-amber-300 disabled:opacity-50 hover:bg-amber-400/25 transition-all whitespace-nowrap"
-                >
-                  {verifying ? "Verifying..." : isVerified ? "✓ Verified" : "Verify"}
+                  className="rounded-xl border border-amber-400/35 bg-amber-400/15 px-5 py-2.5 text-sm font-black text-amber-300 disabled:opacity-50 hover:bg-amber-400/25 transition-all whitespace-nowrap">
+                  {verifying
+                    ? "Verifying..."
+                    : isVerified
+                      ? "✓ Verified"
+                      : "Verify"}
                 </button>
               </div>
             </div>
@@ -492,21 +573,39 @@ export default function OnlinePurchaseHelpGuide({
             {/* Post-verification response */}
             {isVerified && verifyMeta && (
               <div className="rounded-xl border border-emerald-400/30 bg-emerald-500/8 p-4 space-y-3">
-                <p className="text-emerald-300 text-xs font-black uppercase tracking-widest">✓ Verification Response</p>
+                <p className="text-emerald-300 text-xs font-black uppercase tracking-widest">
+                  ✓ Verification Response
+                </p>
                 <div className="grid grid-cols-3 gap-2 text-center">
                   <div className="rounded-lg bg-white/5 border border-white/8 px-3 py-3">
-                    <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1.5">1. Token Symbol</p>
-                    <p className="text-sm font-black text-white">{verifyMeta.tokenSymbol}</p>
+                    <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1.5">
+                      1. Token Symbol
+                    </p>
+                    <p className="text-sm font-black text-white">
+                      {verifyMeta.tokenSymbol}
+                    </p>
                   </div>
                   <div className="rounded-lg bg-white/5 border border-white/8 px-3 py-3">
-                    <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1.5">2. Token Count</p>
-                    <p className="text-sm font-black text-white">{verifyMeta.tokenCount}</p>
-                    <p className="text-[9px] text-white/20 mt-0.5">4 decimal places</p>
+                    <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1.5">
+                      2. Token Count
+                    </p>
+                    <p className="text-sm font-black text-white">
+                      {verifyMeta.tokenCount}
+                    </p>
+                    <p className="text-[9px] text-white/20 mt-0.5">
+                      4 decimal places
+                    </p>
                   </div>
                   <div className="rounded-lg bg-amber-500/10 border border-amber-500/25 px-3 py-3">
-                    <p className="text-[10px] text-amber-400/60 uppercase tracking-wider mb-1.5">3. SPUMP Count</p>
-                    <p className="text-sm font-black text-amber-300">{verifyMeta.spumpCount}</p>
-                    <p className="text-[9px] text-amber-400/30 mt-0.5">3 decimal places</p>
+                    <p className="text-[10px] text-amber-400/60 uppercase tracking-wider mb-1.5">
+                      3. SPUMP Count
+                    </p>
+                    <p className="text-sm font-black text-amber-300">
+                      {verifyMeta.spumpCount}
+                    </p>
+                    <p className="text-[9px] text-amber-400/30 mt-0.5">
+                      3 decimal places
+                    </p>
                   </div>
                 </div>
               </div>
@@ -515,8 +614,12 @@ export default function OnlinePurchaseHelpGuide({
 
           {/* Wallet Address */}
           <div className="space-y-2">
-            <p className="text-white/70 text-xs font-black uppercase tracking-widest">Enter Your Wallet Address</p>
-            <p className="text-white/35 text-xs">This wallet will receive your allocated SPUMP</p>
+            <p className="text-white/70 text-xs font-black uppercase tracking-widest">
+              Enter Your Wallet Address
+            </p>
+            <p className="text-white/35 text-xs">
+              This wallet will receive your allocated SPUMP
+            </p>
             <input
               type="text"
               value={walletAddress}
@@ -525,7 +628,10 @@ export default function OnlinePurchaseHelpGuide({
               className="w-full rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-white/85 placeholder:text-white/25 outline-none text-sm"
             />
             <p className="text-[11px] text-white/30 leading-relaxed">
-              ⚠️ &quot;Your wallet address&quot; means <span className="text-white/50 font-bold">YOUR</span> address, not the destination address you sent to. SPUMP tokens will be delivered here.
+              ⚠️ &quot;Your wallet address&quot; means{" "}
+              <span className="text-white/50 font-bold">YOUR</span> address, not
+              the destination address you sent to. SPUMP tokens will be
+              delivered here.
             </p>
           </div>
 
@@ -533,22 +639,27 @@ export default function OnlinePurchaseHelpGuide({
           {submitted ? (
             <div className="rounded-xl border border-emerald-400/35 bg-emerald-500/10 px-4 py-5 text-center space-y-1.5">
               <p className="text-3xl">🎃</p>
-              <p className="text-emerald-300 font-black text-sm">Form Submitted Successfully!</p>
-              <p className="text-white/45 text-xs">Your SPUMP allocation is being processed.</p>
+              <p className="text-emerald-300 font-black text-sm">
+                Form Submitted Successfully!
+              </p>
+              <p className="text-white/45 text-xs">
+                Your SPUMP allocation is being processed.
+              </p>
             </div>
           ) : (
             <button
               type="button"
               onClick={handleSubmit}
               disabled={submitting || !isVerified || !walletAddress.trim()}
-              className="w-full rounded-xl border border-emerald-400/35 bg-linear-to-r from-green-700 to-green-600 px-5 py-3.5 text-sm font-black text-white hover:from-green-600 hover:to-green-500 disabled:opacity-50 transition-all"
-            >
+              className="w-full rounded-xl border border-emerald-400/35 bg-linear-to-r from-green-700 to-green-600 px-5 py-3.5 text-sm font-black text-white hover:from-green-600 hover:to-green-500 disabled:opacity-50 transition-all">
               {submitting ? "Submitting..." : "Submit Form"}
             </button>
           )}
 
           {!isVerified && (
-            <p className="text-xs text-white/30 text-center">Verify your signature above before submitting.</p>
+            <p className="text-xs text-white/30 text-center">
+              Verify your signature above before submitting.
+            </p>
           )}
         </div>
       ),
@@ -558,15 +669,17 @@ export default function OnlinePurchaseHelpGuide({
   return (
     <section className="relative z-10 px-4 py-10 md:py-14 lg:px-10">
       <div className="max-w-2xl mx-auto space-y-6">
-
         {/* ── Hero ── */}
         <div className="text-center space-y-3">
-          <p className="text-amber-500/70 text-xs font-black uppercase tracking-widest">Step-by-Step Guide</p>
-          <h1 className="sp-shimmer-heading text-3xl md:text-4xl font-black">
+          <p className="text-primary text-xs font-black uppercase tracking-widest">
+            Step-by-Step Guide
+          </p>
+          <h1 className="text-secondary text-3xl md:text-4xl font-black">
             Crypto Transfer Guide
           </h1>
-          <p className="text-white/45 text-sm leading-relaxed max-w-md mx-auto">
-            Send USDC, USDT, or SOL to the address below, then paste your transaction signature to complete the process.
+          <p className="text-secondary/80 text-sm leading-relaxed max-w-md mx-auto">
+            Send USDC, USDT, or SOL to the address below, then paste your
+            transaction signature to complete the process.
           </p>
         </div>
 
@@ -601,20 +714,26 @@ export default function OnlinePurchaseHelpGuide({
               <div
                 key={step.key}
                 className={`rounded-2xl border overflow-hidden transition-all duration-200 ${
-                  isOpen ? `${colors.border} shadow-lg` : "border-white/10 bg-white/5"
-                }`}
-              >
+                  isOpen
+                    ? `${colors.border} shadow-lg`
+                    : "border-white/10 bg-white/80"
+                }`}>
                 {/* Header */}
                 <div
                   className="flex items-center gap-4 px-5 py-4 cursor-pointer"
-                  onClick={() => toggleStep(step.key)}
-                >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs shrink-0 border ${colors.num}`}>
+                  onClick={() => toggleStep(step.key)}>
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs shrink-0 border ${colors.num}`}>
                     {step.number}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className={`text-[10px] font-black uppercase tracking-widest ${colors.text}`}>{step.label}</p>
-                    <p className="text-white font-bold text-sm leading-tight">{step.icon} {step.title}</p>
+                    <p
+                      className={`text-[10px] font-black uppercase tracking-widest ${colors.text}`}>
+                      {step.label}
+                    </p>
+                    <p className="text-secondary font-bold text-sm leading-tight">
+                      {step.icon} {step.title}
+                    </p>
                   </div>
                   {step.isFinal && (
                     <span className="text-[10px] font-black px-2.5 py-1 rounded-full border text-amber-400 bg-amber-500/10 border-amber-500/30 shrink-0">
@@ -623,22 +742,28 @@ export default function OnlinePurchaseHelpGuide({
                   )}
                   <svg
                     className={`shrink-0 w-4 h-4 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
-                    fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </div>
 
                 {/* Body */}
                 {isOpen && (
-                  <div className={`px-5 pb-5 pt-4 border-t border-white/6 ${colors.bg}`}>
+                  <div
+                    className={`px-5 pb-5 pt-4 border-t border-white/6 ${colors.bg}`}>
                     {step.content}
                     {nextStep && (
                       <button
                         type="button"
                         onClick={() => setExpandedStep(nextStep.key)}
-                        className={`mt-5 text-xs font-bold cursor-pointer bg-transparent border-none ${colors.text}`}
-                      >
+                        className={`mt-5 text-xs font-bold cursor-pointer bg-transparent border-none ${colors.text}`}>
                         Next: {nextStep.label} — {nextStep.title} →
                       </button>
                     )}
@@ -654,15 +779,17 @@ export default function OnlinePurchaseHelpGuide({
 
         {/* ── Footer ── */}
         <div className="sp-footer-note rounded-2xl p-6 text-center space-y-2">
-          <p className="text-white/50 text-sm">
+          <p className="text-secondary/80 text-sm">
             Need help? Contact{" "}
-            <span className="text-purple-300 font-medium">support@scottypumpkin.com</span>
+            <span className="text-primary/70 font-medium">
+              support@scottypumpkin.com
+            </span>
           </p>
-          <p className="text-white/25 text-xs">
-            Scotty Pumpkin · SPUMP is a utility token — not a financial instrument
+          <p className="text-secondary/80 text-xs">
+            Scotty Pumpkin · SPUMP is a utility token — not a financial
+            instrument
           </p>
         </div>
-
       </div>
     </section>
   );

@@ -6,7 +6,7 @@ import WorkflowCards from "./components/home/Workflowcards";
 
 export default function Page() {
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-primary-bg">
       {/* Hero Section */}
       <Hero />
       {/* Features Section */}
@@ -14,7 +14,7 @@ export default function Page() {
       {/* Workflow Cards Section */}
       <WorkflowCards />
       {/* Ecosystem Section */}
-      <Ecosystem/>
+      <Ecosystem />
       {/* Payments Section */}
       <Payments />
       {/* Bottom Spacing */}

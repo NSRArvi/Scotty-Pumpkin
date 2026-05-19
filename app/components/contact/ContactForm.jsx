@@ -5,6 +5,7 @@ import Captcha from "./Captcha";
 import { smtpexpressClient } from "@/data/smtp";
 import { Copyright, LoaderCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Container from "../shared/Container";
 
 const OFFICE_LOCATIONS = [
   {
@@ -208,268 +209,262 @@ const ContactForm = () => {
   };
 
   return (
-    <section>
-      <div className="max-w-7xl mx-auto px-4 py-10 md:py-14 lg:px-16 space-y-8">
-        <div className="ui-card p-6 md:p-8 space-y-4">
-          <p className="text-amber-300/90 text-xs md:text-sm font-semibold tracking-widest uppercase">
-            Contact Scotty Pumpkin Team
-          </p>
-          <h1 className="text-2xl md:text-4xl font-black text-white leading-tight">
-            Need Help With SPUMP, Marketplace, or Your Creator Shop?
-          </h1>
-          <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-3xl">
-            Send us your request and our support team will reach you soon. We
-            can help with account setup, technical issues, payment flow
-            questions, or onboarding your shop and products into the Scotty
-            ecosystem.
-          </p>
-          <div className="flex flex-wrap gap-2 pt-1">
-            <span className="ui-badge border-violet-400/40 bg-violet-500/15 text-violet-200">
-              Fast Support
-            </span>
-            <span className="ui-badge border-amber-400/40 bg-amber-500/15 text-amber-200">
-              Web3 Commerce
-            </span>
-            <span className="ui-badge border-emerald-400/40 bg-emerald-500/15 text-emerald-200">
-              Secure Handling
-            </span>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-10 lg:flex-row items-stretch">
-          {/* Contact Form */}
-          <form
-            ref={form}
-            onSubmit={submitForm}
-            className="ui-card flex flex-col rounded-2xl p-6 md:p-8 shadow-xl lg:w-1/2"
-          >
-            <label htmlFor="name" className="text-white/80 text-sm font-medium">
-              Name *
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Name"
-              className="mb-5 mt-2.5 block w-full rounded-xl border border-white/15 bg-white/10 text-white placeholder:text-white/40 px-4 py-3 outline-none focus:border-violet-400/60 focus:bg-white/15"
-            />
-
-            <label
-              htmlFor="email"
-              className="text-white/80 text-sm font-medium"
-            >
-              Email *
-            </label>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="Email"
-              className="mb-5 mt-2.5 block w-full rounded-xl border border-white/15 bg-white/10 text-white placeholder:text-white/40 px-4 py-3 outline-none focus:border-violet-400/60 focus:bg-white/15"
-            />
-
-            <label
-              htmlFor="phone"
-              className="text-white/80 text-sm font-medium"
-            >
-              Phone *
-            </label>
-            <input
-              type="number"
-              id="phone"
-              name="phone"
-              required
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Phone"
-              className="mb-5 mt-2.5 block w-full rounded-xl border border-white/15 bg-white/10 text-white placeholder:text-white/40 px-4 py-3 outline-none focus:border-violet-400/60 focus:bg-white/15"
-            />
-
-            <label
-              htmlFor="country"
-              className="text-white/80 text-sm font-medium"
-            >
-              Country *
-            </label>
-            <select
-              id="country"
-              name="country"
-              required
-              onChange={handleChange}
-              className="mb-5 mt-2.5 block w-full rounded-xl border border-white/15 bg-white/10 text-white px-4 py-3 outline-none focus:border-violet-400/60 focus:bg-white/15"
-            >
-              {countries.map((country) => (
-                <option key={country.name} value={country.name}>
-                  {country.name}
-                </option>
-              ))}
-            </select>
-
-            <label
-              htmlFor="subject"
-              className="text-white/80 text-sm font-medium"
-            >
-              Subject/Query *
-            </label>
-            <input
-              type="text"
-              id="subject"
-              name="subject"
-              required
-              value={formData.subject}
-              onChange={handleChange}
-              placeholder="Subject"
-              className="mb-5 mt-2.5 block w-full rounded-xl border border-white/15 bg-white/10 text-white placeholder:text-white/40 px-4 py-3 outline-none focus:border-violet-400/60 focus:bg-white/15"
-            />
-
-            <label
-              htmlFor="skypeId"
-              className="text-white/80 text-sm font-medium"
-            >
-              Skype ID
-            </label>
-            <input
-              type="text"
-              id="skypeId"
-              name="skypeId"
-              value={formData.skypeId}
-              onChange={handleChange}
-              placeholder="Skype Id (optional)"
-              className="mb-5 mt-2.5 block w-full rounded-xl border border-white/15 bg-white/10 text-white placeholder:text-white/40 px-4 py-3 outline-none focus:border-violet-400/60 focus:bg-white/15"
-            />
-
-            <label
-              htmlFor="message"
-              className="text-white/80 text-sm font-medium"
-            >
-              Enter Message *
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              required
-              rows={3}
-              value={formData.message}
-              onChange={handleChange}
-              placeholder="Message"
-              className="mb-5 mt-2.5 block w-full rounded-xl border border-white/15 bg-white/10 text-white placeholder:text-white/40 px-4 py-3 outline-none focus:border-violet-400/60 focus:bg-white/15"
-            />
-
-            {/* Captcha Component */}
-            <Captcha onCaptchaGenerated={setCaptchaAnswer} />
-
-            <input
-              type="text"
-              id="captchaInput"
-              name="captchaInput"
-              required
-              value={formData.captchaInput}
-              onChange={handleChange}
-              placeholder="Captcha *"
-              className="mb-5 mt-2.5 block w-full rounded-xl border border-white/15 bg-white/10 text-white placeholder:text-white/40 px-4 py-3 outline-none focus:border-violet-400/60 focus:bg-white/15"
-            />
-
-            {invalidCaptcha && (
-              <p className="text-red-400 text-sm">
-                Invalid Captcha! Please try again.
-              </p>
-            )}
-            {invalidMessage && (
-              <p className="text-red-400 text-sm">
-                Your message contains forbidden words.
-              </p>
-            )}
-            {invalidKey && (
-              <p className="text-red-400 text-sm">Invalid API Key.</p>
-            )}
-
-            <button
-              type="submit"
-              className="ui-btn ui-btn-primary mt-6 w-full justify-center rounded-xl px-4 py-3 text-lg text-white"
-            >
-              {loader ? (
-                <p className="flex items-center gap-2">
-                  Sending <LoaderCircle size={20} className="animate-spin" />
-                </p>
-              ) : (
-                "Send Message"
-              )}
-            </button>
-
-            <div className="mt-5">
-              <p className="flex items-center justify-center gap-1 text-xs text-white/55">
-                <Copyright size={12} /> {new Date().getFullYear()} BFIN. BITSS
-                by BFIN. All rights reserved.
-              </p>
-              <div className="flex flex-col items-center justify-center">
-                <Image
-                  src="/assets/logo.webp"
-                  alt="bitss logo"
-                  width={100}
-                  height={100}
-                  className="object-cover"
-                />
-                <p className="text-xs text-white/55">
-                  This form is powered by bitss cyber security
-                </p>
-              </div>
+    <section className="bg-primary-bg">
+      <Container>
+        <div className="py-10 md:py-14 space-y-8">
+          <div className="ui-card bg-white/80 p-6 md:p-8 space-y-4">
+            <p className="text-primary text-xs md:text-sm font-semibold tracking-widest uppercase">
+              Contact Scotty Pumpkin Team
+            </p>
+            <h1 className="text-2xl md:text-4xl font-black text-secondary leading-tight">
+              Need Help With SPUMP, Marketplace, or Your Creator Shop?
+            </h1>
+            <p className="text-secondary/90 text-sm md:text-base leading-relaxed max-w-3xl">
+              Send us your request and our support team will reach you soon. We
+              can help with account setup, technical issues, payment flow
+              questions, or onboarding your shop and products into the Scotty
+              ecosystem.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              <span className="ui-badge border-violet-400/80 bg-violet-500/80 text-white">
+                Fast Support
+              </span>
+              <span className="ui-badge border-primary/50 bg-primary/80 text-white">
+                Web3 Commerce
+              </span>
+              <span className="ui-badge border-emerald-400/80 bg-gray-600 text-white">
+                Secure Handling
+              </span>
             </div>
-          </form>
+          </div>
 
-          {/* Google Maps */}
-          <div className="lg:w-1/2 space-y-6">
-            {OFFICE_LOCATIONS.map((office) => (
-              <div
-                key={office.id}
-                className="ui-card overflow-hidden p-4 md:p-5 space-y-3"
-              >
-                <div>
-                  <p className="text-amber-300/90 text-xs md:text-sm font-semibold tracking-widest uppercase">
-                    {office.title}
+          <div className="flex flex-col gap-10 lg:flex-row items-stretch">
+            {/* Contact Form */}
+            <form
+              ref={form}
+              onSubmit={submitForm}
+              className="ui-card flex flex-col rounded-2xl p-6 md:p-8 shadow-xl lg:w-1/2">
+              <label
+                htmlFor="name"
+                className="text-secondary/90 text-sm font-medium">
+                Name *
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Name"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+              />
+
+              <label
+                htmlFor="email"
+                className="text-secondary/90 text-sm font-medium">
+                Email *
+              </label>
+              <input
+                type="text"
+                id="email"
+                name="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+              />
+
+              <label
+                htmlFor="phone"
+                className="text-secondary/90 text-sm font-medium">
+                Phone *
+              </label>
+              <input
+                type="number"
+                id="phone"
+                name="phone"
+                required
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Phone"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+              />
+
+              <label
+                htmlFor="country"
+                className="text-secondary/90 text-sm font-medium">
+                Country *
+              </label>
+              <select
+                id="country"
+                name="country"
+                required
+                onChange={handleChange}
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/30 bg-white/10 text-secondary/80 px-4 py-3 outline-none focus:border-secondary/50 focus:bg-white/15">
+                {countries.map((country) => (
+                  <option key={country.name} value={country.name}>
+                    {country.name}
+                  </option>
+                ))}
+              </select>
+
+              <label
+                htmlFor="subject"
+                className="text-secondary/90 text-sm font-medium">
+                Subject/Query *
+              </label>
+              <input
+                type="text"
+                id="subject"
+                name="subject"
+                required
+                value={formData.subject}
+                onChange={handleChange}
+                placeholder="Subject"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+              />
+
+              <label
+                htmlFor="skypeId"
+                className="text-secondary/90 text-sm font-medium">
+                Skype ID
+              </label>
+              <input
+                type="text"
+                id="skypeId"
+                name="skypeId"
+                value={formData.skypeId}
+                onChange={handleChange}
+                placeholder="Skype Id (optional)"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+              />
+
+              <label
+                htmlFor="message"
+                className="text-secondary/90 text-sm font-medium">
+                Enter Message *
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                required
+                rows={3}
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Message"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+              />
+
+              {/* Captcha Component */}
+              <Captcha onCaptchaGenerated={setCaptchaAnswer} />
+
+              <input
+                type="text"
+                id="captchaInput"
+                name="captchaInput"
+                required
+                value={formData.captchaInput}
+                onChange={handleChange}
+                placeholder="Captcha *"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+              />
+
+              {invalidCaptcha && (
+                <p className="text-red-400 text-sm">
+                  Invalid Captcha! Please try again.
+                </p>
+              )}
+              {invalidMessage && (
+                <p className="text-red-400 text-sm">
+                  Your message contains forbidden words.
+                </p>
+              )}
+              {invalidKey && (
+                <p className="text-red-400 text-sm">Invalid API Key.</p>
+              )}
+
+              <button
+                type="submit"
+                className="bg-primary mt-6 w-full justify-center rounded-xl px-4 py-3 text-lg text-white">
+                {loader ? (
+                  <p className="flex items-center text-center gap-2">
+                    Sending <LoaderCircle size={20} className="animate-spin" />
                   </p>
-                  <p className="text-white text-base font-semibold mt-1">
-                    {office.name}
+                ) : (
+                  "Send Message"
+                )}
+              </button>
+
+              <div className="mt-5">
+                <p className="flex items-center justify-center gap-1 text-xs text-white/55">
+                  <Copyright size={12} /> {new Date().getFullYear()} BFIN. BITSS
+                  by BFIN. All rights reserved.
+                </p>
+                <div className="flex flex-col items-center justify-center">
+                  <Image
+                    src="/assets/logo.webp"
+                    alt="bitss logo"
+                    width={100}
+                    height={100}
+                    className="object-cover"
+                  />
+                  <p className="text-xs text-white/55">
+                    This form is powered by bitss cyber security
                   </p>
-                  {office.address.map((line) => (
-                    <p
-                      key={`${office.id}-${line}`}
-                      className="text-white/70 text-sm"
-                    >
-                      {line}
-                    </p>
-                  ))}
-
-                  <div className="space-y-2">
-                  <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">Role</p>
-                  <ul className="sp-entity-list list-disc pl-4">
-                    {office?.role?.map((line) => (
-                      <li key={line}>{line}</li>
-                    ))}
-                  </ul>
                 </div>
-                </div>
-
-                <iframe
-                  src={office.mapSrc}
-                  title={`${office.name} Office Map`}
-                  width="100%"
-                  height="280"
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  className="w-full rounded-2xl border border-white/10"
-                ></iframe>
               </div>
-            ))}
+            </form>
+
+            {/* Google Maps */}
+            <div className="lg:w-1/2 space-y-6">
+              {OFFICE_LOCATIONS.map((office) => (
+                <div
+                  key={office.id}
+                  className="ui-card overflow-hidden p-4 md:p-5 space-y-3">
+                  <div>
+                    <p className="text-primary text-xs md:text-sm font-semibold tracking-widest uppercase">
+                      {office.title}
+                    </p>
+                    <p className="text-secondary/80 text-base font-semibold mt-1">
+                      {office.name}
+                    </p>
+                    {office.address.map((line) => (
+                      <p
+                        key={`${office.id}-${line}`}
+                        className="text-secondary/70 text-sm">
+                        {line}
+                      </p>
+                    ))}
+
+                    <div className="space-y-2">
+                      <p className="text-secondary/70 text-xs font-semibold uppercase tracking-wider">
+                        Role
+                      </p>
+                      <ul className="sp-entity-list list-disc pl-4">
+                        {office?.role?.map((line) => (
+                          <li key={line}>{line}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  <iframe
+                    src={office.mapSrc}
+                    title={`${office.name} Office Map`}
+                    width="100%"
+                    height="280"
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="w-full rounded-2xl border border-white/10"></iframe>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 };

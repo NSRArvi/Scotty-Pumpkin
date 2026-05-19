@@ -7,6 +7,14 @@ import Image from "next/image";
 import centralized from "@/public/assets/buy/centralized.png";
 import dex from "@/public/assets/buy/dex.png";
 import Link from "next/link";
+import {
+  BadgeDollarSign,
+  CircleCheck,
+  LockKeyhole,
+  Music4,
+  Sparkles,
+} from "lucide-react";
+import Container from "../components/shared/Container";
 
 const WALLET_ADDRESS = "8HVXp9...9peL6s";
 const WALLET_FULL = "8HVXp9ABCDEFGHIJKLMNOPQRSTUVWXYZabcd9peL6s";
@@ -95,30 +103,38 @@ export default function Page() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
-  function renderModal({ isOpen, onClose, title, subtitle, items, extraContent }) {
+  function renderModal({
+    isOpen,
+    onClose,
+    title,
+    subtitle,
+    items,
+    extraContent,
+  }) {
     if (!isOpen || typeof window === "undefined") return null;
 
     return createPortal(
       <div
         className="fixed inset-0 overflow-y-auto p-3 sm:p-4"
         style={{ zIndex: 2147483647 }}
-        onClick={onClose}
-      >
+        onClick={onClose}>
         <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
         <div className="relative z-10 flex min-h-full items-start sm:items-center justify-center">
           <div
             className="w-full max-w-2xl rounded-2xl border border-purple-500/35 bg-[#12061f]/95 p-5 md:p-7 shadow-2xl max-h-[88vh] overflow-y-auto"
-            onClick={(event) => event.stopPropagation()}
-          >
+            onClick={(event) => event.stopPropagation()}>
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white">{title}</h3>
-                <p className="mt-1 text-sm md:text-base text-white/65">{subtitle}</p>
+                <h3 className="text-2xl md:text-3xl font-bold text-white">
+                  {title}
+                </h3>
+                <p className="mt-1 text-sm md:text-base text-white/65">
+                  {subtitle}
+                </p>
               </div>
               <button
                 onClick={onClose}
-                className="rounded-lg border border-white/15 px-3 py-1.5 text-white/80 hover:bg-white/10"
-              >
+                className="rounded-lg border border-white/15 px-3 py-1.5 text-white/80 hover:bg-white/10">
                 Close
               </button>
             </div>
@@ -127,9 +143,10 @@ export default function Page() {
               {items.map((item) => (
                 <div
                   key={item.title}
-                  className="rounded-xl border border-purple-500/30 bg-white/5 p-4 md:p-5"
-                >
-                  <h4 className="text-lg font-bold text-amber-300">{item.title}</h4>
+                  className="rounded-xl border border-purple-500/30 bg-white/5 p-4 md:p-5">
+                  <h4 className="text-lg font-bold text-amber-300">
+                    {item.title}
+                  </h4>
                   <p className="mt-1 text-sm md:text-base text-white/70">
                     {item.description}
                   </p>
@@ -137,8 +154,7 @@ export default function Page() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 inline-flex rounded-lg border border-purple-400/45 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-500/20"
-                  >
+                    className="mt-3 inline-flex rounded-lg border border-purple-400/45 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-500/20">
                     Open Link
                   </Link>
                 </div>
@@ -148,317 +164,363 @@ export default function Page() {
           </div>
         </div>
       </div>,
-      document.body
+      document.body,
     );
   }
 
   return (
-    <>
-      <section className="relative z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
-        <div className="max-w-5xl mx-auto space-y-12 md:space-y-16">
-          {/* ── Hero Banner ── */}
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-            <div className="flex justify-center order-1 md:order-1">
-              <div
-                className="w-48 h-48 sm:w-56 sm:h-56 md:w-72 md:h-72"
-                style={{ animation: "sp-float 4s ease-in-out infinite" }}
-              >
-                <Image
-                  src={heroImg}
-                  alt="Scotty"
-                  className="w-full h-full object-contain drop-shadow-2xl"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-5 order-2 md:order-2 text-center md:text-left">
-              <div className="text-3xl sm:text-4xl md:text-5xl">🎃</div>
-
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold sp-shimmer-heading">
-                Buy Scotty (SPUMP)
-              </h1>
-
-              <p className="text-purple-200 text-base md:text-lg leading-relaxed">
-                Use Scotty to pay creators and participate in{" "}
-                <span className="font-bold text-white">the Scotty Pumpkin</span>{" "}
-                marketplace.
-              </p>
-              <div className="flex flex-col gap-3">
-                <Link
-                  href="/coming-soon"
-                  className="sp-gradient-btn ui-btn ui-btn-success px-7 py-3.5 rounded-xl font-bold text-base text-white flex items-center justify-center gap-2"
-                >
-                  <span>🟡</span> Buy on Official Exchange (CEX)
-                </Link>
-                <button
-                  onClick={() => setIsTokenDetailsOpen(true)}
-                  className="sp-outline-btn ui-btn ui-btn-secondary px-7 py-3.5 rounded-xl font-semibold text-base text-white flex items-center justify-center gap-2"
-                >
-                  View Token Details
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* ── Token Info ── */}
-          <p className="text-white/60 text-sm md:text-base text-center leading-relaxed">
-            Scotty (SPUMP) is a utility payment token used inside the{" "}
-            <span className="font-bold text-white">Scotty Pumpkin</span>{" "}
-            platform.
-          </p>
-
-          <div className="sp-divider" />
-
-          {/* ── CEX Card ── */}
-          <div className="space-y-5">
-            <div className="sp-cex-card rounded-2xl p-6 md:p-8">
-              <div className="flex items-start gap-6">
-                <div className="flex-1 min-w-0 space-y-4">
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <span className="text-2xl">🏛️</span>
-                    <h2 className="text-xl md:text-2xl font-bold text-amber-400">
-                      Buy on Centralized Exchange{" "}
-                      <span className="text-white/55 font-normal text-base">
-                        (Recommended)
-                      </span>
-                    </h2>
-                  </div>
-                  <p className="text-white/75 text-sm md:text-base">
-                    We list Scotty (SPUMP) on{" "}
-                    <span className="font-bold text-white">approved</span>{" "}
-                    centralized exchanges to ensure:
-                  </p>
-                  <div className="space-y-2">
-                    {[
-                      "Better liquidity",
-                      "Regulated onboarding (KYC where required)",
-                      "Safer user experience",
-                      "Simplified buying process",
-                    ].map((item) => (
-                      <p
-                        key={item}
-                        className="flex items-center gap-2 text-white/80 text-sm md:text-base"
-                      >
-                        <span className="sp-check">✓</span>
-                        {item}
-                      </p>
-                    ))}
-                  </div>
-                  <Link
-                    href="/coming-soon"
-                    className="sp-gradient-btn ui-btn ui-btn-success px-8 py-3.5 rounded-xl font-bold text-base text-white mt-2 flex w-fit"
-                  >
-                    Visit Official Exchange
-                  </Link>
-                </div>
-
-                <div
-                  className="hidden sm:flex size-48 items-center justify-center rounded-2xl shrink-0"
-                  style={{
-                    background: "rgba(245,158,11,0.07)",
-                    border: "1px solid rgba(245,158,11,0.15)",
-                  }}
-                >
+    <div className="bg-primary-bg">
+      <Container>
+        <section className="relative z-10 py-12 md:py-16 lg:py-24">
+          <div className="space-y-12 md:space-y-16">
+            {/* ── Hero Banner ── */}
+            <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+              <div className="w-4/5 relative flex items-center justify-center">
+                {/* Main Image */}
+                <div className="relative z-10">
                   <Image
-                    src={centralized}
-                    alt="centralized exchange"
-                    className="object-contain"
+                    width={1000}
+                    height={1000}
+                    src={heroImg}
+                    alt="Pumpkin Dog"
+                    className="w-full h-auto object-contain drop-shadow-[0_25px_40px_rgba(241,112,5,0.28)]"
                   />
                 </div>
+
+                {/* Circle Line */}
+                <div className="absolute h-107.5 w-107.5 rounded-full border border-primary/15" />
+
+                {/* Floating Icon Left Top */}
+                <div className="absolute left-2 top-14 animate-float-slow">
+                  <div className="icon-card rotate-[-14deg]">
+                    <LockKeyhole size={26} strokeWidth={2.2} />
+                  </div>
+                </div>
+
+                {/* Floating Icon Right */}
+                <div className="absolute right-0 top-24 animate-float-medium">
+                  <div className="icon-card rotate-12">
+                    <Music4 size={26} strokeWidth={2.2} />
+                  </div>
+                </div>
+
+                {/* Floating Icon Bottom */}
+                <div className="absolute bottom-20 left-10 animate-float-fast">
+                  <div className="icon-card rotate-[8deg]">
+                    <BadgeDollarSign size={26} strokeWidth={2.2} />
+                  </div>
+                </div>
+
+                {/* Glow Stars */}
+                <Sparkles className="absolute left-24 top-4 text-primary animate-pulse" />
+                <Sparkles className="absolute right-16 bottom-20 text-primary animate-pulse" />
+              </div>
+
+              <div className="space-y-5 order-2 md:order-2 text-center md:text-left">
+                <div className="text-3xl sm:text-4xl md:text-5xl">🎃</div>
+
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-secondary">
+                  Buy Scotty (SPUMP)
+                </h1>
+
+                <p className="text-secondary/80 text-base md:text-lg leading-relaxed">
+                  Use Scotty to pay creators and participate in{" "}
+                  <span className="font-bold text-primary">
+                    the Scotty Pumpkin
+                  </span>{" "}
+                  marketplace.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-4 md:pt-6 justify-center md:justify-start">
+                  <Link
+                    href="/coming-soon"
+                    target="_blank"
+                    className="px-4 py-2 text-base  bg-primary hover:bg-primary/80 transition duration-300 rounded-lg">
+                    🟡 Buy on Official Exchange (CEX)
+                  </Link>
+                  <button
+                    onClick={() => setIsTokenDetailsOpen(true)}
+                    className="text-secondary border border-secondary hover:text-white hover:bg-secondary transition duration-500 rounded-lg px-4 py-2 text-base">
+                    View Token Details
+                  </button>
+                </div>
               </div>
             </div>
 
-            {/* ── DEX Card ── */}
-            <div className="sp-dex-card rounded-2xl p-6 md:p-8">
-              <div className="flex items-start gap-6">
-                <div className="flex-1 min-w-0 space-y-4">
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <span className="text-2xl">🔄</span>
-                    <h2 className="text-xl md:text-2xl font-bold text-white">
-                      DEX Listing{" "}
-                      <span className="text-purple-300 font-normal text-base">
-                        (Price Reference &amp; Limited Liquidity)
-                      </span>
-                    </h2>
+            {/* ── Token Info ── */}
+            <p className="text-secondary text-sm md:text-base text-center leading-relaxed">
+              Scotty (SPUMP) is a utility payment token used inside the{" "}
+              <span className="font-bold text-primary">Scotty Pumpkin</span>{" "}
+              platform.
+            </p>
+
+            <div className="sp-divider" />
+
+            {/* ── CEX Card ── */}
+            <div className="space-y-5">
+              <div className="shadow-md bg-white/80 rounded-2xl p-6 md:p-8">
+                <div className="flex items-start gap-6">
+                  <div className="flex-1 min-w-0 space-y-4">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <span className="text-2xl">🏛️</span>
+                      <h2 className="text-xl md:text-2xl font-bold text-primary">
+                        Buy on Centralized Exchange{" "}
+                        <span className="text-secondary font-normal text-base">
+                          (Recommended)
+                        </span>
+                      </h2>
+                    </div>
+                    <p className="text-secondary/80 text-sm md:text-base">
+                      We list Scotty (SPUMP) on{" "}
+                      <span className="font-bold text-secondary">approved</span>{" "}
+                      centralized exchanges to ensure:
+                    </p>
+                    <div className="space-y-2">
+                      {[
+                        "Better liquidity",
+                        "Regulated onboarding (KYC where required)",
+                        "Safer user experience",
+                        "Simplified buying process",
+                      ].map((item) => (
+                        <p
+                          key={item}
+                          className="flex items-center gap-2 text-secondary/80 text-sm md:text-base">
+                          <span className="sp-check ">
+                            <CircleCheck className="text-primary" />
+                          </span>
+                          {item}
+                        </p>
+                      ))}
+                    </div>
+                    <Link
+                      href="/coming-soon"
+                      className="bg-primary/90 hover:bg-primary transition duration-300 px-8 py-3.5 rounded-xl font-bold text-base text-white mt-2 flex w-fit">
+                      Visit Official Exchange
+                    </Link>
                   </div>
-                  <p className="text-white/75 text-sm md:text-base">
-                    Scotty (SPUMP) may also be available on Solana DEX
-                    platforms.
-                  </p>
-                  <div className="space-y-2">
-                    {[
-                      "Liquidity is intentionally limited",
-                      "Used mainly for price discovery",
-                      "Not the preferred method for large purchases",
-                    ].map((item) => (
-                      <p
-                        key={item}
-                        className="flex items-center gap-2 text-white/80 text-sm md:text-base"
-                      >
-                        <span className="sp-check">✓</span>
-                        {item}
-                      </p>
-                    ))}
+
+                  <div
+                    className="hidden sm:flex size-48 items-center justify-center rounded-2xl shrink-0"
+                    style={{
+                      background: "rgba(245,158,11,0.07)",
+                      border: "1px solid rgba(245,158,11,0.15)",
+                    }}>
+                    <Image
+                      src={centralized}
+                      alt="centralized exchange"
+                      className="object-contain"
+                    />
                   </div>
+                </div>
+              </div>
+
+              {/* ── DEX Card ── */}
+              <div className="bg-white/80 shadow-md rounded-2xl p-6 md:p-8">
+                <div className="flex items-start gap-6">
+                  <div className="flex-1 min-w-0 space-y-4">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <span className="text-2xl">🔄</span>
+                      <h2 className="text-xl md:text-2xl font-bold text-primary">
+                        DEX Listing{" "}
+                        <span className="text-secondary/90 font-normal text-base">
+                          (Price Reference &amp; Limited Liquidity)
+                        </span>
+                      </h2>
+                    </div>
+                    <p className="text-secondary text-sm md:text-base">
+                      Scotty (SPUMP) may also be available on Solana DEX
+                      platforms.
+                    </p>
+                    <div className="space-y-2">
+                      {[
+                        "Liquidity is intentionally limited",
+                        "Used mainly for price discovery",
+                        "Not the preferred method for large purchases",
+                      ].map((item) => (
+                        <p
+                          key={item}
+                          className="flex items-center gap-2 text-secondary/80 text-sm md:text-base">
+                          <span className="sp-check">
+                            <CircleCheck className="text-primary" />
+                          </span>
+                          {item}
+                        </p>
+                      ))}
+                    </div>
+                    <button
+                      onClick={() => setIsDexListingOpen(true)}
+                      className="bg-primary/90 hover:bg-primary transition duration-300 px-8 py-3.5 rounded-xl font-bold text-base text-white mt-2 flex w-fit">
+                      View DEX Listing
+                    </button>
+                  </div>
+
+                  <div
+                    className="hidden sm:flex size-48 items-center justify-center rounded-2xl shrink-0"
+                    style={{
+                      background: "rgba(168,85,247,0.07)",
+                      border: "1px solid rgba(168,85,247,0.15)",
+                    }}>
+                    <Image src={dex} alt="DEX" className="object-contain" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white/80 shadow-md rounded-2xl p-6 md:p-8">
+                <div className="flex items-start gap-6">
+                  <div className="flex-1 min-w-0 space-y-4">
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <span className="text-2xl">🔐</span>
+                      <h2 className="text-xl md:text-2xl font-bold text-primary">
+                        Private Sale
+                      </h2>
+                    </div>
+                    <p className="text-secondary/90 text-sm md:text-base">
+                      Join the private sale with flexible payment methods.
+                      Choose online crypto payment or complete your purchase via
+                      bank transfer.
+                    </p>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <Link
+                        href="/online-purchase"
+                        className="px-4 py-2 text-base text-center bg-primary hover:bg-primary/80 transition duration-300 rounded-lg">
+                        Pay with USDC / USDT / SOL
+                      </Link>
+                      <Link
+                        href="/bank-purchase"
+                        className="text-secondary text-center border border-secondary hover:text-white hover:bg-secondary transition duration-500 rounded-lg px-4 py-2 text-base">
+                        Bank Transfer
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Footer note ── */}
+            <div className="sp-divider" />
+            <p className="text-center text-sm text-secondary/80 pb-4">
+              <span className="font-bold text-secondary/90">Scotty</span>{" "}
+              (SPUMP) is a utility payment token used exclusively within the
+              Scotty Pumpkin platform.
+            </p>
+
+            <div className="pt-1 pb-2">
+              <div className="bg-white/80 px-8 py-6 rounded-2xl shadow-md">
+                <h3 className="text-secondary font-semibold">
+                  Crypto risk warning
+                </h3>
+                <div className="mt-3 flex flex-wrap gap-2">
                   <button
-                    onClick={() => setIsDexListingOpen(true)}
-                    className="sp-dex-btn ui-btn ui-btn-primary px-8 py-3.5 rounded-xl font-bold text-base text-white mt-2"
-                  >
-                    View DEX Listing
+                    type="button"
+                    onClick={() => setRiskTab("en")}
+                    className={`px-3 py-1.5 ${riskTab === "en" ? "active text-white bg-primary border-primary border rounded-lg" : "text-secondary border-secondary border rounded-lg"}`}>
+                    English
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setRiskTab("fr")}
+                    className={`px-3 py-1.5 ${riskTab === "fr" ? "active text-white border-primary bg-primary border rounded-lg" : "text-secondary border-secondary border rounded-lg"}`}>
+                    France
                   </button>
                 </div>
 
                 <div
-                  className="hidden sm:flex size-48 items-center justify-center rounded-2xl shrink-0"
-                  style={{
-                    background: "rgba(168,85,247,0.07)",
-                    border: "1px solid rgba(168,85,247,0.15)",
-                  }}
-                >
-                  <Image src={dex} alt="DEX" className="object-contain" />
+                  id="crypto-risk-warning"
+                  className="sp-risk-panel text-sm leading-relaxed space-y-4">
+                  {riskTab === "en" ? (
+                    <div className="space-y-2">
+                      <h4 className="text-primary font-bold">
+                        Risk Warning (UK)
+                      </h4>
+                      <p className="text-secondary/80">
+                        Investing in cryptoassets involves a high degree of
+                        risk. The value of cryptoassets can go down as well as
+                        up, and you may lose all of your investment.
+                      </p>
+                      <p className="text-secondary/80">
+                        Cryptoassets are not regulated financial products in the
+                        United Kingdom and are not covered by the Financial
+                        Services Compensation Scheme (FSCS) or the Financial
+                        Ombudsman Service (FOS).
+                      </p>
+                      <p className="text-secondary/80">
+                        You should carefully consider whether you understand how
+                        cryptoassets work before purchasing or using them.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <h4 className="text-primary font-bold">
+                        🇪🇺 Risk warning — EU / FRANCE
+                      </h4>
+                      <p className="text-secondary font-semibold">
+                        Avertissement sur les risques
+                      </p>
+                      <p className="text-secondary/80">
+                        Les crypto-actifs sont volatils et présentent un risque
+                        élevé. Vous pouvez perdre tout ou partie de votre
+                        investissement.
+                      </p>
+                      <p className="text-secondary/80">
+                        Les crypto-actifs ne bénéficient pas nécessairement de
+                        protections réglementaires équivalentes aux instruments
+                        financiers traditionnels.
+                      </p>
+                      <p className="text-secondary/80">
+                        L&apos;utilisateur doit s&apos;assurer qu&apos;il
+                        comprend les risques avant toute utilisation.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
+          </div>
+        </section>
 
-            <div className="sp-cex-card rounded-2xl p-6 md:p-8">
-              <div className="flex items-start gap-6">
-                <div className="flex-1 min-w-0 space-y-4">
-                  <div className="flex items-center gap-3 flex-wrap">
-                    <span className="text-2xl">🔐</span>
-                    <h2 className="text-xl md:text-2xl font-bold text-amber-300">
-                      Private Sale
-                    </h2>
-                  </div>
-                  <p className="text-white/75 text-sm md:text-base">
-                    Join the private sale with flexible payment methods. Choose
-                    online crypto payment or complete your purchase via bank
-                    transfer.
+        {renderModal({
+          isOpen: isTokenDetailsOpen,
+          onClose: () => setIsTokenDetailsOpen(false),
+          title: "Token Details",
+          subtitle: "Explore trusted market tracking links for SPUMP.",
+          items: tokenDetails,
+          extraContent: (
+            <>
+              <div className="pt-2">
+                <h4 className="text-base md:text-lg font-bold text-purple-200">
+                  Other Popular Aggregators
+                </h4>
+              </div>
+              {otherPopularAggregators.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-xl border border-purple-500/30 bg-white/5 p-4 md:p-5">
+                  <h4 className="text-lg font-bold text-amber-300">
+                    {item.title}
+                  </h4>
+                  <p className="mt-1 text-sm md:text-base text-white/70">
+                    {item.description}
                   </p>
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <Link
-                      href="/online-purchase"
-                      className="sp-dex-btn ui-btn ui-btn-primary px-6 py-3.5 rounded-xl font-semibold text-base text-white text-center"
-                    >
-                      Pay with USDC / USDT / SOL
-                    </Link>
-                    <Link
-                      href="/bank-purchase"
-                      className="sp-outline-btn ui-btn ui-btn-secondary px-6 py-3.5 rounded-xl font-semibold text-base text-white text-center"
-                    >
-                      Bank Transfer
-                    </Link>
-                  </div>
+                  <Link
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex rounded-lg border border-purple-400/45 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-500/20">
+                    Open Link
+                  </Link>
                 </div>
-              </div>
-            </div>
-          </div>
+              ))}
+            </>
+          ),
+        })}
 
-          {/* ── Footer note ── */}
-          <div className="sp-divider" />
-          <p className="text-center text-white/35 text-sm pb-4">
-            <span className="font-bold text-white/50">Scotty</span> (SPUMP) is a
-            utility payment token used exclusively within the Scotty Pumpkin
-            platform.
-          </p>
-
-          <div className="pt-1 pb-2">
-            <div className="sp-risk-wrap">
-              <h3 className="text-white font-semibold">Crypto risk warning</h3>
-              <div className="mt-3 flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={() => setRiskTab("en")}
-                  className={`sp-risk-tab ${riskTab === "en" ? "active" : ""}`}
-                >
-                  English
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRiskTab("fr")}
-                  className={`sp-risk-tab ${riskTab === "fr" ? "active" : ""}`}
-                >
-                  France
-                </button>
-              </div>
-
-              <div id="crypto-risk-warning" className="sp-risk-panel text-sm leading-relaxed space-y-4">
-                {riskTab === "en" ? (
-                  <div className="space-y-2">
-                    <h4 className="text-amber-300 font-bold">Risk Warning (UK)</h4>
-                    <p className="text-white/75">
-                      Investing in cryptoassets involves a high degree of risk. The value of cryptoassets can go down as well as up, and you may lose all of your investment.
-                    </p>
-                    <p className="text-white/75">
-                      Cryptoassets are not regulated financial products in the United Kingdom and are not covered by the Financial Services Compensation Scheme (FSCS) or the Financial Ombudsman Service (FOS).
-                    </p>
-                    <p className="text-white/75">
-                      You should carefully consider whether you understand how cryptoassets work before purchasing or using them.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    <h4 className="text-amber-300 font-bold">🇪🇺 Risk warning — EU / FRANCE</h4>
-                    <p className="text-white font-semibold">Avertissement sur les risques</p>
-                    <p className="text-white/75">
-                      Les crypto-actifs sont volatils et présentent un risque élevé. Vous pouvez perdre tout ou partie de votre investissement.
-                    </p>
-                    <p className="text-white/75">
-                      Les crypto-actifs ne bénéficient pas nécessairement de protections réglementaires équivalentes aux instruments financiers traditionnels.
-                    </p>
-                    <p className="text-white/75">
-                      L&apos;utilisateur doit s&apos;assurer qu&apos;il comprend les risques avant toute utilisation.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {renderModal({
-        isOpen: isTokenDetailsOpen,
-        onClose: () => setIsTokenDetailsOpen(false),
-        title: "Token Details",
-        subtitle: "Explore trusted market tracking links for SPUMP.",
-        items: tokenDetails,
-        extraContent: (
-          <>
-            <div className="pt-2">
-              <h4 className="text-base md:text-lg font-bold text-purple-200">
-                Other Popular Aggregators
-              </h4>
-            </div>
-            {otherPopularAggregators.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-xl border border-purple-500/30 bg-white/5 p-4 md:p-5"
-              >
-                <h4 className="text-lg font-bold text-amber-300">{item.title}</h4>
-                <p className="mt-1 text-sm md:text-base text-white/70">
-                  {item.description}
-                </p>
-                <Link
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-flex rounded-lg border border-purple-400/45 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-500/20"
-                >
-                  Open Link
-                </Link>
-              </div>
-            ))}
-          </>
-        ),
-      })}
-
-      {renderModal({
-        isOpen: isDexListingOpen,
-        onClose: () => setIsDexListingOpen(false),
-        title: "DEX Listing",
-        subtitle: "Trade SPUMP through decentralized swap interfaces.",
-        items: dexListings,
-      })}
-    </>
+        {renderModal({
+          isOpen: isDexListingOpen,
+          onClose: () => setIsDexListingOpen(false),
+          title: "DEX Listing",
+          subtitle: "Trade SPUMP through decentralized swap interfaces.",
+          items: dexListings,
+        })}
+      </Container>
+    </div>
   );
 }
