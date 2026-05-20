@@ -366,7 +366,6 @@ export default function LegalPackPage() {
               className="sp-content-panel rounded-2xl p-6 md:p-8 space-y-5"
               style={{
                 borderColor: current.accentBorder,
-                boxShadow: `0 8px 40px rgba(0,0,0,0.35), 0 0 50px ${current.accentGlow}`,
               }}>
               {/* Panel header */}
               <div className="flex items-center gap-4 pb-2">

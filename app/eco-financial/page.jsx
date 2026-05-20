@@ -114,7 +114,7 @@ export default function EcoFinancialPage() {
                 <span className="bg-slate-100 border border-slate-200 text-slate-800 text-[11px] font-bold px-3 py-1 rounded-full">
                   60/10/10/10/10 Model
                 </span>
-                <span className="bg-orange-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
+                <span className="bg-orange-600 text-white text-[11px] font-bold px-3 py-1 rounded-full ">
                   Non-Investment
                 </span>
               </div>
@@ -175,9 +175,6 @@ export default function EcoFinancialPage() {
                               strokeWidth="18"
                               strokeDasharray={`${dash} ${gap}`}
                               strokeDashoffset={-offset}
-                              style={{
-                                filter: `drop-shadow(0 0 6px ${a.glow})`,
-                              }}
                             />
                           );
                           offset += dash;
@@ -214,7 +211,6 @@ export default function EcoFinancialPage() {
                               "--bar-w": row.value,
                               width: row.value,
                               background: row.color,
-                              boxShadow: `0 0 8px ${row.glow}`,
                               animationDelay: `${i * 0.1}s`,
                             }}
                           />
@@ -237,13 +233,7 @@ export default function EcoFinancialPage() {
               <div className="sp-no-rights-card rounded-2xl p-5 md:p-6 space-y-3">
                 {NO_RIGHTS.map((item, i) => (
                   <div key={i} className="sp-no-rights-item">
-                    <span
-                      className="text-red-500 text-lg shrink-0"
-                      style={{
-                        filter: "drop-shadow(0 0 4px rgba(248,113,113,0.5))",
-                      }}>
-                      ✕
-                    </span>
+                    <span className="text-red-500 text-lg shrink-0">✕</span>
                     <span className="text-red-400 text-sm md:text-base">
                       {item}
                     </span>
@@ -264,7 +254,6 @@ export default function EcoFinancialPage() {
                 style={{
                   background: "rgba(241, 112, 5, 0.08)",
                   border: "1px solid rgba(241, 112, 5, 0.25)",
-                  boxShadow: "0 0 40px rgba(241, 112, 5, 0.08)",
                 }}>
                 <span
                   className="text-3xl shrink-0"
@@ -299,7 +288,7 @@ export default function EcoFinancialPage() {
                 {MARKET_CARDS.map((card) => (
                   <div
                     key={card.id}
-                    className="sp-market-card shadow-sm"
+                    className="sp-market-car"
                     style={{
                       background: card.bg,
                       border: `1px solid ${card.border}`,

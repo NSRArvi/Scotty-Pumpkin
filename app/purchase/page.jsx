@@ -148,7 +148,7 @@ export default function PurchasePage() {
             {/* ── Two column layout ── */}
             <div className="grid lg:grid-cols-2 gap-6">
               {/* ── LEFT: Payment Options ── */}
-              <div className="pu-panel shadow-md rounded-2xl p-6 space-y-4">
+              <div className="pu-panel rounded-2xl p-6 space-y-4">
                 <div className="pu-section-label">Payment Options</div>
                 <p className="text-center text-secondary/80 text-xs">
                   Select Payment Type — Get Instant Discount
@@ -171,7 +171,6 @@ export default function PurchasePage() {
                             ? {
                                 background: m.activeBg,
                                 borderColor: m.border,
-                                boxShadow: `0 0 20px ${m.glow}`,
                               }
                             : {}
                         }

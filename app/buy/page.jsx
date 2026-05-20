@@ -115,13 +115,12 @@ export default function Page() {
 
     return createPortal(
       <div
-        className="fixed inset-0 overflow-y-auto p-3 sm:p-4"
-        style={{ zIndex: 2147483647 }}
+        className="fixed inset-0 overflow-y-auto p-3 sm:p-4 z-2147483647"
         onClick={onClose}>
         <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
         <div className="relative z-10 flex min-h-full items-start sm:items-center justify-center">
           <div
-            className="w-full max-w-2xl rounded-2xl border border-purple-500/35 bg-white p-5 md:p-7 shadow-2xl max-h-[88vh] overflow-y-auto"
+            className="w-full max-w-2xl rounded-2xl border border-purple-500/35 bg-white p-5 md:p-7 max-h-[88vh] overflow-y-auto"
             onClick={(event) => event.stopPropagation()}>
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
@@ -175,7 +174,7 @@ export default function Page() {
           <div className="space-y-12 md:space-y-16">
             {/* ── Hero Banner ── */}
             <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-              <div className="w-4/5 relative flex items-center justify-center">
+              <div className="w-full md:w-4/5 relative flex items-center justify-center">
                 {/* Main Image */}
                 <div className="relative z-10">
                   <Image
@@ -217,8 +216,6 @@ export default function Page() {
               </div>
 
               <div className="space-y-5 order-2 md:order-2 text-center md:text-left">
-                <div className="text-3xl sm:text-4xl md:text-5xl">🎃</div>
-
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-secondary">
                   Buy Scotty (SPUMP)
                 </h1>
@@ -257,7 +254,7 @@ export default function Page() {
 
             {/* ── CEX Card ── */}
             <div className="space-y-5">
-              <div className="shadow-md bg-white/80 rounded-2xl p-6 md:p-8">
+              <div className=" bg-white/80 rounded-2xl p-6 md:p-8">
                 <div className="flex items-start gap-6">
                   <div className="flex-1 min-w-0 space-y-4">
                     <div className="flex items-center gap-3 flex-wrap">
@@ -314,7 +311,7 @@ export default function Page() {
               </div>
 
               {/* ── DEX Card ── */}
-              <div className="bg-white/80 shadow-md rounded-2xl p-6 md:p-8">
+              <div className="bg-white/80 rounded-2xl p-6 md:p-8">
                 <div className="flex items-start gap-6">
                   <div className="flex-1 min-w-0 space-y-4">
                     <div className="flex items-center gap-3 flex-wrap">
@@ -364,7 +361,7 @@ export default function Page() {
                 </div>
               </div>
 
-              <div className="bg-white/80 shadow-md rounded-2xl p-6 md:p-8">
+              <div className="bg-white/80 rounded-2xl p-6 md:p-8">
                 <div className="flex items-start gap-6">
                   <div className="flex-1 min-w-0 space-y-4">
                     <div className="flex items-center gap-3 flex-wrap">
@@ -404,7 +401,7 @@ export default function Page() {
             </p>
 
             <div className="pt-1 pb-2">
-              <div className="bg-white/80 px-8 py-6 rounded-2xl shadow-md">
+              <div className="bg-white/80 px-8 py-6 rounded-2xl">
                 <h3 className="text-secondary font-semibold">
                   Crypto risk warning
                 </h3>

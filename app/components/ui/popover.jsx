@@ -7,7 +7,10 @@ import { cn } from "@/lib/utils";
 const Popover = PopoverPrimitive.Root;
 const PopoverTrigger = PopoverPrimitive.Trigger;
 
-const PopoverContent = React.forwardRef(function PopoverContent({ className, align = "end", sideOffset = 8, ...props }, ref) {
+const PopoverContent = React.forwardRef(function PopoverContent(
+  { className, align = "end", sideOffset = 8, ...props },
+  ref,
+) {
   return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Content
@@ -15,8 +18,8 @@ const PopoverContent = React.forwardRef(function PopoverContent({ className, ali
         align={align}
         sideOffset={sideOffset}
         className={cn(
-          "z-50 w-80 rounded-xl border border-white/15 bg-[#141b30] p-4 text-sm text-white shadow-lg",
-          className
+          "z-50 w-80 rounded-xl border border-white/15 bg-[#141b30] p-4 text-sm text-white",
+          className,
         )}
         {...props}
       />

@@ -56,16 +56,7 @@ export default function Hero() {
 
             {/* Hero Content */}
             <div className="w-full space-y-4 md:space-y-6 order-2 md:order-2 text-center md:text-left">
-              <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-4 justify-center md:justify-start">
-                <div className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-2xl md:text-4xl shadow-lg">
-                  🎃
-                </div>
-                <h2 className="text-xl md:text-2xl font-bold text-secondary">
-                  Scotty Pumpkin
-                </h2>
-              </div>
-
-              <h1 className="text-3xl text-secondary sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight">
+              <h1 className="text-3xl text-secondary sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight">
                 Web3 Creator Marketplace
               </h1>
 

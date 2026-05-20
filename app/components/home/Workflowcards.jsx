@@ -56,208 +56,55 @@ const cards = [
 
 export default function WorkflowCards() {
   return (
-    <>
-      <style>{`
-        .wf-card {
-          position: relative;
-          border-radius: 20px;
-          /* glass base */
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgb(241, 112, 5);
-          overflow: hidden;
-         
-        }
+    <Container>
+      <section className="relative z-10 py-12 md:py-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+          {cards.map((card, index) => (
+            <div
+              key={index}
+              className="group wf-card border border-primary bg-white/80 p-6 rounded-lg relative overflow-hidden transition-all duration-300">
+              {/* Full-width image wrapper with original 4:3 aspect ratio and fade overlay */}
+              <div className="wf-img-wrap w-full relative overflow-hidden aspect-4/3 rounded-t-2xl">
+                <Image
+                  src={card.image}
+                  alt={card.title}
+                  fill
+                  className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-[1.06]"
+                />
+                {/* Overlay gradient from style tag */}
+                <div className="absolute inset-0 bg-linear-to-b from-transparent to-[rgba(15,32,39,0)] via-transparent/40" />
+              </div>
 
-        /* Gradient border via pseudo-element — only visible on hover */
-        .wf-card::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 20px;
-          padding: 1.5px;
-          background: var(--card-gradient);
-          mask-composite: exclude;
-          opacity: 0;
-          transition: opacity 0.35s ease;
-          pointer-events: none;
-          z-index: 1;
-        }
+              {/* Content body */}
+              <div className="wf-body mt-4">
+                <h3 className="text-secondary font-bold text-lg leading-tight">
+                  {card.title}
+                  {card.subtitle && (
+                    <span className="font-semibold text-secondary text-base block mt-0.5">
+                      {card.subtitle}
+                    </span>
+                  )}
+                </h3>
 
-        .wf-card:hover::before {
-          opacity: 1;
-        }
+                {/* Divider Line */}
+                <div className="wf-divider my-3 h-px bg-secondary/10" />
 
-        .wf-card:hover {
-          background: rgba(255, 255, 255, 0.07);
-        }
-
-        /* image container */
-        .wf-img-wrap {
-          position: relative;
-          width: 100%;
-          aspect-ratio: 4 / 3;
-          overflow: hidden;
-          border-radius: 16px 16px 0 0;
-        }
-
-        .wf-img-wrap::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            to bottom,
-            transparent 40%,
-            rgb(15, 32, 39, 0) 100%
-          );
-        }
-
-        .wf-img-wrap img {
-          transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        .wf-card:hover .wf-img-wrap img {
-          transform: scale(1.06);
-        }
-
-        /* subtle inner shimmer on hover */
-        .wf-card::after {
-          content: '';
-          position: absolute;
-          top: 0; left: -75%;
-          width: 50%; height: 100%;
-          background: linear-gradient(
-            120deg,
-            transparent 0%,
-            rgba(255,255,255,0.06) 50%,
-            transparent 100%
-          );
-          transform: skewX(-20deg);
-          transition: left 0.6s ease;
-          pointer-events: none;
-          z-index: 2;
-        }
-
-        .wf-card:hover::after {
-          left: 150%;
-        }
-
-        .wf-body {
-          position: relative;
-          z-index: 3;
-          padding: 20px 22px 24px;
-        }
-
-        .wf-title {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #fff;
-          letter-spacing: -0.01em;
-          margin-bottom: 10px;
-          line-height: 1.25;
-        }
-
-        .wf-subtitle {
-          font-size: 0.95rem;
-          font-weight: 500;
-          color: rgba(255,255,255,0.65);
-          display: block;
-          margin-top: 2px;
-        }
-
-        .wf-desc-highlight {
-          font-size: 0.88rem;
-          font-weight: 600;
-          color: #fff;
-          line-height: 1.5;
-        }
-
-        .wf-desc-normal {
-          font-size: 0.84rem;
-          color: rgba(200, 185, 240, 0.8);
-          line-height: 1.55;
-        }
-
-        .wf-desc-list {
-          font-size: 0.84rem;
-          color: rgba(200, 185, 240, 0.8);
-          line-height: 1.7;
-        }
-
-        /* divider accent line */
-        .wf-divider {
-          height: 1px;
-          margin: 12px 0;
-          background: linear-gradient(
-            to right,
-            transparent,
-            rgba(255,255,255,0.12) 30%,
-            rgba(255,255,255,0.12) 70%,
-            transparent
-          );
-        }
-      `}</style>
-
-      <Container>
-        <section className="relative z-10 py-12 md:py-16">
-          <div className="">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
-              {cards.map((card, index) => (
-                <div
-                  key={index}
-                  className="wf-card hover:shadow-md"
-                  style={{
-                    "--card-gradient": `linear-gradient(135deg, ${card.gradient
-                      .replace(/from-|via-|to-|\//g, "")
-                      .split(" ")
-                      .join(", ")})`,
-                    "--card-glow": card.glowColor,
-                    // We compute the gradient string properly below
-                  }}>
-                  {/* Gradient border pseudo override via inline style */}
-
-                  {/* Full-width image */}
-                  <div className="wf-img-wrap">
-                    <Image
-                      src={card.image}
-                      alt={card.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover"
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-
-                  {/* Content */}
-                  <div className="wf-body">
-                    <h3 className="text-secondary font-bold text-lg leading-tight">
-                      {card.title}
-                      {card.subtitle && (
-                        <span className="font-semibold text-secondary text-base block">
-                          {card.subtitle}
-                        </span>
-                      )}
-                    </h3>
-
-                    <div className="wf-divider" />
-
-                    <div className="space-y-1">
-                      {card.description.map((line, lineIndex) => (
-                        <p
-                          key={lineIndex}
-                          className={`font-semibold text-sm text-secondary/80
-                          
-                        `}>
-                          {line.text}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
+                <div className="space-y-1">
+                  {card.description.map((line, lineIndex) => (
+                    <p
+                      key={lineIndex}
+                      className={`font-semibold text-sm text-secondary/80 ${
+                        line.highlight ? "text-secondary font-bold" : ""
+                      }`}>
+                      {line.text}
+                    </p>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
-          </div>
-        </section>
-      </Container>
-    </>
+          ))}
+        </div>
+      </section>
+    </Container>
   );
 }

@@ -1,127 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
 
-// const STEPS = [
-//   {
-//     number: 1,
-//     title: "Download the Wallet",
-//     icon: "📲",
-//     accent: "rgba(245,158,11,0.8)",
-//     border: "rgba(245,158,11,0.35)",
-//     bg: "rgba(245,158,11,0.07)",
-//     content:
-//       "Solana is available as a browser extension. You can also download the mobile app or use it as a browser extension.",
-//     details: [
-//       "Visit the official Belfax / Phantom wallet website",
-//       "Choose Download now for your platform",
-//       "Install the browser extension or mobile app",
-//       "Open the wallet once installed",
-//     ],
-//     tip: null,
-//     highlight: null,
-//   },
-//   {
-//     number: 2,
-//     title: "Create a New Wallet",
-//     icon: "👛",
-//     accent: "rgba(168,85,247,0.8)",
-//     border: "rgba(168,85,247,0.35)",
-//     bg: "rgba(168,85,247,0.07)",
-//     content:
-//       "Once you open Solana, choose Create wallet on the onboarding page or 'I need a new wallet'. This will give you a unique secret recovery phrase — this is the most important part of your wallet setup.",
-//     details: [
-//       "Open your wallet app or browser extension",
-//       "Tap or click 'Create a new wallet'",
-//       "Follow the on-screen setup instructions",
-//     ],
-//     tip: null,
-//     highlight: null,
-//   },
-//   {
-//     number: 3,
-//     title: "Save Your Recovery Phrase (Manually)",
-//     icon: "📝",
-//     accent: "rgba(239,68,68,0.8)",
-//     border: "rgba(239,68,68,0.35)",
-//     bg: "rgba(239,68,68,0.06)",
-//     content:
-//       "Your recovery phrase (also known as a seed phrase) is a group of 12 or 24 words in a specific order that acts as your master password. Think of it as your master password.",
-//     details: [
-//       "Write down your seed phrase on paper and keep it offline",
-//       "Never store it electronically",
-//       "Confirm the recovery phrase and you have protected it correctly",
-//     ],
-//     dos: [
-//       "Write it down on paper and keep it offline",
-//       "Store multiple copies somewhere safe",
-//       "Consider storing offline with a hardware wallet",
-//     ],
-//     donts: [
-//       "Never take a screenshot or photo of your phrase",
-//       "Never share your phrase with anyone",
-//       "Never input it with anyone online",
-//       "Never store it with anyone",
-//     ],
-//     tip: "In the future you might consider using Solana with a hardware wallet to further increase your security.",
-//     highlight:
-//       "⚠️ Anyone who has access to your recovery phrase has access to your wallet.",
-//   },
-//   {
-//     number: 4,
-//     title: "Set a Strong Password or Use Biometrics",
-//     icon: "🔐",
-//     accent: "rgba(99,102,241,0.8)",
-//     border: "rgba(99,102,241,0.35)",
-//     bg: "rgba(99,102,241,0.07)",
-//     content:
-//       "Our recommendation is that you use a complex, randomly generated password depending on your device. You can set an additional layer of security to protect access to your Solana wallet. Your password is your first line of defence. Your best protection: Never share your password!",
-//     details: [
-//       "Set a strong password you haven't used elsewhere",
-//       "Enable biometric authentication if your device supports it",
-//       "Your password protects local access to your wallet app",
-//     ],
-//     tip: "Use a complex random password that you don't use elsewhere.",
-//     highlight: null,
-//   },
-//   {
-//     number: 5,
-//     title: "You're All Set",
-//     icon: "✅",
-//     accent: "rgba(74,222,128,0.8)",
-//     border: "rgba(74,222,128,0.35)",
-//     bg: "rgba(74,222,128,0.06)",
-//     content: "Congratulations! You now have your Solana address ready to use.",
-//     details: [
-//       "You can now receive SOL, NFTs, tokens",
-//       "Send and receive SOL or SPL tokens",
-//       "Access dApps, DeFi, and NFT marketplaces",
-//       "Participate within the Scotty Pumpkin ecosystem",
-//     ],
-//     tip: "You're on your way to the decentralised web — and you're in control.",
-//     highlight: null,
-//   },
-//   {
-//     number: 6,
-//     title: "Copy Your Wallet Public Address",
-//     icon: "📋",
-//     accent: "rgba(245,158,11,0.8)",
-//     border: "rgba(245,158,11,0.35)",
-//     bg: "rgba(245,158,11,0.07)",
-//     content:
-//       "Your public address is displayed at the top of the interface. Simply click the wallet name or the address to copy it to your clipboard.",
-//     details: [
-//       "Open your wallet app or extension",
-//       "Your public address is shown at the top of the screen",
-//       "Click or tap the wallet name or address to copy",
-//       "The address is now on your clipboard",
-//     ],
-//     tip: null,
-//     highlight:
-//       "✅ Paste the Copied Wallet Public address in your Bank Transfer Form.",
-//     highlightGreen: true,
-//   },
-// ];
-
 const STEPS = [
   {
     number: 1,
@@ -331,29 +210,11 @@ export default function BankPurchaseHelpGuide() {
                   onClick={() =>
                     setActiveStep(activeStep === s.number ? null : s.number)
                   }
-                  className="w-8 h-8 rounded text-xs font-black cursor-pointer transition-all"
-                  style={{
-                    background:
-                      activeStep === s.number
-                        ? "linear-gradient(135deg, #f17005 0%, #d96506 100%)"
-                        : "rgba(15, 32, 39, 0.06)",
-
-                    border: `1px solid ${
-                      activeStep === s.number
-                        ? "rgba(241,112,5,0.35)"
-                        : "rgba(15,32,39,0.08)"
-                    }`,
-
-                    color:
-                      activeStep === s.number
-                        ? "#ffffff"
-                        : "rgba(15,32,39,0.55)",
-
-                    boxShadow:
-                      activeStep === s.number
-                        ? "0 8px 18px rgba(241,112,5,0.22)"
-                        : "none",
-                  }}>
+                  className={`w-8 h-8 rounded text-xs font-black cursor-pointer transition-all border ${
+                    activeStep === s.number
+                      ? "bg-linear-to-br from-primary to-[#d96506] border-primary/35 text-white"
+                      : "bg-secondary/6 border-secondary/8 text-secondary/[0.55]"
+                  }`}>
                   {s.number}
                 </button>
               ))}
@@ -534,17 +395,7 @@ export default function BankPurchaseHelpGuide() {
           <div className="hg-divider" />
 
           {/* ── Final CTA ── */}
-          <div
-            className="hg-panel rounded-2xl p-6 text-center space-y-4"
-            style={{
-              border: "1px solid rgba(245,158,11,0.25)",
-              animation: "hg-glow-pulse 4s ease-in-out infinite",
-            }}>
-            <span
-              className="text-5xl block"
-              style={{ animation: "hg-float 3s ease-in-out infinite" }}>
-              🎃
-            </span>
+          <div className="hg-panel rounded-2xl p-6 text-center space-y-4">
             <h3 className="text-secondary font-black text-lg">
               Ready to Buy SPUMP?
             </h3>
@@ -554,7 +405,7 @@ export default function BankPurchaseHelpGuide() {
             </p>
             <div className="flex gap-3 justify-center flex-wrap">
               <Link href="/bank-purchase">
-                <button className="bg-primary/90 hover:bg-primary border border-primary rounded-lg px-7 py-2.5 font-black text-sm text-white cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300">
+                <button className="bg-primary/90 hover:bg-primary border border-primary rounded-lg px-7 py-2.5 font-black text-sm text-white cursor-pointer transition-all duration-300">
                   → Go to Bank Transfer
                 </button>
               </Link>

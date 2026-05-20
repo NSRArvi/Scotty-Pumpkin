@@ -153,7 +153,7 @@ export default function Navbar() {
                 className="md:hidden fixed inset-0 bg-white z-40 backdrop-blur-sm"
                 onClick={() => setIsMenuOpen(false)}
               />
-              <div className="ui-shell md:hidden fixed top-22 left-4 right-4 bottom-auto max-h-[calc(100vh-104px)] border-purple-500/30 z-40 overflow-y-auto shadow-2xl">
+              <div className="ui-shell md:hidden fixed top-22 left-4 right-4 bottom-auto max-h-[calc(100vh-104px)] border-purple-500/30 z-40 overflow-y-auto">
                 <div className="px-4 py-6 space-y-3">
                   {menuItems.map((item) => (
                     <div key={item.label}>

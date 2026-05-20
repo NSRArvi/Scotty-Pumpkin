@@ -1,15 +1,18 @@
 import { Wallet, ShoppingBag, TrendingUp } from "lucide-react";
+import buyerImg from "@/public/assets/buyer.png";
+import creatorImg from "@/public/assets/creator.png";
+import Image from "next/image";
 
 export default function Payments() {
   const paymentFeatures = [
     {
-      icon: "🎃",
+      img: creatorImg,
       title: "Creators can:",
       description:
         "Accept payments for goods and content and paid securely using SPUMP",
     },
     {
-      icon: "🎃",
+      img: buyerImg,
       title: "Buyers can:",
       description: "Purchase easily choose favorite brands and artists",
     },
@@ -32,13 +35,14 @@ export default function Payments() {
         {/* Payment Features */}
         <div className="space-y-6 md:space-y-8 mb-12">
           {paymentFeatures.map((feature, index) => (
-            <div
-              key={index}
-              className="flex items-start gap-4 md:gap-6 group hover:translate-x-2 transition-transform">
-              {/* Icon */}
-              <div className="shrink-0 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center text-4xl md:text-5xl group-hover:scale-110 transition-transform">
-                {feature.icon}
-              </div>
+            <div key={index} className="flex items-start gap-4 md:gap-6 group">
+              <Image
+                width={1000}
+                height={1000}
+                src={feature.img}
+                alt={feature.title}
+                className="shrink-0 w-12 h-12 md:w-16 md:h-16 flex items-center justify-center"
+              />
 
               {/* Content */}
               <div className="flex-1">
@@ -67,7 +71,7 @@ export default function Payments() {
 
         {/* Bottom Note */}
         <div className="text-center">
-          <p className="text-sm md:text-base text-primary/70 italic">
+          <p className="text-sm md:text-base text-primary italic">
             Scotty <span className="font-semibold">(SPUMP)</span> is a utility
             payment token used online for buying/selling on the marketplace
           </p>

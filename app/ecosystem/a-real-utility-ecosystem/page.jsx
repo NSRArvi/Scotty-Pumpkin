@@ -2,7 +2,6 @@
 
 import Container from "@/app/components/shared/Container";
 import Link from "next/link";
-import { useState } from "react";
 
 const CORE_NODES = [
   {
@@ -171,7 +170,7 @@ function NodeCard({ node, size = "md" }) {
   const p = size === "sm" ? "p-3" : "p-4";
   return (
     <div
-      className={`rounded-xl ${p} space-y-2`}
+      className={`rounded-xl ${p} space-y-2 backdrop-blur-ca`}
       style={{
         background: node.bg,
         border: `1px solid ${node.border}`,
@@ -212,480 +211,124 @@ function NodeCard({ node, size = "md" }) {
 
 export default function ARealUtilityEcosystemPage() {
   return (
-    <>
-      <style>{`
-        @keyframes sp-fade-up {
-          from { opacity: 0; transform: translateY(16px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes sp-float {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(-8px); }
-        }
-        @keyframes sp-orbit-spin {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-        @keyframes sp-orbit-spin-rev {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(-360deg); }
-        }
-        @keyframes sp-glow-pulse {
-          0%, 100% { box-shadow: 0 0 30px rgba(245,158,11,0.3), 0 0 60px rgba(168,85,247,0.15); }
-          50%       { box-shadow: 0 0 60px rgba(245,158,11,0.6), 0 0 100px rgba(168,85,247,0.3); }
-        }
-        @keyframes sp-arrow-flow {
-          0%   { opacity: 0.2; }
-          50%  { opacity: 1; }
-          100% { opacity: 0.2; }
-        }
+    <div className="relative z-10 py-12 md:py-16 bg-primary-bg">
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+        @keyframes sp-fade-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes sp-float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+        @keyframes sp-orbit-spin-rev { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+        @keyframes sp-glow-pulse { 0%, 100% { box-shadow: 0 0 30px rgba(245,158,11,0.3), 0 0 60px rgba(168,85,247,0.15); } 50% { box-shadow: 0 0 60px rgba(245,158,11,0.6), 0 0 100px rgba(168,85,247,0.3); } }
+        @keyframes sp-arrow-flow { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+        @keyframes sp-shimmer { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+      `,
+        }}
+      />
 
-        .eco-shimmer-gold {
-          background: linear-gradient(90deg, #f59e0b 0%, #fcd34d 35%, #f59e0b 65%, #d97706 100%);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: sp-shimmer 4s linear infinite;
-        }
-        .eco-shimmer-white {
-          background: linear-gradient(90deg, rgba(241, 112, 5, 0.6) 0%, #f17005 35%, rgba(241, 112, 5, 0.6) 65%, #f17005 100%);
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-          animation: sp-shimmer 5s linear infinite;
-        }
+      <Container>
+        <div className="space-y-20">
+          {/* ── Section 1: Hero intro ── */}
+          <div
+            className="bg-white/80 backdrop-blur-2xl border border-indigo-500/24 rounded-2xl p-5 text-center space-y-6"
+            style={{ animation: "sp-fade-up 0.4s ease both" }}>
+            <div className="eco-hero-kicker mx-auto inline-flex items-center gap-2 edit-padding border border-amber-500/35 rounded-full bg-amber-500/12 px-3 py-1.5 text-amber-400 text-[0.72rem] font-bold tracking-wider uppercase">
+              <span>🎃</span>
+              <span className="text-primary">Scotty Pumpkin Ecosystem</span>
+            </div>
+            <div className="flex items-center justify-center gap-2.5 mt-2.5">
+              <span
+                className="text-3xl md:text-4xl"
+                style={{ animation: "sp-float 4s ease-in-out infinite" }}>
+                🌐
+              </span>
+              <h2
+                className="text-primary text-2xl md:text-4xl font-black leading-tight bg-linear-to-r from-orange-500/60 via-orange-500 to-orange-500/60 bg-size-[200%_auto] bg-clip-text "
+                style={{ animation: "sp-shimmer 5s linear infinite" }}>
+                A Real Utility Ecosystem
+              </h2>
+            </div>
+            <p className="text-secondary/80 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+              SPUMP powers a complete ecosystem where users can create shops,
+              sell products and services, monetize content, and accept crypto or
+              fiat payments through one connected digital economy.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/buy"
+                className="ui-btn ui-btn-primary rounded-xl px-7 py-3 font-bold text-sm text-white cursor-pointer transition-all duration-200 ease-out hover:scale-104"
+                style={{
+                  backgroundColor: "rgba(241, 112, 5, 0.8)",
+                  borderColor: "rgba(241, 112, 5, 0.5)",
+                  borderStyle: "solid",
+                  borderWidth: "1px",
+                }}>
+                Buy SPUMP
+              </Link>
+              <Link
+                href="https://sosay.org/spump-market"
+                className="ui-btn ui-btn-secondary rounded-xl px-7 py-3 font-bold text-sm text-white cursor-pointer transition-all duration-200 ease-out bg-secondary/90 border border-white/15 hover:bg-transparent hover:border-secondary/90 hover:text-secondary/90 hover:scale-104">
+                Explore Marketplace
+              </Link>
+              <Link
+                href="https://bfinit.com/bfinit-ecomerce-platform"
+                className="ui-btn ui-btn-success rounded-xl px-7 py-3 font-bold text-sm text-white cursor-pointer transition-all duration-200 ease-out bg-linear-to-br from-green-700 to-green-800 border border-green-400/30 hover:from-green-600 hover:to-green-700 hover:scale-104">
+                Create Your Shop
+              </Link>
+            </div>
+          </div>
 
-        .eco-divider {
-          height: 1px;
-          background: linear-gradient(to right, transparent, rgba(168,85,247,0.4) 30%, rgba(245,158,11,0.4) 70%, transparent);
-        }
+          <div className="h-px bg-linear-to-r from-transparent via-amber-500/40 to-transparent" />
 
-        /* Glass panel */
-        .eco-panel {
-          background: rgba(255,255,255,0.8);
-          backdrop-filter: blur(24px);
-          -webkit-backdrop-filter: blur(24px);
-          border: 1px solid rgba(255,255,255,0.09);
-          box-shadow: 0 8px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
-        }
-
-        /* Core circle */
-        .eco-core-ring-outer {
-          width: 170px; height: 170px;
-          border-radius: 50%;
-          border: 2px solid rgba(245,158,11,0.5);
-          display: flex; align-items: center; justify-content: center;
-          position: relative;
-          animation: sp-glow-pulse 3s ease-in-out infinite;
-        }
-        .eco-core-ring-inner {
-          width: 130px; height: 130px;
-          border-radius: 50%;
-          border: 1px dashed rgba(168,85,247,0.4);
-          display: flex; align-items: center; justify-content: center;
-          background: radial-gradient(circle, rgba(245,158,11,0.12) 0%, rgba(168,85,247,0.08) 100%);
-          animation: sp-orbit-spin-rev 20s linear infinite;
-        }
-        .eco-core-content {
-          position: absolute;
-          display: flex; flex-direction: column;
-          align-items: center; justify-content: center;
-          text-align: center;
-        }
-
-        /* Connector lines */
-        .eco-connector {
-          position: absolute;
-          background: linear-gradient(90deg, rgba(168,85,247,0.6), rgba(245,158,11,0.6));
-          height: 1px;
-          animation: sp-arrow-flow 2s ease-in-out infinite;
-        }
-
-        /* What you can do card */
-        .eco-feature-card {
-          background: rgba(255,255,255,0.8);
-          border: 1px solid rgba(255,255,255,0.08);
-          backdrop-filter: blur(16px);
-          border-radius: 16px;
-          padding: 20px;
-          transition: all 0.25s ease;
-        }
-        .eco-feature-card:hover {
-          border-color: rgba(168,85,247,0.35);
-          background: rgba(241, 112, 5, 0.05);
-          transform: translateY(-3px);
-          box-shadow: 0 12px 32px rgba(0,0,0,0.3), 0 0 30px rgba(255,255,255,0.08);
-        }
-
-        /* Benefit card */
-        .eco-benefit-card {
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.08);
-          backdrop-filter: blur(16px);
-          border-radius: 14px;
-          padding: 16px;
-          transition: all 0.25s ease;
-        }
-        .eco-benefit-card:hover {
-          border-color: rgba(245,158,11,0.3);
-          background: rgba(245,158,11,0.05);
-          transform: translateY(-2px);
-        }
-
-        /* Discount highlight */
-        .eco-discount-card {
-          background: rgba(255,255,255,0.8);
-          border: 1px solid rgba(245,158,11,0.25);
-          backdrop-filter: blur(20px);
-          border-radius: 16px;
-          padding: 24px 28px;
-        }
-
-        /* Pool card */
-        .eco-pool-card {
-          background: rgba(168,85,247,0.07);
-          border: 1px solid rgba(168,85,247,0.3);
-          backdrop-filter: blur(20px);
-          border-radius: 14px;
-          padding: 18px 24px;
-          text-align: center;
-        }
-
-        /* CTA buttons */
-        .eco-btn-primary {
-          background: rgba(241, 112, 5, 0.8);
-          border: 1px solid rgba(241, 112, 5, 0.5);
-          transition: all 0.22s ease;
-          border-radius: 10px;
-          padding: 12px 28px;
-          font-weight: 700;
-          font-size: 0.9rem;
-          color: white;
-          cursor: pointer;
-        }
-        .eco-btn-primary:hover {
-          background: rgba(241, 112, 5, 1);
-          border-color: rgba(241, 112, 5, 0.9);
-          transform: scale(1.04);
-          box-shadow: 0 6px 24px rgba(168,85,247,0.3);
-        }
-        .eco-btn-secondary {
-          background: rgba(15, 32, 39, 0.9);
-          border: 1px solid rgba(255,255,255,0.15);
-          transition: all 0.22s ease;
-          border-radius: 10px;
-          padding: 12px 28px;
-          font-weight: 700;
-          font-size: 0.9rem;
-          color: white;
-          cursor: pointer;
-        }
-        .eco-btn-secondary:hover {
-          background: transparent;
-          border-color: rgba(15, 32, 39, 0.9);
-          transform: scale(1.04);
-          color: rgba(15, 32, 39, 0.9);
-        }
-        .eco-btn-green {
-          background: linear-gradient(135deg, #15803d, #166534);
-          border: 1px solid rgba(74,222,128,0.3);
-          box-shadow: 0 4px 20px rgba(21,128,61,0.4);
-          transition: all 0.22s ease;
-          border-radius: 10px;
-          padding: 12px 28px;
-          font-weight: 700;
-          font-size: 0.9rem;
-          color: white;
-          cursor: pointer;
-        }
-        .eco-btn-green:hover {
-          background: linear-gradient(135deg, #16a34a, #15803d);
-          transform: scale(1.04);
-          box-shadow: 0 6px 28px rgba(21,128,61,0.55);
-        }
-
-        /* Section heading decoration */
-        .eco-section-deco {
-          display: flex; align-items: center; gap: 12px;
-          justify-content: center;
-        }
-        .eco-section-deco::before,
-        .eco-section-deco::after {
-          content: "";
-          flex: 1;
-          max-width: 60px;
-          height: 1px;
-          background: linear-gradient(to right, transparent, rgba(245,158,11,0.5));
-        }
-        .eco-section-deco::after {
-          background: linear-gradient(to left, transparent, rgba(245,158,11,0.5));
-        }
-
-        .eco-hero-head {
-          background: rgba(255,255,255,0.8);
-          border: 1px solid rgba(99,102,241,0.24);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          box-shadow: 0 12px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.06);
-          border-radius: 16px;
-          padding: 22px;
-        }
-        .eco-hero-kicker {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          padding: 6px 12px;
-          border-radius: 999px;
-          background: rgba(245,158,11,0.12);
-          border: 1px solid rgba(245,158,11,0.35);
-          color: #fbbf24;
-          font-size: 0.72rem;
-          font-weight: 800;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-        }
-        .eco-hero-title {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-          margin-top: 10px;
-        }
-
-        /* Arrow SVG pulse */
-        .eco-arrow { animation: sp-arrow-flow 2s ease-in-out infinite; }
-        .eco-arrow-delay { animation: sp-arrow-flow 2s ease-in-out 0.5s infinite; }
-        .eco-arrow-delay2 { animation: sp-arrow-flow 2s ease-in-out 1s infinite; }
-      `}</style>
-
-      <div className="relative z-10 py-12 md:py-16 bg-primary-bg">
-        <Container>
-          <div className="space-y-20">
-            {/* ── Section 1: Hero intro ── */}
-            <div
-              className="eco-hero-head text-center space-y-6"
-              style={{ animation: "sp-fade-up 0.4s ease both" }}>
-              <div className="eco-hero-kicker mx-auto">
-                <span>🎃</span>
-                <span className="text-primary">Scotty Pumpkin Ecosystem</span>
-              </div>
-              <div className="eco-hero-title">
-                <span
-                  className="text-3xl md:text-4xl"
-                  style={{ animation: "sp-float 4s ease-in-out infinite" }}>
-                  🌐
-                </span>
-                <h2 className="eco-shimmer-white text-primary text-2xl md:text-4xl font-black leading-tight">
-                  A Real Utility Ecosystem
-                </h2>
-              </div>
-              <p className="text-secondary/80 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-                SPUMP powers a complete ecosystem where users can create shops,
-                sell products and services, monetize content, and accept crypto
-                or fiat payments through one connected digital economy.
+          {/* ── Section 2: Real Utility Ecosystem ── */}
+          <div
+            className="space-y-10"
+            style={{ animation: "sp-fade-up 0.4s ease 0.1s both" }}>
+            <div className="text-center space-y-3">
+              <h2
+                className="text-3xl md:text-4xl font-black bg-linear-to-r from-orange-500/60 via-orange-500 to-orange-500/60 bg-size-[200%_auto] bg-clip-text text-transparent"
+                style={{ animation: "sp-shimmer 5s linear infinite" }}>
+                A Real Utility Ecosystem
+              </h2>
+              <p className="text-primary font-semibold text-base">
+                SPUMP is not limited to NFTs.
               </p>
-              <div className="flex flex-wrap items-center justify-center gap-3">
-                <Link
-                  href="/buy"
-                  className="eco-btn-primary ui-btn ui-btn-primary">
-                  Buy SPUMP
-                </Link>
-                <Link
-                  href="https://sosay.org/spump-market"
-                  className="eco-btn-secondary ui-btn ui-btn-secondary">
-                  Explore Marketplace
-                </Link>
-                <Link
-                  href="https://bfinit.com/bfinit-ecomerce-platform"
-                  className="eco-btn-green ui-btn ui-btn-success">
-                  Create Your Shop
-                </Link>
-              </div>
+              <p className="text-secondary/80 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
+                It is the utility currency of a broader commerce ecosystem
+                connecting online shops, marketplace sales, creator
+                monetization, digital products, physical goods, services, and
+                hybrid payment systems.
+              </p>
             </div>
 
-            <div className="eco-divider" />
-
-            {/* ── Section 2: Real Utility Ecosystem ── */}
-            <div
-              className="space-y-10"
-              style={{ animation: "sp-fade-up 0.4s ease 0.1s both" }}>
-              <div className="text-center space-y-3">
-                <h2 className="eco-shimmer-white text-3xl md:text-4xl font-black">
-                  A Real Utility Ecosystem
-                </h2>
-                <p className="text-primary font-semibold text-base">
-                  SPUMP is not limited to NFTs.
-                </p>
-                <p className="text-secondary/80 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
-                  It is the utility currency of a broader commerce ecosystem
-                  connecting online shops, marketplace sales, creator
-                  monetization, digital products, physical goods, services, and
-                  hybrid payment systems.
-                </p>
-              </div>
-
-              {/* Ecosystem diagram */}
-              <div className="eco-panel rounded-2xl p-6 md:p-10">
-                <div className="relative">
-                  {/* Top and bottom satellite nodes */}
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-                    {/* Left column */}
-                    <div className="space-y-4">
-                      <NodeCard node={CORE_NODES[1]} />
-                      <NodeCard node={CORE_NODES[3]} />
-                    </div>
-
-                    {/* Center — SPUMP Core */}
-                    <div className="flex flex-col items-center gap-6">
-                      {/* Top node */}
-                      <NodeCard node={CORE_NODES[0]} size="sm" />
-
-                      {/* Core ring */}
-                      <div className="eco-core-ring-outer mx-auto">
-                        <div className="eco-core-ring-inner" />
-                        <div className="eco-core-content">
-                          <span
-                            className="text-4xl"
-                            style={{
-                              animation: "sp-float 3s ease-in-out infinite",
-                            }}>
-                            💰
-                          </span>
-                          <p className="text-primary font-black text-lg leading-tight mt-1">
-                            SPUMP
-                          </p>
-                          <p className="text-primary font-bold text-sm">Core</p>
-                          <p className="text-secondary/80 text-xs">
-                            Ecosystem Core
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Bottom node */}
-                      <NodeCard node={CORE_NODES[4]} size="sm" />
-                    </div>
-
-                    {/* Right column */}
-                    <div className="space-y-4">
-                      <NodeCard node={CORE_NODES[2]} />
-                      {/* Empty spacer to match left column height */}
-                      <div
-                        className="rounded-xl p-4 opacity-0 pointer-events-none"
-                        style={{ border: "1px solid transparent" }}>
-                        <p className="text-sm">placeholder</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="eco-divider" />
-
-            {/* ── Section 3: What You Can Do ── */}
-            <div
-              className="space-y-8"
-              style={{ animation: "sp-fade-up 0.4s ease 0.15s both" }}>
-              <div className="text-center">
-                <h2 className="eco-shimmer-white text-3xl md:text-4xl font-black">
-                  What You Can Do With SPUMP
-                </h2>
-              </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {WHAT_YOU_CAN.map((item, i) => (
-                  <div
-                    key={i}
-                    className="eco-feature-card shadow-md"
-                    style={{ animationDelay: `${i * 0.08}s` }}>
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="text-2xl">{item.icon}</span>
-                      <p className="font-black text-secondary text-sm">
-                        {item.title}
-                      </p>
-                    </div>
-                    <p className="text-secondary/80 text-xs leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="eco-divider" />
-
-            {/* ── Section 4: How Ecosystem Value Flows ── */}
-            <div
-              className="space-y-8"
-              style={{ animation: "sp-fade-up 0.4s ease 0.2s both" }}>
-              <div className="text-center">
-                <h2 className="eco-shimmer-white text-3xl md:text-4xl font-black">
-                  How Ecosystem Value Flows
-                </h2>
-              </div>
-
-              {/* Discount highlight */}
-              <div className="eco-discount-card flex flex-col md:flex-row items-center gap-5">
-                <div className="shrink-0 flex flex-col items-center gap-1">
-                  <span
-                    className="text-4xl"
-                    style={{ animation: "sp-float 3s ease-in-out infinite" }}>
-                    ⚡
-                  </span>
-                  <p className="text-secondary/80 text-xs font-bold text-center">
-                    Lower Fees
-                  </p>
-                  <p className="text-secondary/70 text-xs text-center">
-                    Reduced platform costs
-                  </p>
-                </div>
-                <div className="flex-1 space-y-2">
-                  <p className="text-2xl text-secondary/80 font-black">
-                    Up to <span className="eco-shimmer-gold">30% Discount</span>
-                  </p>
-                  <p className="text-secondary/75 text-sm leading-relaxed">
-                    Users paying with SPUMP or USFF may receive up to 30%
-                    discount on service platform services, subscriptions,
-                    marketplace sizes and eligible products or services.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="eco-divider" />
-
-            {/* ── Section 5: From First Sales to Ecosystem Growth ── */}
-            <div
-              className="space-y-10"
-              style={{ animation: "sp-fade-up 0.4s ease 0.25s both" }}>
-              <div className="text-center space-y-3">
-                <h2 className="eco-shimmer-white text-3xl md:text-4xl font-black">
-                  From First Sales to Ecosystem Growth
-                </h2>
-                <p className="text-secondary/80 text-sm md:text-base leading-relaxed max-w-xl mx-auto">
-                  Every transaction contributes to the expansion, stability, and
-                  operation of the SPUMP ecosystem.
-                </p>
-              </div>
-
-              {/* Flow diagram */}
-              <div className="eco-panel rounded-2xl p-6 md:p-10 space-y-6">
+            {/* Ecosystem diagram */}
+            <div className="bg-white/80 backdrop-blur-2xl border border-white/9 rounded-2xl p-6 md:p-10">
+              <div className="relative">
+                {/* Top and bottom satellite nodes */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
-                  {/* Left */}
+                  {/* Left column */}
                   <div className="space-y-4">
-                    <NodeCard node={FLOW_NODES[1]} />
-                    <NodeCard node={FLOW_NODES[3]} />
+                    <NodeCard node={CORE_NODES[1]} />
+                    <NodeCard node={CORE_NODES[3]} />
                   </div>
 
-                  {/* Center */}
+                  {/* Center — SPUMP Core */}
                   <div className="flex flex-col items-center gap-6">
-                    <NodeCard node={FLOW_NODES[0]} size="sm" />
+                    {/* Top node */}
+                    <NodeCard node={CORE_NODES[0]} size="sm" />
 
                     {/* Core ring */}
-                    <div className="eco-core-ring-outer mx-auto">
-                      <div className="eco-core-ring-inner" />
-                      <div className="eco-core-content">
+                    <div
+                      className="w-42.5 h-42.5 rounded-full border-2 border-amber-500/50 flex items-center justify-center relative mx-auto"
+                      style={{
+                        animation: "sp-glow-pulse 3s ease-in-out infinite",
+                      }}>
+                      <div
+                        className="w-32.5 h-32.5 rounded-full border border-dashed border-purple-500/40 flex items-center justify-center bg-linear-to-br from-amber-500/12 to-purple-500/8"
+                        style={{
+                          animation: "sp-orbit-spin-rev 20s linear infinite",
+                        }}
+                      />
+                      <div className="absolute flex flex-col items-center justify-center text-center">
                         <span
                           className="text-4xl"
                           style={{
@@ -697,102 +340,265 @@ export default function ARealUtilityEcosystemPage() {
                           SPUMP
                         </p>
                         <p className="text-primary font-bold text-sm">Core</p>
-                        <p className="text-secondary/70 text-xs">
+                        <p className="text-secondary/80 text-xs">
                           Ecosystem Core
                         </p>
                       </div>
                     </div>
 
-                    {/* Flow arrows down */}
-                    <div className="flex items-center justify-center gap-3">
-                      {[
-                        "rgba(74,222,128,0.8)",
-                        "rgba(245,158,11,0.8)",
-                        "rgba(168,85,247,0.8)",
-                      ].map((c, i) => (
-                        <div
-                          key={i}
-                          className="flex flex-col items-center gap-1">
-                          <div
-                            className="w-0.5 h-6 rounded-full eco-arrow"
-                            style={{
-                              background: c,
-                              animationDelay: `${i * 0.3}s`,
-                            }}
-                          />
-                          <div
-                            style={{ color: c, fontSize: "0.7rem" }}
-                            className="eco-arrow">
-                            ▼
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                    {/* Bottom node */}
+                    <NodeCard node={CORE_NODES[4]} size="sm" />
                   </div>
 
-                  {/* Right */}
+                  {/* Right column */}
                   <div className="space-y-4">
-                    <NodeCard node={FLOW_NODES[2]} />
-                    <NodeCard node={FLOW_NODES[4]} />
-                  </div>
-                </div>
-
-                {/* Pool at bottom */}
-                <div className="eco-pool-card flex items-center justify-center gap-3 mt-4">
-                  <span className="text-3xl">💸</span>
-                  <div>
-                    <p className="text-secondary font-black text-base">
-                      SPUMP Ecosystem Pool
-                    </p>
-                    <p className="text-secondary/80 text-xs">
-                      Central Distribution Layer
-                    </p>
+                    <NodeCard node={CORE_NODES[2]} />
+                    {/* Empty spacer to match left column height */}
+                    <div className="rounded-xl p-4 opacity-0 pointer-events-none border border-transparent">
+                      <p className="text-sm">placeholder</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div className="eco-divider" />
+          <div className="h-px bg-linear-to-r from-transparent via-amber-500/40 to-transparent" />
 
-            {/* ── Section 6: Built-In Benefits ── */}
-            <div
-              className="space-y-8"
-              style={{ animation: "sp-fade-up 0.4s ease 0.3s both" }}>
-              <div className="text-center">
-                <h2 className="eco-shimmer-white text-3xl md:text-4xl font-black">
-                  Built-In Benefits
-                </h2>
-              </div>
-
-              <div className="eco-panel rounded-2xl p-6 md:p-8 space-y-6">
-                <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                  {FLOW_BENEFITS.slice(1).map((b, i) => (
-                    <div key={i} className="eco-benefit-card">
-                      <span className="text-2xl mb-2 block">{b.icon}</span>
-                      <p className="text-secondary font-black text-sm mb-1">
-                        {b.title}
-                      </p>
-                      <p className="text-secondary/80 text-xs leading-relaxed">
-                        {b.desc}
-                      </p>
-                    </div>
-                  ))}
+          {/* ── Section 3: What You Can Do ── */}
+          <div
+            className="space-y-8"
+            style={{ animation: "sp-fade-up 0.4s ease 0.15s both" }}>
+            <div className="text-center">
+              <h2
+                className="text-3xl md:text-4xl font-black bg-linear-to-r from-orange-500/60 via-orange-500 to-orange-500/60 bg-size-[200%_auto] bg-clip-text text-transparent"
+                style={{ animation: "sp-shimmer 5s linear infinite" }}>
+                What You Can Do With SPUMP
+              </h2>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {WHAT_YOU_CAN.map((item, i) => (
+                <div
+                  key={i}
+                  className="bg-white/80 border border-white/8 backdrop-blur-md rounded-2xl p-5 transition-all duration-250 ease-out hover:border-purple-500/35 hover:bg-orange-500/5 hover:-translate-y-0.5"
+                  style={{ animationDelay: `${i * 0.08}s` }}>
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-2xl">{item.icon}</span>
+                    <p className="font-black text-secondary text-sm">
+                      {item.title}
+                    </p>
+                  </div>
+                  <p className="text-secondary/80 text-xs leading-relaxed">
+                    {item.desc}
+                  </p>
                 </div>
+              ))}
+            </div>
+          </div>
 
-                <div className="eco-divider" />
+          <div className="h-px bg-linear-to-r from-transparent via-amber-500/40 to-transparent" />
 
-                <p className="text-center text-secondary/80 text-xs leading-relaxed">
-                  Funds are used exclusively for ecosystem operation,
-                  development, and growth.
-                  <br />
-                  SPUMP does not represent ownership, dividends, or financial
-                  entitlement.
+          {/* ── Section 4: How Ecosystem Value Flows ── */}
+          <div
+            className="space-y-8"
+            style={{ animation: "sp-fade-up 0.4s ease 0.2s both" }}>
+            <div className="text-center">
+              <h2
+                className="text-3xl md:text-4xl font-black bg-linear-to-r from-orange-500/60 via-orange-500 to-orange-500/60 bg-size-[200%_auto] bg-clip-text text-transparent"
+                style={{ animation: "sp-shimmer 5s linear infinite" }}>
+                How Ecosystem Value Flows
+              </h2>
+            </div>
+
+            {/* Discount highlight */}
+            <div className="bg-white/80 border border-amber-500/25 backdrop-blur-2xl rounded-2xl px-7 py-6 flex flex-col md:flex-row items-center gap-5">
+              <div className="shrink-0 flex flex-col items-center gap-1">
+                <span
+                  className="text-4xl"
+                  style={{ animation: "sp-float 3s ease-in-out infinite" }}>
+                  ⚡
+                </span>
+                <p className="text-secondary/80 text-xs font-bold text-center">
+                  Lower Fees
+                </p>
+                <p className="text-secondary/70 text-xs text-center">
+                  Reduced platform costs
+                </p>
+              </div>
+              <div className="flex-1 space-y-2">
+                <p className="text-2xl text-secondary/80 font-black">
+                  Up to{" "}
+                  <span
+                    className="bg-linear-to-r from-amber-500 via-amber-300 to-amber-600 bg-size-[200%_auto] bg-clip-text text-transparent"
+                    style={{ animation: "sp-shimmer 4s linear infinite" }}>
+                    30% Discount
+                  </span>
+                </p>
+                <p className="text-secondary/75 text-sm leading-relaxed">
+                  Users paying with SPUMP or USFF may receive up to 30% discount
+                  on service platform services, subscriptions, marketplace sizes
+                  and eligible products or services.
                 </p>
               </div>
             </div>
           </div>
-        </Container>
-      </div>
-    </>
+
+          <div className="h-px bg-linear-to-r from-transparent via-amber-500/40 to-transparent" />
+
+          {/* ── Section 5: From First Sales to Ecosystem Growth ── */}
+          <div
+            className="space-y-10"
+            style={{ animation: "sp-fade-up 0.4s ease 0.25s both" }}>
+            <div className="text-center space-y-3">
+              <h2
+                className="text-3xl md:text-4xl font-black bg-linear-to-r from-orange-500/60 via-orange-500 to-orange-500/60 bg-size-[200%_auto] bg-clip-text text-transparent"
+                style={{ animation: "sp-shimmer 5s linear infinite" }}>
+                From First Sales to Ecosystem Growth
+              </h2>
+              <p className="text-secondary/80 text-sm md:text-base leading-relaxed max-w-xl mx-auto">
+                Every transaction contributes to the expansion, stability, and
+                operation of the SPUMP ecosystem.
+              </p>
+            </div>
+
+            {/* Flow diagram */}
+            <div className="bg-white/80 backdrop-blur-2xl border border-white/9 rounded-2xl p-6 md:p-10 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                {/* Left */}
+                <div className="space-y-4">
+                  <NodeCard node={FLOW_NODES[1]} />
+                  <NodeCard node={FLOW_NODES[3]} />
+                </div>
+
+                {/* Center */}
+                <div className="flex flex-col items-center gap-6">
+                  <NodeCard node={FLOW_NODES[0]} size="sm" />
+
+                  {/* Core ring */}
+                  <div
+                    className="w-42.5 h-42.5 rounded-full border-2 border-amber-500/50 flex items-center justify-center relative mx-auto"
+                    style={{
+                      animation: "sp-glow-pulse 3s ease-in-out infinite",
+                    }}>
+                    <div
+                      className="w-32.5 h-32.5 rounded-full border border-dashed border-purple-500/40 flex items-center justify-center bg-linear-to-br from-amber-500/12 to-purple-500/8"
+                      style={{
+                        animation: "sp-orbit-spin-rev 20s linear infinite",
+                      }}
+                    />
+                    <div className="absolute flex flex-col items-center justify-center text-center">
+                      <span
+                        className="text-4xl"
+                        style={{
+                          animation: "sp-float 3s ease-in-out infinite",
+                        }}>
+                        💰
+                      </span>
+                      <p className="text-primary font-black text-lg leading-tight mt-1">
+                        SPUMP
+                      </p>
+                      <p className="text-primary font-bold text-sm">Core</p>
+                      <p className="text-secondary/70 text-xs">
+                        Ecosystem Core
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Flow arrows down */}
+                  <div className="flex items-center justify-center gap-3">
+                    {[
+                      "rgba(74,222,128,0.8)",
+                      "rgba(245,158,11,0.8)",
+                      "rgba(168,85,247,0.8)",
+                    ].map((c, i) => (
+                      <div key={i} className="flex flex-col items-center gap-1">
+                        <div
+                          className="w-0.5 h-6 rounded-full"
+                          style={{
+                            background: c,
+                            animation: "sp-arrow-flow 2s ease-in-out infinite",
+                            animationDelay: `${i * 0.3}s`,
+                          }}
+                        />
+                        <div
+                          style={{
+                            color: c,
+                            fontSize: "0.7rem",
+                            animation: "sp-arrow-flow 2s ease-in-out infinite",
+                          }}>
+                          ▼
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Right */}
+                <div className="space-y-4">
+                  <NodeCard node={FLOW_NODES[2]} />
+                  <NodeCard node={FLOW_NODES[4]} />
+                </div>
+              </div>
+
+              {/* Pool at bottom */}
+              <div className="bg-purple-500/7 border border-purple-500/30 backdrop-blur-2xl rounded-xl px-6 py-4.5 flex items-center justify-center gap-3 mt-4 text-center">
+                <span className="text-3xl">💸</span>
+                <div>
+                  <p className="text-secondary font-black text-base">
+                    SPUMP Ecosystem Pool
+                  </p>
+                  <p className="text-secondary/80 text-xs">
+                    Central Distribution Layer
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="h-px bg-linear-to-r from-transparent via-amber-500/40 to-transparent" />
+
+          {/* ── Section 6: Built-In Benefits ── */}
+          <div
+            className="space-y-8"
+            style={{ animation: "sp-fade-up 0.4s ease 0.3s both" }}>
+            <div className="text-center">
+              <h2
+                className="text-3xl md:text-4xl font-black bg-linear-to-r from-orange-500/60 via-orange-500 to-orange-500/60 bg-size-[200%_auto] bg-clip-text text-transparent"
+                style={{ animation: "sp-shimmer 5s linear infinite" }}>
+                Built-In Benefits
+              </h2>
+            </div>
+
+            <div className="bg-white/80 backdrop-blur-2xl border border-white/9 rounded-2xl p-6 md:p-8 space-y-6">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                {FLOW_BENEFITS.slice(1).map((b, i) => (
+                  <div
+                    key={i}
+                    className="bg-white/4 border border-white/8 backdrop-blur-md rounded-xl p-4 transition-all duration-250 ease-out hover:border-amber-500/35 hover:bg-amber-500/5 hover:-translate-y-0.5">
+                    <span className="text-2xl mb-2 block">{b.icon}</span>
+                    <p className="text-secondary font-black text-sm mb-1">
+                      {b.title}
+                    </p>
+                    <p className="text-secondary/80 text-xs leading-relaxed">
+                      {b.desc}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="h-px bg-linear-to-r from-transparent via-amber-500/40 to-transparent" />
+
+              <p className="text-center text-secondary/80 text-xs leading-relaxed">
+                Funds are used exclusively for ecosystem operation, development,
+                and growth.
+                <br />
+                SPUMP does not represent ownership, dividends, or financial
+                entitlement.
+              </p>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </div>
   );
 }

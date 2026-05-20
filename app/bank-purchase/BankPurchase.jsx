@@ -203,7 +203,7 @@ export default function BankPurchase() {
   if (submitted) {
     return (
       <section className="z-10 min-h-[60vh] px-4 py-16 flex items-center justify-center">
-        <div className="relative w-full max-w-md rounded-3xl border border-emerald-400/35 bg-white/5 backdrop-blur-2xl p-8 text-center shadow-[0_0_60px_rgba(74,222,128,0.18)]">
+        <div className="relative w-full max-w-md rounded-3xl border border-emerald-400/35 bg-white/5 backdrop-blur-2xl p-8 text-center ">
           <div className="text-6xl mb-3">🎃</div>
           <h2 className="text-2xl font-black text-amber-300">
             Application Submitted!
@@ -254,7 +254,7 @@ export default function BankPurchase() {
     <>
       {showRiskModal && (
         <div className="fixed inset-0 z-120 bg-black/70 backdrop-blur-sm px-4 py-8 flex items-center justify-center">
-          <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-white px-7 py-5 shadow-2xl mt-5!">
+          <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-white px-7 py-5  mt-5!">
             <div className="text-center space-y-3">
               <div className="text-5xl">⚠️</div>
               <h2 className="text-2xl font-black text-primary">
@@ -334,7 +334,7 @@ export default function BankPurchase() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-white shadow-sm bg-white/80 p-5 space-y-3">
+          <div className="rounded-2xl border border-white bg-white/80 p-5 space-y-3">
             <p className="text-[11px] font-black uppercase tracking-[0.16em] text-secondary">
               SPUMP Calculator
             </p>
@@ -378,7 +378,7 @@ export default function BankPurchase() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-amber-400/30 bg-white/80 shadow-sm p-6 space-y-4">
+          <div className="rounded-2xl border border-amber-400/30 bg-white/80 p-6 space-y-4">
             <p className="text-[11px] font-black uppercase tracking-[0.16em] text-primary">
               Bank Transfer Details
             </p>
@@ -408,7 +408,7 @@ export default function BankPurchase() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/80 shadow-sm p-6 space-y-5">
+          <div className="rounded-2xl border border-white/10 bg-white/80 p-6 space-y-5">
             <div>
               <p className="text-[11px] font-black uppercase tracking-[0.16em] text-primary">
                 Transfer Information
@@ -528,11 +528,11 @@ export default function BankPurchase() {
                 <button
                   type="button"
                   onClick={() => fileRef.current?.click()}
-                  className="w-full rounded-xl border-2 border-dashed border-amber-400/35 bg-secondary/40 px-4 py-6 text-center hover:bg-secondary/50">
+                  className="w-full rounded-xl border-2 border-dashed border-primary  px-4 py-6 text-center ">
                   {receiptName ? (
                     <>
                       <p className="text-xl">✅</p>
-                      <p className="mt-1 text-sm font-semibold text-emerald-300">
+                      <p className="mt-1 text-sm font-semibold text-primary">
                         {receiptName}
                       </p>
                       <p className="text-xs text-secondary/80">
@@ -542,10 +542,10 @@ export default function BankPurchase() {
                   ) : (
                     <>
                       <p className="text-2xl">📄</p>
-                      <p className="mt-1 text-sm font-semibold text-white">
+                      <p className="mt-1 text-sm font-semibold text-primary">
                         Upload Transfer Receipt
                       </p>
-                      <p className="text-xs text-white/80">
+                      <p className="text-xs text-secondary/80">
                         PDF, JPG, JPEG, PNG
                       </p>
                     </>

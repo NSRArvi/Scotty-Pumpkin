@@ -651,7 +651,7 @@ export default function OnlinePurchaseHelpGuide({
               type="button"
               onClick={handleSubmit}
               disabled={submitting || !isVerified || !walletAddress.trim()}
-              className="w-full rounded-xl border border-orange-600/25 bg-linear-to-r from-orange-600 to-orange-500 px-5 py-3.5 text-sm font-black text-white hover:from-orange-500 hover:to-orange-400 disabled:opacity-50 transition-all shadow-sm">
+              className="w-full rounded-xl border border-orange-600/25 bg-linear-to-r from-orange-600 to-orange-500 px-5 py-3.5 text-sm font-black text-white hover:from-orange-500 hover:to-orange-400 disabled:opacity-50 transition-all ">
               {submitting ? "Submitting..." : "Submit Form"}
             </button>
           )}
@@ -683,27 +683,6 @@ export default function OnlinePurchaseHelpGuide({
           </p>
         </div>
 
-        {/* ── How it works ── */}
-        {/* <div className="rounded-2xl border border-white/10 bg-white/5 p-5 space-y-3">
-          <p className="text-white/35 text-xs font-black uppercase tracking-widest">How It Works</p>
-          <div className="grid grid-cols-4 gap-2 text-center">
-            {[
-              { n: "01", label: "Select token",   sub: "USDC / USDT / SOL on Solana mainnet" },
-              { n: "02", label: "Send on-chain",  sub: "Transfer to the destination address below" },
-              { n: "03", label: "Get tx sig",     sub: "Copy the base58 signature from your wallet or explorer" },
-              { n: "04", label: "Submit below",   sub: "Paste your sig + address to receive tokens" },
-            ].map((h) => (
-              <div key={h.n} className="space-y-1.5">
-                <div className="w-8 h-8 rounded-xl bg-white/8 border border-white/10 text-white/55 text-xs font-black flex items-center justify-center mx-auto">
-                  {h.n}
-                </div>
-                <p className="text-white/70 text-[11px] font-bold leading-tight">{h.label}</p>
-                <p className="text-white/25 text-[10px] leading-tight">{h.sub}</p>
-              </div>
-            ))}
-          </div>
-        </div> */}
-
         {/* ── 7 Steps ── */}
         <div className="space-y-3">
           {STEPS.map((step, idx) => {
@@ -714,9 +693,7 @@ export default function OnlinePurchaseHelpGuide({
               <div
                 key={step.key}
                 className={`rounded-2xl border overflow-hidden transition-all duration-200 ${
-                  isOpen
-                    ? `${colors.border} shadow-lg`
-                    : "border-white/10 bg-white/80"
+                  isOpen ? `${colors.border} ` : "border-white/10 bg-white/80"
                 }`}>
                 {/* Header */}
                 <div
@@ -763,7 +740,7 @@ export default function OnlinePurchaseHelpGuide({
                       <button
                         type="button"
                         onClick={() => setExpandedStep(nextStep.key)}
-                        className={`mt-5 text-xs font-bold cursor-pointer bg-transparent border-none ${colors.text}`}>
+                        className={`mt-5 text-xs font-bold cursor-pointer bg-transparent border-none text-primary`}>
                         Next: {nextStep.label} — {nextStep.title} →
                       </button>
                     )}

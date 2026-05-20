@@ -243,7 +243,7 @@ const ContactForm = () => {
             <form
               ref={form}
               onSubmit={submitForm}
-              className="ui-card flex flex-col rounded-2xl p-6 md:p-8 shadow-xl lg:w-1/2">
+              className="ui-card flex flex-col rounded-2xl p-6 md:p-8 lg:w-1/2">
               <label
                 htmlFor="name"
                 className="text-secondary/90 text-sm font-medium">
@@ -257,7 +257,7 @@ const ContactForm = () => {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Name"
-                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white"
               />
 
               <label
@@ -273,7 +273,7 @@ const ContactForm = () => {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="Email"
-                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white "
               />
 
               <label
@@ -289,7 +289,7 @@ const ContactForm = () => {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="Phone"
-                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white "
               />
 
               <label
@@ -323,7 +323,7 @@ const ContactForm = () => {
                 value={formData.subject}
                 onChange={handleChange}
                 placeholder="Subject"
-                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white "
               />
 
               <label
@@ -338,7 +338,7 @@ const ContactForm = () => {
                 value={formData.skypeId}
                 onChange={handleChange}
                 placeholder="Skype Id (optional)"
-                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white "
               />
 
               <label
@@ -354,7 +354,7 @@ const ContactForm = () => {
                 value={formData.message}
                 onChange={handleChange}
                 placeholder="Message"
-                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white "
               />
 
               {/* Captcha Component */}
@@ -368,7 +368,7 @@ const ContactForm = () => {
                 value={formData.captchaInput}
                 onChange={handleChange}
                 placeholder="Captcha *"
-                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white focus:shadow-[0_0_0_4px_rgba(241,112,5,0.08)]"
+                className="mb-5 mt-2.5 block w-full rounded-xl border border-secondary/10 bg-white/90 px-4 py-3 text-secondary placeholder:text-secondary/35 backdrop-blur-xl outline-none transition-all duration-300 focus:border-primary/45 focus:bg-white"
               />
 
               {invalidCaptcha && (

@@ -120,7 +120,7 @@ export default function RegulatoryFrameworkPage() {
     <section className="bg-primary-bg min-h-screen">
       <div className="max-w-5xl mx-auto px-4 py-12 md:py-16 lg:py-20 space-y-10">
         {/* ── Hero Card ── */}
-        <div className="bg-white border border-slate-200/80 shadow-xs rounded-2xl p-8 md:p-10 text-center space-y-5">
+        <div className="bg-white border border-slate-200/80 rounded-2xl p-8 md:p-10 text-center space-y-5">
           <div
             style={{ animation: "sp-float 4s ease-in-out infinite" }}
             className="text-5xl md:text-6xl">
@@ -144,7 +144,7 @@ export default function RegulatoryFrameworkPage() {
             <span className="bg-slate-100 border border-slate-200 text-slate-800 text-[11px] font-bold px-3 py-1 rounded-full">
               AML / KYC Compliant
             </span>
-            <span className="bg-orange-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
+            <span className="bg-orange-600 text-white text-[11px] font-bold px-3 py-1 rounded-full">
               Non-Security Token
             </span>
           </div>
@@ -237,7 +237,7 @@ export default function RegulatoryFrameworkPage() {
                   {s.entities && (
                     <div className="grid sm:grid-cols-2 gap-3">
                       {s.entities.map((e, i) => (
-                        <div key={i} className="sp-entity-item shadow-2xs">
+                        <div key={i} className="sp-entity-item">
                           <p className="text-secondary/40 text-[10px] font-black uppercase tracking-wider mb-1">
                             {e.label}
                           </p>

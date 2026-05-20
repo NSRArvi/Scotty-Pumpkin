@@ -79,33 +79,6 @@ export default function NFTStudioPage() {
 
   return (
     <>
-      <style>{`
-        @keyframes sp-float {
-          0%, 100% { transform: translateY(0px); }
-          50%       { transform: translateY(-6px); }
-        }
-        @keyframes sp-glow-pulse {
-          0%, 100% { box-shadow: 0 0 20px rgba(245,158,11,0.3); }
-          50%       { box-shadow: 0 0 40px rgba(245,158,11,0.7), 0 0 80px rgba(245,158,11,0.2); }
-        }
-        @keyframes sp-star-twinkle {
-          0%, 100% { opacity: 0.15; transform: scale(1); }
-          50%       { opacity: 0.9;  transform: scale(1.5); }
-        }
-        @keyframes sp-fade-up {
-          from { opacity: 0; transform: translateY(16px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes sp-spin-slow {
-          from { transform: rotate(0deg); }
-          to   { transform: rotate(360deg); }
-        }
-        @keyframes sp-card-glow {
-          0%, 100% { box-shadow: 0 0 0 1px rgba(168,85,247,0.2), 0 8px 32px rgba(0,0,0,0.5); }
-          50%       { box-shadow: 0 0 0 1px rgba(168,85,247,0.5), 0 8px 40px rgba(168,85,247,0.15), 0 0 60px rgba(168,85,247,0.08); }
-        }
-      `}</style>
-
       <section className="bg-primary-bg">
         <Container>
           <div className="nft-page">
@@ -189,7 +162,6 @@ export default function NFTStudioPage() {
                           className="nft-status-dot"
                           style={{
                             background: connected ? "#4ade80" : "#ef4444",
-                            boxShadow: `0 0 8px ${connected ? "rgba(74,222,128,0.6)" : "rgba(239,68,68,0.6)"}`,
                           }}
                         />
                         <span
@@ -239,13 +211,7 @@ export default function NFTStudioPage() {
                         </div>
                       ) : (
                         <>
-                          <div
-                            className="text-4xl"
-                            style={{
-                              animation: "sp-float 3s ease-in-out infinite",
-                            }}>
-                            🖼️
-                          </div>
+                          <div className="text-4xl">🖼️</div>
                           <div>
                             <p className="text-secondary font-bold text-sm">
                               DROP ARTWORK HERE
@@ -475,7 +441,6 @@ export default function NFTStudioPage() {
                         <span
                           style={{
                             animation: "sp-float 4s ease-in-out infinite",
-                            filter: `drop-shadow(0 0 16px ${nft.accent})`,
                           }}>
                           {nft.emoji}
                         </span>

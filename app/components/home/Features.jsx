@@ -57,16 +57,16 @@ export default function Features() {
             return (
               <div className="flex items-center gap-2" key={idx}>
                 <span className="inline-block">
-                  <Icon className="text-primary text-lg md:text-[32px]" />
+                  <Icon className="text-primary text-base md:text-[32px]" />
                 </span>
-                <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-center leading-tight text-secondary">
+                <h2 className="text-lg sm:text-3xl md:text-4xl font-bold text-center leading-tight text-secondary">
                   {tag.title}
                 </h2>
               </div>
             );
           })}
         </div>
-        <div className="shadow-sm bg-white/65 p-8 border border-gray-300 rounded-xl pt-8">
+        <div className="bg-white/65 p-8 border border-gray-300 rounded-xl pt-8">
           {/* Main Heading */}
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-center mb-8 md:mb-12 leading-tight text-secondary">
             Create • Sell • Brand • Get Paid
@@ -77,7 +77,7 @@ export default function Features() {
               const Icon = item.icon;
               return (
                 <div key={index} className="flex items-start gap-2 text-base">
-                  <div className="shrink-0 w-5 h-5  bg-primary rounded-full flex items-center justify-center mt-1 shadow-lg">
+                  <div className="shrink-0 w-5 h-5  bg-primary rounded-full flex items-center justify-center mt-1">
                     <Icon size={14} className="text-white " />
                   </div>
                   <p className="text-secondary leading-relaxed text-base">

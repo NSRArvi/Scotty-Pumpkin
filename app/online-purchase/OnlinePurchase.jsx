@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Toaster, toast } from "sonner";
+import Container from "../components/shared/Container";
 
 const TREASURY_WALLET = "7Q8EjhdB6qakUfhwjBVnNsD6Ks9FsTMVtG7dzE3KopRG";
 
@@ -185,8 +186,8 @@ export default function OnlinePurchase({
 
   if (submitted) {
     return (
-      <section className="relative z-10 min-h-[60vh] px-4 py-10 md:py-14 lg:px-10">
-        <div className="mx-auto w-full max-w-4xl rounded-3xl border border-emerald-400/35 bg-white/5 backdrop-blur-2xl p-6 shadow-[0_0_60px_rgba(74,222,128,0.18)] sm:p-8">
+      <section className="relative z-10 min-h-[60vh]  py-10 md:py-14">
+        <div className="mx-auto w-full max-w-4xl rounded-3xl border border-emerald-400/35 bg-white/5 backdrop-blur-2xl p-6 sm:p-8">
           <div className="text-center">
             <div className="text-6xl mb-3">🎃</div>
             <h2 className="text-2xl font-black text-amber-300">
@@ -288,8 +289,8 @@ export default function OnlinePurchase({
   return (
     <>
       {showRiskModal ? (
-        <div className="fixed inset-0 z-120 bg-black/70 backdrop-blur-sm px-4 py-8 flex items-center justify-center">
-          <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-white p-7 shadow-2xl">
+        <div className="fixed inset-0 z-120 bg-black/70 backdrop-blur-sm  py-8 flex items-center justify-center">
+          <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-white p-7 ">
             <div className="text-center space-y-4">
               <div className="text-5xl">⚠️</div>
               <h2 className="text-2xl font-black text-primary">
@@ -309,8 +310,8 @@ export default function OnlinePurchase({
         </div>
       ) : null}
 
-      <section className="relative z-10 px-4 py-10 md:py-14 lg:px-10">
-        <div className="mx-auto max-w-2xl space-y-6">
+      <section className="relative z-10  py-10 md:py-14 px-0!">
+        <div className="space-y-6">
           {/* Header */}
           <div className="text-center space-y-2">
             <p className="text-[11px] font-black uppercase tracking-[0.16em] text-primary">
@@ -326,7 +327,7 @@ export default function OnlinePurchase({
           </div>
 
           {/* ── STEP 1 — Choose Token Destination ── */}
-          <div className="rounded-2xl border border-white/10 bg-white/80 backdrop-blur-2xl p-6 space-y-5">
+          <div className="rounded-2xl border border-white/10 bg-white/80 backdrop-blur-2xl py-6 md:px-4 space-y-5">
             <p className="text-[11px] font-black uppercase tracking-[0.16em] text-primary">
               Step 1 — Choose Token Destination
             </p>
@@ -375,13 +376,13 @@ export default function OnlinePurchase({
             </div>
 
             {/* ── SPUMP Calculator (dual-mode) ── */}
-            <div className="rounded-xl border border-indigo-300/20 bg-white/90 p-4 space-y-4">
+            <div className="rounded-xl border border-indigo-300/20 bg-white/90 py-4 px-2 space-y-4">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-black uppercase tracking-[0.12em] text-primary">
+                <p className="w-full md:w-full text-xs font-black uppercase tracking-[0.12em] text-primary">
                   SPUMP Count Calculator
                 </p>
                 {/* Mode toggle */}
-                <div className="flex rounded-lg border border-white/10 overflow-hidden text-xs font-bold">
+                <div className="md:w-fit w-full flex rounded-lg border border-white/10 overflow-hidden text-xs font-bold">
                   <button
                     type="button"
                     onClick={() => {
