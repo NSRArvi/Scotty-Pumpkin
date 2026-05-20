@@ -51,15 +51,15 @@ export default function Features() {
           <div className="mx-4 w-5 h-5 rounded-full border-4 border-primary bg-white"></div>
           <div className="flex-1 h-px bg-gray-300"></div>
         </div>
-        <div className="flex items-center justify-around my-16">
+        <div className="flex gap-3 items-center justify-around my-16">
           {tags.map((tag, idx) => {
             const Icon = tag.icon;
             return (
               <div className="flex items-center gap-2" key={idx}>
                 <span className="inline-block">
-                  <Icon size={36} className="text-primary" />
+                  <Icon className="text-primary text-lg md:text-[32px]" />
                 </span>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center leading-tight text-secondary">
+                <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-center leading-tight text-secondary">
                   {tag.title}
                 </h2>
               </div>

@@ -256,37 +256,37 @@ export default function LegalPackPage() {
           <div className="sp-entity-card rounded-2xl p-5 md:p-6 space-y-4">
             <div className="space-y-1">
               <p className="sp-entity-title">Legal Entity Structure</p>
-              <p className="text-white/55 text-sm">
+              <p className="text-secondary/80 text-sm">
                 Principal entity, UK entity, and secure legal contact details.
               </p>
             </div>
 
             <div className="grid lg:grid-cols-2 gap-4">
               <div className="sp-entity-subcard space-y-3">
-                <p className="text-amber-300 text-xs font-bold uppercase tracking-widest">
+                <p className="text-primary text-xs font-bold uppercase tracking-widest">
                   {LEGAL_ENTITIES.principal.title}
                 </p>
-                <p className="text-white text-base font-bold">
+                <p className="text-secondary text-base font-bold">
                   {LEGAL_ENTITIES.principal.name}
                 </p>
-                <p className="text-white/65 text-sm">
-                  <span className="font-semibold text-white/80">
+                <p className="text-secondary/70 text-sm">
+                  <span className="font-semibold text-secondary/80">
                     Registration No:
                   </span>{" "}
                   {LEGAL_ENTITIES.principal.registration}
                 </p>
                 <div className="space-y-1">
-                  <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">
+                  <p className="text-secondary/70 text-xs font-semibold uppercase tracking-wider">
                     Registered Address
                   </p>
                   {LEGAL_ENTITIES.principal.addressLines.map((line) => (
-                    <p key={line} className="text-white/75 text-sm">
+                    <p key={line} className="text-secondary/70 text-sm">
                       {line}
                     </p>
                   ))}
                 </div>
                 <div className="space-y-1">
-                  <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">
+                  <p className="text-secondary/70 text-xs font-semibold uppercase tracking-wider">
                     Role
                   </p>
                   <ul className="sp-entity-list list-disc pl-4">
@@ -298,24 +298,24 @@ export default function LegalPackPage() {
               </div>
 
               <div className="sp-entity-subcard space-y-3">
-                <p className="text-amber-300 text-xs font-bold uppercase tracking-widest">
+                <p className="text-primary text-xs font-bold uppercase tracking-widest">
                   {LEGAL_ENTITIES.uk.title}
                 </p>
-                <p className="text-white text-base font-bold">
+                <p className="text-secondary text-base font-bold">
                   {LEGAL_ENTITIES.uk.name}
                 </p>
-                <p className="text-white/65 text-sm">
-                  <span className="font-semibold text-white/80">
+                <p className="text-secondary/80 text-sm">
+                  <span className="font-semibold text-secondary/80">
                     Registration No:
                   </span>{" "}
                   {LEGAL_ENTITIES.uk.registration}
                 </p>
                 <div className="space-y-1">
-                  <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">
+                  <p className="text-secondary/70 text-xs font-semibold uppercase tracking-wider">
                     Registered Address
                   </p>
                   {LEGAL_ENTITIES.uk.addressLines.map((line) => (
-                    <p key={line} className="text-white/75 text-sm">
+                    <p key={line} className="text-secondary/80 text-sm">
                       {line}
                     </p>
                   ))}
@@ -324,10 +324,10 @@ export default function LegalPackPage() {
             </div>
 
             <div className="sp-entity-subcard space-y-2">
-              <p className="text-amber-300 text-xs font-bold uppercase tracking-widest">
+              <p className="text-primary text-xs font-bold uppercase tracking-widest">
                 Secure Contact Email
               </p>
-              <p className="text-purple-300 font-semibold text-sm md:text-base">
+              <p className="text-secondary/80 font-semibold text-sm md:text-base">
                 {LEGAL_ENTITIES.contactEmail}
               </p>
             </div>
@@ -349,10 +349,10 @@ export default function LegalPackPage() {
                     opacity: activeSection === s.id ? 1 : 0,
                   }}
                 />
-                <p className="sp-sec-num text-white">{s.tag}</p>
+                <p className="sp-sec-num secondary">{s.tag}</p>
                 <p className="text-lg mt-1">{s.icon}</p>
                 <p
-                  className={`text-sm font-bold mt-1 ${activeSection === s.id ? "text-white" : "text-white/55"}`}>
+                  className={`text-sm font-bold mt-1 ${activeSection === s.id ? "text-secondary" : "text-secondary/75"}`}>
                   {s.title}
                 </p>
               </button>
@@ -377,10 +377,12 @@ export default function LegalPackPage() {
                     style={{ color: current.accentColor }}>
                     {current.tag}
                   </p>
-                  <h2 className="text-xl md:text-2xl font-black text-white">
+                  <h2 className="text-xl md:text-2xl font-black text-secondary">
                     {current.title}
                   </h2>
-                  <p className="text-white/45 text-sm">{current.subtitle}</p>
+                  <p className="text-secondary/70 text-sm">
+                    {current.subtitle}
+                  </p>
                 </div>
               </div>
 
@@ -397,14 +399,14 @@ export default function LegalPackPage() {
                   return (
                     <div key={i} className={cardClass}>
                       <h3
-                        className="font-bold text-white/90 text-sm md:text-base mb-3"
-                        style={{ color: "rgba(255,255,255,0.9)" }}>
+                        className="font-bold text-secondary/90 text-sm md:text-base mb-3"
+                        style={{ color: "rgba(15, 32, 39, 0.9)" }}>
                         {sub.title}
                       </h3>
 
                       {/* Intro text */}
                       {sub.intro && (
-                        <p className="text-white/60 text-xs mb-3 italic">
+                        <p className="text-secondary/80 text-xs mb-3 italic">
                           {sub.intro}
                         </p>
                       )}
@@ -412,7 +414,7 @@ export default function LegalPackPage() {
                       {/* Paragraph */}
                       {sub.content && (
                         <p
-                          className={`text-sm md:text-base leading-relaxed ${sub.isWarning ? "text-red-300/80" : sub.isContact ? "text-purple-300" : "text-white/70"}`}>
+                          className={`text-sm md:text-base leading-relaxed ${sub.isWarning ? "text-red-400" : sub.isContact ? "text-secondary/70" : "text-secondary/80"}`}>
                           {sub.content}
                         </p>
                       )}
@@ -425,8 +427,8 @@ export default function LegalPackPage() {
                             background: "rgba(245,158,11,0.08)",
                             border: "1px solid rgba(245,158,11,0.2)",
                           }}>
-                          <span className="text-amber-400 shrink-0">⏱️</span>
-                          <p className="text-amber-300 text-sm font-semibold">
+                          <span className="text-primary shrink-0">⏱️</span>
+                          <p className="text-primary text-sm font-semibold">
                             {sub.highlight}
                           </p>
                         </div>
@@ -438,7 +440,7 @@ export default function LegalPackPage() {
                           {sub.items.map((item, ii) => (
                             <p
                               key={ii}
-                              className="flex items-start gap-2 text-white/75 text-sm md:text-base">
+                              className="flex items-start gap-2 text-secondary/80 text-sm md:text-base">
                               {sub.isRisk ? (
                                 <span className="sp-risk-icon mt-0.5">⚠</span>
                               ) : (
@@ -497,13 +499,13 @@ export default function LegalPackPage() {
 
           {/* ── Footer ── */}
           <div className="sp-footer-note rounded-2xl p-6 text-center space-y-2">
-            <p className="text-white/50 text-sm">
+            <p className="text-secondary/70 text-sm">
               For legal enquiries contact{" "}
-              <span className="text-purple-300 font-medium">
+              <span className="text-secondary/80 font-medium">
                 usfranc@bobosohomail.com
               </span>
             </p>
-            <p className="text-white/30 text-xs">
+            <p className="text-secondary/60 text-xs">
               Scotty Pumpkin Ltd — Governing Law: England &amp; Wales —
               Effective Date: February 26, 2026
             </p>

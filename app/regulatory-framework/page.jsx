@@ -1,20 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 const SECTIONS = [
   {
     number: 1,
     title: "Legal Ownership & Structure",
     icon: "🏢",
-    content: "Scotty Pumpkin Eco Market System is owned by SAS Association Familiale Fin (Affin), Registration Number: 803965227, registered at 8 rue Dublin, 34200 Sète, France.",
+    content:
+      "Scotty Pumpkin Eco Market System is owned by SAS Association Familiale Fin (Affin), Registration Number: 803965227, registered at 8 rue Dublin, 34200 Sète, France.",
     entities: [
-      { label: "Parent Entity", value: "SAS Association Familiale Fin (Affin)" },
+      {
+        label: "Parent Entity",
+        value: "SAS Association Familiale Fin (Affin)",
+      },
       { label: "Registration Number", value: "803965227" },
-      { label: "Registered Address", value: "8 rue Dublin, 34200 Sète, France" },
+      {
+        label: "Registered Address",
+        value: "8 rue Dublin, 34200 Sète, France",
+      },
       { label: "Affiliated Entities", value: "USFRANC LTD & USFRANC SASU" },
     ],
-    footer: "The ecosystem operates within the Affin group structure and in coordination with affiliated entities including USFRANC LTD and USFRANC SASU.",
+    footer:
+      "The ecosystem operates within the Affin group structure and in coordination with affiliated entities including USFRANC LTD and USFRANC SASU.",
   },
   {
     number: 2,
@@ -43,13 +51,34 @@ const SECTIONS = [
     number: 4,
     title: "Revenue & Allocation Governance",
     icon: "📊",
-    intro: "After-tax financial inflows generated from first sales and administrative transaction fees remain the exclusive property of the operating entity.",
+    intro:
+      "After-tax financial inflows generated from first sales and administrative transaction fees remain the exclusive property of the operating entity.",
     allocation: [
-      { label: "Ecosystem sustainability investments (government securities)", value: "60%", color: "rgba(245,158,11,0.9)" },
-      { label: "Operational reserves", value: "10%", color: "rgba(168,85,247,0.9)" },
-      { label: "Liquidity support", value: "10%", color: "rgba(99,102,241,0.9)" },
-      { label: "Operating expenses", value: "10%", color: "rgba(59,130,246,0.9)" },
-      { label: "Social & community welfare initiatives", value: "10%", color: "rgba(74,222,128,0.9)" },
+      {
+        label: "Ecosystem sustainability investments (government securities)",
+        value: "60%",
+        color: "#f17005", // Adjusted to match your precise core primary orange
+      },
+      {
+        label: "Operational reserves",
+        value: "10%",
+        color: "#b45309", // Warm amber tone matching the earthy palette
+      },
+      {
+        label: "Liquidity support",
+        value: "10%",
+        color: "#0f2027", // Accentuated via your robust secondary color
+      },
+      {
+        label: "Operating expenses",
+        value: "10%",
+        color: "#475569", // Neutral slate element
+      },
+      {
+        label: "Social & community welfare initiatives",
+        value: "10%",
+        color: "rgba(22, 163, 74, 0.9)", // Grounded green
+      },
     ],
   },
   {
@@ -78,7 +107,8 @@ const SECTIONS = [
     number: 7,
     title: "Governing Law",
     icon: "⚖️",
-    content: "This framework shall be governed by the laws of France unless otherwise stated.",
+    content:
+      "This framework shall be governed by the laws of France unless otherwise stated.",
     highlight: "Jurisdiction: France",
   },
 ];
@@ -87,211 +117,283 @@ export default function RegulatoryFrameworkPage() {
   const [activeSection, setActiveSection] = useState(1);
 
   return (
-    <>
-      <section className="relative z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
-        <div className="max-w-5xl mx-auto space-y-10 md:space-y-12">
-
-          {/* ── Hero ── */}
-          <div className="sp-hero-card rounded-2xl p-8 md:p-10 text-center space-y-5">
-            <div style={{ animation: "sp-float 4s ease-in-out infinite" }} className="text-5xl md:text-6xl">🏛️</div>
-            <div className="space-y-2">
-              <p className="text-purple-300/70 text-xs font-bold uppercase tracking-widest">Scotty Pumpkin Eco Market System</p>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black sp-shimmer-heading">
-                Regulatory &amp; Governance Framework
-              </h1>
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
-              <span className="sp-badge-amber text-xs font-semibold px-3 py-1 rounded-full">Effective: February 26, 2026</span>
-              <span className="sp-badge-indigo text-xs font-semibold px-3 py-1 rounded-full">Governed by French Law</span>
-              <span className="sp-badge-green text-xs font-semibold px-3 py-1 rounded-full">AML / KYC Compliant</span>
-              <span className="sp-badge-red text-xs font-semibold px-3 py-1 rounded-full">Non-Security Token</span>
-            </div>
+    <section className="bg-primary-bg min-h-screen">
+      <div className="max-w-5xl mx-auto px-4 py-12 md:py-16 lg:py-20 space-y-10">
+        {/* ── Hero Card ── */}
+        <div className="bg-white border border-slate-200/80 shadow-xs rounded-2xl p-8 md:p-10 text-center space-y-5">
+          <div
+            style={{ animation: "sp-float 4s ease-in-out infinite" }}
+            className="text-5xl md:text-6xl">
+            🏛️
           </div>
+          <div className="space-y-2">
+            <p className="text-secondary/70 text-xs font-black uppercase tracking-widest">
+              Scotty Pumpkin Eco Market System
+            </p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-secondary">
+              Regulatory &amp; Governance Framework
+            </h1>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+            <span className="bg-orange-100 border border-orange-200 text-orange-800 text-[11px] font-bold px-3 py-1 rounded-full">
+              Effective: February 26, 2026
+            </span>
+            <span className="bg-orange-100 border border-orange-200 text-orange-800 text-[11px] font-bold px-3 py-1 rounded-full">
+              Governed by French Law
+            </span>
+            <span className="bg-slate-100 border border-slate-200 text-slate-800 text-[11px] font-bold px-3 py-1 rounded-full">
+              AML / KYC Compliant
+            </span>
+            <span className="bg-orange-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
+              Non-Security Token
+            </span>
+          </div>
+        </div>
 
-          <div className="sp-divider" />
+        <div className="sp-divider" />
 
-          {/* ── Mobile nav (hidden on desktop) ── */}
-          <div className="md:hidden sp-mobile-nav">
-            {SECTIONS.map((s) => (
+        {/* ── Mobile Navigation (Hidden on Desktop) ── */}
+        <div className="md:hidden sp-mobile-nav">
+          {SECTIONS.map((s) => {
+            const isCurrent = activeSection === s.number;
+            return (
               <button
                 key={s.number}
                 onClick={() => setActiveSection(s.number)}
-                className={`sp-mobile-btn ${activeSection === s.number ? "active" : ""}`}
-              >
+                className={`sp-mobile-btn ${isCurrent ? "active" : ""}`}>
                 <span>{s.icon}</span>
-                <span className={`text-xs font-semibold ${activeSection === s.number ? "text-white" : "text-white/50"}`}>
+                <span
+                  className={`text-xs font-bold ${isCurrent ? "text-orange-700" : "text-secondary/60"}`}>
                   {s.number}. {s.title}
                 </span>
               </button>
-            ))}
-          </div>
+            );
+          })}
+        </div>
 
-          {/* ── Desktop two-column layout ── */}
-          <div className="sp-layout">
-
-            {/* Sidebar (desktop only) */}
-            <div className="sp-sidebar hidden md:block">
-              <div className="px-4 py-3 border-b border-white/5">
-                <p className="text-white/35 text-xs font-bold uppercase tracking-widest">Sections</p>
-              </div>
-              {SECTIONS.map((s, i) => (
+        {/* ── Main Layout Split ── */}
+        <div className="sp-layout">
+          {/* Sidebar Left Column */}
+          <div className="sp-sidebar hidden md:block">
+            <div className="px-4 py-3 bg-slate-50 border-b border-slate-100">
+              <p className="text-secondary/40 text-[10px] font-black uppercase tracking-widest">
+                Framework Index
+              </p>
+            </div>
+            {SECTIONS.map((s, i) => {
+              const isCurrent = activeSection === s.number;
+              return (
                 <div key={s.number}>
                   <div
-                    className={`sp-nav-item ${activeSection === s.number ? "active" : ""}`}
-                    onClick={() => setActiveSection(s.number)}
-                  >
+                    className={`sp-nav-item ${isCurrent ? "active" : ""}`}
+                    onClick={() => setActiveSection(s.number)}>
                     <div className="sp-nav-number">{s.number}</div>
                     <div className="min-w-0">
-                      <p className={`text-xs font-semibold leading-tight ${activeSection === s.number ? "text-white" : "text-white/55"}`}>
+                      <p
+                        className={`text-xs font-bold leading-tight ${isCurrent ? "text-orange-700" : "text-secondary/70"}`}>
                         {s.title}
                       </p>
                     </div>
-                    <span className="ml-auto text-sm shrink-0">{s.icon}</span>
+                    <span className="ml-auto text-sm shrink-0 opacity-70">
+                      {s.icon}
+                    </span>
                   </div>
                   {i < SECTIONS.length - 1 && <div className="sp-nav-sep" />}
                 </div>
-              ))}
-            </div>
+              );
+            })}
+          </div>
 
-            {/* Content panel */}
-            {(() => {
-              const s = SECTIONS.find((x) => x.number === activeSection);
-              if (!s) return null;
-              return (
-                <div key={s.number} className="sp-panel">
-                  {/* Panel header */}
-                  <div className="flex items-center gap-3 mb-5">
-                    <span className="text-3xl">{s.icon}</span>
-                    <div>
-                      <p className="text-purple-400 text-xs font-bold uppercase tracking-widest">Section {s.number}</p>
-                      <h2 className="text-xl md:text-2xl font-black text-white">{s.title}</h2>
-                    </div>
-                  </div>
-
-                  <div className="sp-divider mb-5" />
-
-                  <div className="space-y-4">
-
-                    {/* Paragraph */}
-                    {s.content && (
-                      <p className="text-white/75 text-sm md:text-base leading-relaxed">{s.content}</p>
-                    )}
-
-                    {/* Entity grid */}
-                    {s.entities && (
-                      <div className="grid sm:grid-cols-2 gap-3">
-                        {s.entities.map((e, i) => (
-                          <div key={i} className="sp-entity-item">
-                            <p className="text-white/35 text-xs font-bold uppercase tracking-wider mb-1">{e.label}</p>
-                            <p className="text-white/85 text-sm font-semibold">{e.value}</p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Intro text */}
-                    {s.intro && (
-                      <p className="text-white/55 text-sm italic border-l-2 border-purple-500/40 pl-3">{s.intro}</p>
-                    )}
-
-                    {/* Item list */}
-                    {s.items && (
-                      <div className="space-y-2">
-                        {s.items.map((item, i) => (
-                          <div key={i} className={`sp-item-row ${s.isWarning ? "warn" : s.isRisk ? "risk" : ""}`}>
-                            {s.isWarning
-                              ? <span className="sp-warn-icon">✕</span>
-                              : s.isRisk
-                              ? <span className="sp-risk-icon">⚠</span>
-                              : <span className="sp-check">✓</span>
-                            }
-                            <span className={`text-sm md:text-base ${s.isWarning ? "text-red-300/80" : "text-white/75"}`}>
-                              {item}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Allocation bars */}
-                    {s.allocation && (
-                      <div className="space-y-3">
-                        {s.allocation.map((row, i) => (
-                          <div key={i} className="space-y-1.5">
-                            <div className="flex justify-between items-center">
-                              <span className="text-white/65 text-xs md:text-sm">{row.label}</span>
-                              <span className="font-black text-sm" style={{ color: row.color }}>{row.value}</span>
-                            </div>
-                            <div className="sp-bar-track">
-                              <div
-                                className="sp-bar-fill"
-                                style={{ "--bar-w": row.value, width: row.value, background: row.color }}
-                              />
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Jurisdiction highlight */}
-                    {s.highlight && (
-                      <div className="sp-jurisdiction">
-                        <span className="text-indigo-300 text-xl">🇫🇷</span>
-                        <p className="text-indigo-200 text-sm font-semibold">{s.highlight}</p>
-                      </div>
-                    )}
-
-                    {/* Footer note */}
-                    {s.footer && (
-                      <p className="text-white/35 text-xs italic mt-1 border-t border-white/5 pt-3">{s.footer}</p>
-                    )}
-
-                  </div>
-
-                  {/* Navigation arrows */}
-                  <div className="flex justify-between items-center mt-8 pt-5 border-t border-white/5">
-                    <button
-                      onClick={() => setActiveSection((p) => Math.max(1, p - 1))}
-                      disabled={activeSection === 1}
-                      className="flex items-center gap-2 text-sm text-white/40 hover:text-white/70 disabled:opacity-20 transition-colors"
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                      </svg>
-                      Previous
-                    </button>
-                    <span className="text-white/25 text-xs font-mono">{activeSection} / {SECTIONS.length}</span>
-                    <button
-                      onClick={() => setActiveSection((p) => Math.min(SECTIONS.length, p + 1))}
-                      disabled={activeSection === SECTIONS.length}
-                      className="flex items-center gap-2 text-sm text-white/40 hover:text-white/70 disabled:opacity-20 transition-colors"
-                    >
-                      Next
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                      </svg>
-                    </button>
+          {/* Dynamic Content Panel Column */}
+          {(() => {
+            const s = SECTIONS.find((x) => x.number === activeSection);
+            if (!s) return null;
+            return (
+              <div key={s.number} className="sp-panel">
+                {/* Panel Title Unit */}
+                <div className="flex items-center gap-3.5 mb-5">
+                  <span className="text-3xl shrink-0">{s.icon}</span>
+                  <div>
+                    <p className="text-orange-600 text-[10px] font-black uppercase tracking-widest mb-0.5">
+                      Section 0{s.number}
+                    </p>
+                    <h2 className="text-lg md:text-xl font-black text-secondary">
+                      {s.title}
+                    </h2>
                   </div>
                 </div>
-              );
-            })()}
-          </div>
 
-          <div className="sp-divider" />
+                <div className="sp-divider mb-5" />
 
-          {/* ── Footer ── */}
-          <div className="sp-footer-note rounded-2xl p-6 text-center space-y-2">
-            <p className="text-white/50 text-sm">
-              Legal enquiries:{" "}
-              <span className="text-purple-300 font-medium">legal@scottypumpkin.com</span>
-            </p>
-            <p className="text-white/30 text-xs">
-              SAS Association Familiale Fin (Affin) · Reg. 803965227 · 8 rue Dublin, 34200 Sète, France · Governing Law: France
-            </p>
-          </div>
+                <div className="space-y-5">
+                  {/* Content Descriptions */}
+                  {s.content && (
+                    <p className="text-secondary/85 text-sm leading-relaxed">
+                      {s.content}
+                    </p>
+                  )}
 
+                  {/* Entities Metadata Cards */}
+                  {s.entities && (
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      {s.entities.map((e, i) => (
+                        <div key={i} className="sp-entity-item shadow-2xs">
+                          <p className="text-secondary/40 text-[10px] font-black uppercase tracking-wider mb-1">
+                            {e.label}
+                          </p>
+                          <p className="text-secondary text-xs font-bold leading-snug">
+                            {e.value}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Editorial Blockquote Intro */}
+                  {s.intro && (
+                    <p className="text-secondary/70 text-xs md:text-sm italic border-l-2 border-orange-500/50 pl-3 bg-slate-50/50 py-1.5 pr-2 rounded-r-md">
+                      {s.intro}
+                    </p>
+                  )}
+
+                  {/* Operational Bullet Points */}
+                  {s.items && (
+                    <div className="space-y-2.5">
+                      {s.items.map((item, i) => (
+                        <div
+                          key={i}
+                          className={`sp-item-row ${s.isWarning ? "warn" : s.isRisk ? "risk" : ""}`}>
+                          {s.isWarning ? (
+                            <span className="sp-warn-icon shrink-0">✕</span>
+                          ) : s.isRisk ? (
+                            <span className="sp-risk-icon shrink-0">⚠</span>
+                          ) : (
+                            <span className="sp-check shrink-0">✓</span>
+                          )}
+                          <span
+                            className={`text-xs md:text-sm font-medium leading-relaxed ${s.isWarning ? "text-red-900" : s.isRisk ? "text-amber-900" : "text-secondary/80"}`}>
+                            {item}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Budget Allocation Percentage Track Bars */}
+                  {s.allocation && (
+                    <div className="space-y-3.5 pt-1.5">
+                      {s.allocation.map((row, i) => (
+                        <div key={i} className="space-y-1.5">
+                          <div className="flex justify-between items-center text-xs">
+                            <span className="text-secondary/75 font-medium pr-4">
+                              {row.label}
+                            </span>
+                            <span
+                              className="font-black"
+                              style={{ color: row.color }}>
+                              {row.value}
+                            </span>
+                          </div>
+                          <div className="sp-bar-track">
+                            <div
+                              className="sp-bar-fill h-full rounded-full"
+                              style={{
+                                width: row.value,
+                                background: row.color,
+                              }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Jurisdiction Flag Badges */}
+                  {s.highlight && (
+                    <div className="sp-jurisdiction">
+                      <span className="text-xl">🇫🇷</span>
+                      <p className="text-orange-950 text-xs font-bold">
+                        {s.highlight}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Static footer references inside section */}
+                  {s.footer && (
+                    <p className="text-secondary/60 text-[11px] italic mt-2 border-t border-slate-100 pt-3">
+                      {s.footer}
+                    </p>
+                  )}
+                </div>
+
+                {/* ── Horizontal Back / Forward Controls ── */}
+                <div className="flex justify-between items-center mt-8 pt-4 border-t border-slate-100">
+                  <button
+                    type="button"
+                    onClick={() => setActiveSection((p) => Math.max(1, p - 1))}
+                    disabled={activeSection === 1}
+                    className="flex items-center gap-1.5 text-xs font-bold text-secondary/80 hover:text-orange-600 disabled:opacity-70 transition-colors cursor-pointer bg-transparent border-none">
+                    <svg
+                      className="w-3.5 h-3.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2.5}>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15 19l-7-7 7-7"
+                      />
+                    </svg>
+                    Previous
+                  </button>
+                  <span className="text-secondary/70 font-mono text-xs">
+                    {activeSection} / {SECTIONS.length}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActiveSection((p) => Math.min(SECTIONS.length, p + 1))
+                    }
+                    disabled={activeSection === SECTIONS.length}
+                    className="flex items-center gap-1.5 text-xs font-bold text-secondary/80 hover:text-primary disabled:opacity-70 transition-colors cursor-pointer bg-transparent border-none">
+                    Next
+                    <svg
+                      className="w-3.5 h-3.5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2.5}>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
         </div>
-      </section>
-    </>
+
+        <div className="sp-divider" />
+
+        {/* ── Document Footer Note ── */}
+        <div className="bg-slate-100/50 border border-slate-200/60 rounded-2xl p-6 text-center space-y-2">
+          <p className="text-secondary/60 text-xs font-medium">
+            Legal enquiries:{" "}
+            <span className="text-orange-600 font-bold underline underline-offset-2 select-all">
+              legal@scottypumpkin.com
+            </span>
+          </p>
+          <p className="text-secondary/60 text-[10px] leading-relaxed max-w-2xl mx-auto">
+            SAS Association Familiale Fin (Affin) · Reg. 803965227 · 8 rue
+            Dublin, 34200 Sète, France · Governing Jurisdiction Framework:
+            France
+          </p>
+        </div>
+      </div>
+    </section>
   );
 }

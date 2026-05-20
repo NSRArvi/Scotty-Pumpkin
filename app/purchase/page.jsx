@@ -489,7 +489,7 @@ export default function PurchasePage() {
 
                   <div className="flex items-center justify-center gap-3">
                     <span className="pu-arrow text-sm">»»</span>
-                    <span className="text-white/20 text-xs">
+                    <span className="text-secondary/70 text-xs">
                       Scotty Pumpkin Secure Checkout
                     </span>
                     <span className="pu-arrow text-sm">««</span>

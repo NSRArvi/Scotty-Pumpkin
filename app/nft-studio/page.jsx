@@ -298,7 +298,7 @@ export default function NFTStudioPage() {
                         onChange={(e) => setDescription(e.target.value)}
                       />
                       <div className="flex items-center gap-2">
-                        <label className="text-white/45 text-xs font-bold whitespace-nowrap">
+                        <label className="text-secondary/80 text-xs font-bold whitespace-nowrap">
                           Category
                         </label>
                         <select
@@ -311,7 +311,7 @@ export default function NFTStudioPage() {
                         </select>
                       </div>
                       <div className="flex items-center gap-2">
-                        <label className="text-white/45 text-xs font-bold whitespace-nowrap">
+                        <label className="text-secondary/70 text-xs font-bold whitespace-nowrap">
                           Limited
                         </label>
                         <input
@@ -322,7 +322,7 @@ export default function NFTStudioPage() {
                           onChange={(e) => setLimited(e.target.value)}
                           style={{ width: 64 }}
                         />
-                        <span className="text-white/40 text-xs">%</span>
+                        <span className="text-secondary/70 text-xs">%</span>
                       </div>
                     </div>
 

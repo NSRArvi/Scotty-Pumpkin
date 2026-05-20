@@ -176,21 +176,21 @@ export default function OnlinePurchaseHelpGuide({
       content: (
         <div className="space-y-4">
           <div className="space-y-3">
-            <p className="text-white/80 text-sm font-bold">
+            <p className="text-slate-800 text-sm font-bold">
               1. Download the Solflare wallet app
             </p>
-            <div className="space-y-2.5 pl-3 border-l-2 border-amber-500/30">
-              <p className="text-white/65 text-sm leading-relaxed">
+            <div className="space-y-2.5 pl-3 border-l-2 border-amber-500/40">
+              <p className="text-slate-600 text-sm leading-relaxed">
                 On your phone or computer, search for{" "}
-                <span className="text-amber-300 font-bold">
+                <span className="text-amber-700 font-bold">
                   SOLFLARE Wallet
                 </span>
                 . Install it and open it.
               </p>
-              <p className="text-white/65 text-sm leading-relaxed">
+              <p className="text-slate-600 text-sm leading-relaxed">
                 Follow the on-screen prompts to create a new wallet. Write down
                 your secret recovery phrase and store it somewhere safe —{" "}
-                <span className="text-red-300 font-bold">
+                <span className="text-red-600 font-bold">
                   never share it with anyone
                 </span>
                 .
@@ -199,33 +199,33 @@ export default function OnlinePurchaseHelpGuide({
           </div>
 
           {/* Bank Transfer banner */}
-          <div className="rounded-xl border border-purple-500/30 bg-purple-500/8 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="rounded-xl border border-purple-200 bg-purple-50/50 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
-              <p className="text-purple-300 text-xs font-black uppercase tracking-widest mb-0.5">
+              <p className="text-purple-700 text-xs font-black uppercase tracking-widest mb-0.5">
                 Also Available
               </p>
-              <p className="text-white/75 text-sm font-medium">
+              <p className="text-slate-700 text-sm font-medium">
                 Bank Transfer method also available for buying SPUMP.
               </p>
             </div>
             <Link
               href="/bank-purchase"
-              className="shrink-0 rounded-lg border border-purple-400/40 bg-purple-500/15 px-4 py-2 text-xs font-black text-purple-300 hover:bg-purple-500/25 transition-all whitespace-nowrap">
+              className="shrink-0 rounded-lg border border-purple-300 bg-purple-100 px-4 py-2 text-xs font-black text-purple-700 hover:bg-purple-200 transition-all whitespace-nowrap">
               Bank Transfer →
             </Link>
           </div>
 
           {/* Skip note */}
-          <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/5 px-4 py-3 flex items-start gap-2.5">
-            <span className="text-emerald-400 shrink-0 text-base mt-0.5">
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 flex items-start gap-2.5">
+            <span className="text-emerald-600 shrink-0 text-base mt-0.5">
               ✓
             </span>
-            <p className="text-white/60 text-sm leading-relaxed">
+            <p className="text-slate-600 text-sm leading-relaxed">
               Already have a wallet or an exchange account (Binance, Coinbase,
               etc.) with USDC, USDT, or SOL?{" "}
               <button
                 onClick={() => setExpandedStep("s2")}
-                className="text-emerald-300 font-bold underline underline-offset-2 cursor-pointer bg-transparent border-none">
+                className="text-emerald-700 font-bold underline underline-offset-2 cursor-pointer bg-transparent border-none">
                 Skip to Step 2
               </button>
             </p>
@@ -242,11 +242,11 @@ export default function OnlinePurchaseHelpGuide({
       accent: "indigo",
       content: (
         <div className="space-y-4">
-          <p className="text-white/60 text-sm leading-relaxed">
+          <p className="text-slate-600 text-sm leading-relaxed">
             Select the token you want to use for your transfer:{" "}
-            <span className="text-white/85 font-bold">USDC</span>,{" "}
-            <span className="text-white/85 font-bold">USDT</span>, or{" "}
-            <span className="text-white/85 font-bold">SOL</span> on the Solana
+            <span className="text-slate-800 font-bold">USDC</span>,{" "}
+            <span className="text-slate-800 font-bold">USDT</span>, or{" "}
+            <span className="text-slate-800 font-bold">SOL</span> on the Solana
             network.
           </p>
 
@@ -259,8 +259,8 @@ export default function OnlinePurchaseHelpGuide({
                 onClick={() => setSelectedCoin(coin.value)}
                 className={`flex-1 rounded-xl border py-2.5 text-sm font-bold transition-all ${
                   selectedCoin === coin.value
-                    ? "border-indigo-400/60 bg-indigo-400/20 text-indigo-300"
-                    : "border-white/15 bg-black/25 text-white/50 hover:border-white/25 hover:text-white/75"
+                    ? "border-indigo-400 bg-indigo-50 text-indigo-700"
+                    : "border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-300 hover:text-slate-700"
                 }`}>
                 {coin.label}
               </button>
@@ -268,19 +268,19 @@ export default function OnlinePurchaseHelpGuide({
           </div>
 
           {/* SPUMP Calculator */}
-          <div className="rounded-xl border border-indigo-400/20 bg-black/20 p-4 space-y-4">
+          <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 space-y-4">
             <div className="flex items-center justify-between">
-              <p className="text-indigo-300 text-xs font-black uppercase tracking-widest">
+              <p className="text-indigo-600 text-xs font-black uppercase tracking-widest">
                 SPUMP Count Calculator
               </p>
-              <div className="flex rounded-lg border border-white/10 overflow-hidden text-xs font-bold">
+              <div className="flex rounded-lg border border-slate-200 overflow-hidden text-xs font-bold">
                 <button
                   type="button"
                   onClick={() => {
                     setCalcMode("usd");
                     setEnteredSpump("");
                   }}
-                  className={`px-3 py-1.5 transition-all ${calcMode === "usd" ? "bg-amber-400/20 text-amber-300" : "bg-black/20 text-white/40 hover:text-white/60"}`}>
+                  className={`px-3 py-1.5 transition-all ${calcMode === "usd" ? "bg-amber-100 text-amber-800" : "bg-slate-100 text-slate-500 hover:text-slate-700"}`}>
                   By Amount
                 </button>
                 <button
@@ -289,7 +289,7 @@ export default function OnlinePurchaseHelpGuide({
                     setCalcMode("spump");
                     setEnteredValue("");
                   }}
-                  className={`px-3 py-1.5 transition-all ${calcMode === "spump" ? "bg-amber-400/20 text-amber-300" : "bg-black/20 text-white/40 hover:text-white/60"}`}>
+                  className={`px-3 py-1.5 transition-all ${calcMode === "spump" ? "bg-amber-100 text-amber-800" : "bg-slate-100 text-slate-500 hover:text-slate-700"}`}>
                   By SPUMP
                 </button>
               </div>
@@ -297,7 +297,7 @@ export default function OnlinePurchaseHelpGuide({
 
             {calcMode === "usd" ? (
               <div>
-                <p className="mb-1.5 text-xs text-white/40 uppercase tracking-widest">
+                <p className="mb-1.5 text-xs text-slate-500 uppercase tracking-widest">
                   Enter Amount ({selectedCoin.toUpperCase()})
                 </p>
                 <input
@@ -307,12 +307,12 @@ export default function OnlinePurchaseHelpGuide({
                   value={enteredValue}
                   onChange={(e) => setEnteredValue(e.target.value)}
                   placeholder="e.g. 25"
-                  className="w-full rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-white placeholder:text-white/30 outline-none text-sm"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 placeholder:text-slate-400 outline-none text-sm focus:border-orange-500"
                 />
               </div>
             ) : (
               <div>
-                <p className="mb-1.5 text-xs text-white/40 uppercase tracking-widest">
+                <p className="mb-1.5 text-xs text-slate-500 uppercase tracking-widest">
                   Enter Desired SPUMP Count
                 </p>
                 <input
@@ -322,34 +322,34 @@ export default function OnlinePurchaseHelpGuide({
                   value={enteredSpump}
                   onChange={(e) => setEnteredSpump(e.target.value)}
                   placeholder="e.g. 2500"
-                  className="w-full rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-white placeholder:text-white/30 outline-none text-sm"
+                  className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 placeholder:text-slate-400 outline-none text-sm focus:border-orange-500"
                 />
               </div>
             )}
 
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 text-center">
-              <div className="rounded-lg bg-white/5 border border-white/8 px-3 py-2.5">
-                <p className="text-[10px] text-white/35 uppercase tracking-wider mb-0.5">
+              <div className="rounded-lg bg-slate-100/50 border border-slate-200 px-3 py-2.5">
+                <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-0.5">
                   USD Equivalent
                 </p>
-                <p className="text-sm font-bold text-white/80">
+                <p className="text-sm font-bold text-slate-800">
                   ${usdEquivalent > 0 ? usdEquivalent.toFixed(4) : "0.0000"}
                 </p>
               </div>
-              <div className="rounded-lg bg-amber-500/10 border border-amber-500/25 px-3 py-2.5">
-                <p className="text-[10px] text-amber-400/70 uppercase tracking-wider mb-0.5">
+              <div className="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2.5">
+                <p className="text-[10px] text-amber-700 uppercase tracking-wider mb-0.5">
                   Est. SPUMP
                 </p>
-                <p className="text-sm font-bold text-amber-300">
+                <p className="text-sm font-bold text-amber-800">
                   {estimatedSpump > 0 ? estimatedSpump.toLocaleString() : "0"}
                 </p>
               </div>
               {calcMode === "spump" ? (
-                <div className="rounded-lg bg-indigo-500/10 border border-indigo-500/25 px-3 py-2.5">
-                  <p className="text-[10px] text-indigo-300/70 uppercase tracking-wider mb-0.5">
+                <div className="rounded-lg bg-indigo-50 border border-indigo-200 px-3 py-2.5">
+                  <p className="text-[10px] text-indigo-700 uppercase tracking-wider mb-0.5">
                     {selectedCoin.toUpperCase()} to Send
                   </p>
-                  <p className="text-sm font-bold text-indigo-300">
+                  <p className="text-sm font-bold text-indigo-700">
                     {tokenAmountToSend
                       ? selectedCoin === "sol" && loadingRate
                         ? "Loading..."
@@ -358,11 +358,11 @@ export default function OnlinePurchaseHelpGuide({
                   </p>
                 </div>
               ) : (
-                <div className="rounded-lg bg-white/5 border border-white/8 px-3 py-2.5">
-                  <p className="text-[10px] text-white/35 uppercase tracking-wider mb-0.5">
+                <div className="rounded-lg bg-slate-100/50 border border-slate-200 px-3 py-2.5">
+                  <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-0.5">
                     SOL/USD Rate
                   </p>
-                  <p className="text-sm font-bold text-white/80">
+                  <p className="text-sm font-bold text-slate-800">
                     {selectedCoin === "sol"
                       ? loadingRate
                         ? "..."
@@ -374,7 +374,7 @@ export default function OnlinePurchaseHelpGuide({
                 </div>
               )}
             </div>
-            <p className="text-white/20 text-xs" suppressHydrationWarning>
+            <p className="text-slate-400 text-xs" suppressHydrationWarning>
               Rate: ${effectiveSpumpPrice.toFixed(6)} USD = 1 SPUMP · All
               figures are estimates
             </p>
@@ -391,26 +391,26 @@ export default function OnlinePurchaseHelpGuide({
       accent: "amber",
       content: (
         <div className="space-y-4">
-          <p className="text-white/60 text-sm leading-relaxed">
+          <p className="text-slate-600 text-sm leading-relaxed">
             Copy the Official Treasury Wallet address below. This is the
             destination for your crypto transfer.
           </p>
-          <div className="rounded-xl border border-amber-500/25 bg-amber-500/5 p-4 space-y-3">
-            <p className="text-amber-400 text-xs font-black uppercase tracking-widest">
+          <div className="rounded-xl border border-amber-200 bg-amber-50/50 p-4 space-y-3">
+            <p className="text-amber-700 text-xs font-black uppercase tracking-widest">
               Official Treasury Wallet
             </p>
-            <p className="font-mono text-amber-300/85 text-xs break-all leading-loose bg-black/25 rounded-lg px-3 py-3 border border-amber-500/15 select-all">
+            <p className="font-mono text-amber-900 text-xs break-all leading-loose bg-amber-100/40 rounded-lg px-3 py-3 border border-amber-200 select-all">
               {TREASURY_WALLET}
             </p>
             <button
               onClick={copyWallet}
-              className="flex items-center gap-2 bg-amber-500/12 border border-amber-500/35 text-amber-400 text-xs font-black px-4 py-2 rounded-lg cursor-pointer transition-all hover:bg-amber-500/22">
+              className="flex items-center gap-2 bg-amber-100 border border-amber-300 text-amber-700 text-xs font-black px-4 py-2 rounded-lg cursor-pointer transition-all hover:bg-amber-200">
               {copiedWallet ? "✓ Copied!" : "📋 Copy Treasury Address"}
             </button>
           </div>
-          <div className="flex items-start gap-2.5 bg-red-500/6 border border-red-500/20 rounded-xl px-4 py-3">
-            <span className="text-red-400 shrink-0">⚠️</span>
-            <p className="text-red-300/75 text-xs leading-relaxed">
+          <div className="flex items-start gap-2.5 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+            <span className="text-red-600 shrink-0">⚠️</span>
+            <p className="text-red-700 text-xs leading-relaxed">
               Verify the address multiple times before confirming. Sending to
               the wrong address is irreversible.
             </p>
@@ -427,7 +427,7 @@ export default function OnlinePurchaseHelpGuide({
       accent: "purple",
       content: (
         <div className="space-y-3">
-          <p className="text-white/60 text-sm leading-relaxed">
+          <p className="text-slate-600 text-sm leading-relaxed">
             Open your wallet and send your chosen token to the Treasury Wallet
             address.
           </p>
@@ -441,11 +441,11 @@ export default function OnlinePurchaseHelpGuide({
           ].map((item, i) => (
             <div
               key={i}
-              className="flex items-start gap-3 py-2 border-b border-white/5 last:border-b-0">
-              <span className="shrink-0 w-5 h-5 rounded-full bg-purple-500/20 border border-purple-500/30 text-purple-300 text-[10px] font-black flex items-center justify-center mt-0.5">
+              className="flex items-start gap-3 py-2 border-b border-slate-100 last:border-b-0">
+              <span className="shrink-0 w-5 h-5 rounded-full bg-purple-100 border border-purple-200 text-purple-700 text-[10px] font-black flex items-center justify-center mt-0.5">
                 {i + 1}
               </span>
-              <p className="text-white/65 text-sm leading-relaxed">{item}</p>
+              <p className="text-slate-600 text-sm leading-relaxed">{item}</p>
             </div>
           ))}
         </div>
@@ -460,7 +460,7 @@ export default function OnlinePurchaseHelpGuide({
       accent: "emerald",
       content: (
         <div className="space-y-4">
-          <p className="text-white/60 text-sm leading-relaxed">
+          <p className="text-slate-600 text-sm leading-relaxed">
             After submitting, wait for the Solana network to confirm your
             transaction.
           </p>
@@ -471,16 +471,16 @@ export default function OnlinePurchaseHelpGuide({
           ].map((item, i) => (
             <div
               key={i}
-              className="flex items-start gap-2.5 py-1.5 border-b border-white/4 last:border-b-0">
-              <span className="text-emerald-400 shrink-0 mt-0.5">✓</span>
-              <p className="text-white/65 text-sm leading-relaxed">{item}</p>
+              className="flex items-start gap-2.5 py-1.5 border-b border-slate-100 last:border-b-0">
+              <span className="text-emerald-600 shrink-0 mt-0.5">✓</span>
+              <p className="text-slate-600 text-sm leading-relaxed">{item}</p>
             </div>
           ))}
-          <div className="flex items-center gap-3 rounded-xl bg-emerald-500/8 border border-emerald-500/25 px-4 py-3">
+          <div className="flex items-center gap-3 rounded-xl bg-emerald-50 border border-emerald-200 px-4 py-3">
             <span className="text-xl">✅</span>
-            <p className="text-white/60 text-sm">
+            <p className="text-slate-600 text-sm">
               Look for status:{" "}
-              <span className="text-green-400 font-black">SUCCESS</span> in your
+              <span className="text-green-600 font-black">SUCCESS</span> in your
               wallet activity
             </p>
           </div>
@@ -496,7 +496,7 @@ export default function OnlinePurchaseHelpGuide({
       accent: "indigo",
       content: (
         <div className="space-y-3">
-          <p className="text-white/60 text-sm leading-relaxed">
+          <p className="text-slate-600 text-sm leading-relaxed">
             Find and copy the Transaction Signature (TxHash) from your wallet or
             the Solana explorer.
           </p>
@@ -509,19 +509,19 @@ export default function OnlinePurchaseHelpGuide({
           ].map((item, i) => (
             <div
               key={i}
-              className="flex items-start gap-3 py-2 border-b border-white/5 last:border-b-0">
-              <span className="shrink-0 w-5 h-5 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-[10px] font-black flex items-center justify-center mt-0.5">
+              className="flex items-start gap-3 py-2 border-b border-slate-100 last:border-b-0">
+              <span className="shrink-0 w-5 h-5 rounded-full bg-indigo-100 border border-indigo-200 text-indigo-700 text-[10px] font-black flex items-center justify-center mt-0.5">
                 {i + 1}
               </span>
-              <p className="text-white/65 text-sm leading-relaxed">{item}</p>
+              <p className="text-slate-600 text-sm leading-relaxed">{item}</p>
             </div>
           ))}
-          <div className="flex items-center justify-between rounded-xl bg-blue-500/8 border border-blue-500/25 px-4 py-3">
+          <div className="flex items-center justify-between rounded-xl bg-blue-50 border border-blue-200 px-4 py-3">
             <div className="flex items-center gap-2">
               <span className="text-xl">🔍</span>
-              <p className="text-blue-300 font-bold text-xs">View on SOLSCAN</p>
+              <p className="text-blue-700 font-bold text-xs">View on SOLSCAN</p>
             </div>
-            <span className="text-xs font-black px-2.5 py-1 rounded-full border text-blue-400 bg-blue-500/10 border-blue-500/30">
+            <span className="text-xs font-black px-2.5 py-1 rounded-full border text-blue-700 bg-blue-100 border-blue-200">
               SOLSCAN
             </span>
           </div>
@@ -541,10 +541,10 @@ export default function OnlinePurchaseHelpGuide({
           {/* Signature Verify */}
           <div className="space-y-3">
             <div>
-              <p className="text-emerald-300 text-xs font-black uppercase tracking-widest mb-1">
+              <p className="text-emerald-700 text-xs font-black uppercase tracking-widest mb-1">
                 Signature Verify
               </p>
-              <p className="text-white/40 text-xs mb-3">
+              <p className="text-slate-500 text-xs mb-3">
                 Paste Your Transaction Signature copied from Step 6
               </p>
               <div className="flex gap-3">
@@ -554,13 +554,13 @@ export default function OnlinePurchaseHelpGuide({
                   onChange={(e) => setTxHash(e.target.value)}
                   placeholder="Enter Your Transfer Signature"
                   disabled={isVerified}
-                  className="flex-1 rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-white/85 placeholder:text-white/25 outline-none text-sm disabled:opacity-60"
+                  className="flex-1 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 placeholder:text-slate-400 outline-none text-sm disabled:opacity-60"
                 />
                 <button
                   type="button"
                   onClick={verifySignature}
                   disabled={verifying || isVerified || !txHash.trim()}
-                  className="rounded-xl border border-amber-400/35 bg-amber-400/15 px-5 py-2.5 text-sm font-black text-amber-300 disabled:opacity-50 hover:bg-amber-400/25 transition-all whitespace-nowrap">
+                  className="rounded-xl border border-amber-300 bg-amber-100 px-5 py-2.5 text-sm font-black text-amber-700 disabled:opacity-50 hover:bg-amber-200 transition-all whitespace-nowrap">
                   {verifying
                     ? "Verifying..."
                     : isVerified
@@ -572,38 +572,38 @@ export default function OnlinePurchaseHelpGuide({
 
             {/* Post-verification response */}
             {isVerified && verifyMeta && (
-              <div className="rounded-xl border border-emerald-400/30 bg-emerald-500/8 p-4 space-y-3">
-                <p className="text-emerald-300 text-xs font-black uppercase tracking-widest">
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 space-y-3">
+                <p className="text-emerald-700 text-xs font-black uppercase tracking-widest">
                   ✓ Verification Response
                 </p>
                 <div className="grid grid-cols-3 gap-2 text-center">
-                  <div className="rounded-lg bg-white/5 border border-white/8 px-3 py-3">
-                    <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1.5">
+                  <div className="rounded-lg bg-white border border-slate-200 px-3 py-3">
+                    <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1.5">
                       1. Token Symbol
                     </p>
-                    <p className="text-sm font-black text-white">
+                    <p className="text-sm font-black text-slate-800">
                       {verifyMeta.tokenSymbol}
                     </p>
                   </div>
-                  <div className="rounded-lg bg-white/5 border border-white/8 px-3 py-3">
-                    <p className="text-[10px] text-white/30 uppercase tracking-wider mb-1.5">
+                  <div className="rounded-lg bg-white border border-slate-200 px-3 py-3">
+                    <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1.5">
                       2. Token Count
                     </p>
-                    <p className="text-sm font-black text-white">
+                    <p className="text-sm font-black text-slate-800">
                       {verifyMeta.tokenCount}
                     </p>
-                    <p className="text-[9px] text-white/20 mt-0.5">
+                    <p className="text-[9px] text-slate-400 mt-0.5">
                       4 decimal places
                     </p>
                   </div>
-                  <div className="rounded-lg bg-amber-500/10 border border-amber-500/25 px-3 py-3">
-                    <p className="text-[10px] text-amber-400/60 uppercase tracking-wider mb-1.5">
+                  <div className="rounded-lg bg-amber-50 border border-amber-200 px-3 py-3">
+                    <p className="text-[10px] text-amber-700 uppercase tracking-wider mb-1.5">
                       3. SPUMP Count
                     </p>
-                    <p className="text-sm font-black text-amber-300">
+                    <p className="text-sm font-black text-amber-700">
                       {verifyMeta.spumpCount}
                     </p>
-                    <p className="text-[9px] text-amber-400/30 mt-0.5">
+                    <p className="text-[9px] text-amber-500 mt-0.5">
                       3 decimal places
                     </p>
                   </div>
@@ -614,10 +614,10 @@ export default function OnlinePurchaseHelpGuide({
 
           {/* Wallet Address */}
           <div className="space-y-2">
-            <p className="text-white/70 text-xs font-black uppercase tracking-widest">
+            <p className="text-slate-700 text-xs font-black uppercase tracking-widest">
               Enter Your Wallet Address
             </p>
-            <p className="text-white/35 text-xs">
+            <p className="text-slate-400 text-xs">
               This wallet will receive your allocated SPUMP
             </p>
             <input
@@ -625,24 +625,24 @@ export default function OnlinePurchaseHelpGuide({
               value={walletAddress}
               onChange={(e) => setWalletAddress(e.target.value)}
               placeholder="Enter Your Solana Wallet Address"
-              className="w-full rounded-xl border border-white/15 bg-black/25 px-4 py-3 text-white/85 placeholder:text-white/25 outline-none text-sm"
+              className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 placeholder:text-slate-400 outline-none text-sm"
             />
-            <p className="text-[11px] text-white/30 leading-relaxed">
+            <p className="text-[11px] text-slate-500 leading-relaxed">
               ⚠️ &quot;Your wallet address&quot; means{" "}
-              <span className="text-white/50 font-bold">YOUR</span> address, not
-              the destination address you sent to. SPUMP tokens will be
+              <span className="text-slate-700 font-bold">YOUR</span> address,
+              not the destination address you sent to. SPUMP tokens will be
               delivered here.
             </p>
           </div>
 
-          {/* Submit */}
+          {/* Submit (Updated with your Primary Orange #f17005 gradient matching) */}
           {submitted ? (
-            <div className="rounded-xl border border-emerald-400/35 bg-emerald-500/10 px-4 py-5 text-center space-y-1.5">
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-5 text-center space-y-1.5">
               <p className="text-3xl">🎃</p>
-              <p className="text-emerald-300 font-black text-sm">
+              <p className="text-emerald-700 font-black text-sm">
                 Form Submitted Successfully!
               </p>
-              <p className="text-white/45 text-xs">
+              <p className="text-slate-500 text-xs">
                 Your SPUMP allocation is being processed.
               </p>
             </div>
@@ -651,13 +651,13 @@ export default function OnlinePurchaseHelpGuide({
               type="button"
               onClick={handleSubmit}
               disabled={submitting || !isVerified || !walletAddress.trim()}
-              className="w-full rounded-xl border border-emerald-400/35 bg-linear-to-r from-green-700 to-green-600 px-5 py-3.5 text-sm font-black text-white hover:from-green-600 hover:to-green-500 disabled:opacity-50 transition-all">
+              className="w-full rounded-xl border border-orange-600/25 bg-linear-to-r from-orange-600 to-orange-500 px-5 py-3.5 text-sm font-black text-white hover:from-orange-500 hover:to-orange-400 disabled:opacity-50 transition-all shadow-sm">
               {submitting ? "Submitting..." : "Submit Form"}
             </button>
           )}
 
           {!isVerified && (
-            <p className="text-xs text-white/30 text-center">
+            <p className="text-xs text-slate-400 text-center">
               Verify your signature above before submitting.
             </p>
           )}

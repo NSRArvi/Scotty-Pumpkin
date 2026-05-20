@@ -63,15 +63,9 @@ export default function WorkflowCards() {
           border-radius: 20px;
           /* glass base */
           background: rgba(255, 255, 255, 0.04);
-          // backdrop-filter: blur(18px);
-          // -webkit-backdrop-filter: blur(18px);
           border: 1px solid rgb(241, 112, 5);
           overflow: hidden;
-          transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-                      box-shadow 0.35s ease,
-                      border-color 0.35s ease;
-          box-shadow: 0 8px 32px rgba(241, 112, 5, 0.3),
-                      inset 0 1px 0 rgba(255,255,255,0.07);
+         
         }
 
         /* Gradient border via pseudo-element — only visible on hover */
@@ -82,10 +76,6 @@ export default function WorkflowCards() {
           border-radius: 20px;
           padding: 1.5px;
           background: var(--card-gradient);
-          -webkit-mask:
-            linear-gradient(#fff 0 0) content-box,
-            linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
           mask-composite: exclude;
           opacity: 0;
           transition: opacity 0.35s ease;
@@ -98,11 +88,6 @@ export default function WorkflowCards() {
         }
 
         .wf-card:hover {
-          transform: translateY(-6px) scale(1.02);
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
-                      0 0 40px var(--card-glow),
-                      inset 0 1px 0 rgba(255,255,255,0.12);
-          border-color: transparent;
           background: rgba(255, 255, 255, 0.07);
         }
 
@@ -219,7 +204,7 @@ export default function WorkflowCards() {
               {cards.map((card, index) => (
                 <div
                   key={index}
-                  className="wf-card"
+                  className="wf-card hover:shadow-md"
                   style={{
                     "--card-gradient": `linear-gradient(135deg, ${card.gradient
                       .replace(/from-|via-|to-|\//g, "")
@@ -229,19 +214,6 @@ export default function WorkflowCards() {
                     // We compute the gradient string properly below
                   }}>
                   {/* Gradient border pseudo override via inline style */}
-                  <style>{`
-                  .wf-card:nth-child(${index + 1})::before {
-                    background: linear-gradient(135deg, ${
-                      index === 0
-                        ? "rgba(168,85,247,0.9), rgba(99,102,241,0.9), rgba(168,85,247,0.9)"
-                        : index === 1
-                          ? "rgba(236,72,153,0.9), rgba(168,85,247,0.9), rgba(236,72,153,0.9)"
-                          : index === 2
-                            ? "rgba(99,102,241,0.9), rgba(59,130,246,0.9), rgba(99,102,241,0.9)"
-                            : "rgba(245,158,11,0.9), rgba(234,179,8,0.9), rgba(245,158,11,0.9)"
-                    });
-                  }
-                `}</style>
 
                   {/* Full-width image */}
                   <div className="wf-img-wrap">

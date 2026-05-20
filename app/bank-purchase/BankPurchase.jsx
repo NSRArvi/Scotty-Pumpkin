@@ -63,19 +63,19 @@ export default function BankPurchase() {
       try {
         const response = await fetch(
           `https://api-v3.raydium.io/mint/price?mints=${SPUMP_TOKEN}`,
-          { cache: "no-store" }
+          { cache: "no-store" },
         );
         if (!response.ok) return;
 
         const data = await response.json();
-        if(data?.success === true){
-          const price = Number(data?.data?.AKdCsQHoLKCpu3n2QcMS3BK8vQTWDcSDpujLr8UjeyNT);
+        if (data?.success === true) {
+          const price = Number(
+            data?.data?.AKdCsQHoLKCpu3n2QcMS3BK8vQTWDcSDpujLr8UjeyNT,
+          );
           if (Number.isFinite(price) && price > 0) {
             setSpumpPriceUsd(price);
           }
         }
-
-      
       } catch {
         // Keep fallback price.
       }
@@ -85,7 +85,7 @@ export default function BankPurchase() {
       try {
         const response = await fetch(
           "https://api.exchangerate-api.com/v4/latest/EUR",
-          { cache: "no-store" }
+          { cache: "no-store" },
         );
         if (!response.ok) return;
 
@@ -254,44 +254,43 @@ export default function BankPurchase() {
     <>
       {showRiskModal && (
         <div className="fixed inset-0 z-120 bg-black/70 backdrop-blur-sm px-4 py-8 flex items-center justify-center">
-          <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-[#12061f]/95 p-7 shadow-2xl">
-            <div className="text-center space-y-4">
+          <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-white px-7 py-5 shadow-2xl mt-5!">
+            <div className="text-center space-y-3">
               <div className="text-5xl">⚠️</div>
-              <h2 className="text-2xl font-black text-amber-300">
+              <h2 className="text-2xl font-black text-primary">
                 Crypto Risk Notice
               </h2>
-              <div className="text-left rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-7 text-white/65">
+              <div className="text-left rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-secondary/80">
                 <p className="mb-2">
                   SPUMP and USFF are blockchain utility tokens and crypto coins
                   used in their ecosystems.
                 </p>
                 <p className="mb-2">
                   Cryptocurrency markets are{" "}
-                  <span className="font-bold text-amber-300">volatile</span> and
+                  <span className="font-bold text-primary">volatile</span> and
                   involve risk. Values can rise or fall and returns are not
                   guaranteed.
                 </p>
                 <p className="mb-2">
                   These tokens do{" "}
-                  <span className="font-bold text-red-400">not</span> represent
+                  <span className="font-bold text-red-500">not</span> represent
                   securities, shares, or financial instruments.
                 </p>
                 <p>
                   Ensure cryptocurrency use is{" "}
-                  <span className="font-bold text-amber-300">
+                  <span className="font-bold text-primary">
                     permitted in your jurisdiction
                   </span>
                   .
                 </p>
               </div>
-              <p className="text-xs text-white/40">
+              <p className="text-xs text-secondary/70">
                 By continuing, you confirm that you understand the risks
                 associated with digital assets.
               </p>
               <button
                 onClick={() => setShowRiskModal(false)}
-                className="w-full rounded-xl border border-emerald-400/35 bg-linear-to-r from-green-700 to-green-600 px-5 py-3.5 text-sm font-bold text-white hover:from-green-600 hover:to-green-500"
-              >
+                className="w-full rounded-xl border border-primary bg-primary/90 px-5 py-3.5 text-sm font-bold text-white hover:bg-primary transition duration-300 cursor-pointer">
                 I Understand - Proceed
               </button>
             </div>
@@ -302,20 +301,20 @@ export default function BankPurchase() {
       <section className="z-10 px-4 py-10 md:py-14 lg:px-10">
         <div className="mx-auto max-w-2xl space-y-6 relative">
           <div className="text-center space-y-2">
-            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-amber-400">
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-primary">
               Buy SPUMP Directly
             </p>
-            <h1 className="text-3xl sm:text-4xl font-black text-white">
+            <h1 className="text-3xl sm:text-4xl font-black text-secondary">
               Get SPUMP via Bank Transfer
             </h1>
-            <p className="mx-auto max-w-xl text-sm leading-7 text-white/50">
+            <p className="mx-auto max-w-xl text-sm leading-7 text-secondary/80">
               Transfer to our bank account, upload your receipt, and receive
               SPUMP tokens within 7 business days.
             </p>
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-2xl p-6 space-y-4">
-            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-amber-400">
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-primary">
               How It Works
             </p>
             <div className="space-y-3">
@@ -326,85 +325,82 @@ export default function BankPurchase() {
                 "After verification and clearance (up to 7 days), SPUMP tokens are sent to your wallet.",
               ].map((text, index) => (
                 <div key={text} className="flex items-start gap-3">
-                  <div className="mt-0.5 h-7 w-7 shrink-0 rounded-md border border-amber-400/40 bg-amber-400/15 text-amber-300 text-xs font-black flex items-center justify-center">
+                  <div className="mt-0.5 h-7 w-7 shrink-0 rounded-md border border-primary bg-primary text-white text-xs font-black flex items-center justify-center">
                     {index + 1}
                   </div>
-                  <p className="text-sm leading-6 text-white/65">{text}</p>
+                  <p className="text-sm leading-6 text-secondary/80">{text}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="rounded-2xl border border-indigo-400/30 bg-indigo-500/10 p-5 space-y-3">
-            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-indigo-300">
+          <div className="rounded-2xl border border-white shadow-sm bg-white/80 p-5 space-y-3">
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-secondary">
               SPUMP Calculator
             </p>
             <div className="flex flex-col gap-3">
-              <div className="rounded-xl border border-indigo-300/25 bg-black/25 px-4 py-3">
+              <div className="rounded-xl border border-indigo-300/25 bg-white/80 px-4 py-3">
                 <input
                   type="number"
                   min="0"
                   value={calcSpumpCount}
                   onChange={(event) => handleSpumpChange(event.target.value)}
                   placeholder="Enter SPUMP count"
-                  className="w-full bg-transparent text-white placeholder:text-white/25 outline-none"
+                  className="w-full bg-transparent text-secondary/80 placeholder:text-secondary/80 outline-none"
                 />
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => handleCurrencySelect("USD")}
-                  className={`flex-1 rounded-lg px-4 py-2 font-bold text-sm uppercase tracking-wide transition-all ${
+                  className={`flex-1 rounded-lg px-4 py-2 font-bold text-sm uppercase tracking-wide transition-all duration-300 ${
                     selectedCurrency === "USD"
-                      ? "bg-amber-400/20 border border-amber-400/35 text-amber-300"
-                      : "bg-white/5 border border-white/10 text-white/60 hover:bg-white/10"
+                      ? "bg-primary border border-primary text-white"
+                      : "bg-secondary border border-secondary hover:border-primary text-white hover:bg-primary"
                   }`}
-                  suppressHydrationWarning
-                >
+                  suppressHydrationWarning>
                   USD: ${calcUsdAmount}
                 </button>
                 <button
                   onClick={() => handleCurrencySelect("EUR")}
-                  className={`flex-1 rounded-lg px-4 py-2 font-bold text-sm uppercase tracking-wide transition-all ${
+                  className={`flex-1 rounded-lg px-4 py-2 font-bold text-sm uppercase tracking-wide transition-all duration-300 ${
                     selectedCurrency === "EUR"
-                      ? "bg-blue-400/20 border border-blue-400/35 text-blue-300"
-                      : "bg-white/5 border border-white/10 text-white/60 hover:bg-white/10"
+                      ? "bg-primary border border-primary text-white"
+                      : "bg-secondary border border-secondary hover:border-primary text-white hover:bg-primary"
                   }`}
-                  suppressHydrationWarning
-                >
+                  suppressHydrationWarning>
                   EUR: €{calcEurAmount}
                 </button>
               </div>
             </div>
             <p className="text-xs text-white/40" suppressHydrationWarning>
-              Rate: 1 SPUMP = ${spumpPriceUsd.toFixed(6)} USD | 1 EUR = ${eurToUsd.toFixed(4)} USD
+              Rate: 1 SPUMP = ${spumpPriceUsd.toFixed(6)} USD | 1 EUR = $
+              {eurToUsd.toFixed(4)} USD
             </p>
           </div>
 
-          <div className="rounded-2xl border border-amber-400/30 bg-white/5 backdrop-blur-2xl p-6 space-y-4">
-            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-amber-400">
+          <div className="rounded-2xl border border-amber-400/30 bg-white/80 shadow-sm p-6 space-y-4">
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-primary">
               Bank Transfer Details
             </p>
-            <p className="text-xs text-white/45">
+            <p className="text-xs text-secondary">
               Please transfer payment to the account below:
             </p>
             <div className="space-y-2">
               {BANK_DETAILS.map((item) => (
                 <div
                   key={item.label}
-                  className="rounded-xl border border-white/10 bg-white/5 p-3 flex items-center justify-between gap-3"
-                >
+                  className="rounded-xl border border-white/10 bg-white/5 p-3 flex items-center justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="text-[10px] uppercase tracking-[0.12em] text-white/35">
+                    <p className="text-[10px] uppercase tracking-[0.12em] text-secondary/70">
                       {item.label}
                     </p>
-                    <p className="mt-1 text-sm font-semibold text-white/85 break-all">
+                    <p className="mt-1 text-sm font-semibold text-secondary/80 break-all">
                       {item.value}
                     </p>
                   </div>
                   <button
                     onClick={() => copyField(item.label, item.value)}
-                    className="shrink-0 rounded-md border border-amber-400/35 bg-amber-400/15 px-3 py-1 text-xs font-bold text-amber-300 hover:bg-amber-400/25"
-                  >
+                    className="shrink-0 rounded-md border border-primary bg-primary/90 px-3 py-1 text-xs font-bold text-white hover:bg-primary">
                     {copied[item.label] ? "Copied" : "Copy"}
                   </button>
                 </div>
@@ -412,14 +408,14 @@ export default function BankPurchase() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-2xl p-6 space-y-5">
+          <div className="rounded-2xl border border-white/10 bg-white/80 shadow-sm p-6 space-y-5">
             <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.16em] text-amber-400">
+              <p className="text-[11px] font-black uppercase tracking-[0.16em] text-primary">
                 Transfer Information
               </p>
-              <p className="mt-1 text-xs text-white/40">
+              <p className="mt-1 text-xs text-secondary/80">
                 Ref No:{" "}
-                <span className="font-mono font-bold text-amber-300">
+                <span className="font-mono font-bold text-primary">
                   {refNo}
                 </span>{" "}
                 (System Generated)
@@ -428,11 +424,11 @@ export default function BankPurchase() {
 
             <div className="space-y-3">
               <div>
-                <label className="mb-1 block text-[11px] uppercase tracking-widest text-white/40 font-bold">
+                <label className="mb-1 block text-[11px] uppercase tracking-widest text-secondary/80 font-bold">
                   Full Name *
                 </label>
                 <input
-                  className="w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-amber-400/45"
+                  className="w-full rounded-lg border border-secondary/80 bg-white px-3 py-2.5 text-sm text-secondary/80 outline-none focus:border-primary"
                   placeholder="Enter your name"
                   value={form.fullName}
                   onChange={(event) => setField("fullName", event.target.value)}
@@ -440,12 +436,12 @@ export default function BankPurchase() {
               </div>
 
               <div>
-                <label className="mb-1 block text-[11px] uppercase tracking-widest text-white/40 font-bold">
+                <label className="mb-1 block text-[11px] uppercase tracking-widest text-secondary/80 font-bold">
                   Email *
                 </label>
                 <input
                   type="email"
-                  className="w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-amber-400/45"
+                  className="w-full rounded-lg border border-secondary/80 bg-white px-3 py-2.5 text-sm text-secondary/80 outline-none focus:border-primary"
                   placeholder="Enter your email"
                   value={form.email}
                   onChange={(event) => setField("email", event.target.value)}
@@ -453,7 +449,7 @@ export default function BankPurchase() {
               </div>
 
               <div>
-                <label className="mb-1 block text-[11px] uppercase tracking-widest text-white/40 font-bold">
+                <label className="mb-1 block text-[11px] uppercase tracking-widest text-secondary/80 font-bold">
                   Contact *
                 </label>
                 <div className="flex gap-2">
@@ -462,8 +458,7 @@ export default function BankPurchase() {
                     onChange={(event) =>
                       setField("mobileCode", event.target.value)
                     }
-                    className="w-28 rounded-lg border border-white/15 bg-white/5 px-2 py-2.5 text-sm text-white outline-none"
-                  >
+                    className="w-28 rounded-lg border border-secondary/80 bg-white px-2 py-2.5 text-sm text-secondary outline-none">
                     {COUNTRY_CODES.map((item) => (
                       <option key={item.code} value={item.code}>
                         {item.flag} {item.code}
@@ -472,7 +467,7 @@ export default function BankPurchase() {
                   </select>
                   <input
                     type="tel"
-                    className="flex-1 rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-amber-400/45"
+                    className="w-full rounded-lg border border-secondary/80 bg-white px-3 py-2.5 text-sm text-secondary/80 outline-none focus:border-primary"
                     placeholder="Enter contact number"
                     value={form.mobile}
                     onChange={(event) => setField("mobile", event.target.value)}
@@ -481,11 +476,11 @@ export default function BankPurchase() {
               </div>
 
               <div>
-                <label className="mb-1 block text-[11px] uppercase tracking-widest text-white/40 font-bold">
+                <label className="mb-1 block text-[11px] uppercase tracking-widest text-secondary/80 font-bold">
                   Solana Wallet Address *
                 </label>
                 <input
-                  className="w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white outline-none focus:border-amber-400/45"
+                  className="w-full rounded-lg border border-secondary/80 bg-white px-3 py-2.5 text-sm text-secondary/80 outline-none focus:border-primary"
                   placeholder="Enter your Solana wallet public address"
                   value={form.walletAddress}
                   onChange={(event) =>
@@ -498,29 +493,29 @@ export default function BankPurchase() {
               </div>
 
               <div>
-                <label className="mb-1 block text-[11px] uppercase tracking-widest text-white/40 font-bold">
+                <label className="mb-1 block text-[11px] uppercase tracking-widest text-secondary/80 font-bold">
                   Transfer Amount ({selectedCurrency}) *
                 </label>
                 <input
                   type="number"
                   min="0"
                   disabled
-                  className="w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2.5 text-sm text-white/60 outline-none cursor-not-allowed"
+                  className="w-full rounded-lg border border-secondary/80 bg-white px-3 py-2.5 text-sm text-secondary/80 outline-none cursor-not-allowed"
                   placeholder="Amount from calculator"
                   value={form.amount}
                 />
-                <p className="mt-1.5 text-xs text-white/40">
+                <p className="mt-1.5 text-xs text-secondary/70">
                   💡 Set amount using the SPUMP Calculator above
                 </p>
                 {form.amount && (
-                  <div className="mt-2 rounded-lg border border-amber-400/25 bg-amber-400/10 px-3 py-2 text-sm text-amber-300 font-semibold">
+                  <div className="mt-2 rounded-lg border border-amber-400/25 bg-amber-400/10 px-3 py-2 text-sm text-primary font-semibold">
                     You will receive: {displaySpumpCount.toLocaleString()} SPUMP
                   </div>
                 )}
               </div>
 
               <div>
-                <label className="mb-1 block text-[11px] uppercase tracking-widest text-white/40 font-bold">
+                <label className="mb-1 block text-[11px] uppercase tracking-widest text-secondary/80 font-bold">
                   Transfer Receipt *
                 </label>
                 <input
@@ -533,25 +528,24 @@ export default function BankPurchase() {
                 <button
                   type="button"
                   onClick={() => fileRef.current?.click()}
-                  className="w-full rounded-xl border-2 border-dashed border-amber-400/35 bg-white/5 px-4 py-6 text-center hover:bg-amber-400/10"
-                >
+                  className="w-full rounded-xl border-2 border-dashed border-amber-400/35 bg-secondary/40 px-4 py-6 text-center hover:bg-secondary/50">
                   {receiptName ? (
                     <>
                       <p className="text-xl">✅</p>
                       <p className="mt-1 text-sm font-semibold text-emerald-300">
                         {receiptName}
                       </p>
-                      <p className="text-xs text-white/35">
+                      <p className="text-xs text-secondary/80">
                         Click to change file
                       </p>
                     </>
                   ) : (
                     <>
                       <p className="text-2xl">📄</p>
-                      <p className="mt-1 text-sm font-semibold text-white/75">
+                      <p className="mt-1 text-sm font-semibold text-white">
                         Upload Transfer Receipt
                       </p>
-                      <p className="text-xs text-white/35">
+                      <p className="text-xs text-white/80">
                         PDF, JPG, JPEG, PNG
                       </p>
                     </>
@@ -560,23 +554,22 @@ export default function BankPurchase() {
               </div>
             </div>
 
-            <div className="h-px bg-linear-to-r from-transparent via-amber-400/35 to-transparent" />
+            <div className="h-px bg-linear-to-r from-transparent via-primary/80 to-transparent" />
 
             <button
               onClick={handleSubmit}
               disabled={!isFormValid || submitting}
-              className="w-full rounded-xl border border-emerald-400/35 bg-linear-to-r from-green-700 to-green-600 px-5 py-3.5 text-sm font-black tracking-wide text-white hover:from-green-600 hover:to-green-500 disabled:opacity-45 disabled:cursor-not-allowed"
-            >
+              className="w-full rounded-xl border border-primary bg-primary/90 px-5 py-3.5 text-sm font-black tracking-wide text-white hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed">
               {submitting ? "Submitting Application..." : "SUBMIT APPLICATION"}
             </button>
 
             {submitError ? (
-              <p className="text-center text-xs leading-6 text-red-300">
+              <p className="text-center text-xs leading-6 text-red-500">
                 {submitError}
               </p>
             ) : null}
 
-            <p className="text-center text-xs leading-6 text-white/35">
+            <p className="text-center text-xs leading-6 text-secondary/80">
               By submitting, you confirm your transfer details are accurate.
               SPUMP distribution is subject to bank clearance and admin
               verification.

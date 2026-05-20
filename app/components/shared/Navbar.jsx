@@ -69,9 +69,9 @@ export default function Navbar() {
   }, [isMenuOpen]);
 
   return (
-    <nav className="bg-primary-bg">
+    <nav className="bg-primary-bg pt-4 sticky top-0 z-999">
       <Container>
-        <section className="relative z-50 bg-white rounded-b-lg">
+        <section className="relative z-50 bg-white rounded-lg">
           <div className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4 relative z-50">
             <Link
               href="/"
@@ -90,12 +90,12 @@ export default function Navbar() {
                 <div key={item.label} className="relative group">
                   {item.dropdown ? (
                     <>
-                      <button className="ui-nav-link flex items-center gap-1.5 text-secondary">
+                      <button className=" bg-white flex items-center gap-1.5 text-secondary">
                         {item.label}
                         <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
                       </button>
 
-                      <div className="absolute left-0 mt-0 w-56 border-purple-500/30 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-50">
+                      <div className="absolute rounded-b-xl bg-white left-0 mt-0 w-56 border-purple-500/30 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pt-2 z-50">
                         {item.dropdown.map((subitem) => (
                           <Link
                             key={subitem.label}
@@ -110,7 +110,7 @@ export default function Navbar() {
                                 ? "noopener noreferrer"
                                 : undefined
                             }
-                            className="block px-4 py-2.5 hover:bg-purple-700/40 text-sm font-medium transition-colors first:rounded-t-xl last:rounded-b-xl text-secondary">
+                            className="block px-4 py-2.5 hover:bg-primary text-sm font-medium transition-colors first:rounded-t-xl last:rounded-b-xl text-secondary hover:text-white">
                             {subitem.label}
                           </Link>
                         ))}
@@ -136,7 +136,7 @@ export default function Navbar() {
             </div>
 
             <button
-              className="md:hidden p-2 hover:bg-purple-700/50 rounded-lg transition-colors relative z-60"
+              className="md:hidden p-2 bg-primary rounded-lg transition-colors relative "
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu">
               {isMenuOpen ? (
@@ -150,7 +150,7 @@ export default function Navbar() {
           {isMenuOpen && (
             <>
               <div
-                className="md:hidden fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
+                className="md:hidden fixed inset-0 bg-white z-40 backdrop-blur-sm"
                 onClick={() => setIsMenuOpen(false)}
               />
               <div className="ui-shell md:hidden fixed top-22 left-4 right-4 bottom-auto max-h-[calc(100vh-104px)] border-purple-500/30 z-40 overflow-y-auto shadow-2xl">
@@ -165,7 +165,7 @@ export default function Navbar() {
                                 openDropdown === item.label ? null : item.label,
                               )
                             }
-                            className="w-full py-3 px-4 ui-nav-link hover:bg-purple-700/40 rounded-xl transition-all backdrop-blur-sm border border-transparent hover:border-purple-500/30 flex items-center justify-between">
+                            className="w-full py-3 px-4 ui-nav-link hover:bg-primary text-secondary hover:text-white rounded-xl transition-all backdrop-blur-sm border border-transparent hover:border-purple-500/30 flex items-center justify-between">
                             {item.label}
                             <ChevronDown
                               className={`w-4 h-4 transition-transform ${
@@ -189,7 +189,7 @@ export default function Navbar() {
                                       ? "noopener noreferrer"
                                       : undefined
                                   }
-                                  className="block py-2.5 px-4 hover:bg-purple-700/30 rounded-lg transition-all text-base font-medium ui-link"
+                                  className="block py-2.5 px-4 hover:bg-primary text-secondary hover:text-white rounded-lg transition-all text-base font-medium ui-link"
                                   onClick={() => setIsMenuOpen(false)}>
                                   {subitem.label}
                                 </Link>
@@ -200,7 +200,7 @@ export default function Navbar() {
                       ) : (
                         <Link
                           href={item.href}
-                          className="block py-3 px-4 ui-nav-link hover:bg-purple-700/40 rounded-xl transition-all backdrop-blur-sm border border-transparent hover:border-purple-500/30"
+                          className="block py-3 px-4 ui-nav-link hover:bg-primary text-secondary hover:text-white rounded-xl transition-all backdrop-blur-sm border border-transparent hover:border-purple-500/30"
                           target={
                             item.href.startsWith("http") ? "_blank" : undefined
                           }

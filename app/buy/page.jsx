@@ -121,20 +121,20 @@ export default function Page() {
         <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
         <div className="relative z-10 flex min-h-full items-start sm:items-center justify-center">
           <div
-            className="w-full max-w-2xl rounded-2xl border border-purple-500/35 bg-[#12061f]/95 p-5 md:p-7 shadow-2xl max-h-[88vh] overflow-y-auto"
+            className="w-full max-w-2xl rounded-2xl border border-purple-500/35 bg-white p-5 md:p-7 shadow-2xl max-h-[88vh] overflow-y-auto"
             onClick={(event) => event.stopPropagation()}>
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
-                <h3 className="text-2xl md:text-3xl font-bold text-white">
+                <h3 className="text-2xl md:text-3xl font-bold text-secondary">
                   {title}
                 </h3>
-                <p className="mt-1 text-sm md:text-base text-white/65">
+                <p className="mt-1 text-sm md:text-base text-secondary/80">
                   {subtitle}
                 </p>
               </div>
               <button
                 onClick={onClose}
-                className="rounded-lg border border-white/15 px-3 py-1.5 text-white/80 hover:bg-white/10">
+                className="rounded-lg border border-secondary/15 px-3 py-1.5 text-secondary/80 hover:bg-primary hover:text-white transition duration-300 cursor-pointer">
                 Close
               </button>
             </div>
@@ -144,17 +144,17 @@ export default function Page() {
                 <div
                   key={item.title}
                   className="rounded-xl border border-purple-500/30 bg-white/5 p-4 md:p-5">
-                  <h4 className="text-lg font-bold text-amber-300">
+                  <h4 className="text-lg font-bold text-primary">
                     {item.title}
                   </h4>
-                  <p className="mt-1 text-sm md:text-base text-white/70">
+                  <p className="mt-1 text-sm md:text-base text-secondary/80">
                     {item.description}
                   </p>
                   <Link
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 inline-flex rounded-lg border border-purple-400/45 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-500/20">
+                    className="mt-3 inline-flex bg-primary/90 text-white rounded-lg border border-purple-400/45 px-4 py-2 text-sm font-semibold hover:bg-primary">
                     Open Link
                   </Link>
                 </div>
@@ -486,7 +486,7 @@ export default function Page() {
           extraContent: (
             <>
               <div className="pt-2">
-                <h4 className="text-base md:text-lg font-bold text-purple-200">
+                <h4 className="text-base md:text-lg font-bold text-secondary">
                   Other Popular Aggregators
                 </h4>
               </div>
@@ -494,17 +494,17 @@ export default function Page() {
                 <div
                   key={item.title}
                   className="rounded-xl border border-purple-500/30 bg-white/5 p-4 md:p-5">
-                  <h4 className="text-lg font-bold text-amber-300">
+                  <h4 className="text-lg font-bold text-primary">
                     {item.title}
                   </h4>
-                  <p className="mt-1 text-sm md:text-base text-white/70">
+                  <p className="mt-1 text-sm md:text-base text-secondary/80">
                     {item.description}
                   </p>
                   <Link
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 inline-flex rounded-lg border border-purple-400/45 px-4 py-2 text-sm font-semibold text-white hover:bg-purple-500/20">
+                    className="mt-3 inline-flex rounded-lg border border-purple-400/45 px-4 py-2 text-sm font-semibold text-white bg-primary/90 hover:bg-primary">
                     Open Link
                   </Link>
                 </div>

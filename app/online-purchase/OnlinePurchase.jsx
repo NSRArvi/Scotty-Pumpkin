@@ -289,19 +289,19 @@ export default function OnlinePurchase({
     <>
       {showRiskModal ? (
         <div className="fixed inset-0 z-120 bg-black/70 backdrop-blur-sm px-4 py-8 flex items-center justify-center">
-          <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-[#12061f]/95 p-7 shadow-2xl">
+          <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-white p-7 shadow-2xl">
             <div className="text-center space-y-4">
               <div className="text-5xl">⚠️</div>
-              <h2 className="text-2xl font-black text-amber-300">
+              <h2 className="text-2xl font-black text-primary">
                 Crypto Risk Notice
               </h2>
-              <p className="text-sm leading-7 text-white/65">
+              <p className="text-sm leading-7 text-secondary/80">
                 Cryptocurrency values can change rapidly. Confirm transfer
                 details and wallet signature carefully before proceeding.
               </p>
               <button
                 onClick={() => setShowRiskModal(false)}
-                className="w-full rounded-xl border border-emerald-400/35 bg-linear-to-r from-green-700 to-green-600 px-5 py-3.5 text-sm font-bold text-white hover:from-green-600 hover:to-green-500">
+                className="w-full rounded-xl border border-primary bg-primary/90 px-5 py-3.5 text-sm font-bold text-white hover:bg-primary cursor-pointer">
                 I Understand - Proceed
               </button>
             </div>
@@ -344,8 +344,8 @@ export default function OnlinePurchase({
                     onClick={() => setSelectedCoin(coin.value)}
                     className={`flex-1 rounded-xl border py-2.5 text-sm font-bold transition-all ${
                       selectedCoin === coin.value
-                        ? "border-amber-400/60 bg-amber-400/20 text-amber-300"
-                        : "border-white/15 bg-black/25 text-white/50 hover:border-white/25 hover:text-white/75"
+                        ? "border-amber-400/60 bg-primary text-white"
+                        : "border-white/15 bg-secondary/90 text-white hover:border-secondary/25"
                     }`}>
                     {coin.label}
                   </button>
@@ -600,7 +600,7 @@ export default function OnlinePurchase({
               type="button"
               onClick={handleSubmit}
               disabled={submitting || !isVerified}
-              className="w-full rounded-xl border border-emerald-400/35 bg-primary px-5 py-3.5 text-sm font-bold text-white disabled:opacity-50 transition-all">
+              className="w-full rounded-xl border border-primary bg-primary px-5 py-3.5 text-sm font-bold text-white disabled:opacity-50 disabled:cursor-not-allowed transition-all">
               {submitting ? "Submitting..." : "Submit Form"}
             </button>
             {!isVerified ? (
