@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 const BANK_DETAILS = [
   { label: "Bank Name", value: "LCL Bank France" },
@@ -252,51 +253,56 @@ export default function BankPurchase() {
 
   return (
     <>
-      {showRiskModal && (
-        <div className="fixed inset-0 z-120 bg-black/70 backdrop-blur-sm px-4 py-8 flex items-center justify-center">
-          <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-white px-7 py-5  mt-5!">
-            <div className="text-center space-y-3">
-              <div className="text-5xl">⚠️</div>
-              <h2 className="text-2xl font-black text-primary">
-                Crypto Risk Notice
-              </h2>
-              <div className="text-left rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-secondary/80">
-                <p className="mb-2">
-                  SPUMP and USFF are blockchain utility tokens and crypto coins
-                  used in their ecosystems.
-                </p>
-                <p className="mb-2">
-                  Cryptocurrency markets are{" "}
-                  <span className="font-bold text-primary">volatile</span> and
-                  involve risk. Values can rise or fall and returns are not
-                  guaranteed.
-                </p>
-                <p className="mb-2">
-                  These tokens do{" "}
-                  <span className="font-bold text-red-500">not</span> represent
-                  securities, shares, or financial instruments.
-                </p>
-                <p>
-                  Ensure cryptocurrency use is{" "}
-                  <span className="font-bold text-primary">
-                    permitted in your jurisdiction
-                  </span>
-                  .
-                </p>
+      {showRiskModal &&
+        isMounted &&
+        createPortal(
+          <>
+            <div className="fixed inset-0 z-120 bg-black/70 backdrop-blur-sm px-4 py-8 flex items-center justify-center">
+              <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-white px-7 py-5  mt-5!">
+                <div className="text-center space-y-3">
+                  <div className="text-5xl">⚠️</div>
+                  <h2 className="text-2xl font-black text-primary">
+                    Crypto Risk Notice
+                  </h2>
+                  <div className="text-left rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-secondary/80">
+                    <p className="mb-2">
+                      SPUMP and USFF are blockchain utility tokens and crypto
+                      coins used in their ecosystems.
+                    </p>
+                    <p className="mb-2">
+                      Cryptocurrency markets are{" "}
+                      <span className="font-bold text-primary">volatile</span>{" "}
+                      and involve risk. Values can rise or fall and returns are
+                      not guaranteed.
+                    </p>
+                    <p className="mb-2">
+                      These tokens do{" "}
+                      <span className="font-bold text-red-500">not</span>{" "}
+                      represent securities, shares, or financial instruments.
+                    </p>
+                    <p>
+                      Ensure cryptocurrency use is{" "}
+                      <span className="font-bold text-primary">
+                        permitted in your jurisdiction
+                      </span>
+                      .
+                    </p>
+                  </div>
+                  <p className="text-xs text-secondary/70">
+                    By continuing, you confirm that you understand the risks
+                    associated with digital assets.
+                  </p>
+                  <button
+                    onClick={() => setShowRiskModal(false)}
+                    className="w-full rounded-xl border border-primary bg-primary/90 px-5 py-3.5 text-sm font-bold text-white hover:bg-primary transition duration-300 cursor-pointer">
+                    I Understand - Proceed
+                  </button>
+                </div>
               </div>
-              <p className="text-xs text-secondary/70">
-                By continuing, you confirm that you understand the risks
-                associated with digital assets.
-              </p>
-              <button
-                onClick={() => setShowRiskModal(false)}
-                className="w-full rounded-xl border border-primary bg-primary/90 px-5 py-3.5 text-sm font-bold text-white hover:bg-primary transition duration-300 cursor-pointer">
-                I Understand - Proceed
-              </button>
             </div>
-          </div>
-        </div>
-      )}
+          </>,
+          document.body,
+        )}
 
       <section className="z-10 px-4 py-10 md:py-14 lg:px-10">
         <div className="mx-auto max-w-2xl space-y-6 relative">

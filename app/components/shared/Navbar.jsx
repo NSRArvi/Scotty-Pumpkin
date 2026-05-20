@@ -69,7 +69,7 @@ export default function Navbar() {
   }, [isMenuOpen]);
 
   return (
-    <nav className="bg-primary-bg pt-4 sticky top-0 z-999">
+    <nav className="bg-primary-bg pt-4 sticky top-0 z-100">
       <Container>
         <section className="relative z-50 bg-white rounded-lg">
           <div className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4 relative z-50">

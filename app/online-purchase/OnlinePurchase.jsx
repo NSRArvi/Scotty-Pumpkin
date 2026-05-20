@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Toaster, toast } from "sonner";
 import Container from "../components/shared/Container";
+import { createPortal } from "react-dom";
 
 const TREASURY_WALLET = "7Q8EjhdB6qakUfhwjBVnNsD6Ks9FsTMVtG7dzE3KopRG";
 
@@ -21,6 +22,7 @@ export default function OnlinePurchase({
   submitCryptoTransfer,
 }) {
   const [showRiskModal, setShowRiskModal] = useState(true);
+  const [mounted, setMounted] = useState(false);
   const [txHash, setTxHash] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
   const [selectedCoin, setSelectedCoin] = useState("usdc");
@@ -58,7 +60,9 @@ export default function OnlinePurchase({
     }
     loadSolRate();
   }, [selectedCoin, fetchSolRateAction]);
-
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   // When mode = "usd": user enters token amount → derive USD + SPUMP
   const usdEquivalent = useMemo(() => {
     if (calcMode === "spump") {
@@ -288,27 +292,34 @@ export default function OnlinePurchase({
 
   return (
     <>
-      {showRiskModal ? (
-        <div className="fixed inset-0 z-120 bg-black/70 backdrop-blur-sm  py-8 flex items-center justify-center">
-          <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-white p-7 ">
-            <div className="text-center space-y-4">
-              <div className="text-5xl">⚠️</div>
-              <h2 className="text-2xl font-black text-primary">
-                Crypto Risk Notice
-              </h2>
-              <p className="text-sm leading-7 text-secondary/80">
-                Cryptocurrency values can change rapidly. Confirm transfer
-                details and wallet signature carefully before proceeding.
-              </p>
-              <button
+      {mounted && showRiskModal
+        ? createPortal(
+            <>
+              <div
                 onClick={() => setShowRiskModal(false)}
-                className="w-full rounded-xl border border-primary bg-primary/90 px-5 py-3.5 text-sm font-bold text-white hover:bg-primary cursor-pointer">
-                I Understand - Proceed
-              </button>
-            </div>
-          </div>
-        </div>
-      ) : null}
+                className="fixed inset-0 z-[2000] bg-black/70 backdrop-blur-sm flex items-center justify-center py-8">
+                <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-white p-7">
+                  <div className="text-center space-y-4">
+                    <div className="text-5xl">⚠️</div>
+                    <h2 className="text-2xl font-black text-primary">
+                      Crypto Risk Notice
+                    </h2>
+                    <p className="text-sm leading-7 text-secondary/80">
+                      Cryptocurrency values can change rapidly. Confirm transfer
+                      details and wallet signature carefully before proceeding.
+                    </p>
+                    <button
+                      onClick={() => setShowRiskModal(false)}
+                      className="w-full rounded-xl border border-primary bg-primary/90 px-5 py-3.5 text-sm font-bold text-white hover:bg-primary cursor-pointer">
+                      I Understand - Proceed
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </>,
+            document.body,
+          )
+        : null}
 
       <section className="relative z-10  py-10 md:py-14 px-0!">
         <div className="space-y-6">
