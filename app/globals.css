@@ -228,16 +228,10 @@ body {
 .sp-section-card:hover {
   transform: translateX(6px);
   border-color: rgba(168, 85, 247, 0.35);
-  box-shadow:
-    0 8px 14px rgba(0, 0, 0, 0.4),
-    0 0 10px rgba(168, 85, 247, 0.12);
 }
 
 .sp-section-card.active {
   border-color: rgba(168, 85, 247, 0.5);
-  box-shadow:
-    0 10px 16px rgba(0, 0, 0, 0.4),
-    0 0 15px rgba(168, 85, 247, 0.18);
 }
 
 .sp-section-body {
@@ -361,7 +355,7 @@ body {
 .sp-mobile-nav {
   display: flex;
   gap: 8px;
-  overflow-x: auto;
+  overflow-x: visible;
   padding-bottom: 8px;
   scrollbar-width: none;
 }
@@ -387,6 +381,15 @@ body {
   /* Utilizing your Primary Orange light background tone */
   background: rgba(241, 112, 5, 0.1);
   border-color: #f17005;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* --- Sidebar Navigation Items --- */
@@ -1929,7 +1932,6 @@ body {
   box-shadow: 0 0 0 3px rgba(241, 112, 5, 0.15);
 }
 
-/* Optional: Targets the dropdown options cross-browser to ensure readability on a white background */
 .nft-select option {
   background-color: #ffffff;
   color: #0f2027;

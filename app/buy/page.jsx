@@ -409,13 +409,13 @@ export default function Page() {
                   <button
                     type="button"
                     onClick={() => setRiskTab("en")}
-                    className={`px-3 py-1.5 ${riskTab === "en" ? "active text-white bg-primary border-primary border rounded-lg" : "text-secondary border-secondary border rounded-lg"}`}>
+                    className={`cursor-pointer px-3 py-1.5 ${riskTab === "en" ? "active text-white bg-primary border-primary border rounded-lg" : "text-secondary border-secondary border rounded-lg"}`}>
                     English
                   </button>
                   <button
                     type="button"
                     onClick={() => setRiskTab("fr")}
-                    className={`px-3 py-1.5 ${riskTab === "fr" ? "active text-white border-primary bg-primary border rounded-lg" : "text-secondary border-secondary border rounded-lg"}`}>
+                    className={`cursor-pointer px-3 py-1.5 ${riskTab === "fr" ? "active text-white border-primary bg-primary border rounded-lg" : "text-secondary border-secondary border rounded-lg"}`}>
                     France
                   </button>
                 </div>
@@ -429,19 +429,15 @@ export default function Page() {
                         Risk Warning (UK)
                       </h4>
                       <p className="text-secondary/80">
-                        Investing in cryptoassets involves a high degree of
-                        risk. The value of cryptoassets can go down as well as
-                        up, and you may lose all of your investment.
-                      </p>
-                      <p className="text-secondary/80">
-                        Cryptoassets are not regulated financial products in the
-                        United Kingdom and are not covered by the Financial
-                        Services Compensation Scheme (FSCS) or the Financial
-                        Ombudsman Service (FOS).
-                      </p>
-                      <p className="text-secondary/80">
-                        You should carefully consider whether you understand how
-                        cryptoassets work before purchasing or using them.
+                        {" "}
+                        Crypto users may acquire, hold, swap, send, sell, or use
+                        SPUMP within the Scotty Pumpkin ecosystem. SPUMP is not
+                        an investment, security, financial contract, or
+                        investment opportunity, but a utility token intended for
+                        use within its own ecosystem. SPUMP does not provide
+                        guaranteed returns or ownership rights. Cryptocurrency
+                        assets are volatile and may result in partial or total
+                        financial loss.
                       </p>
                     </div>
                   ) : (
@@ -452,19 +448,17 @@ export default function Page() {
                       <p className="text-secondary font-semibold">
                         Avertissement sur les risques
                       </p>
-                      <p className="text-secondary/80">
-                        Les crypto-actifs sont volatils et présentent un risque
-                        élevé. Vous pouvez perdre tout ou partie de votre
-                        investissement.
-                      </p>
-                      <p className="text-secondary/80">
-                        Les crypto-actifs ne bénéficient pas nécessairement de
-                        protections réglementaires équivalentes aux instruments
-                        financiers traditionnels.
-                      </p>
-                      <p className="text-secondary/80">
-                        L&apos;utilisateur doit s&apos;assurer qu&apos;il
-                        comprend les risques avant toute utilisation.
+                      <p className="text-secondary/80 mt-2">
+                        Les utilisateurs de cryptomonnaies peuvent acheter,
+                        détenir, échanger, envoyer, vendre ou utiliser le SPUMP
+                        dans l’écosystème Scotty Pumpkin. Le SPUMP n’est pas un
+                        investissement, un titre financier, un contrat financier
+                        ni une opportunité d’investissement. Il s’agit d’un
+                        token utilitaire conçu uniquement pour être utilisé dans
+                        son propre écosystème. Le SPUMP ne garantit aucun
+                        rendement ni aucun droit de propriété. Les
+                        cryptomonnaies sont des actifs volatils et peuvent
+                        entraîner une perte financière partielle ou totale.
                       </p>
                     </div>
                   )}

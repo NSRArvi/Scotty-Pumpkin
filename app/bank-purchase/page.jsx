@@ -11,7 +11,7 @@ export default function page() {
     <div className="bg-primary-bg">
       <Container>
         {/* Tab Navigation */}
-        <div className="max-w-2xl mx-auto px-4 md:px-10">
+        <div className="max-w-2xl mx-auto  md:px-10">
           <div className="flex justify-center gap-2 py-4">
             <button
               onClick={() => setActiveTab("experienced")}

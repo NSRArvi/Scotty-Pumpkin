@@ -236,14 +236,8 @@ export default function ARealUtilityEcosystemPage() {
               <span className="text-primary">Scotty Pumpkin Ecosystem</span>
             </div>
             <div className="flex items-center justify-center gap-2.5 mt-2.5">
-              <span
-                className="text-3xl md:text-4xl"
-                style={{ animation: "sp-float 4s ease-in-out infinite" }}>
-                🌐
-              </span>
-              <h2
-                className="text-primary text-2xl md:text-4xl font-black leading-tight bg-linear-to-r from-orange-500/60 via-orange-500 to-orange-500/60 bg-size-[200%_auto] bg-clip-text "
-                style={{ animation: "sp-shimmer 5s linear infinite" }}>
+              <span className="text-xl md:text-4xl">🌐</span>
+              <h2 className="text-primary text-xl md:text-4xl font-black leading-tight bg-linear-to-r from-orange-500/60 via-orange-500 to-orange-500/60 bg-size-[200%_auto] bg-clip-text ">
                 A Real Utility Ecosystem
               </h2>
             </div>
@@ -340,7 +334,7 @@ export default function ARealUtilityEcosystemPage() {
                           SPUMP
                         </p>
                         <p className="text-primary font-bold text-sm">Core</p>
-                        <p className="text-secondary/80 text-xs">
+                        <p className="text-secondary/80 text-[10px]">
                           Ecosystem Core
                         </p>
                       </div>

@@ -120,9 +120,9 @@ export default function SpumpEconomicEnginePage() {
             <div className="sp-hero-kicker mx-auto">
               <span className="text-primary">Scotty Pumpkin Ecosystem</span>
             </div>
-            <div className="flex items-center justify-center gap-2">
-              <span className="text-3xl md:text-4xl">⚙️</span>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-primary leading-tight">
+            <div className="flex items-center justify-center gap-1 md:gap-2">
+              <span className="text-xl md:text-4xl">⚙️</span>
+              <h1 className="text-xl sm:text-4xl md:text-5xl font-black text-primary leading-tight">
                 SPUMP Economic Engine
               </h1>
             </div>

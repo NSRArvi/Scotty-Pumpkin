@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 const SECTIONS = [
   {
@@ -115,6 +115,13 @@ const SECTIONS = [
 
 export default function RegulatoryFrameworkPage() {
   const [activeSection, setActiveSection] = useState(1);
+  const scrollRef = useRef(null);
+  const handleWheel = (e) => {
+    if (scrollRef.current) {
+      e.preventDefault();
+      scrollRef.current.scrollLeft += e.deltaY;
+    }
+  };
 
   return (
     <section className="bg-primary-bg min-h-screen">
@@ -153,7 +160,10 @@ export default function RegulatoryFrameworkPage() {
         <div className="sp-divider" />
 
         {/* ── Mobile Navigation (Hidden on Desktop) ── */}
-        <div className="md:hidden sp-mobile-nav">
+        <div
+          ref={scrollRef}
+          onWheel={handleWheel}
+          className="md:hidden flex items-center gap-3 overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide scroll-smooth">
           {SECTIONS.map((s) => {
             const isCurrent = activeSection === s.number;
             return (

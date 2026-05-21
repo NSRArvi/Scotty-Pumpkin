@@ -9,14 +9,20 @@ export default function HighRiskWarning() {
             <h3 className="text-primary font-bold tracking-wide">
               ⚠️ HIGH RISK WARNING
             </h3>
-            <p className="mt-3 text-sm md:text-base text-secondary/80 leading-relaxed">
-              Cryptocurrencies are volatile and high-risk. You may lose all of
-              your investment.
-            </p>
-            <p className="mt-2 text-sm md:text-base text-secondary/80 leading-relaxed">
-              Only purchase digital assets if you fully understand the risks and
-              can afford the loss.
-            </p>
+            <div className="mt-3 text-sm  text-secondary/80 leading-relaxed text-justify">
+              <p>
+                SPUMP is a utility token intended for use within the Scotty
+                Pumpkin ecosystem, where users may use SPUMP to pay for selected
+                Scotty Pumpkin goods, services, marketplace features, shop
+                creator plans, advertising, and ecosystem utilities, with
+                discounts of up to 30% on selected services.
+              </p>
+              <p className="mt-2">
+                Users may also pay via bank transfer or supported fiat payment
+                systems. SPUMP is intended to be used only where permitted under
+                applicable laws and country regulations.
+              </p>
+            </div>
           </div>
         </div>
       </Container>

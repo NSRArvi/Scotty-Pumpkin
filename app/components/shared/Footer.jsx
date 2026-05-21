@@ -27,7 +27,9 @@ export default function Footer() {
         {/* Footer Links */}
         <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 lg:gap-8 mb-6 md:mb-8">
           {footerLinks.map((link, index) => (
-            <div key={link.label}>
+            <div
+              key={link.label}
+              className="flex items-center md:gap-6 justify-between">
               <a
                 href={link.href}
                 className="ui-link text-sm md:text-base text-secondary">

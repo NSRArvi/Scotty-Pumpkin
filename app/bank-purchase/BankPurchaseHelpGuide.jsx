@@ -170,7 +170,7 @@ export default function BankPurchaseHelpGuide() {
   return (
     <>
       <section
-        className="relative z-10 px-4 py-10 md:py-14 lg:px-10"
+        className="relative z-10 py-10 md:py-14 lg:px-10"
         style={{ animation: "hg-fade-up 0.4s ease both" }}>
         <div className="max-w-2xl mx-auto space-y-8">
           {/* ── Hero ── */}
@@ -316,7 +316,7 @@ export default function BankPurchaseHelpGuide() {
                             </div>
                             <div className="hg-dont-card">
                               <p className="text-red-400 font-black text-xs uppercase tracking-widest mb-2">
-                                🚫 Don't
+                                🚫 Don&#39;t
                               </p>
                               {step.donts.map((d, i) => (
                                 <p

@@ -83,7 +83,7 @@ export default function EcoFinancialPage() {
 
   return (
     <>
-      <section className="bg-primary-bg relative z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
+      <section className="bg-primary-bg relative z-10 py-12 md:py-16 lg:py-24">
         <Container>
           <div className="max-w-5xl mx-auto space-y-10 md:space-y-14">
             {/* ── Hero ── */}

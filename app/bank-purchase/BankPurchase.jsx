@@ -257,7 +257,7 @@ export default function BankPurchase() {
         isMounted &&
         createPortal(
           <>
-            <div className="fixed inset-0 z-120 bg-black/70 backdrop-blur-sm px-4 py-8 flex items-center justify-center">
+            <div className="fixed inset-0 z-120 bg-black/70 backdrop-blur-sm py-8 flex items-center justify-center">
               <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-white px-7 py-5  mt-5!">
                 <div className="text-center space-y-3">
                   <div className="text-5xl">⚠️</div>
@@ -304,7 +304,7 @@ export default function BankPurchase() {
           document.body,
         )}
 
-      <section className="z-10 px-4 py-10 md:py-14 lg:px-10">
+      <section className="z-10 py-10 md:py-14">
         <div className="mx-auto max-w-2xl space-y-6 relative">
           <div className="text-center space-y-2">
             <p className="text-[11px] font-black uppercase tracking-[0.16em] text-primary">

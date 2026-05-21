@@ -298,7 +298,7 @@ export default function NFTStudioPage() {
                         + Add Trait
                       </button>
                       <span className="text-secondary/80 text-xs">
-                        🎃 1/1 Unique
+                        1/1 Unique
                       </span>
                     </div>
                     {traits.length > 0 && (
