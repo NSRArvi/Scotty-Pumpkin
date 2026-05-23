@@ -12,6 +12,7 @@ export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState(null);
 
   const menuItems = [
+    { label: "Home", href: "/" },
     {
       label: "Get SPUMP",
       dropdown: [
@@ -19,6 +20,14 @@ export default function Navbar() {
         {
           label: "General Crypto Notice",
           href: "/risk-warning",
+        },
+        {
+          label: "SPUMP Marketplace Payment Protection Procedure",
+          href: "/spump-marketplace-payment-protection-procedure",
+        },
+        {
+          label: "SPUMP Escrow Payment System",
+          href: "/spump-escrow-payment-system",
         },
       ],
     },
@@ -34,6 +43,14 @@ export default function Navbar() {
           href: "/ecosystem/a-real-utility-ecosystem",
         },
       ],
+    },
+    {
+      label: "Conditions of Use",
+      href: "/spump-marketplace-payment-protection-conditions-of-use",
+    },
+    {
+      label: "SPUMP Marketplace Payment Protection",
+      href: "/spump-marketplace-payment-protection",
     },
     {
       label: "NFT",
@@ -85,7 +102,7 @@ export default function Navbar() {
                 Scotty Pumpkin
               </span>
             </Link>
-            <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+            <div className="hidden lg:flex items-center gap-6 xl:gap-3">
               {menuItems.map((item) => (
                 <div key={item.label} className="relative group">
                   {item.dropdown ? (
@@ -154,7 +171,7 @@ export default function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
               />
               <div className="ui-shell md:hidden fixed top-22 left-4 right-4 bottom-auto max-h-[calc(100vh-104px)] border-purple-500/30 z-40 overflow-y-auto">
-                <div className="px-4 py-6 space-y-3">
+                <div className="px-4 py-6 space-y-1">
                   {menuItems.map((item) => (
                     <div key={item.label}>
                       {item.dropdown ? (

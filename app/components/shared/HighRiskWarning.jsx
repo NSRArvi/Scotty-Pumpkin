@@ -2,7 +2,7 @@ import Container from "./Container";
 
 export default function HighRiskWarning() {
   return (
-    <section className="relative z-10 py-6 lg:px-16 bg-primary-bg">
+    <section className="relative z-10 py-6 bg-primary-bg">
       <Container>
         <div className="ui-card border-primary bg- px-5 py-4 md:px-6 md:py-5 text-center">
           <h3 className="text-primary font-bold tracking-wide">

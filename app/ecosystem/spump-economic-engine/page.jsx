@@ -112,7 +112,7 @@ export default function SpumpEconomicEnginePage() {
   return (
     <section className="bg-primary-bg relative z-10py-12 md:py-16 lg:py-24 ">
       <Container>
-        <div className="max-w-5xl mx-auto space-y-12 md:space-y-16">
+        <div className="space-y-12 md:space-y-16">
           {/* ── Hero ── */}
           <div
             className="bg-white/80 rounded-2xl p-6 md:p-9 text-center space-y-4"
