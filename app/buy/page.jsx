@@ -403,7 +403,7 @@ export default function Page() {
             <div className="pt-1 pb-2">
               <div className="bg-white/80 px-8 py-6 rounded-2xl">
                 <h3 className="text-secondary font-semibold">
-                  Crypto risk warning
+                  General Crypto notice
                 </h3>
                 <div className="mt-3 flex flex-wrap gap-2">
                   <button
@@ -425,9 +425,7 @@ export default function Page() {
                   className="sp-risk-panel text-sm leading-relaxed space-y-4">
                   {riskTab === "en" ? (
                     <div className="space-y-2">
-                      <h4 className="text-primary font-bold">
-                        Risk Warning (UK)
-                      </h4>
+                      <h4 className="text-primary font-bold">Warning (UK)</h4>
                       <p className="text-secondary/80">
                         {" "}
                         Crypto users may acquire, hold, swap, send, sell, or use
@@ -443,7 +441,7 @@ export default function Page() {
                   ) : (
                     <div className="space-y-2">
                       <h4 className="text-primary font-bold">
-                        🇪🇺 Risk warning — EU / FRANCE
+                        🇪🇺 warning — EU / FRANCE
                       </h4>
                       <p className="text-secondary font-semibold">
                         Avertissement sur les risques

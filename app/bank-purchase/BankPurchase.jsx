@@ -262,7 +262,7 @@ export default function BankPurchase() {
                 <div className="text-center space-y-3">
                   <div className="text-5xl">⚠️</div>
                   <h2 className="text-2xl font-black text-primary">
-                    Crypto Risk Notice
+                    General Crypto Notice
                   </h2>
                   <div className="text-left rounded-xl border border-white/10 bg-white/5 p-4 text-sm leading-6 text-secondary/80">
                     <p className="mb-2">

@@ -17,7 +17,7 @@ export default function Navbar() {
       dropdown: [
         { label: "Get SPUMP Now", href: "/buy" },
         {
-          label: "Crypto risk warning and no obligation",
+          label: "General Crypto Notice",
           href: "/risk-warning",
         },
       ],
@@ -30,7 +30,7 @@ export default function Navbar() {
           href: "/ecosystem/spump-economic-engine",
         },
         {
-          label: "A Real Utility Ecosystem",
+          label: "SPUMP Ecosystem Notice",
           href: "/ecosystem/a-real-utility-ecosystem",
         },
       ],

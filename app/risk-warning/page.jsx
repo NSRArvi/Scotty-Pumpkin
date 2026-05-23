@@ -10,7 +10,7 @@ export default function RiskWarningPage() {
               SPUMP & USFF
             </p>
             <h1 className="text-2xl md:text-3xl font-bold text-secondary mt-1">
-              Crypto Risk Warning
+              General Crypto Notice
             </h1>
             <p className="text-secondary/80 text-sm md:text-base mt-2">
               Please read this section carefully before purchasing or using
@@ -20,7 +20,7 @@ export default function RiskWarningPage() {
 
           <div className="ui-card bg-white/80 p-5 md:p-7 space-y-6 text-sm md:text-base leading-relaxed text-secondary/80">
             <div className="rounded-xl border border-amber-400/30 bg-white/80 p-4 md:p-5">
-              <h2 className="text-primary font-bold">HIGH RISK WARNING</h2>
+              <h2 className="text-primary font-bold">HIGH RISK</h2>
               <p className="mt-2">
                 Cryptocurrencies are volatile and high-risk digital assets.
               </p>

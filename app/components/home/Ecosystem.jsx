@@ -102,7 +102,7 @@ export default function Ecosystem() {
                 <BsLeafFill className="text-primary" />
               </span>{" "}
               No middlemen. Built for independent growth.
-              <span className="rotate-90">
+              <span className="rotate-y-180 ">
                 <BsLeafFill className="text-primary" />
               </span>{" "}
             </p>
