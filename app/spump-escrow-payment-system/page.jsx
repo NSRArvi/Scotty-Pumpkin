@@ -68,7 +68,26 @@ export default function EscrowPaymentSystem() {
         <p className="text-[11px] font-medium tracking-widest uppercase text-primary mb-4">
           Overview
         </p>
-
+        <div className="space-y-4 mb-8 text-[15px] leading-[1.75] text-secondary/90 font-light">
+          <p className="text-lg font-semibold text-secondary">
+            Marketplace Transactions &amp; Payment Protection Notice
+          </p>
+          <p>
+            Transactions and exchanges between participating buyers and sellers on the SPUMP Marketplace may be conducted freely and directly between the participating parties using traditional fiat payment systems or other agreed payment methods, under the sole responsibility of the buyer and seller.
+          </p>
+          <p>
+            As an optional alternative, SPUMP offers the SPUMP Escrow Payment &amp; Transaction Verification System, designed to assist participating users by helping protect both buyers and sellers during selected peer-to-peer marketplace transactions within the ecosystem.
+          </p>
+          <p>
+            Where both participating parties voluntarily agree to use the SPUMP protection procedure, SPUMP payments may be temporarily held within the marketplace protection system pending reasonable delivery, completion, booking, or transaction verification procedures.
+          </p>
+          <p>
+            Once the transaction is satisfactorily completed between the participating parties in accordance with the marketplace procedure, the SPUMP payment may be released to the seller&apos;s designated wallet address. Participating users may then choose, where permitted and available, to hold, transfer, swap, exchange, or convert SPUMP into supported digital assets such as USDT /USDC /or client crypto selection or USFF, or withdraw through supported external services subject to applicable laws, platform availability, and local regulations relating to digital asset and token usage within their jurisdiction.
+          </p>
+          <p>
+            Participation in the SPUMP protection system remains entirely optional and requires agreement from both the buyer and seller.
+          </p>
+        </div>
         
         <div>
           {paragraphs.map((text, i) => (

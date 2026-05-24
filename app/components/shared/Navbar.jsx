@@ -16,25 +16,34 @@ export default function Navbar() {
     {
       label: "Get SPUMP",
       dropdown: [
-        { label: "Get SPUMP Now", href: "/buy" },
+        {
+          label: " Identification Code",
+          href: "/spump-identification-code",
+        },
         {
           label: "General Crypto Notice",
           href: "/risk-warning",
         },
+        { label: "Get SPUMP Now", href: "/buy" },
+      ],
+    },
+    {
+      label: "SPUMP Escrow",
+      dropdown: [
         {
-          label: "SPUMP Marketplace Payment Protection Procedure",
+          label: "Marketplace Payment Protection Procedure",
           href: "/spump-marketplace-payment-protection-procedure",
         },
         {
-          label: "SPUMP Escrow Payment System",
+          label: "Conditions of Use",
+          href: "spump-marketplace-payment-protection-conditions-of-use",
+        },
+        {
+          label: "Escrow Payment System",
           href: "/spump-escrow-payment-system",
         },
         {
-          label: "Conditions of Use",
-          href: "/spump-marketplace-payment-protection-conditions-of-use",
-        },
-        {
-          label: "SPUMP Marketplace Payment Protection",
+          label: "Market Payment Processing Form",
           href: "/spump-marketplace-payment-protection",
         },
       ],
@@ -52,11 +61,6 @@ export default function Navbar() {
         },
       ],
     },
-    {
-      label: "Spump Identification Number",
-      href: "/spump-identification-number",
-    },
-
     {
       label: "NFT",
       dropdown: [
@@ -97,7 +101,8 @@ export default function Navbar() {
           <div className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4 relative z-50">
             <Link
               href="/"
-              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity">
+              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
+            >
               <Image src={logo} alt="Scotty Pumpkin" className="w-8 h-auto" />
               <span className="md:text-xl font-bold text-secondary">
                 Scotty Pumpkin
@@ -128,7 +133,8 @@ export default function Navbar() {
                                 ? "noopener noreferrer"
                                 : undefined
                             }
-                            className="block px-4 py-2.5 hover:bg-primary text-sm font-medium transition-colors first:rounded-t-xl last:rounded-b-xl text-secondary hover:text-white">
+                            className="block px-4 py-2.5 hover:bg-primary text-sm font-medium transition-colors first:rounded-t-xl last:rounded-b-xl text-secondary hover:text-white"
+                          >
                             {subitem.label}
                           </Link>
                         ))}
@@ -145,7 +151,8 @@ export default function Navbar() {
                         item.href.startsWith("http")
                           ? "noopener noreferrer"
                           : undefined
-                      }>
+                      }
+                    >
                       {item.label}
                     </Link>
                   )}
@@ -156,7 +163,8 @@ export default function Navbar() {
             <button
               className="md:hidden p-2 bg-primary rounded-lg transition-colors relative "
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="Toggle menu">
+              aria-label="Toggle menu"
+            >
               {isMenuOpen ? (
                 <X className="w-6 h-6" />
               ) : (
@@ -183,7 +191,8 @@ export default function Navbar() {
                                 openDropdown === item.label ? null : item.label,
                               )
                             }
-                            className="w-full py-3 px-4 ui-nav-link hover:bg-primary text-secondary hover:text-white rounded-xl transition-all backdrop-blur-sm border border-transparent hover:border-purple-500/30 flex items-center justify-between">
+                            className="w-full py-3 px-4 ui-nav-link hover:bg-primary text-secondary hover:text-white rounded-xl transition-all backdrop-blur-sm border border-transparent hover:border-purple-500/30 flex items-center justify-between"
+                          >
                             {item.label}
                             <ChevronDown
                               className={`w-4 h-4 transition-transform ${
@@ -208,7 +217,8 @@ export default function Navbar() {
                                       : undefined
                                   }
                                   className="block py-2.5 px-4 hover:bg-primary text-secondary hover:text-white rounded-lg transition-all text-base font-medium ui-link"
-                                  onClick={() => setIsMenuOpen(false)}>
+                                  onClick={() => setIsMenuOpen(false)}
+                                >
                                   {subitem.label}
                                 </Link>
                               ))}
@@ -227,7 +237,8 @@ export default function Navbar() {
                               ? "noopener noreferrer"
                               : undefined
                           }
-                          onClick={() => setIsMenuOpen(false)}>
+                          onClick={() => setIsMenuOpen(false)}
+                        >
                           {item.label}
                         </Link>
                       )}

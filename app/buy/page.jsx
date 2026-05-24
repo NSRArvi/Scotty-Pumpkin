@@ -425,8 +425,8 @@ export default function Page() {
                   className="sp-risk-panel text-sm leading-relaxed space-y-4">
                   {riskTab === "en" ? (
                     <div className="space-y-2">
-                      <h4 className="text-primary font-bold">Warning (UK)</h4>
-                      <p className="text-secondary/80">
+                      <h4 className="text-primary font-bold">UK</h4>
+                      <p className="text-secondary/80 mt-2">
                         {" "}
                         Crypto users may acquire, hold, swap, send, sell, or use
                         SPUMP within the Scotty Pumpkin ecosystem. SPUMP is not
@@ -441,11 +441,9 @@ export default function Page() {
                   ) : (
                     <div className="space-y-2">
                       <h4 className="text-primary font-bold">
-                        🇪🇺 warning — EU / FRANCE
+                        EU
                       </h4>
-                      <p className="text-secondary font-semibold">
-                        Avertissement sur les risques
-                      </p>
+                      
                       <p className="text-secondary/80 mt-2">
                         Les utilisateurs de cryptomonnaies peuvent acheter,
                         détenir, échanger, envoyer, vendre ou utiliser le SPUMP

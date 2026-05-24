@@ -168,6 +168,31 @@ export default function page() {
 
                 <div>
                   <h3 className="text-primary text-xs font-bold tracking-[0.25em] uppercase mb-6">
+                    PAYMENT WALLET ADDRESS
+                  </h3>
+
+                  <div className="space-y-2">
+                    <p className="text-sm text-secondary/80">Send SPUMP payments to the marketplace protection wallet below.</p>
+
+                    <div className="flex items-center gap-3">
+                      <input
+                        readOnly
+                        value={"BtHs7trFAkjKo8V2n7DsCi1yxqFg41tzHRczkhaDJyRN"}
+                        className="w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none"
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() => navigator.clipboard?.writeText("BtHs7trFAkjKo8V2n7DsCi1yxqFg41tzHRczkhaDJyRN")}
+                        className="px-4 py-3 rounded-2xl bg-primary text-primary-bg font-semibold text-sm hover:opacity-90 transition-all">
+                        Copy
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+                <div>
+                  <h3 className="text-primary text-xs font-bold tracking-[0.25em] uppercase mb-6">
                     TRANSACTION DETAILS
                   </h3>
 
