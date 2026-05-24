@@ -66,10 +66,10 @@ export default function page() {
             <div className="flex-1 h-px bg-primary/25" />
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-5">
+          <h1 className="text-5xl md:text-7xl font-black leading-none tracking-tight mb-5">
             Marketplace
             <br />
-            <span className="text-primary">Forms</span>
+            <span className="text-primary italic">Forms</span>
           </h1>
 
           <p className="text-base md:text-lg text-secondary/55 max-w-2xl leading-relaxed">
@@ -297,22 +297,21 @@ export default function page() {
                           className="w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all"
                         />
                       </div>
+                    </div>
+                    <div className="space-y-3 md:w-1/2">
+                      <label
+                        htmlFor="delivery_details"
+                        className="text-sm font-medium text-secondary">
+                        Delivery Details
+                      </label>
 
-                      <div className="space-y-3">
-                        <label
-                          htmlFor="delivery_details"
-                          className="text-sm font-medium text-secondary">
-                          Delivery Details
-                        </label>
-
-                        <textarea
-                          id="delivery_details"
-                          name="delivery_details"
-                          rows={4}
-                          placeholder="Type Delivery Details Here..."
-                          className="w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all resize-none"
-                        />
-                      </div>
+                      <textarea
+                        id="delivery_details"
+                        name="delivery_details"
+                        rows={4}
+                        placeholder="Type Delivery Details Here..."
+                        className="w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all resize-none"
+                      />
                     </div>
                   </div>
                 </div>

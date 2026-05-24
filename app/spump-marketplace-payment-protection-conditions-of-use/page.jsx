@@ -150,7 +150,7 @@ export default function PaymentProtectionPage() {
           <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
             Payment
             <br />
-            <span className="text-primary">Protection</span>
+            <span className="text-primary italic">Protection</span>
           </h1>
 
           <p className="text-base md:text-lg font-medium mb-10 text-secondary/50">

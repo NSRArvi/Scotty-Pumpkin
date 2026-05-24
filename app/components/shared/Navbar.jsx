@@ -29,6 +29,14 @@ export default function Navbar() {
           label: "SPUMP Escrow Payment System",
           href: "/spump-escrow-payment-system",
         },
+        {
+          label: "Conditions of Use",
+          href: "/spump-marketplace-payment-protection-conditions-of-use",
+        },
+        {
+          label: "SPUMP Marketplace Payment Protection",
+          href: "/spump-marketplace-payment-protection",
+        },
       ],
     },
     {
@@ -45,13 +53,10 @@ export default function Navbar() {
       ],
     },
     {
-      label: "Conditions of Use",
-      href: "/spump-marketplace-payment-protection-conditions-of-use",
+      label: "Spump Identification Number",
+      href: "/spump-identification-number",
     },
-    {
-      label: "SPUMP Marketplace Payment Protection",
-      href: "/spump-marketplace-payment-protection",
-    },
+
     {
       label: "NFT",
       dropdown: [
@@ -92,17 +97,13 @@ export default function Navbar() {
           <div className="flex items-center justify-between px-4 md:px-6 py-3 md:py-4 relative z-50">
             <Link
               href="/"
-              className="flex items-center gap-1 md:gap-3 hover:opacity-80 transition-opacity">
-              <Image
-                src={logo}
-                alt="Scotty Pumpkin"
-                className="w-10 h-10 md:w-auto md:h-12"
-              />
-              <span className="md:text-xl lg:text-2xl font-bold text-secondary">
+              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity">
+              <Image src={logo} alt="Scotty Pumpkin" className="w-8 h-auto" />
+              <span className="md:text-xl font-bold text-secondary">
                 Scotty Pumpkin
               </span>
             </Link>
-            <div className="hidden lg:flex items-center gap-6 xl:gap-3">
+            <div className="hidden lg:flex items-center gap-3 text-base">
               {menuItems.map((item) => (
                 <div key={item.label} className="relative group">
                   {item.dropdown ? (
