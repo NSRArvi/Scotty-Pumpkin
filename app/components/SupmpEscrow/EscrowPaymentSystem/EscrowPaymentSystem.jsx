@@ -1,4 +1,4 @@
-import Container from "../components/shared/Container";
+import Container from "../../shared/Container";
 
 const steps = [
   { icon: "🤝", label: "Both parties agree" },
@@ -28,9 +28,8 @@ const paragraphs = [
 
 export default function EscrowPaymentSystem() {
   return (
-    <section className="bg-primary-bg py-20">
+    <section className="bg-primary-bg py-10">
       <Container>
-        
         <div className="flex items-start gap-5 mb-12 pb-8 border-b border-secondary/10">
           <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
             🔐
@@ -45,7 +44,6 @@ export default function EscrowPaymentSystem() {
           </div>
         </div>
 
-        
         <div className="flex mb-10">
           {steps.map((step, i) => (
             <div
@@ -64,7 +62,6 @@ export default function EscrowPaymentSystem() {
           ))}
         </div>
 
-        
         <p className="text-[11px] font-medium tracking-widest uppercase text-primary mb-4">
           Overview
         </p>
@@ -73,22 +70,43 @@ export default function EscrowPaymentSystem() {
             Marketplace Transactions &amp; Payment Protection Notice
           </p>
           <p>
-            Transactions and exchanges between participating buyers and sellers on the SPUMP Marketplace may be conducted freely and directly between the participating parties using traditional fiat payment systems or other agreed payment methods, under the sole responsibility of the buyer and seller.
+            Transactions and exchanges between participating buyers and sellers
+            on the SPUMP Marketplace may be conducted freely and directly
+            between the participating parties using traditional fiat payment
+            systems or other agreed payment methods, under the sole
+            responsibility of the buyer and seller.
           </p>
           <p>
-            As an optional alternative, SPUMP offers the SPUMP Escrow Payment &amp; Transaction Verification System, designed to assist participating users by helping protect both buyers and sellers during selected peer-to-peer marketplace transactions within the ecosystem.
+            As an optional alternative, SPUMP offers the SPUMP Escrow Payment
+            &amp; Transaction Verification System, designed to assist
+            participating users by helping protect both buyers and sellers
+            during selected peer-to-peer marketplace transactions within the
+            ecosystem.
           </p>
           <p>
-            Where both participating parties voluntarily agree to use the SPUMP protection procedure, SPUMP payments may be temporarily held within the marketplace protection system pending reasonable delivery, completion, booking, or transaction verification procedures.
+            Where both participating parties voluntarily agree to use the SPUMP
+            protection procedure, SPUMP payments may be temporarily held within
+            the marketplace protection system pending reasonable delivery,
+            completion, booking, or transaction verification procedures.
           </p>
           <p>
-            Once the transaction is satisfactorily completed between the participating parties in accordance with the marketplace procedure, the SPUMP payment may be released to the seller&apos;s designated wallet address. Participating users may then choose, where permitted and available, to hold, transfer, swap, exchange, or convert SPUMP into supported digital assets such as USDT /USDC /or client crypto selection or USFF, or withdraw through supported external services subject to applicable laws, platform availability, and local regulations relating to digital asset and token usage within their jurisdiction.
+            Once the transaction is satisfactorily completed between the
+            participating parties in accordance with the marketplace procedure,
+            the SPUMP payment may be released to the seller&apos;s designated
+            wallet address. Participating users may then choose, where permitted
+            and available, to hold, transfer, swap, exchange, or convert SPUMP
+            into supported digital assets such as USDT /USDC /or client crypto
+            selection or USFF, or withdraw through supported external services
+            subject to applicable laws, platform availability, and local
+            regulations relating to digital asset and token usage within their
+            jurisdiction.
           </p>
           <p>
-            Participation in the SPUMP protection system remains entirely optional and requires agreement from both the buyer and seller.
+            Participation in the SPUMP protection system remains entirely
+            optional and requires agreement from both the buyer and seller.
           </p>
         </div>
-        
+
         <div>
           {paragraphs.map((text, i) => (
             <div
@@ -108,7 +126,6 @@ export default function EscrowPaymentSystem() {
           ))}
         </div>
 
-        
         <div className="flex flex-wrap gap-2 mt-8 mb-8">
           {pills.map((pill, i) => (
             <span
@@ -119,7 +136,6 @@ export default function EscrowPaymentSystem() {
           ))}
         </div>
 
-        
         <div className="flex gap-3.5 items-start px-6 py-5 bg-primary/5 border border-primary/15 border-l-2 border-l-primary rounded-lg">
           <span className="shrink-0 text-base mt-0.5">ℹ️</span>
           <p className="m-0 text-[13px] text-secondary/70 leading-relaxed">

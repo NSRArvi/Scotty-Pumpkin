@@ -1,6 +1,6 @@
-import Container from "../components/shared/Container";
+import Container from "../../shared/Container";
 
-export default function PaymentProtectionPage() {
+export default function ConditionsOfUse() {
   const sections = [
     {
       number: "01",
@@ -138,7 +138,7 @@ export default function PaymentProtectionPage() {
   return (
     <div className="min-h-screen w-full font-sans bg-primary-bg text-secondary">
       <Container>
-        <div className=" pt-16 md:pt-24 pb-10">
+        <div className=" pt-10 pb-10">
           <div className="flex items-center gap-3 mb-8">
             <span className="text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full border border-primary text-primary">
               SPUMP Marketplace

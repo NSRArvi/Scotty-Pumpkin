@@ -1,9 +1,9 @@
-import Container from "../components/shared/Container";
 import Image from "next/image";
 import protectionImage from "@/public/assets/protection_procedure.png";
 import protectionImageMobile from "@/public/assets/protection_procedure_mobile.png";
+import Container from "../../shared/Container";
 
-export default function Page() {
+export default function MarketplacePaymentProtectionProcedure() {
   const lists1 = [
     {
       num: "01",

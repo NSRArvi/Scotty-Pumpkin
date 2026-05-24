@@ -1,8 +1,8 @@
 "use client";
 
-import Container from "../components/shared/Container";
+import Container from "../../shared/Container";
 
-export default function page() {
+export default function MarketPaymentProcessingForm() {
   const field_name = [
     {
       label: "Buyer Full Name / Username",
@@ -57,7 +57,7 @@ export default function page() {
   return (
     <div className="min-h-screen w-full bg-primary-bg text-secondary">
       <Container>
-        <div className="pt-16 md:pt-24 pb-12">
+        <div className="pt-10 pb-12">
           <div className="flex items-center gap-3 mb-8">
             <span className="text-xs font-bold tracking-[0.25em] uppercase px-3 py-1 rounded-full border border-primary text-primary">
               SPUMP Marketplace
@@ -172,7 +172,10 @@ export default function page() {
                   </h3>
 
                   <div className="space-y-2">
-                    <p className="text-sm text-secondary/80">Send SPUMP payments to the marketplace protection wallet below.</p>
+                    <p className="text-sm text-secondary/80">
+                      Send SPUMP payments to the marketplace protection wallet
+                      below.
+                    </p>
 
                     <div className="flex items-center gap-3">
                       <input
@@ -183,13 +186,16 @@ export default function page() {
 
                       <button
                         type="button"
-                        onClick={() => navigator.clipboard?.writeText("BtHs7trFAkjKo8V2n7DsCi1yxqFg41tzHRczkhaDJyRN")}
+                        onClick={() =>
+                          navigator.clipboard?.writeText(
+                            "BtHs7trFAkjKo8V2n7DsCi1yxqFg41tzHRczkhaDJyRN",
+                          )
+                        }
                         className="px-4 py-3 rounded-2xl bg-primary text-primary-bg font-semibold text-sm hover:opacity-90 transition-all">
                         Copy
                       </button>
                     </div>
                   </div>
-
                 </div>
                 <div>
                   <h3 className="text-primary text-xs font-bold tracking-[0.25em] uppercase mb-6">
