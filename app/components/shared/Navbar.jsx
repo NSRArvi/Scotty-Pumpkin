@@ -6,10 +6,12 @@ import Link from "next/link";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Container from "./Container";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const pathname = usePathname();
 
   const menuItems = [
     { label: "Home", href: "/" },
@@ -28,7 +30,7 @@ export default function Navbar() {
         { label: "Get SPUMP Now", href: "/buy" },
       ],
     },
-    
+
     {
       label: "Ecosystem",
       dropdown: [
@@ -89,53 +91,72 @@ export default function Navbar() {
               </span>
             </Link>
             <div className="hidden lg:flex items-center gap-5 text-base">
-              {menuItems.map((item) => (
-                <div key={item.label} className="relative group">
-                  {item.dropdown ? (
-                    <>
-                      <button className=" bg-white flex items-center gap-1.5 text-secondary">
-                        {item.label}
-                        <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
-                      </button>
+              {menuItems.map((item) => {
+                const isActive = pathname === item.href;
+                const isDropdownActive = item.dropdown?.some(
+                  (subitem) => pathname === subitem.href,
+                );
 
-                      <div className="absolute rounded-b-xl bg-white left-0 mt-0 w-56 border-purple-500/30 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pt-2 z-50">
-                        {item.dropdown.map((subitem) => (
-                          <Link
-                            key={subitem.label}
-                            href={subitem.href}
-                            target={
-                              subitem.href.startsWith("http")
-                                ? "_blank"
-                                : undefined
-                            }
-                            rel={
-                              subitem.href.startsWith("http")
-                                ? "noopener noreferrer"
-                                : undefined
-                            }
-                            className="block px-4 py-2.5 hover:bg-primary text-sm font-medium transition-colors first:rounded-t-xl last:rounded-b-xl text-secondary hover:text-white">
-                            {subitem.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </>
-                  ) : (
-                    <Link
-                      href={item.href}
-                      className="text-secondary"
-                      target={
-                        item.href.startsWith("http") ? "_blank" : undefined
-                      }
-                      rel={
-                        item.href.startsWith("http")
-                          ? "noopener noreferrer"
-                          : undefined
-                      }>
-                      {item.label}
-                    </Link>
-                  )}
-                </div>
-              ))}
+                return (
+                  <div key={item.label} className="relative group">
+                    {item.dropdown ? (
+                      <>
+                        <button
+                          className={`flex items-center gap-1.5 ${
+                            isDropdownActive
+                              ? "text-primary border-b border-primary "
+                              : "text-secondary"
+                          }`}>
+                          {item.label}
+                          <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+                        </button>
+
+                        <div
+                          className={`absolute rounded-b-xl bg-white left-0 mt-0 w-56 border-purple-500/30 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pt-2 z-50`}>
+                          {item.dropdown.map((subitem) => (
+                            <Link
+                              key={subitem.label}
+                              href={subitem.href}
+                              target={
+                                subitem.href.startsWith("http")
+                                  ? "_blank"
+                                  : undefined
+                              }
+                              rel={
+                                subitem.href.startsWith("http")
+                                  ? "noopener noreferrer"
+                                  : undefined
+                              }
+                              className={`block px-4 py-2.5  text-sm font-medium transition-colors first:rounded-t-xl last:rounded-b-xl 
+                              ${
+                                pathname === subitem.href
+                                  ? "text-primary"
+                                  : "text-secondary"
+                              }
+                              `}>
+                              {subitem.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className={`w-1/2 ${isActive ? "text-primary border-b border-primary" : "text-secondary"}`}
+                        target={
+                          item.href.startsWith("http") ? "_blank" : undefined
+                        }
+                        rel={
+                          item.href.startsWith("http")
+                            ? "noopener noreferrer"
+                            : undefined
+                        }>
+                        {item.label}
+                      </Link>
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             <button
@@ -158,66 +179,86 @@ export default function Navbar() {
               />
               <div className="ui-shell md:hidden fixed top-22 left-4 right-4 bottom-auto max-h-[calc(100vh-104px)] border-purple-500/30 z-40 overflow-y-auto">
                 <div className="px-4 py-6 space-y-1">
-                  {menuItems.map((item) => (
-                    <div key={item.label}>
-                      {item.dropdown ? (
-                        <>
-                          <button
-                            onClick={() =>
-                              setOpenDropdown(
-                                openDropdown === item.label ? null : item.label,
-                              )
+                  {menuItems.map((item) => {
+                    const isActive = pathname === item.href;
+                    const isDropdownActive = item.dropdown?.some(
+                      (subitem) => pathname === subitem.href,
+                    );
+                    return (
+                      <div key={item.label}>
+                        {item.dropdown ? (
+                          <>
+                            <button
+                              onClick={() =>
+                                setOpenDropdown(
+                                  openDropdown === item.label
+                                    ? null
+                                    : item.label,
+                                )
+                              }
+                              className={`w-full py-3 px-4 flex items-center justify-between ${
+                                isDropdownActive
+                                  ? "text-primary"
+                                  : "text-secondary hover:bg-primary hover:text-white"
+                              }`}>
+                              {item.label}
+                              <ChevronDown
+                                className={`w-4 h-4 transition-transform ${
+                                  openDropdown === item.label
+                                    ? "rotate-180"
+                                    : ""
+                                }`}
+                              />
+                            </button>
+                            {openDropdown === item.label && (
+                              <div className="pl-4 mt-2 space-y-2 border-l-2 border-purple-500/30">
+                                {item.dropdown.map((subitem) => (
+                                  <Link
+                                    key={subitem.label}
+                                    href={subitem.href}
+                                    target={
+                                      subitem.href.startsWith("http")
+                                        ? "_blank"
+                                        : undefined
+                                    }
+                                    rel={
+                                      subitem.href.startsWith("http")
+                                        ? "noopener noreferrer"
+                                        : undefined
+                                    }
+                                    className={`block py-2.5 px-4 transition-all text-base font-medium ui-link  ${
+                                      pathname === subitem.href
+                                        ? "text-primary"
+                                        : "text-secondary"
+                                    }`}
+                                    onClick={() => setIsMenuOpen(false)}>
+                                    {subitem.label}
+                                  </Link>
+                                ))}
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <Link
+                            href={item.href}
+                            className={`block py-3 px-4 ui-nav-link hover:bg-primary text-secondary hover:text-white rounded-xl transition-all backdrop-blur-sm border border-transparent hover:border-purple-500/30 ${isActive ? "text-primary border-b border-primary " : "text-secondary"}`}
+                            target={
+                              item.href.startsWith("http")
+                                ? "_blank"
+                                : undefined
                             }
-                            className="w-full py-3 px-4 ui-nav-link hover:bg-primary text-secondary hover:text-white rounded-xl transition-all backdrop-blur-sm border border-transparent hover:border-purple-500/30 flex items-center justify-between">
+                            rel={
+                              item.href.startsWith("http")
+                                ? "noopener noreferrer"
+                                : undefined
+                            }
+                            onClick={() => setIsMenuOpen(false)}>
                             {item.label}
-                            <ChevronDown
-                              className={`w-4 h-4 transition-transform ${
-                                openDropdown === item.label ? "rotate-180" : ""
-                              }`}
-                            />
-                          </button>
-                          {openDropdown === item.label && (
-                            <div className="pl-4 mt-2 space-y-2 border-l-2 border-purple-500/30">
-                              {item.dropdown.map((subitem) => (
-                                <Link
-                                  key={subitem.label}
-                                  href={subitem.href}
-                                  target={
-                                    subitem.href.startsWith("http")
-                                      ? "_blank"
-                                      : undefined
-                                  }
-                                  rel={
-                                    subitem.href.startsWith("http")
-                                      ? "noopener noreferrer"
-                                      : undefined
-                                  }
-                                  className="block py-2.5 px-4 hover:bg-primary text-secondary hover:text-white rounded-lg transition-all text-base font-medium ui-link"
-                                  onClick={() => setIsMenuOpen(false)}>
-                                  {subitem.label}
-                                </Link>
-                              ))}
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <Link
-                          href={item.href}
-                          className="block py-3 px-4 ui-nav-link hover:bg-primary text-secondary hover:text-white rounded-xl transition-all backdrop-blur-sm border border-transparent hover:border-purple-500/30"
-                          target={
-                            item.href.startsWith("http") ? "_blank" : undefined
-                          }
-                          rel={
-                            item.href.startsWith("http")
-                              ? "noopener noreferrer"
-                              : undefined
-                          }
-                          onClick={() => setIsMenuOpen(false)}>
-                          {item.label}
-                        </Link>
-                      )}
-                    </div>
-                  ))}
+                          </Link>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </>

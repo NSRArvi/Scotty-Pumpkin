@@ -12,22 +12,23 @@ export default function SpumpEscrow() {
   const tabs = [
     {
       id: "tab1",
-      label: "Marketplace Payment Protection Procedure",
+      label: "Escrow Payment System",
       index: "01",
-      content: <MarketplacePaymentProtectionProcedure />,
+      content: <EscrowPaymentSystem />,
     },
     {
       id: "tab2",
-      label: "Conditions Of Use",
+      label: "Marketplace Payment Protection Procedure",
       index: "02",
-      content: <ConditionsOfUse />,
+      content: <MarketplacePaymentProtectionProcedure />,
     },
     {
       id: "tab3",
-      label: "Escrow Payment System",
+      label: "Conditions Of Use",
       index: "03",
-      content: <EscrowPaymentSystem />,
+      content: <ConditionsOfUse />,
     },
+
     {
       id: "tab4",
       label: "Market Payment Processing Form",

@@ -19,7 +19,11 @@ export default function MarketPaymentProcessingForm() {
     listing_title: "",
     listing_reference_url: "",
     agreed_spump_amount: "",
+    goods_services_description: "",
+    delivery_details: "",
   });
+  const [transactionType, setTransactionType] = useState("");
+  const [deliveryMethod, setDeliveryMethod] = useState("");
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -30,10 +34,14 @@ export default function MarketPaymentProcessingForm() {
       [name]: value,
     }));
   };
-  console.log(formData);
+  const marketplaceData = {
+    ...formData,
+    transactionType,
+    deliveryMethod,
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+    console.log(marketplaceData);
   };
 
   const field_name = [
@@ -192,6 +200,7 @@ export default function MarketPaymentProcessingForm() {
                           id={field.name}
                           name={field.name}
                           type={field.type || "text"}
+                          onChange={handleChange}
                           placeholder={field.label}
                           className="mt-3 w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all"
                         />
@@ -266,6 +275,7 @@ export default function MarketPaymentProcessingForm() {
                             name={field.name}
                             type="text"
                             placeholder={field.label}
+                            onChange={handleChange}
                             className="mt-3 w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all"
                           />
                         </div>
@@ -289,11 +299,15 @@ export default function MarketPaymentProcessingForm() {
                         ].map((item) => (
                           <label
                             key={item}
-                            className="flex items-center gap-3 rounded-2xl border border-primary/20 px-5 py-4 text-sm text-secondary">
+                            className="flex items-center gap-3 rounded-2xl border border-primary/20 px-5 py-4 text-sm text-secondary cursor-pointer">
                             <input
-                              type="checkbox"
+                              type="radio"
                               name="transaction_type"
                               value={item}
+                              checked={transactionType === item}
+                              onChange={(e) =>
+                                setTransactionType(e.target.value)
+                              }
                               className="w-5 h-5 accent-primary"
                             />
                             {item}
@@ -312,6 +326,7 @@ export default function MarketPaymentProcessingForm() {
                       <textarea
                         id="goods_services_description"
                         name="goods_services_description"
+                        onChange={handleChange}
                         rows={5}
                         placeholder="Describe Here..."
                         className="mt-3 w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all resize-none"
@@ -337,11 +352,13 @@ export default function MarketPaymentProcessingForm() {
                       ].map((item) => (
                         <label
                           key={item}
-                          className="flex items-center gap-3 rounded-2xl border border-primary/20 px-5 py-4 text-sm text-secondary">
+                          className="flex items-center gap-3 rounded-2xl border border-primary/20 px-5 py-4 text-sm text-secondary cursor-pointer">
                           <input
-                            type="checkbox"
+                            type="radio"
                             name="delivery_method"
                             value={item}
+                            checked={deliveryMethod === item}
+                            onChange={(e) => setDeliveryMethod(e.target.value)}
                             className="w-5 h-5 accent-primary"
                           />
                           {item}
@@ -376,6 +393,7 @@ export default function MarketPaymentProcessingForm() {
                         id="delivery_details"
                         name="delivery_details"
                         rows={4}
+                        onChange={handleChange}
                         placeholder="Type Delivery Details Here..."
                         className="mt-3 w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all resize-none"
                       />
