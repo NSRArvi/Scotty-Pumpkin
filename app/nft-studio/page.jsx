@@ -11,7 +11,8 @@ const TRENDING = [
     usff: null,
     price: null,
     label: "SCOTTY #001",
-    accent: "#f59e0b",
+    bg: "from-amber-500/20 to-black/50",
+    glow: "bg-amber-500/10",
   },
   {
     id: "PURPLE DROP",
@@ -20,7 +21,8 @@ const TRENDING = [
     usff: null,
     price: null,
     label: "PURPLE DROP",
-    accent: "#a855f7",
+    bg: "from-purple-500/20 to-black/50",
+    glow: "bg-purple-500/10",
   },
   {
     id: "LUXURY MASK",
@@ -29,7 +31,8 @@ const TRENDING = [
     usff: null,
     price: 320,
     label: "LUXURY MASK",
-    accent: "#eab308",
+    bg: "from-yellow-500/20 to-black/50",
+    glow: "bg-yellow-500/10",
   },
   {
     id: "COSMIC RING",
@@ -38,7 +41,8 @@ const TRENDING = [
     usff: null,
     price: 450,
     label: "COSMIC RING",
-    accent: "#6366f1",
+    bg: "from-indigo-500/20 to-black/50",
+    glow: "bg-indigo-500/10",
   },
 ];
 
@@ -78,418 +82,402 @@ export default function NFTStudioPage() {
   }
 
   return (
-    <>
-      <section className="bg-primary-bg">
-        <Container>
-          <div className="nft-page">
-            {/* Background stars */}
-            {[
-              { size: 2, top: "5%", left: "8%", delay: "0s", dur: "3s" },
-              { size: 1, top: "12%", left: "72%", delay: "0.4s", dur: "2.5s" },
-              { size: 2, top: "20%", left: "40%", delay: "1s", dur: "3.5s" },
-              { size: 1, top: "60%", left: "88%", delay: "0.7s", dur: "2.8s" },
-              { size: 2, top: "75%", left: "15%", delay: "1.3s", dur: "3.2s" },
-              { size: 1, top: "88%", left: "55%", delay: "0.2s", dur: "2.3s" },
-              { size: 3, top: "3%", left: "55%", delay: "1.7s", dur: "4s" },
-              { size: 1, top: "45%", left: "2%", delay: "0.9s", dur: "3.7s" },
-            ].map((s, i) => (
-              <div
-                key={i}
-                className="nft-star"
-                style={{
-                  width: s.size,
-                  height: s.size,
-                  top: s.top,
-                  left: s.left,
-                  animation: `sp-star-twinkle ${s.dur} ${s.delay} ease-in-out infinite`,
-                }}
-              />
-            ))}
+    <section className="bg-primary-bg py-20">
+      <Container>
+        {/* ── Header ── */}
+        <div className="flex items-start gap-5 mb-12 pb-8 border-b border-secondary/10">
+          <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
+            🎃
+          </div>
+          <div>
+            <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-2">
+              Scotty Pumpkin Ecosystem
+            </p>
 
-            <div
-              className="relative z-10 py-10 md:py-14 space-y-8"
-              style={{ animation: "sp-fade-up 0.5s ease both" }}>
-              {/* ── Hero ── */}
-              <div
-                className="text-center space-y-3"
-                style={{ animation: "sp-fade-up 0.5s ease 0.05s both" }}>
-                <h1 className="nft-hero-title text-5xl md:text-6xl lg:text-7xl font-black tracking-tight">
-                  NFT Studio
-                </h1>
-                <p className="text-primary/70 text-base md:text-lg font-semibold tracking-widest">
-                  ✦ Mint Digital Prestige ✦
-                </p>
-                <p className="text-secondary/80 text-sm max-w-lg mx-auto leading-relaxed">
-                  Mint NFTs from art, fashion, jewelry, video &amp; digital
-                  goods. List free. Sell with only{" "}
-                  <span className="text-primary font-bold">3%</span> when sold.
-                </p>
-              </div>
+            <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
+              NFT
+              <span className="text-primary italic">Studio</span>
+            </h1>
+          </div>
+        </div>
 
-              {/* ── Fee Banner ── */}
-              <div
-                className="nft-fee-banner rounded-2xl px-6 py-3 flex flex-wrap items-center justify-center gap-4 text-sm"
-                style={{ animation: "sp-fade-up 0.5s ease 0.1s both" }}>
-                <span className="text-primary font-bold">
-                  🎃 Mint{" "}
-                  <span className="text-secondary/80">-15% SPUMP/USFF</span>
+        <div className="space-y-8">
+          {/* ── Intro row ── */}
+          <div className="flex gap-5 pb-8 items-start border-b border-secondary/[0.07]">
+            <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+              01
+            </span>
+            <p className="flex-1 text-[15px] leading-[1.75] text-secondary/70 font-light m-0">
+              ✦ Mint Digital Prestige ✦ — Mint NFTs from art, fashion, jewelry,
+              video &amp; digital goods. List free. Sell with only{" "}
+              <span className="text-primary font-medium">3%</span> when sold.
+            </p>
+          </div>
+
+          {/* ── Fee Banner ── */}
+          <div className="flex gap-5 pb-8 items-start border-b border-secondary/[0.07]">
+            <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+              02
+            </span>
+            <div className="flex-1 flex flex-wrap items-center gap-4 px-5 py-4 bg-primary/5 border border-primary/15 border-l-2 border-l-primary rounded-lg text-sm">
+              <span className="text-primary font-medium">
+                🎃 Mint{" "}
+                <span className="text-secondary/70 font-light">
+                  -15% SPUMP/USFF
                 </span>
-                <span className="text-secondary/70">•</span>
-                <span className="text-primary font-bold">
-                  🎃 Buy{" "}
-                  <span className="text-secondary/80">-10% SPUMP/USFF</span>
+              </span>
+              <span className="text-secondary/20">•</span>
+              <span className="text-primary font-medium">
+                🎃 Buy{" "}
+                <span className="text-secondary/70 font-light">
+                  -10% SPUMP/USFF
                 </span>
-                <span className="text-secondary/70">•</span>
-                <span className="text-primary font-bold">
-                  🎃 Sale Fee <span className="text-secondary/80">3%</span>
+              </span>
+              <span className="text-secondary/20">•</span>
+              <span className="text-primary font-medium">
+                🎃 Sale Fee{" "}
+                <span className="text-secondary/70 font-light">3%</span>
+              </span>
+            </div>
+          </div>
+
+          {/* ── Section label ── */}
+          <p className="text-[11px] font-medium tracking-widest uppercase text-primary">
+            Create NFT
+          </p>
+
+          <div className="grid lg:grid-cols-5 gap-5">
+            {/* LEFT — Create NFT */}
+            <div className="lg:col-span-3 bg-white border border-secondary/[0.07] rounded-xl p-5 md:p-6 space-y-6">
+              {/* Step 1 */}
+              <div className="flex gap-5 items-start pb-6 border-b border-secondary/[0.07]">
+                <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+                  01
                 </span>
-              </div>
-
-              {/* ── Two column: Create NFT + Live Summary ── */}
-              <div
-                className="grid lg:grid-cols-5 gap-5"
-                style={{ animation: "sp-fade-up 0.5s ease 0.15s both" }}>
-                {/* LEFT — Create NFT */}
-                <div className="lg:col-span-3  rounded-2xl p-5 md:p-6 space-y-5 bg-white/80">
-                  <div className="nft-section-title">Create NFT</div>
-
-                  {/* Step 1 */}
-                  <div>
-                    <p className="nft-step">Step 1 — Connect Wallet</p>
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="flex items-center gap-2">
-                        <span
-                          className="nft-status-dot"
-                          style={{
-                            background: connected ? "#4ade80" : "#ef4444",
-                          }}
-                        />
-                        <span
-                          className="text-sm"
-                          style={{ color: connected ? "#4ade80" : "#f87171" }}>
-                          {connected ? "Connected ✓" : "Not Connected"}
-                        </span>
-                      </div>
-                      <button
-                        onClick={() => setConnected((v) => !v)}
-                        className={`nft-connect-btn ui-btn ui-btn-success px-5 py-2 rounded-lg text-sm font-bold text-white ${connected ? "connected" : ""}`}>
-                        {connected ? "Disconnect" : "Connect Wallet"}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="nft-divider" />
-
-                  {/* Step 2 */}
-                  <div>
-                    <p className="nft-step">Step 2 — Upload Artwork</p>
-                    <div
-                      className={`nft-dropzone rounded-xl p-6 text-center space-y-3 ${dragOver ? "active" : ""}`}
-                      onDragOver={(e) => {
-                        e.preventDefault();
-                        setDragOver(true);
-                      }}
-                      onDragLeave={() => setDragOver(false)}
-                      onDrop={handleDrop}
-                      onClick={() => fileRef.current?.click()}>
-                      <input
-                        ref={fileRef}
-                        type="file"
-                        accept=".png,.jpg,.gif,.mp4"
-                        className="hidden"
-                        onChange={handleFileChange}
+                <div className="flex-1">
+                  <p className="text-[13px] font-medium uppercase tracking-wide text-secondary/80 mb-3">
+                    Connect Wallet
+                  </p>
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`w-2 h-2 rounded-full ${connected ? "bg-green-400" : "bg-red-400"}`}
                       />
-                      {uploadedFile ? (
-                        <div className="space-y-2">
-                          <span className="text-4xl">✅</span>
-                          <p className="text-green-400 text-sm font-bold">
-                            {uploadedFile}
-                          </p>
-                          <p className="text-white/35 text-xs">
-                            Click to change file
-                          </p>
-                        </div>
-                      ) : (
-                        <>
-                          <div className="text-4xl">🖼️</div>
-                          <div>
-                            <p className="text-secondary font-bold text-sm">
-                              DROP ARTWORK HERE
-                            </p>
-                            <p className="text-secondary/80 text-xs">
-                              or{" "}
-                              <span className="text-primary underline cursor-pointer">
-                                Choose File
-                              </span>
-                            </p>
-                          </div>
-                          <p className="text-secondary/80 text-xs tracking-wider">
-                            PNG · JPG · GIF · MP4
-                          </p>
-                        </>
-                      )}
-                      <button
-                        className="nft-buy-btn ui-btn ui-btn-warn px-6 py-2.5 rounded-lg text-sm font-black text-white tracking-wider"
-                        onClick={(e) => e.stopPropagation()}>
-                        🎃 BUY NFT
-                      </button>
-                      <p className="text-white/25 text-xs">
-                        PNG · JPG · GIF · MP4
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="nft-divider" />
-
-                  {/* Step 3 */}
-                  <div>
-                    <p className="nft-step">Step 3 — NFT Details</p>
-                    <div className="grid grid-cols-2 gap-3">
-                      <input
-                        className="nft-input placeholder-secondary/80"
-                        placeholder="Title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                      />
-                      <input
-                        className="nft-input"
-                        placeholder="Collection"
-                        value={collection}
-                        onChange={(e) => setCollection(e.target.value)}
-                      />
-                      <input
-                        className="nft-input col-span-2"
-                        placeholder="Description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                      />
-                      <div className="flex items-center gap-2">
-                        <label className="text-secondary/80 text-xs font-bold whitespace-nowrap">
-                          Category
-                        </label>
-                        <select
-                          className="nft-select flex-1"
-                          value={category}
-                          onChange={(e) => setCategory(e.target.value)}>
-                          {CATEGORIES.map((c) => (
-                            <option key={c}>{c}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <label className="text-secondary/70 text-xs font-bold whitespace-nowrap">
-                          Limited
-                        </label>
-                        <input
-                          type="number"
-                          min={1}
-                          className="nft-input"
-                          value={limited}
-                          onChange={(e) => setLimited(e.target.value)}
-                          style={{ width: 64 }}
-                        />
-                        <span className="text-secondary/70 text-xs">%</span>
-                      </div>
-                    </div>
-
-                    {/* Traits */}
-                    <div className="flex items-center gap-3 mt-4 flex-wrap">
-                      <button className="nft-trait-btn" onClick={addTrait}>
-                        + Add Trait
-                      </button>
-                      <span className="text-secondary/80 text-xs">
-                        1/1 Unique
+                      <span
+                        className={`text-sm font-light ${connected ? "text-green-500" : "text-red-400"}`}>
+                        {connected ? "Connected ✓" : "Not Connected"}
                       </span>
                     </div>
-                    {traits.length > 0 && (
-                      <div className="mt-3 space-y-2">
-                        {traits.map((t, i) => (
-                          <div key={i} className="flex gap-2">
-                            <input
-                              className="nft-input"
-                              placeholder="Trait name"
-                              value={t.key}
-                              onChange={(e) =>
-                                setTraits((prev) =>
-                                  prev.map((x, xi) =>
-                                    xi === i
-                                      ? { ...x, key: e.target.value }
-                                      : x,
-                                  ),
-                                )
-                              }
-                            />
-                            <input
-                              className="nft-input"
-                              placeholder="Value"
-                              value={t.value}
-                              onChange={(e) =>
-                                setTraits((prev) =>
-                                  prev.map((x, xi) =>
-                                    xi === i
-                                      ? { ...x, value: e.target.value }
-                                      : x,
-                                  ),
-                                )
-                              }
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* RIGHT — Live Summary + Calculator */}
-                <div className="lg:col-span-2 space-y-4">
-                  {/* Live Summary */}
-                  <div className=" rounded-2xl p-5 space-y-4 bg-white/80">
-                    <div className="nft-section-title">Live Summary</div>
-
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl">🎃</span>
-                      <span className="text-secondary/80 font-black text-base">
-                        Scotty Pumpkin
-                      </span>
-                    </div>
-
-                    <div className="space-y-2">
-                      {[
-                        { label: "-15% Mint Discount", ok: true },
-                        { label: "-10% Buyer Discount", ok: true },
-                        { label: "Free Listing", ok: true },
-                      ].map((item) => (
-                        <p
-                          key={item.label}
-                          className="flex items-center gap-2 text-sm text-white/80">
-                          <span className="nft-check">✓</span>
-                          <span
-                            // style={{ color: "#f59e0b" }}
-                            className="text-primary">
-                            {item.label.split(" ")[0]}
-                          </span>
-                          <span className="text-secondary/80">
-                            {item.label.split(" ").slice(1).join(" ")}
-                          </span>
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Mint Calculator */}
-                  <div className="bg-white/80 rounded-2xl p-5 space-y-3">
-                    <div className="nft-section-title">Mint Calculator</div>
-
-                    <div className="space-y-1">
-                      <div className="nft-calc-row">
-                        <span className="text-secondary/80">Mint Fee</span>
-                        <span className="text-primary font-semibold">
-                          €{MINT_FEE.toFixed(2)}
-                        </span>
-                      </div>
-                      <div className="nft-calc-row">
-                        <span className="text-secondary/80">Discount</span>
-                        <span className="text-primary font-semibold">
-                          -€{DISCOUNT.toFixed(2)}
-                        </span>
-                      </div>
-                      <div className="nft-calc-row">
-                        <span className="text-secondary/80">
-                          After discount
-                        </span>
-                        <span className="text-primary font-semibold">
-                          €{(MINT_FEE - DISCOUNT).toFixed(2)}
-                        </span>
-                      </div>
-                      <div
-                        className="nft-calc-row"
-                        style={{ borderBottom: "none" }}>
-                        <span className="text-secondary/80">Network</span>
-                        <span className="text-primary font-semibold">
-                          €{NETWORK.toFixed(2)}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="nft-total-row">
-                      <span className="text-primary font-black text-sm tracking-wider uppercase">
-                        Total
-                      </span>
-                      <span className="text-primary font-black text-xl">
-                        €{TOTAL.toFixed(2)}
-                      </span>
-                    </div>
-
-                    <button className="nft-mint-btn ui-btn ui-btn-warn">
-                      🎃 Mint NFT
+                    <button
+                      onClick={() => setConnected((v) => !v)}
+                      className={`px-5 py-2 rounded-lg text-sm font-medium text-white transition-colors cursor-pointer ${connected ? "bg-secondary/70 hover:bg-secondary/60" : "bg-primary hover:bg-primary/90"}`}>
+                      {connected ? "Disconnect" : "Connect Wallet"}
                     </button>
                   </div>
                 </div>
               </div>
 
-              {/* ── Trending NFTs ── */}
-              <div style={{ animation: "sp-fade-up 0.5s ease 0.25s both" }}>
-                <div className="nft-section-title mb-5">Trending NFTs</div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {TRENDING.map((nft) => (
-                    <div key={nft.id} className="nft-trend-card">
-                      <div
-                        className="nft-trend-img"
-                        style={{
-                          background: `radial-gradient(circle, ${nft.accent}20 0%, rgba(0,0,0,0.5) 100%)`,
-                        }}>
-                        <span
-                          style={{
-                            animation: "sp-float 4s ease-in-out infinite",
-                          }}>
-                          {nft.emoji}
-                        </span>
-                        {/* Decorative corner glow */}
-                        <div
-                          className="absolute inset-0"
-                          style={{
-                            background: `radial-gradient(circle at 80% 20%, ${nft.accent}15 0%, transparent 60%)`,
-                          }}
-                        />
-                      </div>
-                      <div className="p-3 space-y-2">
-                        <p className="text-secondary/80 text-xs font-black tracking-wider">
-                          {nft.label}
+              {/* Step 2 */}
+              <div className="flex gap-5 items-start pb-6 border-b border-secondary/[0.07]">
+                <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+                  02
+                </span>
+                <div className="flex-1">
+                  <p className="text-[13px] font-medium uppercase tracking-wide text-secondary/80 mb-3">
+                    Upload Artwork
+                  </p>
+                  <div
+                    className={`rounded-xl p-6 text-center space-y-3 border-2 border-dashed cursor-pointer transition-colors ${dragOver ? "border-primary/60 bg-primary/5" : "border-secondary/15 bg-primary-bg hover:border-primary/30"}`}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      setDragOver(true);
+                    }}
+                    onDragLeave={() => setDragOver(false)}
+                    onDrop={handleDrop}
+                    onClick={() => fileRef.current?.click()}>
+                    <input
+                      ref={fileRef}
+                      type="file"
+                      accept=".png,.jpg,.gif,.mp4"
+                      className="hidden"
+                      onChange={handleFileChange}
+                    />
+                    {uploadedFile ? (
+                      <div className="space-y-2">
+                        <span className="text-4xl">✅</span>
+                        <p className="text-green-500 text-sm font-medium">
+                          {uploadedFile}
                         </p>
-                        <div className="flex items-center justify-between flex-wrap gap-1">
-                          {nft.spump && (
-                            <span className="text-primary text-xs font-bold">
-                              🎃 {nft.spump}
-                            </span>
-                          )}
-                          {nft.price && (
-                            <>
-                              <span className="text-secondary/80 text-xs">
-                                € {nft.price}
-                              </span>
-                              <span className="text-secondary/80 text-xs line-through">
-                                € {nft.price}
-                              </span>
-                            </>
-                          )}
-                          {nft.id === "SCOTTY #001" && (
-                            <span className="text-primary text-xs font-bold">
-                              SCOTTY #001 🎃
-                            </span>
-                          )}
-                        </div>
+                        <p className="text-secondary/40 text-xs font-light">
+                          Click to change file
+                        </p>
                       </div>
-                      <button className="nft-trend-buy ui-btn ui-btn-warn tracking-widest">
-                        BUY
-                      </button>
+                    ) : (
+                      <>
+                        <div className="text-4xl">🖼️</div>
+                        <div>
+                          <p className="text-secondary font-medium text-sm">
+                            DROP ARTWORK HERE
+                          </p>
+                          <p className="text-secondary/70 text-xs font-light">
+                            or{" "}
+                            <span className="text-primary underline cursor-pointer">
+                              Choose File
+                            </span>
+                          </p>
+                        </div>
+                        <p className="text-secondary/70 text-xs tracking-wider">
+                          PNG · JPG · GIF · MP4
+                        </p>
+                      </>
+                    )}
+                    <button
+                      className="px-6 py-2.5 rounded-lg bg-primary text-white text-sm font-medium tracking-wider hover:bg-primary/90 transition-colors cursor-pointer"
+                      onClick={(e) => e.stopPropagation()}>
+                      🎃 BUY NFT
+                    </button>
+                    <p className="text-secondary/60 text-xs">
+                      PNG · JPG · GIF · MP4
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="flex gap-5 items-start">
+                <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+                  03
+                </span>
+                <div className="flex-1">
+                  <p className="text-[13px] font-medium uppercase tracking-wide text-secondary/70 mb-3">
+                    NFT Details
+                  </p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <input
+                      className="col-span-1 px-3 py-2.5 rounded-lg bg-primary-bg border border-secondary/15 text-secondary text-sm placeholder:text-secondary/50 font-light outline-none focus:border-primary/40 transition-colors"
+                      placeholder="Title"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                    />
+                    <input
+                      className="col-span-1 px-3 py-2.5 rounded-lg bg-primary-bg border border-secondary/15 text-secondary text-sm placeholder:text-secondary/50 font-light outline-none focus:border-primary/40 transition-colors"
+                      placeholder="Collection"
+                      value={collection}
+                      onChange={(e) => setCollection(e.target.value)}
+                    />
+                    <input
+                      className="col-span-2 px-3 py-2.5 rounded-lg bg-primary-bg border border-secondary/15 text-secondary text-sm placeholder:text-secondary/50 font-light outline-none focus:border-primary/40 transition-colors"
+                      placeholder="Description"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                    <div className="flex items-center gap-2">
+                      <label className="text-secondary/60 text-xs font-medium whitespace-nowrap">
+                        Category
+                      </label>
+                      <select
+                        className="flex-1 px-2 py-2 rounded-lg bg-primary-bg border border-secondary/15 text-secondary text-sm font-light outline-none focus:border-primary/40 transition-colors"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}>
+                        {CATEGORIES.map((c) => (
+                          <option key={c}>{c}</option>
+                        ))}
+                      </select>
                     </div>
-                  ))}
+                    <div className="flex items-center gap-2">
+                      <label className="text-secondary/60 text-xs font-medium whitespace-nowrap">
+                        Limited
+                      </label>
+                      <input
+                        type="number"
+                        min={1}
+                        className="w-16 px-2 py-2 rounded-lg bg-primary-bg border border-secondary/15 text-secondary text-sm font-light outline-none focus:border-primary/40 transition-colors"
+                        value={limited}
+                        onChange={(e) => setLimited(e.target.value)}
+                      />
+                      <span className="text-secondary/50 text-xs">%</span>
+                    </div>
+                  </div>
+
+                  {/* Traits */}
+                  <div className="flex items-center gap-3 mt-4 flex-wrap">
+                    <button
+                      className="px-3 py-1.5 rounded-lg border border-primary/25 text-primary text-xs font-medium hover:bg-primary/10 transition-colors cursor-pointer"
+                      onClick={addTrait}>
+                      + Add Trait
+                    </button>
+                    <span className="text-secondary/60 text-xs font-light">
+                      1/1 Unique
+                    </span>
+                  </div>
+                  {traits.length > 0 && (
+                    <div className="mt-3 space-y-2">
+                      {traits.map((t, i) => (
+                        <div key={i} className="flex gap-2">
+                          <input
+                            className="flex-1 px-3 py-2 rounded-lg bg-primary-bg border border-secondary/15 text-secondary text-sm placeholder:text-secondary/30 font-light outline-none focus:border-primary/40 transition-colors"
+                            placeholder="Trait name"
+                            value={t.key}
+                            onChange={(e) =>
+                              setTraits((prev) =>
+                                prev.map((x, xi) =>
+                                  xi === i ? { ...x, key: e.target.value } : x,
+                                ),
+                              )
+                            }
+                          />
+                          <input
+                            className="flex-1 px-3 py-2 rounded-lg bg-primary-bg border border-secondary/15 text-secondary text-sm placeholder:text-secondary/30 font-light outline-none focus:border-primary/40 transition-colors"
+                            placeholder="Value"
+                            value={t.value}
+                            onChange={(e) =>
+                              setTraits((prev) =>
+                                prev.map((x, xi) =>
+                                  xi === i
+                                    ? { ...x, value: e.target.value }
+                                    : x,
+                                ),
+                              )
+                            }
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
+
+            {/* RIGHT — Live Summary + Calculator */}
+            <div className="lg:col-span-2 space-y-4">
+              {/* Live Summary */}
+              <div className="bg-white border border-secondary/[0.07] rounded-xl p-5 space-y-4">
+                <p className="text-[11px] font-medium tracking-widest uppercase text-primary">
+                  Live Summary
+                </p>
+                <div className="flex items-center gap-3 pb-3 border-b border-secondary/[0.07]">
+                  <span className="text-2xl">🎃</span>
+                  <span className="text-secondary font-medium text-base">
+                    Scotty Pumpkin
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {[
+                    { label: "-15% Mint Discount" },
+                    { label: "-10% Buyer Discount" },
+                    { label: "Free Listing" },
+                  ].map((item) => (
+                    <p
+                      key={item.label}
+                      className="flex items-center gap-2 text-sm">
+                      <span className="text-primary">✓</span>
+                      <span className="text-primary font-medium">
+                        {item.label.split(" ")[0]}
+                      </span>
+                      <span className="text-secondary/55 font-light">
+                        {item.label.split(" ").slice(1).join(" ")}
+                      </span>
+                    </p>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mint Calculator */}
+              <div className="bg-white border border-secondary/[0.07] rounded-xl p-5 space-y-4">
+                <p className="text-[11px] font-medium tracking-widest uppercase text-primary">
+                  Mint Calculator
+                </p>
+                <div className="space-y-0">
+                  {[
+                    { label: "Mint Fee", value: `€${MINT_FEE.toFixed(2)}` },
+                    { label: "Discount", value: `-€${DISCOUNT.toFixed(2)}` },
+                    {
+                      label: "After discount",
+                      value: `€${(MINT_FEE - DISCOUNT).toFixed(2)}`,
+                    },
+                    { label: "Network", value: `€${NETWORK.toFixed(2)}` },
+                  ].map((row, i) => (
+                    <div
+                      key={i}
+                      className={`flex justify-between items-center py-2.5 ${i < 3 ? "border-b border-secondary/[0.07]" : ""}`}>
+                      <span className="text-secondary/70 text-sm font-light">
+                        {row.label}
+                      </span>
+                      <span className="text-primary font-medium text-sm">
+                        {row.value}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex justify-between items-center px-4 py-3 bg-primary/10 border border-primary/20 rounded-lg">
+                  <span className="text-primary font-medium text-sm uppercase tracking-wider">
+                    Total
+                  </span>
+                  <span className="text-primary font-semibold text-xl">
+                    €{TOTAL.toFixed(2)}
+                  </span>
+                </div>
+                <button className="w-full py-3 rounded-lg bg-primary text-white font-medium text-sm tracking-wider hover:bg-primary/90 transition-colors cursor-pointer">
+                  🎃 Mint NFT
+                </button>
+              </div>
+            </div>
           </div>
-        </Container>
-      </section>
-    </>
+
+          {/* ── Trending NFTs ── */}
+          <div>
+            <div className="h-px bg-secondary/10 mb-8" />
+            <p className="text-[11px] font-medium tracking-widest uppercase text-primary mb-6">
+              Trending NFTs
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {TRENDING.map((nft) => (
+                <div
+                  key={nft.id}
+                  className="bg-white border border-secondary/[0.07] rounded-xl overflow-hidden hover:border-primary/20 transition-colors">
+                  <div
+                    className={`relative h-36 bg-linear-to-br ${nft.bg} flex items-center justify-center`}>
+                    <span className="text-5xl">{nft.emoji}</span>
+                    <div className={`absolute inset-0 ${nft.glow}`} />
+                  </div>
+                  <div className="p-3 space-y-2">
+                    <p className="text-secondary/70 text-xs font-medium tracking-wider">
+                      {nft.label}
+                    </p>
+                    <div className="flex items-center justify-between flex-wrap gap-1">
+                      {nft.spump && (
+                        <span className="text-primary text-xs font-medium">
+                          🎃 {nft.spump}
+                        </span>
+                      )}
+                      {nft.price && (
+                        <>
+                          <span className="text-secondary/70 text-xs font-light">
+                            € {nft.price}
+                          </span>
+                          <span className="text-secondary/50 text-xs line-through font-light">
+                            € {nft.price}
+                          </span>
+                        </>
+                      )}
+                      {nft.id === "SCOTTY #001" && (
+                        <span className="text-primary text-xs font-medium">
+                          SCOTTY #001 🎃
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="px-3 pb-3">
+                    <button className="w-full py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-primary text-xs font-medium tracking-widest hover:bg-primary hover:text-white transition-colors cursor-pointer">
+                      BUY
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
   );
 }

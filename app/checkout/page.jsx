@@ -202,7 +202,7 @@ export default function CheckoutPage() {
                       <span className=" text-secondary/60 text-xs">
                         Treasury Wallet:
                       </span>
-                      <span className=" text-primary/80 font-mono text-xs truncate max-w-[200px]">
+                      <span className=" text-primary/80 font-mono text-xs truncate max-w-50">
                         {TREASURY_WALLET}
                       </span>
                       <span className="text-primary/50 text-sm">›</span>
@@ -262,7 +262,7 @@ export default function CheckoutPage() {
 
             {/* ── MANUAL TAB ── */}
             {tab === "manual" && (
-              <div className="rounded-xl p-5 space-y-4 border border-secondary/10 bg-secondary/[0.02]">
+              <div className="rounded-xl p-5 space-y-4 border border-secondary/10 bg-secondary/2">
                 <p className="text-primary/80 text-xs font-bold">
                   Treasury Wallet Address
                 </p>

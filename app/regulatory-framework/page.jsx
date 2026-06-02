@@ -127,39 +127,48 @@ export default function RegulatoryFrameworkPage() {
     <section className="bg-primary-bg min-h-screen">
       <div className="max-w-5xl mx-auto px-4 py-12 md:py-16 lg:py-20 space-y-10">
         {/* ── Hero Card ── */}
-        <div className="bg-white border border-slate-200/80 rounded-2xl p-8 md:p-10 text-center space-y-5">
-          <div
-            style={{ animation: "sp-float 4s ease-in-out infinite" }}
-            className="text-5xl md:text-6xl">
-            🏛️
+
+        <div>
+          <div className="flex items-start gap-5 mb-12 pb-8 border-b border-secondary/10">
+            <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
+              🏛️
+            </div>
+            <div>
+              <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-2">
+                Scotty Pumpkin Eco Market System
+              </p>
+
+              <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
+                Regulatory &amp; Governance <br />
+                <span className="text-primary italic">Framework</span>
+              </h1>
+            </div>
           </div>
-          <div className="space-y-2">
-            <p className="text-secondary/70 text-xs font-black uppercase tracking-widest">
-              Scotty Pumpkin Eco Market System
-            </p>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-secondary">
-              Regulatory &amp; Governance Framework
-            </h1>
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
-            <span className="bg-orange-100 border border-orange-200 text-orange-800 text-[11px] font-bold px-3 py-1 rounded-full">
-              Effective: February 26, 2026
+
+          <div className="flex gap-5 items-start">
+            <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+              01
             </span>
-            <span className="bg-orange-100 border border-orange-200 text-orange-800 text-[11px] font-bold px-3 py-1 rounded-full">
-              Governed by French Law
-            </span>
-            <span className="bg-slate-100 border border-slate-200 text-slate-800 text-[11px] font-bold px-3 py-1 rounded-full">
-              AML / KYC Compliant
-            </span>
-            <span className="bg-orange-600 text-white text-[11px] font-bold px-3 py-1 rounded-full">
-              Non-Security Token
-            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs text-secondary/80">
+                📅 Effective: February 26, 2026
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs text-secondary/80">
+                🇫🇷 Governed by French Law
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-primary/15 text-xs text-secondary/80">
+                ✅ AML / KYC Compliant
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary text-white text-xs">
+                🔖 Non-Security Token
+              </span>
+            </div>
           </div>
         </div>
 
         <div className="sp-divider" />
 
-        {/* ── Mobile Navigation (Hidden on Desktop) ── */}
+        {/* Mobile Navigation */}
         <div
           ref={scrollRef}
           onWheel={handleWheel}
@@ -214,7 +223,6 @@ export default function RegulatoryFrameworkPage() {
             })}
           </div>
 
-          {/* Dynamic Content Panel Column */}
           {(() => {
             const s = SECTIONS.find((x) => x.number === activeSection);
             if (!s) return null;
@@ -236,14 +244,11 @@ export default function RegulatoryFrameworkPage() {
                 <div className="sp-divider mb-5" />
 
                 <div className="space-y-5">
-                  {/* Content Descriptions */}
                   {s.content && (
                     <p className="text-secondary/85 text-sm leading-relaxed">
                       {s.content}
                     </p>
                   )}
-
-                  {/* Entities Metadata Cards */}
                   {s.entities && (
                     <div className="grid sm:grid-cols-2 gap-3">
                       {s.entities.map((e, i) => (
@@ -259,14 +264,12 @@ export default function RegulatoryFrameworkPage() {
                     </div>
                   )}
 
-                  {/* Editorial Blockquote Intro */}
                   {s.intro && (
                     <p className="text-secondary/70 text-xs md:text-sm italic border-l-2 border-orange-500/50 pl-3 bg-slate-50/50 py-1.5 pr-2 rounded-r-md">
                       {s.intro}
                     </p>
                   )}
 
-                  {/* Operational Bullet Points */}
                   {s.items && (
                     <div className="space-y-2.5">
                       {s.items.map((item, i) => (
@@ -289,7 +292,6 @@ export default function RegulatoryFrameworkPage() {
                     </div>
                   )}
 
-                  {/* Budget Allocation Percentage Track Bars */}
                   {s.allocation && (
                     <div className="space-y-3.5 pt-1.5">
                       {s.allocation.map((row, i) => (
@@ -318,7 +320,6 @@ export default function RegulatoryFrameworkPage() {
                     </div>
                   )}
 
-                  {/* Jurisdiction Flag Badges */}
                   {s.highlight && (
                     <div className="sp-jurisdiction">
                       <span className="text-xl">🇫🇷</span>
@@ -328,7 +329,6 @@ export default function RegulatoryFrameworkPage() {
                     </div>
                   )}
 
-                  {/* Static footer references inside section */}
                   {s.footer && (
                     <p className="text-secondary/60 text-[11px] italic mt-2 border-t border-slate-100 pt-3">
                       {s.footer}
@@ -336,7 +336,6 @@ export default function RegulatoryFrameworkPage() {
                   )}
                 </div>
 
-                {/* ── Horizontal Back / Forward Controls ── */}
                 <div className="flex justify-between items-center mt-8 pt-4 border-t border-slate-100">
                   <button
                     type="button"
@@ -389,7 +388,6 @@ export default function RegulatoryFrameworkPage() {
 
         <div className="sp-divider" />
 
-        {/* ── Document Footer Note ── */}
         <div className="bg-slate-100/50 border border-slate-200/60 rounded-2xl p-6 text-center space-y-2">
           <p className="text-secondary/60 text-xs font-medium">
             Legal enquiries:{" "}

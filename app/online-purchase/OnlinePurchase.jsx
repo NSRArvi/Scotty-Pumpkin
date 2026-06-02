@@ -40,7 +40,7 @@ export default function OnlinePurchase({
   const [submitResponse, setSubmitResponse] = useState(null);
   const [copiedWallet, setCopiedWallet] = useState(false);
   // Post-verification display fields
-  const [verifyMeta, setVerifyMeta] = useState(null); // { tokenSymbol, tokenCount, spumpCount }
+  const [verifyMeta, setVerifyMeta] = useState(null);
   const effectiveSpumpPrice =
     Number(spumpPriceUsd) > 0 ? Number(spumpPriceUsd) : 0.01;
 
@@ -297,7 +297,7 @@ export default function OnlinePurchase({
             <>
               <div
                 onClick={() => setShowRiskModal(false)}
-                className="fixed inset-0 z-[2000] bg-black/70 backdrop-blur-sm flex items-center justify-center py-8">
+                className="fixed inset-0 z-2000 bg-black/70 backdrop-blur-sm flex items-center justify-center py-8">
                 <div className="w-full max-w-lg rounded-3xl border border-amber-400/40 bg-white p-7">
                   <div className="text-center space-y-4">
                     <div className="text-5xl">⚠️</div>

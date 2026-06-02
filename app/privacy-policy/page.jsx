@@ -124,43 +124,56 @@ export default function PrivacyPolicyPage() {
         <Container>
           <div className="max-w-5xl mx-auto space-y-10 md:space-y-14">
             {/* ── Hero ── */}
-            <div className="bg-white/80 rounded-2xl p-8 md:p-10 text-center space-y-4">
-              <div
-                style={{ animation: "sp-float 4s ease-in-out infinite" }}
-                className="text-5xl md:text-6xl">
-                🎃
+            <div>
+              <div className="flex items-start gap-5 mb-12 pb-8 border-b border-secondary/10">
+                <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
+                  🎃
+                </div>
+                <div>
+                  <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-2">
+                    Scotty Pumpkin Ecosystem
+                  </p>
+
+                  <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
+                    Privacy
+                    <span className="text-primary italic">Policy</span>
+                  </h1>
+                </div>
               </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-secondary">
-                Privacy Policy
-              </h1>
-              <p className="text-secondary/80 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
-                How{" "}
-                <span className="font-bold text-secondary">Scotty Pumpkin</span>{" "}
-                collects, uses, and protects your data across our ecosystem.
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-                <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
-                  Effective Date: February 26, 2026
+
+              <div className="flex gap-5 pb-6 items-start border-b border-secondary/[0.07]">
+                <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+                  01
                 </span>
-                <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
-                  Last Updated: February 26, 2026
+                <p className="flex-1 text-[15px] leading-[1.75] text-secondary/70 font-light m-0">
+                  How{" "}
+                  <span className="font-medium text-secondary">
+                    Scotty Pumpkin
+                  </span>{" "}
+                  collects, uses, and protects your data across our ecosystem.
+                </p>
+              </div>
+
+              <div className="flex gap-5 pt-6 items-start">
+                <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+                  02
                 </span>
-                <span
-                  className="text-xs font-semibold px-3 py-1 rounded-full"
-                  style={{
-                    background: "rgba(255,255,255,1)",
-                    border: "1px solid rgba(241,112,5,0.15)",
-                    color: "#0f2027",
-                    backdropFilter: "blur(12px)",
-                  }}>
-                  GDPR &amp; UK GDPR Compliant
-                </span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs text-secondary/80">
+                    📅 Effective Date: February 26, 2026
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs text-secondary/80">
+                    🔄 Last Updated: February 26, 2026
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-primary/15 text-xs text-secondary/80">
+                    ✅ GDPR &amp; UK GDPR Compliant
+                  </span>
+                </div>
               </div>
             </div>
 
             <div className="sp-divider" />
 
-            {/* ── Sections ── */}
             <div className="space-y-4">
               {SECTIONS.map((section) => {
                 const isOpen = activeSection === section.number;
@@ -172,7 +185,6 @@ export default function PrivacyPolicyPage() {
                     onClick={() =>
                       setActiveSection(isOpen ? null : section.number)
                     }>
-                    {/* Header */}
                     <div className="flex items-center gap-4 px-6 py-5 md:px-8">
                       <div className="shrink-0">
                         <div className="sp-number w-11 h-11 rounded-xl flex items-center justify-center">
@@ -201,7 +213,6 @@ export default function PrivacyPolicyPage() {
                       </svg>
                     </div>
 
-                    {/* Body */}
                     {isOpen && (
                       <div className="sp-section-body px-6 pb-6 md:px-8 md:pb-7 space-y-4 border-t border-white/6">
                         <div className="h-1" />
@@ -213,7 +224,6 @@ export default function PrivacyPolicyPage() {
                           </p>
                         )}
 
-                        {/* Simple item list */}
                         {"items" in section && section.items && (
                           <div className="space-y-2">
                             {section.items.map((item, i) => (
@@ -227,7 +237,6 @@ export default function PrivacyPolicyPage() {
                           </div>
                         )}
 
-                        {/* Subsections */}
                         {"subsections" in section && section.subsections && (
                           <div className="space-y-3">
                             {section.subsections.map((sub, si) => (
@@ -252,7 +261,6 @@ export default function PrivacyPolicyPage() {
                           </div>
                         )}
 
-                        {/* Footer note */}
                         {"footer" in section && section.footer && (
                           <p className="text-white/45 text-xs italic mt-2">
                             {section.footer}
@@ -267,7 +275,6 @@ export default function PrivacyPolicyPage() {
 
             <div className="sp-divider" />
 
-            {/* ── Footer note ── */}
             <div className="sp-footer-note rounded-2xl p-6 text-center space-y-2">
               <p className="text-secondary/80 text-sm leading-relaxed">
                 For privacy inquiries, contact us at{" "}

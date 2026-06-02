@@ -4,7 +4,6 @@ import { useState } from "react";
 import Container from "../components/shared/Container";
 
 const WALLET_ADDRESS = "3rjicH8cYBVACj5dYaIptegAXhy1opAK6uiP7aLoRq2H";
-
 const BASE_PRICE = 3972;
 
 const PAYMENT_METHODS = [
@@ -15,11 +14,13 @@ const PAYMENT_METHODS = [
     icon: "🎃",
     discount: 15,
     unit: "SPUMP",
-    accent: "rgba(245,158,11,0.9)",
-    border: "rgba(245,158,11,0.6)",
-    glow: "rgba(245,158,11,0.2)",
-    bg: "rgba(245,158,11,0.08)",
-    activeBg: "rgba(245,158,11,0.12)",
+    border: "border-amber-400/40",
+    bg: "bg-amber-500/8",
+    activeBg: "bg-amber-500/12",
+    activeBorder: "border-amber-400/60",
+    accentText: "text-amber-500",
+    iconBg: "bg-amber-500/10 border-amber-400/40",
+    badgeBg: "bg-red-500/80",
   },
   {
     id: "usff",
@@ -28,11 +29,13 @@ const PAYMENT_METHODS = [
     icon: "💚",
     discount: 15,
     unit: "USFF",
-    accent: "rgba(74,222,128,0.9)",
-    border: "rgba(74,222,128,0.4)",
-    glow: "rgba(74,222,128,0.15)",
-    bg: "rgba(74,222,128,0.06)",
-    activeBg: "rgba(74,222,128,0.1)",
+    border: "border-green-400/40",
+    bg: "bg-green-500/6",
+    activeBg: "bg-green-500/10",
+    activeBorder: "border-green-400/50",
+    accentText: "text-green-400",
+    iconBg: "bg-green-500/10 border-green-400/40",
+    badgeBg: "bg-red-500/80",
   },
   {
     id: "sol",
@@ -41,11 +44,13 @@ const PAYMENT_METHODS = [
     icon: "◎",
     discount: 5,
     unit: "SOL",
-    accent: "rgba(99,102,241,0.9)",
-    border: "rgba(99,102,241,0.4)",
-    glow: "rgba(99,102,241,0.15)",
-    bg: "rgba(99,102,241,0.06)",
-    activeBg: "rgba(99,102,241,0.1)",
+    border: "border-indigo-400/40",
+    bg: "bg-indigo-500/6",
+    activeBg: "bg-indigo-500/10",
+    activeBorder: "border-indigo-400/50",
+    accentText: "text-indigo-400",
+    iconBg: "bg-indigo-500/10 border-indigo-400/40",
+    badgeBg: "bg-amber-500/70",
   },
   {
     id: "usdc",
@@ -54,11 +59,13 @@ const PAYMENT_METHODS = [
     icon: "💵",
     discount: 5,
     unit: "USDC",
-    accent: "rgba(59,130,246,0.9)",
-    border: "rgba(59,130,246,0.4)",
-    glow: "rgba(59,130,246,0.15)",
-    bg: "rgba(59,130,246,0.06)",
-    activeBg: "rgba(59,130,246,0.1)",
+    border: "border-blue-400/40",
+    bg: "bg-blue-500/6",
+    activeBg: "bg-blue-500/10",
+    activeBorder: "border-blue-400/50",
+    accentText: "text-blue-400",
+    iconBg: "bg-blue-500/10 border-blue-400/40",
+    badgeBg: "bg-amber-500/70",
   },
   {
     id: "crypto",
@@ -67,11 +74,13 @@ const PAYMENT_METHODS = [
     icon: "🔗",
     discount: 5,
     unit: "[Token]",
-    accent: "rgba(168,85,247,0.9)",
-    border: "rgba(168,85,247,0.4)",
-    glow: "rgba(168,85,247,0.15)",
-    bg: "rgba(168,85,247,0.06)",
-    activeBg: "rgba(168,85,247,0.1)",
+    border: "border-purple-400/40",
+    bg: "bg-purple-500/6",
+    activeBg: "bg-purple-500/10",
+    activeBorder: "border-purple-400/50",
+    accentText: "text-purple-400",
+    iconBg: "bg-purple-500/10 border-purple-400/40",
+    badgeBg: "bg-amber-500/70",
   },
   {
     id: "fiat",
@@ -80,11 +89,12 @@ const PAYMENT_METHODS = [
     icon: "💳",
     discount: 0,
     unit: "USD",
-    accent: "rgba(255,255,255,0.5)",
-    border: "rgba(255,255,255,0.15)",
-    glow: "rgba(255,255,255,0.05)",
-    bg: "rgba(255,255,255,0.04)",
-    activeBg: "rgba(255,255,255,0.07)",
+    border: "border-secondary/15",
+    bg: "bg-secondary/4",
+    activeBg: "bg-secondary/7",
+    activeBorder: "border-secondary/30",
+    accentText: "text-secondary/50",
+    iconBg: "bg-secondary/5 border-secondary/15",
     noDiscount: true,
   },
 ];
@@ -110,395 +120,339 @@ export default function PurchasePage() {
   }
 
   return (
-    <>
-      <style>{`
-        @keyframes sp-fade-up {
-          from { opacity: 0; transform: translateY(14px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes sp-glow-pulse {
-          0%, 100% { opacity: 0.6; }
-          50%       { opacity: 1; }
-        }
-        @keyframes sp-arrow-bounce {
-          0%, 100% { transform: translateX(0); }
-          50%       { transform: translateX(5px); }
-        }
-      `}</style>
+    <section className="bg-primary-bg py-20">
+      <Container>
+        {/* ── Header ── */}
+        <div className="flex items-start gap-5 mb-12 pb-8 border-b border-secondary/10">
+          <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
+            🖼️
+          </div>
+          <div>
+            <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-2">
+              Scotty Pumpkin Ecosystem
+            </p>
 
-      <section className="relative z-10 py-10 md:py-14 bg-primary-bg">
-        <Container>
-          <div
-            className="space-y-8"
-            style={{ animation: "sp-fade-up 0.4s ease both" }}>
-            {/* ── Hero ── */}
-            <div className="text-center space-y-2">
-              <div className="flex items-center justify-center gap-3">
-                <span className="pu-arrow">»»</span>
-                <h1 className="pu-title text-4xl md:text-5xl lg:text-6xl font-black tracking-wide uppercase">
-                  Secure NFT Purchase
-                </h1>
-                <span className="pu-arrow">««</span>
-              </div>
-              <p className="text-white/50 text-sm md:text-base">
-                Choose Payment Method &amp; Complete Payment
-              </p>
+            <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
+              Secure NFT <br />
+              <span className="text-primary italic">Purchase</span>
+            </h1>
+          </div>
+        </div>
+
+        {/* ── Intro row ── */}
+        <div className="flex gap-5 pb-8 items-start border-b border-secondary/[0.07] mb-8">
+          <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+            01
+          </span>
+          <p className="flex-1 text-[15px] leading-[1.75] text-secondary/70 font-light m-0">
+            Choose Payment Method &amp; Complete Payment — select your preferred
+            payment type to get an instant discount.
+          </p>
+        </div>
+
+        {/* ── Two column layout ── */}
+        <div className="grid lg:grid-cols-2 gap-6 items-start">
+          {/* ── LEFT: Payment Options ── */}
+          <div className="bg-white border border-secondary/[0.07] rounded-xl p-5 space-y-4">
+            <p className="text-[11px] font-medium tracking-widest uppercase text-primary">
+              Payment Options
+            </p>
+            <p className="text-secondary/60 text-xs font-light">
+              Select Payment Type — Get Instant Discount
+            </p>
+
+            <div className="space-y-2">
+              {PAYMENT_METHODS.map((m) => {
+                const isActive = selected === m.id;
+                const discounted = Math.round(
+                  BASE_PRICE * (1 - m.discount / 100),
+                );
+                const save = BASE_PRICE - discounted;
+
+                return (
+                  <div
+                    key={m.id}
+                    onClick={() => setSelected(m.id)}
+                    className={`flex items-center gap-3 px-3 py-3 rounded-lg border cursor-pointer transition-colors ${
+                      isActive
+                        ? `${m.activeBg} ${m.activeBorder}`
+                        : `${m.bg} ${m.border} hover:${m.activeBg}`
+                    }`}>
+                    {/* Icon */}
+                    <div
+                      className={`w-9 h-9 rounded-full flex items-center justify-center text-lg shrink-0 border ${m.iconBg}`}>
+                      {m.icon}
+                    </div>
+
+                    {/* Label */}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-secondary text-sm font-medium">
+                        {m.label}{" "}
+                        {m.bold && (
+                          <span className="font-semibold text-primary">
+                            {m.bold}
+                          </span>
+                        )}
+                      </p>
+                      {!m.noDiscount && (
+                        <p
+                          className={`text-xs mt-0.5 font-light ${m.accentText}`}>
+                          You Save: -{save} {m.unit}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Pricing */}
+                    <div className="text-right shrink-0">
+                      {m.discount > 0 && (
+                        <div className="flex items-center gap-1.5 justify-end mb-1">
+                          <span
+                            className={`text-[10px] px-1.5 py-0.5 rounded font-medium text-white ${m.badgeBg}`}>
+                            {m.discount}% OFF
+                          </span>
+                          <span className="text-secondary/50 text-xs line-through">
+                            {BASE_PRICE.toLocaleString()}
+                          </span>
+                        </div>
+                      )}
+                      <p className={`font-semibold text-sm ${m.accentText}`}>
+                        {discounted.toLocaleString()} {m.unit}
+                      </p>
+                      {m.noDiscount && (
+                        <p className="text-secondary/45 text-xs mt-0.5 font-light">
+                          No Discount
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Radio */}
+                    <div
+                      className={`shrink-0 w-4 h-4 rounded-full border-2 flex items-center justify-center ml-1 transition-colors ${isActive ? "border-primary" : "border-secondary/25"}`}>
+                      {isActive && (
+                        <div className="w-2 h-2 rounded-full bg-primary" />
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
-            {/* ── Two column layout ── */}
-            <div className="grid lg:grid-cols-2 gap-6">
-              {/* ── LEFT: Payment Options ── */}
-              <div className="pu-panel rounded-2xl p-6 space-y-4">
-                <div className="pu-section-label">Payment Options</div>
-                <p className="text-center text-secondary/80 text-xs">
-                  Select Payment Type — Get Instant Discount
-                </p>
+            {/* Connect Wallet */}
+            <button className="w-full py-3 rounded-lg bg-primary text-white font-medium text-sm hover:bg-primary/90 transition-colors cursor-pointer">
+              Connect Wallet to Pay
+            </button>
 
-                <div className="space-y-3">
-                  {PAYMENT_METHODS.map((m) => {
-                    const isActive = selected === m.id;
-                    const discounted = Math.round(
-                      BASE_PRICE * (1 - m.discount / 100),
-                    );
-                    const save = BASE_PRICE - discounted;
+            {/* Trust badges */}
+            <div className="flex items-center justify-center gap-3 text-secondary/70 text-xs font-light pt-1">
+              <span>🛡️ 100% Secure</span>
+              <span>•</span>
+              <span>⚡ Instant Delivery</span>
+              <span>•</span>
+              <span>✅ Verified</span>
+            </div>
+          </div>
 
-                    return (
-                      <div
-                        key={m.id}
-                        className={`pu-method`}
-                        style={
-                          isActive
-                            ? {
-                                background: m.activeBg,
-                                borderColor: m.border,
-                              }
-                            : {}
-                        }
-                        onClick={() => setSelected(m.id)}>
-                        <div className="flex items-center gap-3">
-                          {/* Icon */}
-                          <div
-                            className="w-10 h-10 rounded-full flex items-center justify-center text-xl shrink-0"
-                            style={{
-                              background: `${m.accent}18`,
-                              border: `1px solid ${m.border}`,
-                            }}>
-                            {m.icon}
-                          </div>
+          {/* ── RIGHT ── */}
+          <div className="space-y-4">
+            {/* Purchase Summary */}
+            <div className="bg-white border border-secondary/[0.07] rounded-xl p-5 space-y-4">
+              <p className="text-[11px] font-medium tracking-widest uppercase text-primary">
+                Purchase Summary
+              </p>
 
-                          {/* Label */}
-                          <div className="flex-1 min-w-0">
-                            <p className="text-secondary text-sm font-semibold">
-                              {m.label}{" "}
-                              {m.bold && (
-                                <span className="font-black text-primary">
-                                  {m.bold}
-                                </span>
-                              )}
-                            </p>
-                            {!m.noDiscount && (
-                              <p
-                                className="text-xs mt-0.5"
-                                style={{ color: m.accent }}>
-                                You Save: -{save} {m.unit}
-                              </p>
-                            )}
-                          </div>
-
-                          {/* Pricing */}
-                          <div className="text-right shrink-0">
-                            {m.discount > 0 && (
-                              <div className="flex items-center gap-2 justify-end mb-1">
-                                <span
-                                  className="pu-badge text-white"
-                                  style={{
-                                    background:
-                                      m.discount === 15
-                                        ? "rgba(239,68,68,0.8)"
-                                        : "rgba(245,158,11,0.7)",
-                                  }}>
-                                  {m.discount}% OFF
-                                </span>
-                                <span className="text-white/30 text-xs line-through">
-                                  {BASE_PRICE.toLocaleString()}
-                                </span>
-                              </div>
-                            )}
-                            <p
-                              className="font-black text-base"
-                              style={{ color: m.accent }}>
-                              {discounted.toLocaleString()} {m.unit}
-                            </p>
-                            {m.noDiscount && (
-                              <p className="text-white/35 text-xs mt-0.5">
-                                No Discount
-                              </p>
-                            )}
-                          </div>
-
-                          {/* Radio */}
-                          <div
-                            className={`pu-radio border-primary ml-2 ${isActive ? "active" : ""}`}>
-                            {isActive && <div className="pu-radio-dot" />}
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
+              {/* NFT info */}
+              <div className="flex items-center gap-4 pb-4 border-b border-secondary/[0.07]">
+                <div className="w-14 h-14 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl shrink-0">
+                  🖼️
                 </div>
-
-                {/* Connect Wallet */}
-                <button className="bg-primary w-full py-3.5 rounded-xl font-bold text-white text-sm mt-2">
-                  Connect Wallet to Pay
-                </button>
-
-                {/* Trust badges */}
-                <div className="flex items-center justify-center gap-4 text-secondary/80 text-xs pt-1">
-                  <span>🛡️ 100% Secure</span>
-                  <span>•</span>
-                  <span>⚡ Instant Delivery</span>
-                  <span>•</span>
-                  <span>✅ Verified</span>
+                <div className="flex-1 min-w-0 space-y-1">
+                  <p className="text-secondary font-medium text-sm leading-tight">
+                    Tableau 11 – Digital Original
+                  </p>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-secondary/70 text-xs font-light">
+                      Brian Fin
+                    </span>
+                    <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-blue-500/10 border border-blue-400/30 text-blue-400">
+                      ✓ Verified
+                    </span>
+                  </div>
+                  <p className="text-secondary/55 text-xs font-light">
+                    Original Digital NFT – 1 of 1
+                  </p>
+                </div>
+                <div className="shrink-0 w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+                  <span className="text-primary font-semibold text-xs leading-none">
+                    1/1
+                  </span>
                 </div>
               </div>
 
-              {/* ── RIGHT: Summary + Wallet + Delivery ── */}
-              <div className="space-y-4">
-                {/* Purchase Summary */}
-                <div className="pu-panel rounded-2xl p-6 space-y-4">
-                  <div className="pu-section-label">Purchase Summary</div>
-
-                  {/* NFT info */}
-                  <div className="flex items-center gap-4">
-                    <div className="pu-nft-thumb">🖼️</div>
-                    <div className="flex-1 min-w-0 space-y-1">
-                      <p className="text-secondary/80 font-black text-base leading-tight">
-                        Tableau 11 – Digital Original
-                      </p>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-secondary/80 text-xs">
-                          Brian Fin
-                        </span>
-                        <span
-                          className="text-xs px-2 py-0.5 rounded-full font-semibold"
-                          style={{
-                            background: "rgba(59,130,246,0.15)",
-                            border: "1px solid rgba(59,130,246,0.3)",
-                            color: "#93c5fd",
-                          }}>
-                          ✓ Verified
-                        </span>
-                      </div>
-                      <p className="text-secondary/80 text-xs">
-                        Original Digital NFT – 1 of 1
-                      </p>
-                    </div>
-                    <div className="pu-1of1 shrink-0">
-                      <span className="text-white font-black text-xs leading-none">
-                        1/1
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="pu-divider" />
-
-                  {/* Pricing breakdown */}
-                  <div className="space-y-1">
-                    <div className="pu-price-row">
-                      <span className="text-secondary/80 text-sm">
-                        Total Price:
-                      </span>
-                      <div className="flex items-center gap-2">
-                        <span className="text-primary text-sm">‹</span>
-                        <span className="text-secondary/80 font-black text-xl">
-                          {BASE_PRICE.toLocaleString()} SPUMP
-                        </span>
-                        <span className="text-primary text-sm">›</span>
-                      </div>
-                    </div>
-                    <div className="pu-price-row border-b border-white/5">
-                      <span className="text-secondary/80 text-sm flex items-center gap-1">
-                        <span className="text-primary">●</span> Platform Fee
-                        (3%):
-                      </span>
-                      <span className="text-secondary/80 text-sm font-semibold flex items-center gap-1">
-                        −{platformFee} SPUMP
-                        <span className="text-secondary/70 text-xs">∨</span>
-                      </span>
-                    </div>
-                    <div className="pu-price-row">
-                      <span className="text-secondary font-bold text-sm flex items-center gap-1">
-                        <span className="text-primary">🎃</span> You Pay:
-                      </span>
-                      <div
-                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
-                        style={{
-                          background: "rgba(239,68,68,0.12)",
-                          border: "1px solid rgba(239,68,68,0.25)",
-                        }}>
-                        <span className="text-primary font-black text-lg">
-                          {youPay.toLocaleString()} {method.unit}
-                        </span>
-                        <span className="text-primary text-sm">∨</span>
-                      </div>
-                    </div>
+              {/* Pricing breakdown */}
+              <div className="space-y-0">
+                <div className="flex justify-between items-center py-2.5 border-b border-secondary/[0.07]">
+                  <span className="text-secondary/70 text-sm font-light">
+                    Total Price:
+                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-primary text-xs">‹</span>
+                    <span className="text-secondary font-medium text-base">
+                      {BASE_PRICE.toLocaleString()} SPUMP
+                    </span>
+                    <span className="text-primary text-xs">›</span>
                   </div>
                 </div>
-
-                {/* Send Payment To */}
-                <div className="pu-panel rounded-2xl p-6 space-y-4">
-                  <div className="pu-section-label">Send Payment To</div>
-                  <p className="text-center text-secondary/80 text-sm font-semibold">
-                    Scotty Pumpkin Official Treasury Wallet
-                  </p>
-
-                  <div className="pu-wallet-box">
-                    <div className="flex items-center gap-2">
-                      <span className="flex-1 text-primary/80 font-mono text-xs break-all">
-                        {WALLET_ADDRESS}
-                      </span>
-                      <div
-                        className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                        style={{
-                          background: "rgba(239,68,68,0.2)",
-                          border: "1px solid rgba(239,68,68,0.3)",
-                        }}>
-                        <span className="text-primary font-black text-xs">
-                          R
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2 text-secondary/80 text-xs">
-                      <span className="text-primary">◉</span>
-                      <span>Network: Solana (SOL)</span>
-                      <span className="text-white/30">»»»</span>
-                    </div>
-                    <button
-                      onClick={handleCopy}
-                      className="pu-copy-btn ui-btn ui-btn-danger px-5 py-2 rounded-lg text-white text-xs font-black tracking-wider shrink-0">
-                      {copied ? "✓ Copied!" : "Copy Address"}
-                    </button>
-                  </div>
-
-                  <div className="pu-warn-strip flex flex-wrap items-center gap-3 text-primary/80">
-                    <span>
-                      ⚠️ Only send{" "}
-                      <span className="font-bold text-primary">SPUMP</span>
+                <div className="flex justify-between items-center py-2.5 border-b border-secondary/[0.07]">
+                  <span className="text-secondary/60 text-sm font-light flex items-center gap-1">
+                    <span className="text-primary text-xs">●</span> Platform Fee
+                    (3%):
+                  </span>
+                  <span className="text-secondary/70 text-sm font-light">
+                    −{platformFee} SPUMP
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-2.5">
+                  <span className="text-secondary font-medium text-sm flex items-center gap-1">
+                    <span>🎃</span> You Pay:
+                  </span>
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-400/25">
+                    <span className="text-primary font-semibold text-base">
+                      {youPay.toLocaleString()} {method.unit}
                     </span>
-                    <span>•</span>
-                    <span>⚠️ No extra fees</span>
-                    <span>•</span>
-                    <span>⚠️ Check amount</span>
                   </div>
                 </div>
+              </div>
+            </div>
 
-                {/* NFT Delivery Wallet */}
-                <div className="pu-panel rounded-2xl p-6 space-y-4">
-                  <div className="pu-section-label">NFT Delivery Wallet</div>
-                  <p className="text-center text-secondary/80z text-sm">
-                    Where should we send your NFT?
-                  </p>
+            {/* Send Payment To */}
+            <div className="bg-white border border-secondary/[0.07] rounded-xl p-5 space-y-4">
+              <p className="text-[11px] font-medium tracking-widest uppercase text-primary">
+                Send Payment To
+              </p>
+              <p className="text-secondary/60 text-sm font-light">
+                Scotty Pumpkin Official Treasury Wallet
+              </p>
 
-                  <div
-                    className={`pu-delivery-opt ${deliveryMode === "connected" ? "active" : ""}`}
-                    onClick={() => setDeliveryMode("connected")}>
-                    <div
-                      className={`pu-radio ${deliveryMode === "connected" ? "active" : ""}`}>
-                      {deliveryMode === "connected" && (
-                        <div className="pu-radio-dot" />
-                      )}
-                    </div>
-                    <span className="text-sm text-secondary/90">
-                      Use{" "}
-                      <span className="font-bold text-secondary">
-                        Connected Wallet
-                      </span>{" "}
-                      <span className="text-primary/80 text-xs">
-                        (Recommended)
-                      </span>
-                    </span>
-                    <div
-                      className="ml-auto w-7 h-7 rounded-lg flex items-center justify-center"
-                      style={{
-                        background: "rgba(255,255,255,0.06)",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                      }}>
-                      <span className="text-secondary text-xs">≡</span>
-                    </div>
-                  </div>
+              <div className="flex items-center gap-3 px-4 py-3 bg-primary-bg border border-secondary/15 rounded-lg">
+                <span className="flex-1 text-secondary/60 font-mono text-xs break-all font-light">
+                  {WALLET_ADDRESS}
+                </span>
+                <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+                  <span className="text-primary font-semibold text-xs">R</span>
+                </div>
+              </div>
 
-                  <div
-                    className={`pu-delivery-opt ${deliveryMode === "other" ? "active" : ""}`}
-                    onClick={() => setDeliveryMode("other")}>
-                    <div
-                      className={`pu-radio ${deliveryMode === "other" ? "active" : ""}`}>
-                      {deliveryMode === "other" && (
-                        <div className="pu-radio-dot" />
-                      )}
-                    </div>
-                    <span className="text-sm text-secondary/80">
-                      Enter Another Wallet Address
-                    </span>
-                  </div>
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2 text-secondary/60 text-xs font-light">
+                  <span className="text-primary text-xs">◉</span>
+                  <span>Network: Solana (SOL)</span>
+                  <span className="text-secondary/20">»»»</span>
+                </div>
+                <button
+                  onClick={handleCopy}
+                  className={`px-4 py-2 rounded-lg text-xs font-medium tracking-wider shrink-0 transition-colors cursor-pointer ${copied ? "bg-green-500/15 border border-green-400/30 text-green-500" : "bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-white"}`}>
+                  {copied ? "✓ Copied!" : "Copy Address"}
+                </button>
+              </div>
 
-                  {deliveryMode === "other" && (
-                    <input
-                      className="pu-input"
-                      placeholder="Paste enter your wallet address here..."
-                      value={walletInput}
-                      onChange={(e) => setWalletInput(e.target.value)}
-                    />
+              <div className="flex gap-3.5 items-start px-4 py-3 bg-primary/5 border border-primary/15 border-l-2 border-l-primary rounded-lg">
+                <span className="shrink-0 text-sm mt-0.5">⚠️</span>
+                <p className="m-0 text-[12px] text-secondary/50 leading-relaxed font-light">
+                  Only send{" "}
+                  <span className="text-primary font-medium">SPUMP</span> · No
+                  extra fees · Check amount carefully before sending
+                </p>
+              </div>
+            </div>
+
+            {/* NFT Delivery Wallet */}
+            <div className="bg-white border border-secondary/[0.07] rounded-xl p-5 space-y-4">
+              <p className="text-[11px] font-medium tracking-widest uppercase text-primary">
+                NFT Delivery Wallet
+              </p>
+              <p className="text-secondary/70 text-sm font-light">
+                Where should we send your NFT?
+              </p>
+
+              <div
+                className={`flex items-center gap-3 px-3 py-3 rounded-lg border cursor-pointer transition-colors ${deliveryMode === "connected" ? "bg-primary/10 border-primary/25" : "bg-secondary/3 border-secondary/10 hover:border-secondary/20"}`}
+                onClick={() => setDeliveryMode("connected")}>
+                <div
+                  className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${deliveryMode === "connected" ? "border-primary" : "border-secondary/25"}`}>
+                  {deliveryMode === "connected" && (
+                    <div className="w-2 h-2 rounded-full bg-primary" />
                   )}
-
-                  {/* Confirm checkbox */}
-                  <div
-                    className="flex items-center gap-3 cursor-pointer"
-                    onClick={() => setConfirmed((v) => !v)}>
-                    <div
-                      className={`pu-checkbox ${confirmed ? "checked" : ""}`}>
-                      {confirmed && (
-                        <span className="text-white text-xs font-black leading-none">
-                          ✓
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-secondary/80 text-sm">
-                      I confirm this address is correct
-                    </span>
-                  </div>
-
-                  {/* CTA */}
-                  <button
-                    className="pu-confirm-btn ui-btn ui-btn-danger py-4 rounded-xl font-black text-lg text-white tracking-wide"
-                    onClick={() => confirmed && setSent(true)}
-                    style={
-                      sent
-                        ? {
-                            background:
-                              "linear-gradient(135deg, #065f46, #064e3b)",
-                            animation: "none",
-                          }
-                        : {}
-                    }>
-                    {sent ? "✓ Payment Confirmed!" : "I Have Sent Payment"}
-                  </button>
-
-                  <div className="flex items-center justify-center gap-3">
-                    <span className="pu-arrow text-sm">»»</span>
-                    <span className="text-secondary/70 text-xs">
-                      Scotty Pumpkin Secure Checkout
-                    </span>
-                    <span className="pu-arrow text-sm">««</span>
-                  </div>
                 </div>
+                <span className="text-sm text-secondary/70 font-light flex-1">
+                  Use{" "}
+                  <span className="font-medium text-secondary">
+                    Connected Wallet
+                  </span>{" "}
+                  <span className="text-primary/80 text-xs">(Recommended)</span>
+                </span>
+                <div className="w-7 h-7 rounded-lg bg-secondary/5 border border-secondary/10 flex items-center justify-center">
+                  <span className="text-secondary/40 text-xs">≡</span>
+                </div>
+              </div>
+
+              <div
+                className={`flex items-center gap-3 px-3 py-3 rounded-lg border cursor-pointer transition-colors ${deliveryMode === "other" ? "bg-primary/10 border-primary/25" : "bg-secondary/3 border-secondary/10 hover:border-secondary/20"}`}
+                onClick={() => setDeliveryMode("other")}>
+                <div
+                  className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${deliveryMode === "other" ? "border-primary" : "border-secondary/25"}`}>
+                  {deliveryMode === "other" && (
+                    <div className="w-2 h-2 rounded-full bg-primary" />
+                  )}
+                </div>
+                <span className="text-sm text-secondary/70 font-light">
+                  Enter Another Wallet Address
+                </span>
+              </div>
+
+              {deliveryMode === "other" && (
+                <input
+                  className="w-full px-3 py-2.5 rounded-lg bg-primary-bg border border-secondary/15 text-secondary text-sm placeholder:text-secondary/30 font-light outline-none focus:border-primary/40 transition-colors"
+                  placeholder="Paste enter your wallet address here..."
+                  value={walletInput}
+                  onChange={(e) => setWalletInput(e.target.value)}
+                />
+              )}
+
+              {/* Confirm checkbox */}
+              <div
+                className="flex items-center gap-3 cursor-pointer"
+                onClick={() => setConfirmed((v) => !v)}>
+                <div
+                  className={`w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-colors ${confirmed ? "bg-primary border-primary" : "border-secondary/25 bg-transparent"}`}>
+                  {confirmed && (
+                    <span className="text-white text-xs font-semibold leading-none">
+                      ✓
+                    </span>
+                  )}
+                </div>
+                <span className="text-secondary/60 text-sm font-light">
+                  I confirm this address is correct
+                </span>
+              </div>
+
+              {/* CTA */}
+              <button
+                className={`w-full py-4 rounded-xl font-medium text-base text-white tracking-wide transition-colors cursor-pointer ${sent ? "bg-green-700 hover:bg-green-700" : "bg-primary hover:bg-primary/90"}`}
+                onClick={() => confirmed && setSent(true)}>
+                {sent ? "✓ Payment Confirmed!" : "I Have Sent Payment"}
+              </button>
+
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-primary/50 text-xs">»»</span>
+                <span className="text-secondary/50 text-xs font-light">
+                  Scotty Pumpkin Secure Checkout
+                </span>
+                <span className="text-primary/50 text-xs">««</span>
               </div>
             </div>
           </div>
-        </Container>
-      </section>
-    </>
+        </div>
+      </Container>
+    </section>
   );
 }

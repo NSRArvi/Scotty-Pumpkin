@@ -139,21 +139,22 @@ export default function ConditionsOfUse() {
     <div className="min-h-screen w-full font-sans bg-primary-bg text-secondary">
       <Container>
         <div className=" pt-10 pb-10">
-          <div className="flex items-center gap-3 mb-8">
-            <span className="text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full border border-primary text-primary">
-              SPUMP Marketplace
-            </span>
-
-            <div className="h-px flex-1 bg-primary/25" />
+          <div className="flex items-start gap-5 mb-12 pb-8 border-b border-secondary/10">
+            <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
+              🔐
+            </div>
+            <div>
+              <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-2">
+                SPUMP Marketplace
+              </p>
+              <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
+                Payment <br />
+                <span className="text-primary italic">Protection</span>
+              </h1>
+            </div>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
-            Payment
-            <br />
-            <span className="text-primary italic">Protection</span>
-          </h1>
-
-          <p className="text-base md:text-lg font-medium mb-10 text-secondary/50">
+          <p className="text-base md:text-lg font-medium mb-10 text-secondary/70">
             Conditions of Use — Ecosystem Transaction Assistance
           </p>
 

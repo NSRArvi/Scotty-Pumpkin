@@ -1,8 +1,41 @@
 "use client";
 
+import { useState } from "react";
 import Container from "../../shared/Container";
 
 export default function MarketPaymentProcessingForm() {
+  const [formData, setFormData] = useState({
+    buyer_full_name: "",
+    buyer_marketplace_username: "",
+    buyer_email: "",
+    buyer_wallet_address: "",
+    buyer_transaction_hash: "",
+    buyer_payment_datetime: "",
+    buyer_spump_amount: "",
+    seller_full_name: "",
+    seller_marketplace_username: "",
+    seller_email: "",
+    seller_wallet_address: "",
+    listing_title: "",
+    listing_reference_url: "",
+    agreed_spump_amount: "",
+  });
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  console.log(formData);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+  };
+
   const field_name = [
     {
       label: "Buyer Full Name / Username",
@@ -54,23 +87,38 @@ export default function MarketPaymentProcessingForm() {
       name: "seller_wallet_address",
     },
   ];
+  const field_name3 = [
+    {
+      label: "Advertisement / Listing Title",
+      name: "listing_title",
+    },
+    {
+      label: "Marketplace Advertisement Reference / URL",
+      name: "listing_reference_url",
+    },
+    {
+      label: "Agreed SPUMP Amount",
+      name: "agreed_spump_amount",
+    },
+  ];
   return (
     <div className="min-h-screen w-full bg-primary-bg text-secondary">
       <Container>
         <div className="pt-10 pb-12">
-          <div className="flex items-center gap-3 mb-8">
-            <span className="text-xs font-bold tracking-[0.25em] uppercase px-3 py-1 rounded-full border border-primary text-primary">
-              SPUMP Marketplace
-            </span>
-
-            <div className="flex-1 h-px bg-primary/25" />
+          <div className="flex items-start gap-5 mb-12 pb-8 border-b border-secondary/10">
+            <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
+              📝
+            </div>
+            <div>
+              <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-2">
+                SPUMP Marketplace
+              </p>
+              <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
+                Marketplace <br />
+                <span className="text-primary italic">Forms</span>
+              </h1>
+            </div>
           </div>
-
-          <h1 className="text-5xl md:text-7xl font-black leading-none tracking-tight mb-5">
-            Marketplace
-            <br />
-            <span className="text-primary italic">Forms</span>
-          </h1>
 
           <p className="text-base md:text-lg text-secondary/55 max-w-2xl leading-relaxed">
             SPUMP Marketplace Payment Protection Documentation
@@ -78,7 +126,7 @@ export default function MarketPaymentProcessingForm() {
         </div>
 
         <div className="pb-20">
-          <form className="space-y-10">
+          <form onSubmit={handleSubmit} className="space-y-10">
             <section className="border border-secondary/10 rounded-3xl overflow-hidden bg-white/40 backdrop-blur-sm">
               <div className="px-6 md:px-10 py-6 border-b border-secondary/10">
                 <div className="flex items-center gap-4 mb-4">
@@ -103,7 +151,6 @@ export default function MarketPaymentProcessingForm() {
                   <h3 className="text-primary text-xs font-bold tracking-[0.25em] uppercase mb-6">
                     BUYER INFORMATION
                   </h3>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {field_name.map((field) => (
                       <div key={field.name} className="space-y-3">
@@ -117,8 +164,10 @@ export default function MarketPaymentProcessingForm() {
                           id={field.name}
                           name={field.name}
                           type={field.type || "text"}
+                          defaultValue={formData[field.name]}
+                          onChange={handleChange}
                           placeholder={field.label}
-                          className="w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all"
+                          className="mt-3 w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all"
                         />
                       </div>
                     ))}
@@ -144,7 +193,7 @@ export default function MarketPaymentProcessingForm() {
                           name={field.name}
                           type={field.type || "text"}
                           placeholder={field.label}
-                          className="w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all"
+                          className="mt-3 w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all"
                         />
                       </div>
                     ))}
@@ -204,20 +253,7 @@ export default function MarketPaymentProcessingForm() {
 
                   <div className="space-y-8">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {[
-                        {
-                          label: "Advertisement / Listing Title",
-                          name: "listing_title",
-                        },
-                        {
-                          label: "Marketplace Advertisement Reference / URL",
-                          name: "listing_reference_url",
-                        },
-                        {
-                          label: "Agreed SPUMP Amount",
-                          name: "agreed_spump_amount",
-                        },
-                      ].map((field) => (
+                      {field_name3.map((field) => (
                         <div key={field.name} className="space-y-3">
                           <label
                             htmlFor={field.name}
@@ -230,7 +266,7 @@ export default function MarketPaymentProcessingForm() {
                             name={field.name}
                             type="text"
                             placeholder={field.label}
-                            className="w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all"
+                            className="mt-3 w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all"
                           />
                         </div>
                       ))}
@@ -278,7 +314,7 @@ export default function MarketPaymentProcessingForm() {
                         name="goods_services_description"
                         rows={5}
                         placeholder="Describe Here..."
-                        className="w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all resize-none"
+                        className="mt-3 w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all resize-none"
                       />
                     </div>
                   </div>
@@ -325,7 +361,7 @@ export default function MarketPaymentProcessingForm() {
                           id="expected_delivery_date"
                           name="expected_delivery_date"
                           type="date"
-                          className="w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all"
+                          className="mt-3 w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all"
                         />
                       </div>
                     </div>
@@ -341,7 +377,7 @@ export default function MarketPaymentProcessingForm() {
                         name="delivery_details"
                         rows={4}
                         placeholder="Type Delivery Details Here..."
-                        className="w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all resize-none"
+                        className="mt-3 w-full rounded-2xl border border-secondary/10 bg-primary-bg px-5 py-4 text-sm text-secondary outline-none focus:border-primary transition-all resize-none"
                       />
                     </div>
                   </div>
@@ -424,7 +460,7 @@ export default function MarketPaymentProcessingForm() {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="px-8 py-4 rounded-2xl bg-primary text-primary-bg font-semibold text-sm hover:opacity-90 transition-all">
+                className="px-8 py-4 rounded-2xl bg-primary text-primary-bg font-semibold text-sm hover:opacity-90 transition-all cursor-pointer">
                 Submit Form
               </button>
             </div>

@@ -212,29 +212,50 @@ const ContactForm = () => {
     <section className="bg-primary-bg">
       <Container>
         <div className="py-10 md:py-14 space-y-8">
-          <div className="ui-card bg-white/80 p-6 md:p-8 space-y-4">
-            <p className="text-primary text-xs md:text-sm font-semibold tracking-widest uppercase">
-              Contact Scotty Pumpkin Team
-            </p>
-            <h1 className="text-2xl md:text-4xl font-black text-secondary leading-tight">
-              Need Help With SPUMP, Marketplace, or Your Creator Shop?
-            </h1>
-            <p className="text-secondary/90 text-sm md:text-base leading-relaxed max-w-3xl">
-              Send us your request and our support team will reach you soon. We
-              can help with account setup, technical issues, payment flow
-              questions, or onboarding your shop and products into the Scotty
-              ecosystem.
-            </p>
-            <div className="flex flex-wrap gap-2 pt-1">
-              <span className="ui-badge border-violet-400/80 bg-violet-500/80 text-white">
-                Fast Support
+          <div>
+            <div className="flex items-start gap-5 mb-12 pb-8 border-b border-secondary/10">
+              <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
+                📜
+              </div>
+              <div>
+                <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-2">
+                  Contact Scotty Pumpkin Team
+                </p>
+                <h1 className="text-5xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
+                  Need Help With <span className="text-primary">SPUMP</span>,{" "}
+                  <br />
+                  Marketplace or Your Creator Shop?
+                </h1>
+              </div>
+            </div>
+
+            <div className="flex gap-5 pb-6 items-start border-b border-secondary/[0.07]">
+              <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+                01
               </span>
-              <span className="ui-badge border-primary/50 bg-primary/80 text-white">
-                Web3 Commerce
+              <p className="flex-1 text-[15px] leading-[1.75] text-secondary/80 font-light m-0">
+                Send us your request and our support team will reach you soon.
+                We can help with account setup, technical issues, payment flow
+                questions, or onboarding your shop and products into the Scotty
+                ecosystem.
+              </p>
+            </div>
+
+            <div className="flex gap-5 pt-6 items-start">
+              <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+                02
               </span>
-              <span className="ui-badge border-emerald-400/80 bg-gray-600 text-white">
-                Secure Handling
-              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs text-secondary/80">
+                  Fast Support
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs text-secondary/80">
+                  Web3 Commerce
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-primary/15 text-xs text-secondary/80">
+                  Secure Handling
+                </span>
+              </div>
             </div>
           </div>
 

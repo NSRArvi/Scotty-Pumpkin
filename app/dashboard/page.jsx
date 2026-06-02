@@ -11,21 +11,42 @@ import {
   DialogTitle,
 } from "@/app/components/ui/dialog";
 import { Toaster, toast } from "sonner";
+import Image from "next/image";
 
 // Skeleton Loader Component
 function SkeletonRow() {
   return (
     <tr className="animate-pulse border-b border-white/10">
-      <td className="px-4 py-3"><div className="h-4 w-20 rounded bg-white/10"></div></td>
-      <td className="px-4 py-3"><div className="h-4 w-32 rounded bg-white/10"></div></td>
-      <td className="px-4 py-3"><div className="h-4 w-24 rounded bg-white/10"></div></td>
-      <td className="px-4 py-3"><div className="h-4 w-16 rounded bg-white/10"></div></td>
-      <td className="px-4 py-3"><div className="h-4 w-16 rounded bg-white/10"></div></td>
-      <td className="px-4 py-3"><div className="h-6 w-12 rounded-full bg-white/10"></div></td>
-      <td className="px-4 py-3"><div className="h-6 w-12 rounded-full bg-white/10"></div></td>
-      <td className="px-4 py-3"><div className="h-8 w-16 rounded bg-white/10"></div></td>
-      <td className="px-4 py-3"><div className="h-8 w-16 rounded bg-white/10"></div></td>
-      <td className="px-4 py-3"><div className="h-8 w-16 rounded bg-white/10"></div></td>
+      <td className="px-4 py-3">
+        <div className="h-4 w-20 rounded bg-white/10"></div>
+      </td>
+      <td className="px-4 py-3">
+        <div className="h-4 w-32 rounded bg-white/10"></div>
+      </td>
+      <td className="px-4 py-3">
+        <div className="h-4 w-24 rounded bg-white/10"></div>
+      </td>
+      <td className="px-4 py-3">
+        <div className="h-4 w-16 rounded bg-white/10"></div>
+      </td>
+      <td className="px-4 py-3">
+        <div className="h-4 w-16 rounded bg-white/10"></div>
+      </td>
+      <td className="px-4 py-3">
+        <div className="h-6 w-12 rounded-full bg-white/10"></div>
+      </td>
+      <td className="px-4 py-3">
+        <div className="h-6 w-12 rounded-full bg-white/10"></div>
+      </td>
+      <td className="px-4 py-3">
+        <div className="h-8 w-16 rounded bg-white/10"></div>
+      </td>
+      <td className="px-4 py-3">
+        <div className="h-8 w-16 rounded bg-white/10"></div>
+      </td>
+      <td className="px-4 py-3">
+        <div className="h-8 w-16 rounded bg-white/10"></div>
+      </td>
     </tr>
   );
 }
@@ -37,9 +58,9 @@ function DocumentViewer({ path, type }) {
   }
 
   const fullUrl = `https://server.scottypumpkin.com/${path}`;
-  const fileExtension = path?.split('.')?.pop()?.toLowerCase() || '';
-  const isPdf = fileExtension === 'pdf';
-  const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(fileExtension);
+  const fileExtension = path?.split(".")?.pop()?.toLowerCase() || "";
+  const isPdf = fileExtension === "pdf";
+  const isImage = ["jpg", "jpeg", "png", "gif", "webp"].includes(fileExtension);
 
   return (
     <div className="space-y-3">
@@ -49,21 +70,22 @@ function DocumentViewer({ path, type }) {
 
       {isImage ? (
         <div className="rounded-lg border border-white/10 overflow-hidden bg-black/30">
-          <img
+          <Image
+            width={1000}
+            height={1000}
             src={fullUrl}
             alt="Document"
             className="w-full h-auto max-h-96 object-contain"
             onError={(e) => {
-              e.target.style.display = 'none';
+              e.target.style.display = "none";
               if (e.target.nextElementSibling) {
-                e.target.nextElementSibling.style.display = 'block';
+                e.target.nextElementSibling.style.display = "block";
               }
             }}
           />
           <div
-            style={{ display: 'none' }}
-            className="flex items-center justify-center h-48 bg-black/50 text-white/50 text-sm"
-          >
+            style={{ display: "none" }}
+            className="flex items-center justify-center h-48 bg-black/50 text-white/50 text-sm">
             Failed to load image
           </div>
         </div>
@@ -80,16 +102,19 @@ function DocumentViewer({ path, type }) {
           <div className="flex items-center gap-3">
             <div className="text-3xl">📄</div>
             <div>
-              <p className="text-sm font-semibold text-white">{path.split('/').pop()}</p>
-              <p className="text-xs text-white/50">File type: {fileExtension.toUpperCase()}</p>
+              <p className="text-sm font-semibold text-white">
+                {path.split("/").pop()}
+              </p>
+              <p className="text-xs text-white/50">
+                File type: {fileExtension.toUpperCase()}
+              </p>
             </div>
           </div>
           <a
             href={fullUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block rounded-lg border border-blue-400/40 bg-blue-400/15 px-3 py-1.5 text-xs font-semibold text-blue-300 hover:bg-blue-400/25 transition-all"
-          >
+            className="inline-block rounded-lg border border-blue-400/40 bg-blue-400/15 px-3 py-1.5 text-xs font-semibold text-blue-300 hover:bg-blue-400/25 transition-all">
             Download File →
           </a>
         </div>
@@ -213,8 +238,7 @@ export default function DashboardPage() {
           <button
             type="button"
             onClick={handleLogout}
-            className="rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-white/70 hover:bg-white/10"
-          >
+            className="rounded-lg border border-white/20 bg-white/5 px-3 py-1.5 text-xs font-bold uppercase tracking-widest text-white/70 hover:bg-white/10">
             Logout
           </button>
         </div>
@@ -222,10 +246,10 @@ export default function DashboardPage() {
           Bank transfer requests submitted by users will appear here.
           <br />
           You can verify the details of each request and approve them once
-          verified. 
+          verified.
           <br />
-          Click on details to view additional information about each
-          transfer request.
+          Click on details to view additional information about each transfer
+          request.
         </p>
 
         {isLoading ? (
@@ -295,15 +319,13 @@ export default function DashboardPage() {
                         <td className="px-4 py-3">{item.spumpCount ?? "-"}</td>
                         <td className="px-4 py-3">
                           <span
-                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${item.formVerification ? "bg-emerald-400/15 text-emerald-300" : "bg-white/10 text-white/50"}`}
-                          >
+                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${item.formVerification ? "bg-emerald-400/15 text-emerald-300" : "bg-white/10 text-white/50"}`}>
                             {item.formVerification ? "Yes" : "No"}
                           </span>
                         </td>
                         <td className="px-4 py-3">
                           <span
-                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${item.approveTransfer ? "bg-emerald-400/15 text-emerald-300" : "bg-white/10 text-white/50"}`}
-                          >
+                            className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${item.approveTransfer ? "bg-emerald-400/15 text-emerald-300" : "bg-white/10 text-white/50"}`}>
                             {item.approveTransfer ? "Yes" : "No"}
                           </span>
                         </td>
@@ -312,8 +334,7 @@ export default function DashboardPage() {
                             type="button"
                             onClick={() => openActionWarning("verify", item)}
                             disabled={item.formVerification}
-                            className="rounded-lg border border-amber-300/30 bg-amber-300/10 px-2.5 py-1.5 text-xs font-semibold text-amber-200 disabled:cursor-not-allowed disabled:opacity-40"
-                          >
+                            className="rounded-lg border border-amber-300/30 bg-amber-300/10 px-2.5 py-1.5 text-xs font-semibold text-amber-200 disabled:cursor-not-allowed disabled:opacity-40">
                             Verify
                           </button>
                         </td>
@@ -322,8 +343,7 @@ export default function DashboardPage() {
                             type="button"
                             onClick={() => openActionWarning("approve", item)}
                             disabled={item.approveTransfer}
-                            className="rounded-lg border border-emerald-300/30 bg-emerald-300/10 px-2.5 py-1.5 text-xs font-semibold text-emerald-200 disabled:cursor-not-allowed disabled:opacity-40"
-                          >
+                            className="rounded-lg border border-emerald-300/30 bg-emerald-300/10 px-2.5 py-1.5 text-xs font-semibold text-emerald-200 disabled:cursor-not-allowed disabled:opacity-40">
                             Approve
                           </button>
                         </td>
@@ -331,8 +351,7 @@ export default function DashboardPage() {
                           <button
                             type="button"
                             onClick={() => openDetails(item)}
-                            className="rounded-lg border border-white/20 bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-white/20"
-                          >
+                            className="rounded-lg border border-white/20 bg-white/10 px-2.5 py-1.5 text-xs font-semibold text-white hover:bg-white/20">
                             Details
                           </button>
                         </td>
@@ -342,8 +361,7 @@ export default function DashboardPage() {
                     <tr>
                       <td
                         className="px-4 py-6 text-center text-white/50"
-                        colSpan={10}
-                      >
+                        colSpan={10}>
                         No bank transfer forms found.
                       </td>
                     </tr>
@@ -366,35 +384,56 @@ export default function DashboardPage() {
 
           <div className="mt-5 grid grid-cols-1 gap-4 text-sm text-white/80 md:grid-cols-2">
             <div className="rounded-lg bg-white/5 border border-white/10 p-3">
-              <span className="text-xs text-white/50 uppercase tracking-wider">Name</span>
-              <p className="mt-1 font-semibold text-white">{selectedForm?.name || "-"}</p>
+              <span className="text-xs text-white/50 uppercase tracking-wider">
+                Name
+              </span>
+              <p className="mt-1 font-semibold text-white">
+                {selectedForm?.name || "-"}
+              </p>
             </div>
             <div className="rounded-lg bg-white/5 border border-white/10 p-3">
-              <span className="text-xs text-white/50 uppercase tracking-wider">Email</span>
-              <p className="mt-1 break-all font-semibold text-white">{selectedForm?.email || "-"}</p>
+              <span className="text-xs text-white/50 uppercase tracking-wider">
+                Email
+              </span>
+              <p className="mt-1 break-all font-semibold text-white">
+                {selectedForm?.email || "-"}
+              </p>
             </div>
             <div className="rounded-lg bg-white/5 border border-white/10 p-3">
-              <span className="text-xs text-white/50 uppercase tracking-wider">Mobile</span>
-              <p className="mt-1 font-semibold text-white">{selectedForm?.mobileCode} {selectedForm?.mobile || "-"}</p>
+              <span className="text-xs text-white/50 uppercase tracking-wider">
+                Mobile
+              </span>
+              <p className="mt-1 font-semibold text-white">
+                {selectedForm?.mobileCode} {selectedForm?.mobile || "-"}
+              </p>
             </div>
             <div className="rounded-lg bg-white/5 border border-white/10 p-3">
-              <span className="text-xs text-white/50 uppercase tracking-wider">Amount</span>
-              <p className="mt-1 font-semibold text-amber-300">${selectedForm?.userAmount ?? "-"}</p>
+              <span className="text-xs text-white/50 uppercase tracking-wider">
+                Amount
+              </span>
+              <p className="mt-1 font-semibold text-amber-300">
+                ${selectedForm?.userAmount ?? "-"}
+              </p>
             </div>
             <div className="rounded-lg bg-white/5 border border-white/10 p-3">
-              <span className="text-xs text-white/50 uppercase tracking-wider">SPUMP</span>
-              <p className="mt-1 font-semibold text-amber-300">{selectedForm?.spumpCount ?? "-"}</p>
+              <span className="text-xs text-white/50 uppercase tracking-wider">
+                SPUMP
+              </span>
+              <p className="mt-1 font-semibold text-amber-300">
+                {selectedForm?.spumpCount ?? "-"}
+              </p>
             </div>
             <div className="rounded-lg bg-white/5 border border-white/10 p-3">
-              <span className="text-xs text-white/50 uppercase tracking-wider">Status</span>
+              <span className="text-xs text-white/50 uppercase tracking-wider">
+                Status
+              </span>
               <div className="mt-2 flex gap-2">
                 <span
                   className={`inline-flex rounded-full px-2 py-0.5 text-xs font-semibold ${
                     selectedForm?.formVerification
                       ? "bg-emerald-400/15 text-emerald-300"
                       : "bg-white/10 text-white/50"
-                  }`}
-                >
+                  }`}>
                   Verified: {selectedForm?.formVerification ? "✓" : "✗"}
                 </span>
                 <span
@@ -402,27 +441,42 @@ export default function DashboardPage() {
                     selectedForm?.approveTransfer
                       ? "bg-emerald-400/15 text-emerald-300"
                       : "bg-white/10 text-white/50"
-                  }`}
-                >
+                  }`}>
                   Approved: {selectedForm?.approveTransfer ? "✓" : "✗"}
                 </span>
               </div>
             </div>
             <div className="rounded-lg bg-white/5 border border-white/10 p-3">
-              <span className="text-xs text-white/50 uppercase tracking-wider">ID</span>
-              <p className="mt-1 break-all font-mono text-xs text-white">{selectedForm?.id || "-"}</p>
+              <span className="text-xs text-white/50 uppercase tracking-wider">
+                ID
+              </span>
+              <p className="mt-1 break-all font-mono text-xs text-white">
+                {selectedForm?.id || "-"}
+              </p>
             </div>
             <div className="rounded-lg bg-white/5 border border-white/10 p-3">
-              <span className="text-xs text-white/50 uppercase tracking-wider">Reference</span>
-              <p className="mt-1 font-mono text-xs text-white">{selectedForm?.referenceNo || "-"}</p>
+              <span className="text-xs text-white/50 uppercase tracking-wider">
+                Reference
+              </span>
+              <p className="mt-1 font-mono text-xs text-white">
+                {selectedForm?.referenceNo || "-"}
+              </p>
             </div>
             <div className="rounded-lg bg-white/5 border border-white/10 p-3 md:col-span-2">
-              <span className="text-xs text-white/50 uppercase tracking-wider">Wallet Address</span>
-              <p className="mt-1 break-all font-mono text-xs text-white">{selectedForm?.walletAddress || "-"}</p>
+              <span className="text-xs text-white/50 uppercase tracking-wider">
+                Wallet Address
+              </span>
+              <p className="mt-1 break-all font-mono text-xs text-white">
+                {selectedForm?.walletAddress || "-"}
+              </p>
             </div>
             <div className="rounded-lg bg-white/5 border border-white/10 p-3">
-              <span className="text-xs text-white/50 uppercase tracking-wider">Created</span>
-              <p className="mt-1 text-xs text-white">{selectedForm?.created_at || "-"}</p>
+              <span className="text-xs text-white/50 uppercase tracking-wider">
+                Created
+              </span>
+              <p className="mt-1 text-xs text-white">
+                {selectedForm?.created_at || "-"}
+              </p>
             </div>
           </div>
 
@@ -438,8 +492,7 @@ export default function DashboardPage() {
             <DialogClose asChild>
               <button
                 type="button"
-                className="rounded-lg border border-white/20 px-4 py-2 text-sm text-white/80 hover:bg-white/10"
-              >
+                className="rounded-lg border border-white/20 px-4 py-2 text-sm text-white/80 hover:bg-white/10">
                 Close
               </button>
             </DialogClose>
@@ -453,8 +506,7 @@ export default function DashboardPage() {
           if (!open) {
             closeActionWarning();
           }
-        }}
-      >
+        }}>
         <DialogContent className="max-w-lg border-amber-300/30 bg-[#1a1020]">
           <DialogHeader>
             <DialogTitle className="text-amber-200">
@@ -479,16 +531,14 @@ export default function DashboardPage() {
               type="button"
               onClick={closeActionWarning}
               disabled={actionState.loading}
-              className="rounded-lg border border-white/20 px-4 py-2 text-sm text-white/80 disabled:opacity-50"
-            >
+              className="rounded-lg border border-white/20 px-4 py-2 text-sm text-white/80 disabled:opacity-50">
               Cancel
             </button>
             <button
               type="button"
               onClick={runAdminAction}
               disabled={actionState.loading}
-              className="rounded-lg border border-amber-300/40 bg-amber-300/15 px-4 py-2 text-sm font-semibold text-amber-100 disabled:opacity-50"
-            >
+              className="rounded-lg border border-amber-300/40 bg-amber-300/15 px-4 py-2 text-sm font-semibold text-amber-100 disabled:opacity-50">
               {actionState.loading ? "Processing..." : "Confirm Action"}
             </button>
           </div>

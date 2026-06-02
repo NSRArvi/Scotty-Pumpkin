@@ -26,7 +26,7 @@ export default function Hero() {
               </div>
 
               {/* Circle Line */}
-              <div className="absolute h-107.5 w-107.5 rounded-full border border-primary/15" />
+              <div className="absolute h-95 md:h-107.5 w-90 md:w-107.5 rounded-full border border-primary/15" />
 
               {/* Floating Icon Left Top */}
               <div className="absolute left-2 top-14 animate-float-slow">

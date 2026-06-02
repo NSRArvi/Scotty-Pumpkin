@@ -10,6 +10,44 @@ const SEGMENTS = [
   { pct: 10, color: "#f59e0b", label: "Community Welfare" },
   { pct: 10, color: "#ec4899", label: "Other" },
 ];
+const cards = [
+  {
+    pct: 60,
+    label: "Ecosystem Growth & Innovation",
+    desc: "Focused on expanding the ecosystem through continuous development, liquidity enhancement, AI-driven systems, and advanced technologies to support long-term scalability and stability.",
+    icon: "🏛️",
+    color: "#22c55e",
+  },
+  {
+    pct: 10,
+    label: "SPUMP Reserves",
+    desc: "Liquidity held in secure investment accounts for platform stability.",
+    icon: "🔐",
+    color: "#a78bfa",
+  },
+  {
+    pct: 10,
+    label: "SPUMP Operating Costs",
+    desc: "Infrastructure, administration, security, and ongoing support.",
+    icon: "⚙️",
+    color: "#60a5fa",
+    points: ["Infrastructure", "Administration", "Security & support"],
+  },
+  {
+    pct: 10,
+    label: "Social & Community Welfare",
+    desc: "Invested into community projects and creator support programs.",
+    icon: "🌟",
+    color: "#f59e0b",
+  },
+  {
+    pct: 10,
+    label: "Other Ecosystem Growth",
+    desc: "Flexible allocation for new partnerships and platform expansion.",
+    icon: "🚀",
+    color: "#ec4899",
+  },
+];
 
 function DonutChart() {
   const [animated, setAnimated] = useState(false);
@@ -110,29 +148,31 @@ function CountUp({ to, duration = 1500 }) {
 
 export default function SpumpEconomicEnginePage() {
   return (
-    <section className="bg-primary-bg relative z-10py-12 md:py-16 lg:py-24 ">
+    <section className="bg-primary-bg relative z-10 py-12 md:py-16 lg:py-24 ">
       <Container>
         <div className="space-y-12 md:space-y-16">
-          {/* ── Hero ── */}
-          <div
-            className="bg-white/80 rounded-2xl p-6 md:p-9 text-center space-y-4"
-            style={{ animation: "sp-fade-up 0.7s ease both" }}>
-            <div className="sp-hero-kicker mx-auto">
-              <span className="text-primary">Scotty Pumpkin Ecosystem</span>
+          <div className="flex items-start gap-5 pb-8 border-b border-secondary/10">
+            <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
+              ⚙️
             </div>
-            <div className="flex items-center justify-center gap-1 md:gap-2">
-              <span className="text-xl md:text-4xl">⚙️</span>
-              <h1 className="text-xl sm:text-4xl md:text-5xl font-black text-primary leading-tight">
-                SPUMP Economic Engine
+            <div>
+              <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-2">
+                Scotty Pumpkin Ecosystem
+              </p>
+
+              <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
+                SPUMP Economic <br />
+                <span className="text-primary italic">Engine</span>
               </h1>
             </div>
-            <p className="text-secondary/80 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-              Scotty Pumpkin’s approach to revenue inflows is focused on
-              developing the ecosystem and supporting long-term sustainability
-              through platform growth, technological innovation, AI integration,
-              and advanced system development.
-            </p>
           </div>
+
+          <p className="flex-1 text-[15px] leading-[1.75] text-secondary/80 font-light m-0">
+            Scotty Pumpkin's approach to revenue inflows is focused on
+            developing the ecosystem and supporting long-term sustainability
+            through platform growth, technological innovation, AI integration,
+            and advanced system development.
+          </p>
 
           <div className="sp-divider" />
 
@@ -233,48 +273,7 @@ export default function SpumpEconomicEnginePage() {
 
               {/* Allocation cards */}
               <div className="lg:col-span-3 space-y-4">
-                {[
-                  {
-                    pct: 60,
-                    label: "Ecosystem Growth & Innovation",
-                    desc: "Focused on expanding the ecosystem through continuous development, liquidity enhancement, AI-driven systems, and advanced technologies to support long-term scalability and stability.",
-                    icon: "🏛️",
-                    color: "#22c55e",
-                  },
-                  {
-                    pct: 10,
-                    label: "SPUMP Reserves",
-                    desc: "Liquidity held in secure investment accounts for platform stability.",
-                    icon: "🔐",
-                    color: "#a78bfa",
-                  },
-                  {
-                    pct: 10,
-                    label: "SPUMP Operating Costs",
-                    desc: "Infrastructure, administration, security, and ongoing support.",
-                    icon: "⚙️",
-                    color: "#60a5fa",
-                    points: [
-                      "Infrastructure",
-                      "Administration",
-                      "Security & support",
-                    ],
-                  },
-                  {
-                    pct: 10,
-                    label: "Social & Community Welfare",
-                    desc: "Invested into community projects and creator support programs.",
-                    icon: "🌟",
-                    color: "#f59e0b",
-                  },
-                  {
-                    pct: 10,
-                    label: "Other Ecosystem Growth",
-                    desc: "Flexible allocation for new partnerships and platform expansion.",
-                    icon: "🚀",
-                    color: "#ec4899",
-                  },
-                ].map((item, i) => (
+                {cards.map((item, i) => (
                   <div
                     key={i}
                     className="sp-alloc-card rounded-2xl p-5"

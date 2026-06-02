@@ -42,16 +42,19 @@ export default function MarketplacePaymentProtectionProcedure() {
     <section className="bg-primary-bg">
       <Container>
         <div className="py-10">
-          <div className="mb-10">
-            <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-3 flex items-center gap-2 before:content-[''] before:inline-block before:w-6 before:h-px before:bg-secondary/30">
-              SPUMP Marketplace
-            </p>
-            <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
-              Payment Protection
-              <br />
-              <span className="text-primary italic">Procedure</span>
-            </h1>
-            <div className="w-10 h-0.5 bg-secondary/10 mt-4" />
+          <div className="flex items-start gap-5 mb-12 pb-8 border-b border-secondary/10">
+            <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
+              💰
+            </div>
+            <div>
+              <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-2">
+                SPUMP Marketplace
+              </p>
+              <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
+                Payment Protection <br />
+                <span className="text-primary italic">Procedure</span>
+              </h1>
+            </div>
           </div>
 
           <div className="divide-y divide-secondary/10 border-t border-secondary/10">

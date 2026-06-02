@@ -218,41 +218,43 @@ export default function LegalPackPage() {
       <section className="relative bg-primary-bg z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
         <div className="max-w-5xl mx-auto space-y-10 md:space-y-14">
           {/* ── Hero ── */}
-          <div className="sp-hero-card rounded-2xl p-8 md:p-10 text-center space-y-5">
-            <div
-              style={{ animation: "sp-float 4s ease-in-out infinite" }}
-              className="text-5xl md:text-6xl">
-              ⚖️
+
+          <div>
+            <div className="flex items-start gap-5 mb-12 pb-8 border-b border-secondary/10">
+              <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
+                ⚖️
+              </div>
+              <div>
+                <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-2">
+                  Scotty Pumpkin Eco Market System
+                </p>
+
+                <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
+                  Master Legal &amp; Compliance <br />
+                  <span className="text-primary italic">Pack</span>
+                </h1>
+              </div>
             </div>
-            <div className="space-y-2">
-              <p className="text-secondary text-xs font-bold uppercase tracking-widest">
-                Scotty Pumpkin Eco Market System
-              </p>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-secondary">
-                Master Legal &amp; Compliance Pack
-              </h1>
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
-              <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
-                England &amp; Wales
+
+            {/* Meta pills row */}
+            <div className="flex gap-5 items-start">
+              <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+                01
               </span>
-              <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
-                GDPR Enhanced
-              </span>
-              <span
-                className="text-xs font-semibold px-3 py-1 rounded-full"
-                style={{
-                  background: "rgba(255,255,255,1)",
-                  border: "1px solid rgba(241,112,5,0.15)",
-                  color: "#0f2027",
-                  backdropFilter: "blur(12px)",
-                }}>
-                AML Compliant
-              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs text-secondary/80">
+                  🏛️ England &amp; Wales
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs text-secondary/80">
+                  🔒 GDPR Enhanced
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-primary/15 text-xs text-secondary/80">
+                  ✅ AML Compliant
+                </span>
+              </div>
             </div>
           </div>
 
-          {/* ── Legal Entity Structure ── */}
           <div className="sp-entity-card rounded-2xl p-5 md:p-6 space-y-4">
             <div className="space-y-1">
               <p className="sp-entity-title">Legal Entity Structure</p>
@@ -387,7 +389,6 @@ export default function LegalPackPage() {
 
               <div className="sp-divider" />
 
-              {/* Sub-sections */}
               <div className="space-y-4">
                 {current.subsections.map((sub, i) => {
                   const cardClass = sub.isWarning
@@ -403,14 +404,12 @@ export default function LegalPackPage() {
                         {sub.title}
                       </h3>
 
-                      {/* Intro text */}
                       {sub.intro && (
                         <p className="text-secondary/80 text-xs mb-3 italic">
                           {sub.intro}
                         </p>
                       )}
 
-                      {/* Paragraph */}
                       {sub.content && (
                         <p
                           className={`text-sm md:text-base leading-relaxed ${sub.isWarning ? "text-red-400" : sub.isContact ? "text-secondary/70" : "text-secondary/80"}`}>
@@ -418,7 +417,6 @@ export default function LegalPackPage() {
                         </p>
                       )}
 
-                      {/* Highlight callout */}
                       {sub.highlight && (
                         <div
                           className="mt-3 flex items-center gap-2 rounded-xl px-4 py-2.5"
@@ -433,7 +431,6 @@ export default function LegalPackPage() {
                         </div>
                       )}
 
-                      {/* Item list */}
                       {sub.items && (
                         <div className="space-y-2 mt-1">
                           {sub.items.map((item, ii) => (
@@ -451,7 +448,6 @@ export default function LegalPackPage() {
                         </div>
                       )}
 
-                      {/* Allocation bars */}
                       {sub.allocation && (
                         <div className="space-y-3 mt-1">
                           {sub.allocation.map((row, ri) => (
@@ -481,7 +477,6 @@ export default function LegalPackPage() {
                         </div>
                       )}
 
-                      {/* Sub-footer */}
                       {sub.footer && (
                         <p className="text-white/35 text-xs italic mt-3">
                           {sub.footer}
@@ -496,7 +491,6 @@ export default function LegalPackPage() {
 
           <div className="sp-divider" />
 
-          {/* ── Footer ── */}
           <div className="sp-footer-note rounded-2xl p-6 text-center space-y-2">
             <p className="text-secondary/70 text-sm">
               For legal enquiries contact{" "}

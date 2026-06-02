@@ -1,10 +1,3 @@
-import {
-  Sparkles,
-  Store,
-  ShoppingBag,
-  ShoppingCart,
-  Coins,
-} from "lucide-react";
 import Container from "../shared/Container";
 import { PiExportBold } from "react-icons/pi";
 import { IoDiamondOutline } from "react-icons/io5";

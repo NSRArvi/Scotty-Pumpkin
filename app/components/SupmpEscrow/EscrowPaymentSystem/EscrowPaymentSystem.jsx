@@ -32,7 +32,7 @@ export default function EscrowPaymentSystem() {
       <Container>
         <div className="flex items-start gap-5 mb-12 pb-8 border-b border-secondary/10">
           <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
-            🔐
+            💳
           </div>
           <div>
             <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-2">

@@ -87,40 +87,52 @@ export default function EcoFinancialPage() {
         <Container>
           <div className="max-w-5xl mx-auto space-y-10 md:space-y-14">
             {/* ── Hero ── */}
-            <div className="sp-hero-card rounded-2xl p-8 md:p-10 text-center space-y-5">
-              <div
-                style={{ animation: "sp-float 4s ease-in-out infinite" }}
-                className="text-5xl md:text-6xl">
-                💎
+            <div>
+              <div className="flex items-start gap-5 mb-12 pb-8 border-b border-secondary/10">
+                <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
+                  💎
+                </div>
+                <div>
+                  <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-2">
+                    Scotty Pumpkin Eco Market System
+                  </p>
+                  <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
+                    Eco Financial <br />
+                    <span className="text-primary italic">System</span>
+                  </h1>
+                </div>
               </div>
-              <div className="space-y-2">
-                <p className="text-primary text-xs font-bold uppercase tracking-widest">
-                  Scotty Pumpkin Eco Market System
-                </p>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-secondary">
-                  Eco Financial System
-                </h1>
-                <p className="text-secondary/70 text-sm md:text-base max-w-lg mx-auto leading-relaxed pt-1">
+
+              <div className="flex gap-5 pb-6 items-start border-b border-secondary/[0.07]">
+                <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+                  01
+                </span>
+                <p className="flex-1 text-[15px] leading-[1.75] text-secondary/70 font-light m-0">
                   Financial Allocation &amp; Token Market Clarification Notice
                 </p>
               </div>
-              <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
-                <span className="bg-orange-100 border border-orange-200 text-orange-800 text-[11px] font-bold px-3 py-1 rounded-full">
-                  Utility Token Only
+
+              <div className="flex gap-5 pt-6 items-start">
+                <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+                  02
                 </span>
-                <span className="bg-orange-100 border border-orange-200 text-orange-800 text-[11px] font-bold px-3 py-1 rounded-full">
-                  SPL · Solana
-                </span>
-                <span className="bg-slate-100 border border-slate-200 text-slate-800 text-[11px] font-bold px-3 py-1 rounded-full">
-                  60/10/10/10/10 Model
-                </span>
-                <span className="bg-orange-600 text-white text-[11px] font-bold px-3 py-1 rounded-full ">
-                  Non-Investment
-                </span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs text-secondary/80">
+                    🔖 Utility Token Only
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs text-secondary/80">
+                    ◎ SPL · Solana
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-primary/15 text-xs text-secondary/80">
+                    📊 60/10/10/10/10 Model
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary text-white text-xs">
+                    🚫 Non-Investment
+                  </span>
+                </div>
               </div>
             </div>
 
-            {/* ── Red Disclaimer Banner ── */}
             <div className="sp-disclaimer rounded-2xl px-6 py-4 flex items-start gap-4">
               <span className="text-2xl shrink-0 mt-0.5">⚠️</span>
               <p className="text-red-400 text-sm md:text-base leading-relaxed">
@@ -141,7 +153,6 @@ export default function EcoFinancialPage() {
 
             <div className="sp-divider" />
 
-            {/* ── Allocation Model ── */}
             <div className="space-y-5">
               <div className="flex items-center gap-3">
                 <span className="text-2xl">📊</span>
@@ -152,7 +163,6 @@ export default function EcoFinancialPage() {
 
               <div className="sp-alloc-card rounded-2xl p-6 md:p-8">
                 <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
-                  {/* SVG Donut chart */}
                   <div className="sp-ring-wrap shrink-0">
                     <svg
                       viewBox="0 0 160 160"
@@ -190,7 +200,6 @@ export default function EcoFinancialPage() {
                     </div>
                   </div>
 
-                  {/* Bars */}
                   <div className="flex-1 w-full space-y-4">
                     {ALLOCATION.map((row, i) => (
                       <div key={i} className="space-y-1.5">
@@ -222,7 +231,6 @@ export default function EcoFinancialPage() {
               </div>
             </div>
 
-            {/* ── No Rights ── */}
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <span className="text-2xl">🚫</span>
@@ -248,7 +256,6 @@ export default function EcoFinancialPage() {
                 </div>
               </div>
 
-              {/* SPUMP utility callout */}
               <div
                 className="rounded-2xl px-6 py-5 flex items-center gap-4"
                 style={{
@@ -288,7 +295,7 @@ export default function EcoFinancialPage() {
                 {MARKET_CARDS.map((card) => (
                   <div
                     key={card.id}
-                    className="sp-market-car"
+                    className="sp-market-car p-4"
                     style={{
                       background: card.bg,
                       border: `1px solid ${card.border}`,

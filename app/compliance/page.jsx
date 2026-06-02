@@ -89,45 +89,55 @@ export default function CompliancePage() {
     <>
       <section className="bg-primary-bg relative z-10 px-4 py-12 md:py-16 lg:py-24 lg:px-16">
         <div className="max-w-4xl mx-auto space-y-10 md:space-y-14">
-          {/* ── Hero ── */}
-          <div className="bg-white/80 rounded-2xl p-8 md:p-10 text-center space-y-4">
-            <div
-              style={{ animation: "sp-float 4s ease-in-out infinite" }}
-              className="text-5xl md:text-6xl">
-              📜
+          <div>
+            <div className="flex items-start gap-5 mb-12 pb-8 border-b border-secondary/10">
+              <div className="shrink-0 w-13 h-13 mt-1 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-2xl">
+                📜
+              </div>
+              <div>
+                <p className="text-[11px] font-medium tracking-[0.12em] uppercase text-secondary/70 mb-2">
+                  Scotty Pumpkin Ecosystem
+                </p>
+                <h1 className="text-5xl md:text-7xl font-extrabold leading-none tracking-tight mb-4 text-secondary">
+                  Compliance <span className="text-primary italic">Policy</span>
+                </h1>
+              </div>
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-secondary">
-              Compliance Policy
-            </h1>
-            <p className="text-secondary/80 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
-              How{" "}
-              <span className="font-bold text-secondary">Scotty Pumpkin</span>{" "}
-              operates responsibly within Web3 commerce, regulatory frameworks,
-              and user protection standards.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-              <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
-                Effective Date: February 26, 2026
+
+            <div className="flex gap-5 pb-6 items-start border-b border-secondary/[0.07]">
+              <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+                01
               </span>
-              <span className="bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full">
-                Web3 Commerce Infrastructure
+              <p className="flex-1 text-[15px] leading-[1.75] text-secondary/80 font-light m-0">
+                How{" "}
+                <span className="font-medium text-secondary">
+                  Scotty Pumpkin
+                </span>{" "}
+                operates responsibly within Web3 commerce, regulatory
+                frameworks, and user protection standards.
+              </p>
+            </div>
+
+            <div className="flex gap-5 pt-6 items-start">
+              <span className="shrink-0 text-[11px] font-medium text-primary tracking-wide pt-0.5 w-6 text-right">
+                02
               </span>
-              <span
-                className="text-xs font-semibold px-3 py-1 rounded-full"
-                style={{
-                  background: "rgba(255,255,255,1)",
-                  border: "1px solid rgba(241,112,5,0.15)",
-                  color: "#0f2027",
-                  backdropFilter: "blur(12px)",
-                }}>
-                AML Compliant
-              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs text-secondary/80">
+                  📅 Effective Date: February 26, 2026
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs text-secondary/80">
+                  🌐 Web3 Commerce Infrastructure
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-primary/15 text-xs text-secondary/80">
+                  ✅ AML Compliant
+                </span>
+              </div>
             </div>
           </div>
 
           <div className="sp-divider" />
 
-          {/* ── Sections ── */}
           <div className="space-y-4">
             {SECTIONS.map((section) => {
               const isOpen = activeSection === section.number;
@@ -170,19 +180,16 @@ export default function CompliancePage() {
                     </svg>
                   </div>
 
-                  {/* Body */}
                   {isOpen && (
                     <div className="sp-section-body px-6 pb-6 md:px-8 md:pb-7 space-y-4 border-t border-white/6">
                       <div className="h-1" />
 
-                      {/* Paragraph */}
                       {"content" in section && section.content && (
                         <p className="text-secondary/80 text-sm md:text-base leading-relaxed">
                           {section.content}
                         </p>
                       )}
 
-                      {/* Highlight box (escrow) */}
                       {"highlight" in section && section.highlight && (
                         <div className="sp-highlight-box rounded-xl px-4 py-3 flex items-center gap-3">
                           <span className="text-primary text-lg shrink-0">
@@ -194,7 +201,6 @@ export default function CompliancePage() {
                         </div>
                       )}
 
-                      {/* Allocation bars */}
                       {"allocation" in section && section.allocation && (
                         <div className="space-y-3">
                           {section.allocation.map((row, i) => (
@@ -224,7 +230,6 @@ export default function CompliancePage() {
                         </div>
                       )}
 
-                      {/* Items list — X marks for section 6 "not a..." */}
                       {"items" in section && section.items && (
                         <div className="space-y-2">
                           {section.items.map((item, i) => (
@@ -243,8 +248,6 @@ export default function CompliancePage() {
                           ))}
                         </div>
                       )}
-
-                      {/* Warning box for risk section */}
                       {isWarn && (
                         <div className="sp-warn-box rounded-xl px-4 py-3">
                           <p className="text-red-400 text-xs leading-relaxed">
@@ -255,7 +258,6 @@ export default function CompliancePage() {
                         </div>
                       )}
 
-                      {/* Footer note */}
                       {"footer" in section && section.footer && (
                         <p className="text-white/40 text-xs italic mt-1">
                           {section.footer}
@@ -270,7 +272,6 @@ export default function CompliancePage() {
 
           <div className="sp-divider" />
 
-          {/* ── Footer ── */}
           <div className="sp-footer-note rounded-2xl p-6 text-center space-y-2">
             <p className="text-secondary/80 text-sm leading-relaxed">
               For compliance inquiries, contact us at{" "}
