@@ -13,6 +13,7 @@ export default function Navbar() {
 
   const menuItems = [
     { label: "Home", href: "/" },
+    { label: "SPUMP Escrow", href: "/spump-escrow" },
     {
       label: "Get SPUMP",
       dropdown: [
@@ -27,7 +28,7 @@ export default function Navbar() {
         { label: "Get SPUMP Now", href: "/buy" },
       ],
     },
-    { label: "SPUMP Escrow", href: "/spump-escrow" },
+    
     {
       label: "Ecosystem",
       dropdown: [
@@ -87,7 +88,7 @@ export default function Navbar() {
                 Scotty Pumpkin
               </span>
             </Link>
-            <div className="hidden lg:flex items-center gap-3 text-base">
+            <div className="hidden lg:flex items-center gap-5 text-base">
               {menuItems.map((item) => (
                 <div key={item.label} className="relative group">
                   {item.dropdown ? (

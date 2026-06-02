@@ -3,29 +3,31 @@ import Container from "../components/shared/Container";
 const sections = [
   {
     index: "01",
-    title: "High Risk",
+    title: "Crypto speculation notice",
     content: [
       "Cryptocurrencies are volatile and high-risk digital assets.",
-      "The value of SPUMP, USFF, and other digital assets may increase or decrease rapidly. You may lose part or all of your investment.",
-      "You should only purchase or use cryptocurrencies if you fully understand the risks involved and can afford to bear potential losses.",
+      "The value of SPUMP, USFF, and other digital assets may increase or decrease rapidly.",
+      "You should only purchase or use cryptocurrencies if you fully understand the crypto market which can be volatile anytime and you can can afford to bear potential consequences.",
     ],
   },
   {
     index: "02",
-    title: "UK and International Risk Disclosure",
+    title: "UK and International Crypto Speculation Disclosure",
     content: [
-      "Investing in cryptoassets involves a high degree of risk and is not suitable for all investors.",
+      "Investing in cryptoassets involves a high degree of volatile price changes up or down and is not suitable for all investors.",
       "Cryptoassets are not regulated financial products in the United Kingdom and are not covered by the Financial Services Compensation Scheme (FSCS) or the Financial Ombudsman Service (FOS).",
       "You should carefully consider whether you understand how cryptoassets work before purchasing or using them.",
     ],
   },
   {
     index: "03",
-    title: "EU / France / French Risk Disclosure",
+    title: "EU / France / French Crypto Speculation Disclosure",
     content: [
-      "Les crypto-actifs sont volatils et présentent un risque élevé. Vous pouvez perdre tout ou partie de votre investissement.",
-      "Les crypto-actifs ne bénéficient pas nécessairement des protections réglementaires applicables aux instruments financiers traditionnels.",
-      "Avant toute utilisation, vous devez vous assurer que vous comprenez pleinement les risques associés.",
+      "INFORMATION SUR LES CRYPTO-ACTIFS ET LES MARCHÉS SPÉCULATIFS",
+      "L’utilisation et l’acquisition de crypto-actifs s’inscrivent dans des marchés spéculatifs dont la valeur peut varier fortement à la hausse comme à la baisse.",
+      "Les crypto-actifs tels que SPUMP, USFF et autres actifs numériques ne constituent pas des dépôts bancaires, des actions, des obligations, des instruments financiers traditionnels, ni des produits offrant un rendement garanti.",
+      "Les utilisateurs doivent s’assurer qu’ils comprennent le fonctionnement des crypto-actifs, des portefeuilles numériques, des transactions blockchain et des marchés associés avant toute acquisition, utilisation, détention, échange ou transfert de crypto-actifs.",
+      "Selon la juridiction applicable, certains crypto-actifs ou services associés peuvent ne pas bénéficier des protections réglementaires applicables aux produits financiers traditionnels. Les utilisateurs demeurent responsables du respect des lois et réglementations applicables dans leur pays de résidence ou d’utilisation."
     ],
   },
   {
@@ -42,7 +44,7 @@ const sections = [
   },
   {
     index: "05",
-    title: "Transaction Risks",
+    title: "Blockchain transections notice",
     bullets: [
       "Blockchain transactions are final and irreversible",
       "Transactions cannot be cancelled once confirmed",
@@ -65,7 +67,7 @@ const sections = [
       "The platform does not promise or provide any financial return or profit.",
     ],
     outro:
-      "The value of SPUMP and USFF may fluctuate significantly and may become worthless. Users assume full responsibility for any financial loss. All use of these digital assets is at the sole risk of the user. The platform provides technology and services only and does not act as a financial institution, broker, or investment advisor. By proceeding, you confirm that you understand and accept that no guarantees or entitlements are provided.",
+      "The value of SPUMP and USFF may fluctuate up or down significantly and the users assume full responsibility for any consequences to price changes. All use of these digital assets is at the sole risk of the user. The platform provides technology and services only and does not act as a financial institution, broker, or investment advisor. By proceeding, you confirm that you understand and accept that no guarantees or entitlements are provided.",
   },
 ];
 
