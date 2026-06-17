@@ -50,6 +50,7 @@ export default function Navbar() {
         { label: "Create - Mint your NFT", href: "/nft-studio" },
         { label: "Publish your NFT", href: "/nft-studio" },
         { label: "Purchase NFT", href: "/purchase" },
+        { label: "MarketPlace NFT", href: "/nft-marketplace" },
         {
           label: "Create your NFT website",
           href: "https://bfinit.com/bfinit-ecomerce-platform",
