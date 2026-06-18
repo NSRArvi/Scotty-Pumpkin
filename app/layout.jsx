@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import AppShell from "./components/shared/AppShell";
+import SolanaWalletProvider from "./components/WalletProvider";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -19,7 +20,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.className} min-h-screen text-white relative overflow-x-hidden antialiased`}>
-        <AppShell>{children}</AppShell>
+        <SolanaWalletProvider>
+          <AppShell>{children}</AppShell>
+        </SolanaWalletProvider>
       </body>
     </html>
   );

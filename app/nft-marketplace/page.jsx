@@ -1,7 +1,13 @@
+
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
 import Container from "../components/shared/Container";
+import { useSolanaWallet } from "@/hooks/useWallet";
+import WalletButton from "@/app/components/WalletButton";
+import BuyModal from "@/app/components/BuyModal";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 const CATEGORIES = ["all", "art", "fashion", "jewelry", "music", "video", "digital"];
@@ -27,8 +33,9 @@ function Spinner() {
 
 // ── NFT Card ──────────────────────────────────────────────────────────────
 
-function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode }) {
+function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySuccess }) {
   const [showListModal, setShowListModal] = useState(false);
+  const [showBuyModal, setShowBuyModal]   = useState(false);
   const [listPrice, setListPrice]         = useState(nft.list_price || "");
   const [loading, setLoading]             = useState(false);
   const isOwner = nft.wallet_address === walletAddress;
@@ -50,14 +57,11 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode }) {
   return (
     <>
       <div className="group rounded-2xl border border-white/8 bg-white/3 hover:border-white/15 transition-all overflow-hidden flex flex-col">
+        <Link href={`/nft-marketplace/${nft.mint_address || nft.id}`}>
         {/* Image */}
         <div className="relative aspect-square bg-white/4 overflow-hidden">
           {nft.image_url ? (
-            <img
-              src={nft.image_url}
-              alt={nft.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            />
+            <img src={nft.image_url} alt={nft.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-white/10">
               <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -66,28 +70,22 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode }) {
               </svg>
             </div>
           )}
-          {/* Category badge */}
-          <div className="absolute top-2 left-2">
-            <Badge color="gray">{nft.category}</Badge>
-          </div>
-          {/* Listed badge */}
-          {nft.is_listed && (
-            <div className="absolute top-2 right-2">
-              <Badge color="green">Listed</Badge>
-            </div>
-          )}
+          <div className="absolute top-2 left-2"><Badge color="gray">{nft.category}</Badge></div>
+          {nft.is_listed && <div className="absolute top-2 right-2"><Badge color="green">Listed</Badge></div>}
         </div>
-
+        </Link>
         {/* Info */}
         <div className="p-4 flex flex-col gap-3 flex-1">
           <div>
-            <p className="text-white font-semibold text-sm truncate">{nft.name}</p>
+            {/* NFT name → single page link */}
+            <Link href={`/nft-marketplace/${nft.mint_address || nft.id}`}>
+              <p className="text-white font-semibold text-sm truncate">{nft.name}</p>
+            </Link>
             <p className="text-white/30 text-xs font-mono truncate mt-0.5">
-              {nft.mint_address ? `${nft.mint_address.slice(0, 6)}...${nft.mint_address.slice(-4)}` : "—"}
+              {nft.mint_address ? `${nft.mint_address.slice(0,6)}...${nft.mint_address.slice(-4)}` : "—"}
             </p>
           </div>
 
-          {/* Price */}
           <div className="flex items-end justify-between">
             <div>
               <p className="text-white/30 text-[10px] uppercase tracking-wider mb-0.5">Price</p>
@@ -95,12 +93,9 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode }) {
                 {nft.is_listed ? `${parseFloat(nft.list_price).toFixed(3)} SOL` : "—"}
               </p>
             </div>
-            {nft.royalty > 0 && (
-              <p className="text-white/20 text-[10px]">{nft.royalty}% royalty</p>
-            )}
+            {nft.royalty > 0 && <p className="text-white/20 text-[10px]">{nft.royalty}% royalty</p>}
           </div>
 
-          {/* Actions */}
           <div className="mt-auto pt-2 border-t border-white/5 space-y-2">
             {isOwner || myNftsMode ? (
               nft.is_listed ? (
@@ -121,7 +116,10 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode }) {
                 </button>
               )
             ) : (
-              <button className="w-full py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-400 transition-colors cursor-pointer">
+              <button
+                onClick={() => setShowBuyModal(true)}
+                className="w-full py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-400 transition-colors cursor-pointer"
+              >
                 Buy Now
               </button>
             )}
@@ -129,12 +127,12 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode }) {
             {nft.mint_address && (
               <a
                 href={`https://explorer.solana.com/address/${nft.mint_address}?cluster=devnet`}
-                target="_blank"
-                rel="noreferrer"
+                target="_blank" rel="noreferrer"
                 className="block text-center text-white/25 text-[10px] hover:text-white/50 transition-colors"
               >
                 View on Explorer ↗
               </a>
+              
             )}
           </div>
         </div>
@@ -148,18 +146,12 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode }) {
               <p className="text-white font-bold text-lg">List NFT for Sale</p>
               <p className="text-white/40 text-sm mt-1 truncate">{nft.name}</p>
             </div>
-
-            {nft.image_url && (
-              <img src={nft.image_url} alt={nft.name} className="w-full h-40 object-cover rounded-xl" />
-            )}
-
+            {nft.image_url && <img src={nft.image_url} alt={nft.name} className="w-full h-40 object-cover rounded-xl" />}
             <div className="space-y-2">
               <label className="text-[11px] font-medium text-white/40 uppercase tracking-wider">Listing Price (SOL)</label>
               <div className="flex items-center gap-2">
                 <input
-                  type="number"
-                  min="0"
-                  step="0.001"
+                  type="number" min="0" step="0.001"
                   value={listPrice}
                   onChange={(e) => setListPrice(e.target.value)}
                   placeholder="e.g. 0.5"
@@ -168,14 +160,8 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode }) {
                 <span className="text-white/40 text-sm">SOL</span>
               </div>
             </div>
-
             <div className="flex gap-3">
-              <button
-                onClick={() => setShowListModal(false)}
-                className="flex-1 py-2.5 rounded-xl border border-white/10 text-white/50 text-sm font-semibold hover:bg-white/8 transition-all cursor-pointer"
-              >
-                Cancel
-              </button>
+              <button onClick={() => setShowListModal(false)} className="flex-1 py-2.5 rounded-xl border border-white/10 text-white/50 text-sm font-semibold hover:bg-white/8 transition-all cursor-pointer">Cancel</button>
               <button
                 onClick={handleList}
                 disabled={loading || !listPrice}
@@ -187,62 +173,89 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode }) {
           </div>
         </div>
       )}
+
+      {/* Buy Modal */}
+      {showBuyModal && (
+        <BuyModal
+          nft={nft}
+          buyerWallet={walletAddress}
+          onClose={() => setShowBuyModal(false)}
+          onSuccess={(data) => {
+            setShowBuyModal(false);
+            onBuySuccess && onBuySuccess();
+          }}
+        />
+      )}
     </>
+  );
+}
+
+// ── Newly Minted NFT Banner ───────────────────────────────
+// NFT Studio থেকে redirect হলে এই banner দেখাবে
+function NewlyMintedBanner({ mintAddress, onDismiss }) {
+  return (
+    <div className="mb-8 px-5 py-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-between gap-4 flex-wrap">
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
+          <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <div>
+          <p className="text-emerald-400 font-semibold text-sm">NFT minted successfully!</p>
+          <p className="text-white/30 text-xs font-mono truncate max-w-xs">{mintAddress}</p>
+        </div>
+      </div>
+      <div className="flex items-center gap-3">
+        <Link
+          href={`/nft-marketplace/${mintAddress}`}
+          className="px-4 py-2 rounded-xl bg-orange-500 text-white text-xs font-bold hover:bg-orange-400 transition-colors"
+        >
+          View NFT →
+        </Link>
+        <button
+          onClick={onDismiss}
+          className="text-white/30 hover:text-white/60 transition-colors text-lg leading-none"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
   );
 }
 
 // ── Main Page ─────────────────────────────────────────────────────────────
 
 export default function MarketplacePage() {
-  const [walletAddress, setWalletAddress] = useState("");
-  const [connected, setConnected]         = useState(false);
-  const [activeTab, setActiveTab]         = useState("marketplace"); // marketplace | my-nfts
+  const {
+    connected,
+    walletAddress,
+    walletIcon,
+    connect,
+  } = useSolanaWallet();
 
-  const [nfts, setNfts]           = useState([]);
-  const [myNfts, setMyNfts]       = useState([]);
-  const [loading, setLoading]     = useState(true);
-  const [error, setError]         = useState("");
-  const [toast, setToast]         = useState("");
+  const [activeTab, setActiveTab] = useState("marketplace");
 
-  const [search, setSearch]       = useState("");
-  const [category, setCategory]   = useState("all");
-  const [sort, setSort]           = useState("latest");
-  const [page, setPage]           = useState(1);
-  const [lastPage, setLastPage]   = useState(1);
+  const [nfts, setNfts]         = useState([]);
+  const [myNfts, setMyNfts]     = useState([]);
+  const [loading, setLoading]   = useState(true);
+  const [error, setError]       = useState("");
+  const [toast, setToast]       = useState("");
 
-  // ── Wallet ────────────────────────────────────────
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.solana?.isConnected) {
-      window.solana.connect({ onlyIfTrusted: true })
-        .then((r) => { setWalletAddress(r.publicKey.toString()); setConnected(true); })
-        .catch(() => {});
-    }
-  }, []);
+  const [search, setSearch]     = useState("");
+  const [category, setCategory] = useState("all");
+  const [sort, setSort]         = useState("latest");
+  const [page, setPage]         = useState(1);
+  const [lastPage, setLastPage] = useState(1);
 
-  async function connectWallet() {
-    try {
-      if (!window.solana) { alert("Install Phantom Wallet from https://phantom.app"); return; }
-      const r = await window.solana.connect();
-      setWalletAddress(r.publicKey.toString());
-      setConnected(true);
-    } catch (e) { setError(e.message); }
-  }
-
-  async function disconnectWallet() {
-    if (window.solana) await window.solana.disconnect();
-    setConnected(false);
-    setWalletAddress("");
-  }
-
-  // ── Fetch Marketplace NFTs ─────────────────────────
+  // ── Fetch Marketplace ──────────────────────────────
   const fetchMarketplace = useCallback(async () => {
     setLoading(true);
     setError("");
     try {
       const params = new URLSearchParams({ page, sort });
-      if (search)   params.append("search", search);
+      if (search) params.append("search", search);
       if (category !== "all") params.append("category", category);
-
       const res  = await fetch(`${API_URL}/marketplace?${params}`);
       const data = await res.json();
       if (data.success) {
@@ -270,7 +283,7 @@ export default function MarketplacePage() {
     else if (activeTab === "my-nfts" && walletAddress) fetchMyNfts();
   }, [activeTab, fetchMarketplace, fetchMyNfts, walletAddress]);
 
-  // ── List for Sale ──────────────────────────────────
+  // ── List ───────────────────────────────────────────
   async function handleList(nftId, price) {
     try {
       const res  = await fetch(`${API_URL}/marketplace/list`, {
@@ -279,13 +292,8 @@ export default function MarketplacePage() {
         body: JSON.stringify({ nft_id: nftId, wallet_address: walletAddress, list_price: price }),
       });
       const data = await res.json();
-      if (data.success) {
-        showToast("NFT listed successfully! 🎉");
-        fetchMyNfts();
-        fetchMarketplace();
-      } else {
-        setError(data.message);
-      }
+      if (data.success) { showToast("NFT listed successfully! 🎉"); fetchMyNfts(); fetchMarketplace(); }
+      else setError(data.message);
     } catch (e) { setError(e.message); }
   }
 
@@ -298,13 +306,8 @@ export default function MarketplacePage() {
         body: JSON.stringify({ nft_id: nftId, wallet_address: walletAddress }),
       });
       const data = await res.json();
-      if (data.success) {
-        showToast("NFT unlisted.");
-        fetchMyNfts();
-        fetchMarketplace();
-      } else {
-        setError(data.message);
-      }
+      if (data.success) { showToast("NFT unlisted."); fetchMyNfts(); fetchMarketplace(); }
+      else setError(data.message);
     } catch (e) { setError(e.message); }
   }
 
@@ -317,7 +320,6 @@ export default function MarketplacePage() {
 
   return (
     <div className="min-h-screen bg-[#0A0A0B] text-white">
-      {/* Ambient */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-orange-500/4 blur-3xl" />
         <div className="absolute bottom-0 -right-60 w-[500px] h-[500px] rounded-full bg-purple-600/4 blur-3xl" />
@@ -325,7 +327,7 @@ export default function MarketplacePage() {
 
       {/* Toast */}
       {toast && (
-        <div className="fixed top-6 right-6 z-50 px-5 py-3 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium shadow-xl animate-fade-in">
+        <div className="fixed top-6 right-6 z-50 px-5 py-3 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium shadow-xl">
           {toast}
         </div>
       )}
@@ -347,20 +349,12 @@ export default function MarketplacePage() {
                 <p className="text-white/30 text-sm mt-3">Buy & sell NFTs. List free — pay 3% only on sale.</p>
               </div>
 
-              {/* Wallet */}
+              {/* WalletButton —  wallet support */}
               <div className="flex items-center gap-3">
-                {connected && (
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    <span className="text-emerald-400 text-xs font-mono">{walletAddress.slice(0,4)}...{walletAddress.slice(-4)}</span>
-                  </div>
+                {connected && walletIcon && (
+                  <img src={walletIcon} alt="wallet" className="w-5 h-5 rounded-full" />
                 )}
-                <button
-                  onClick={connected ? disconnectWallet : connectWallet}
-                  className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all cursor-pointer ${connected ? "bg-white/8 text-white/60 hover:bg-white/12 border border-white/10" : "bg-orange-500 text-white hover:bg-orange-400 shadow-lg shadow-orange-500/20"}`}
-                >
-                  {connected ? "Disconnect" : "Connect Phantom"}
-                </button>
+                <WalletButton />
               </div>
             </div>
 
@@ -391,22 +385,18 @@ export default function MarketplacePage() {
               ))}
             </div>
 
-            {/* Filters — only on marketplace tab */}
+            {/* Filters */}
             {activeTab === "marketplace" && (
               <div className="flex flex-wrap gap-3 mb-8">
-                {/* Search */}
                 <div className="relative flex-1 min-w-[200px]">
                   <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" /></svg>
                   <input
-                    type="text"
-                    placeholder="Search NFTs..."
+                    type="text" placeholder="Search NFTs..."
                     value={search}
                     onChange={(e) => { setSearch(e.target.value); setPage(1); }}
                     className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/25 outline-none focus:border-orange-500/60 transition-all"
                   />
                 </div>
-
-                {/* Category filter */}
                 <div className="flex gap-1 flex-wrap">
                   {CATEGORIES.map((c) => (
                     <button
@@ -418,8 +408,6 @@ export default function MarketplacePage() {
                     </button>
                   ))}
                 </div>
-
-                {/* Sort */}
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
@@ -432,16 +420,11 @@ export default function MarketplacePage() {
               </div>
             )}
 
-            {/* My NFTs connect prompt */}
+            {/* My NFTs — wallet connect prompt */}
             {activeTab === "my-nfts" && !connected && (
               <div className="text-center py-20 space-y-4">
                 <p className="text-white/30 text-lg">Connect your wallet to see your NFTs</p>
-                <button
-                  onClick={connectWallet}
-                  className="px-6 py-3 rounded-xl bg-orange-500 text-white font-semibold hover:bg-orange-400 transition-colors cursor-pointer"
-                >
-                  Connect Phantom
-                </button>
+                <WalletButton />
               </div>
             )}
 
@@ -480,12 +463,13 @@ export default function MarketplacePage() {
                         onList={handleList}
                         onUnlist={handleUnlist}
                         myNftsMode={activeTab === "my-nfts"}
+                        onBuySuccess={() => { showToast("NFT purchased! 🎉"); fetchMarketplace(); }}
                       />
                     ))}
                   </div>
                 )}
 
-                {/* Pagination — marketplace only */}
+                {/* Pagination */}
                 {activeTab === "marketplace" && lastPage > 1 && (
                   <div className="flex items-center justify-center gap-2 mt-12">
                     <button
@@ -495,9 +479,7 @@ export default function MarketplacePage() {
                     >
                       ← Prev
                     </button>
-                    <span className="text-white/30 text-sm px-3">
-                      Page {page} / {lastPage}
-                    </span>
+                    <span className="text-white/30 text-sm px-3">Page {page} / {lastPage}</span>
                     <button
                       onClick={() => setPage((p) => Math.min(lastPage, p + 1))}
                       disabled={page === lastPage}
