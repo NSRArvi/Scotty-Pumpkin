@@ -115,13 +115,28 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
                   {loading ? <Spinner /> : "List for Sale →"}
                 </button>
               )
-            ) : (
-              <button
-                onClick={() => setShowBuyModal(true)}
-                className="w-full py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-400 transition-colors cursor-pointer"
+            ) : 
+            // (
+            //   <button
+            //     onClick={() => setShowBuyModal(true)}
+            //     className="w-full py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-400 transition-colors cursor-pointer"
+            //   >
+            //     Buy Now
+            //   </button>
+            // )
+
+            nft.is_listed ? (
+              // ── Buy Now → deferant Purchase page ──
+              <Link
+                href={`/purchase/${nft.mint_address}`}
+                className="block w-full py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold text-center hover:bg-orange-400 transition-colors cursor-pointer"
               >
                 Buy Now
-              </button>
+              </Link>
+            ) : (
+              <div className="w-full py-2 rounded-xl border border-white/8 text-white/20 text-xs font-medium text-center">
+                Not for sale
+              </div>
             )}
 
             {nft.mint_address && (

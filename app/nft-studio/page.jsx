@@ -1,9 +1,11 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import Link from "next/link";
 import Container from "../components/shared/Container";
 import { useSolanaWallet } from "@/hooks/useWallet";
 import WalletButton from "@/app/components/WalletButton";
+import BuyModal from "@/app/components/BuyModal";
 
 const CATEGORIES = ["art", "fashion", "jewelry", "music", "video", "digital"];
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
@@ -41,46 +43,24 @@ async function mintOnSolana(metadataUri, walletAddress, signTransaction, signAll
     });
     signatureBytes = result.signature;
   } catch (err) {
-
-      const msg = err?.message || "";
-
-      if (
-        msg.includes("Attempt to debit an account") ||
-        msg.includes("Insufficient funds")
-      ) {
-        throw new Error(
-          "Your wallet does not have enough SOL balance."
-        );
-      }
-
-      if (
-        msg.includes("User rejected") ||
-        msg.includes("User declined")
-      ) {
-        throw new Error(
-          "Transaction cancelled by user."
-        );
-      }
-
-      throw new Error(
-        "NFT minting failed. Please try again."
-      );
-    }
-  // catch (err) {
-  //   throw new Error("Mint transaction failed: " + err.message);
-  
+    const msg = err?.message || "";
+    if (msg.includes("Attempt to debit an account") || msg.includes("Insufficient funds"))
+      throw new Error("Your wallet does not have enough SOL balance.");
+    if (msg.includes("User rejected") || msg.includes("User declined"))
+      throw new Error("Transaction cancelled by user.");
+    throw new Error("NFT minting failed. Please try again.");
+  }
 
   const [transactionSig] = base58.deserialize(signatureBytes);
   const confirmed = await waitForTransactionVisible(transactionSig, rpcUrl);
   if (!confirmed) throw new Error("Transaction confirmed by wallet but not yet visible via RPC. Signature: " + transactionSig);
-
   return { mintAddress: assetSigner.publicKey.toString(), transactionSig };
 }
 
 async function waitForTransactionVisible(signature, rpcUrl, maxAttempts = 8, delayMs = 1500) {
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     try {
-      const res    = await fetch(rpcUrl, {
+      const res  = await fetch(rpcUrl, {
         method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "getSignatureStatuses", params: [[signature], { searchTransactionHistory: true }] }),
       });
@@ -104,7 +84,15 @@ function Input({ className = "", ...props }) {
   return <input className={`w-full px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/25 outline-none focus:border-orange-500/60 transition-all ${className}`} {...props} />;
 }
 function Select({ className = "", children, ...props }) {
-  return <select className={`w-full px-3.5 py-2.5 rounded-lg bg-[#1a1a1a] border border-white/10 text-white text-sm outline-none focus:border-orange-500/60 transition-all appearance-none cursor-pointer ${className}`} {...props}>{children}</select>;
+  return (
+    <select
+      className={`w-full px-3.5 py-2.5 rounded-lg bg-[#1a1a1a] border border-white/10 text-white text-sm outline-none focus:border-orange-500/60 transition-all appearance-none cursor-pointer ${className}`}
+      style={{ colorScheme: "dark" }}
+      {...props}
+    >
+      {children}
+    </select>
+  );
 }
 function Toggle({ checked, onChange, label }) {
   return (
@@ -120,37 +108,89 @@ function SectionCard({ children, className = "" }) {
   return <div className={`rounded-2xl border border-white/8 bg-white/3 backdrop-blur-sm p-6 space-y-5 ${className}`}>{children}</div>;
 }
 
-// ── Trending NFT Card ─────────────────────────────────────────────────────
-function TrendingCard({ nft }) {
+// ── Trending NFT Card — Buy button  ────────────────────────────────────
+function TrendingCard({ nft, walletAddress }) {
+  const [showBuyModal, setShowBuyModal] = useState(false);
+  const [toast, setToast]               = useState("");
   const accent = "#F97316";
+
+  function showToastMsg(msg) { setToast(msg); setTimeout(() => setToast(""), 3000); }
+
   return (
-    <div className="group rounded-2xl border border-white/8 bg-white/3 hover:border-white/15 transition-all overflow-hidden cursor-pointer">
-      <div className="relative aspect-square overflow-hidden bg-white/4">
-        {nft.image_url ? (
-          <img src={nft.image_url} alt={nft.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-4xl" style={{ background: `radial-gradient(ellipse at center, ${accent}18, transparent 70%)` }}>
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: `radial-gradient(ellipse at center, ${accent}28, transparent 70%)` }} />
-            <span className="relative z-10">🎨</span>
-          </div>
-        )}
-      </div>
-      <div className="p-3.5">
-        <p className="text-white/80 text-xs font-semibold tracking-wider mb-1 truncate">{nft.name}</p>
-        <p className="text-white/30 text-[10px] capitalize mb-2">{nft.category}</p>
-        <div className="flex items-center justify-between mb-3">
-          {nft.is_listed && nft.list_price ? (
-            <span className="text-orange-400 text-xs font-medium">{parseFloat(nft.list_price).toFixed(3)} SOL</span>
-          ) : (
-            <span className="text-white/20 text-xs">—</span>
-          )}
-          {nft.royalty > 0 && <span className="text-white/20 text-[10px]">{nft.royalty}% royalty</span>}
+    <>
+      {toast && (
+        <div className="fixed top-6 right-6 z-50 px-5 py-3 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium shadow-xl">
+          {toast}
         </div>
-        <a href="/nft-marketplace" className="block w-full py-1.5 rounded-lg border border-white/10 text-white/50 text-xs font-semibold tracking-widest hover:bg-white/8 hover:text-white hover:border-white/20 transition-all text-center">
-          VIEW
-        </a>
+      )}
+
+      <div className="group rounded-2xl border border-white/8 bg-white/3 hover:border-white/15 transition-all overflow-hidden">
+        {/* Image — click to detail page */}
+        <Link href={`/nft-marketplace/${nft.mint_address || nft.id}`}>
+          <div className="relative aspect-square overflow-hidden bg-white/4 cursor-pointer">
+            {nft.image_url ? (
+              <img src={nft.image_url} alt={nft.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-4xl" style={{ background: `radial-gradient(ellipse at center, ${accent}18, transparent 70%)` }}>
+                <span className="relative z-10">🎨</span>
+              </div>
+            )}
+            {nft.is_listed && (
+              <div className="absolute top-2 right-2">
+                <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-[10px] font-semibold">Listed</span>
+              </div>
+            )}
+          </div>
+        </Link>
+
+        <div className="p-3.5 space-y-3">
+          <div>
+            <p className="text-white/80 text-xs font-semibold tracking-wider truncate">{nft.name}</p>
+            <p className="text-white/30 text-[10px] capitalize mt-0.5">{nft.category}</p>
+          </div>
+
+          <div className="flex items-center justify-between">
+            {nft.is_listed && nft.list_price ? (
+              <span className="text-orange-400 text-sm font-bold font-mono">{parseFloat(nft.list_price).toFixed(3)} SOL</span>
+            ) : (
+              <span className="text-white/20 text-xs">Not listed</span>
+            )}
+            {nft.royalty > 0 && <span className="text-white/20 text-[10px]">{nft.royalty}% royalty</span>}
+          </div>
+
+          {/* Buttons */}
+          <div className="flex gap-2">
+            <Link
+              href={`/nft-marketplace/${nft.mint_address || nft.id}`}
+              className="flex-1 py-1.5 rounded-lg border border-white/10 text-white/50 text-xs font-semibold text-center hover:bg-white/8 hover:text-white transition-all"
+            >
+              View
+            </Link>
+            {nft.is_listed && nft.wallet_address !== walletAddress && (
+              <button
+                onClick={() => setShowBuyModal(true)}
+                className="flex-1 py-1.5 rounded-lg bg-orange-500 text-white text-xs font-semibold hover:bg-orange-400 transition-colors cursor-pointer"
+              >
+                Buy Now
+              </button>
+            )}
+          </div>
+        </div>
       </div>
-    </div>
+
+      {/* Buy Modal */}
+      {showBuyModal && (
+        <BuyModal
+          nft={nft}
+          buyerWallet={walletAddress}
+          onClose={() => setShowBuyModal(false)}
+          onSuccess={() => {
+            setShowBuyModal(false);
+            showToastMsg("NFT purchased! 🎉");
+          }}
+        />
+      )}
+    </>
   );
 }
 
@@ -195,21 +235,19 @@ export default function NFTStudioPage() {
   const [success, setSuccess]   = useState(null);
   const [mintStep, setMintStep] = useState("");
 
-  // ── Trending NFTs — dynamic from API ──────────────────────────
-  const [trendingNfts, setTrendingNfts]   = useState([]);
+  const [trendingNfts, setTrendingNfts]       = useState([]);
   const [trendingLoading, setTrendingLoading] = useState(true);
 
-  useEffect(() => {
+  const loadTrending = useCallback(() => {
     fetch(`${API_URL}/marketplace?sort=latest&per_page=4`)
       .then((r) => r.json())
-      .then((d) => {
-        if (d.success) setTrendingNfts(d.data?.data?.slice(0, 4) || []);
-      })
+      .then((d) => { if (d.success) setTrendingNfts(d.data?.data?.slice(0, 4) || []); })
       .catch(() => {})
       .finally(() => setTrendingLoading(false));
   }, []);
 
-  // ── Collections ────────────────────────────────────────────────
+  useEffect(() => { loadTrending(); }, [loadTrending]);
+
   const loadCollections = useCallback(async () => {
     if (!walletAddress) return;
     try {
@@ -271,11 +309,11 @@ export default function NFTStudioPage() {
       formData.append("edition_type",   editionType);
       if (editionType === "limited") formData.append("total_supply", totalSupply);
       if (collectionId)              formData.append("collection_id", collectionId);
-      formData.append("mint_price",          isFreeListing ? "0" : mintPrice.toString());
-      formData.append("is_free_listing",     isFreeListing ? "1" : "0");
-      formData.append("has_mint_discount",   hasMintDiscount ? "1" : "0");
+      formData.append("mint_price",         isFreeListing ? "0" : mintPrice.toString());
+      formData.append("is_free_listing",    isFreeListing ? "1" : "0");
+      formData.append("has_mint_discount",  hasMintDiscount ? "1" : "0");
       if (hasMintDiscount) formData.append("mint_discount_percent", mintDiscountPercent.toString());
-      formData.append("has_buyer_discount",  hasBuyerDiscount ? "1" : "0");
+      formData.append("has_buyer_discount", hasBuyerDiscount ? "1" : "0");
       if (hasBuyerDiscount) {
         formData.append("buyer_discount_percent",  buyerDiscountPercent.toString());
         formData.append("buyer_discount_max_uses", buyerDiscountMaxUses.toString());
@@ -308,9 +346,7 @@ export default function NFTStudioPage() {
 
       setStep("done"); setMintStep("");
       setSuccess({ ...apiData.data, mint_address: mintAddress, transaction_sig: transactionSig, explorer_url: `https://explorer.solana.com/address/${mintAddress}?cluster=devnet` });
-
-      // Trending refresh
-      fetch(`${API_URL}/marketplace?sort=latest&per_page=4`).then(r => r.json()).then(d => { if (d.success) setTrendingNfts(d.data?.data?.slice(0, 4) || []); }).catch(() => {});
+      loadTrending();
     } catch (err) {
       setStep("error"); setMintStep(""); setError(err.message);
     }
@@ -343,8 +379,8 @@ export default function NFTStudioPage() {
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3 px-5 py-4 rounded-xl border border-white/8 bg-white/3">
                 {[
-                  { label: "Mint Discount", value: `-${mintDiscountPercent}%` },
-                  { label: "Buyer Discount", value: `-${buyerDiscountPercent}%` },
+                  { label: "Mint Discount",          value: `-${mintDiscountPercent}%` },
+                  { label: "Buyer Discount",          value: `-${buyerDiscountPercent}%` },
                   { label: "Free Listing • Sale Fee", value: "3%" },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-2">
@@ -370,7 +406,6 @@ export default function NFTStudioPage() {
                 <span>{mintStep}</span>
               </div>
             )}
-            {/* ── Success Block — marketplace + explorer links ── */}
             {success && (
               <div className="mb-6 px-5 py-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 space-y-3">
                 <div className="flex items-center gap-2">
@@ -390,19 +425,11 @@ export default function NFTStudioPage() {
                     <a href={success.image_url} target="_blank" rel="noreferrer" className="text-orange-400 underline text-xs">IPFS Image ↗</a>
                   </div>
                 </div>
-
-                {/* ── Marketplace Link (নতুন) ── */}
                 <div className="flex flex-wrap gap-3 pt-1">
-                  <Link
-                    href={`/nft-marketplace/${success.mint_address}`}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-orange-500 text-white text-xs font-bold tracking-wider hover:bg-orange-400 transition-colors shadow-lg shadow-orange-500/20"
-                  >
+                  <Link href={`/nft-marketplace/${success.mint_address}`} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-orange-500 text-white text-xs font-bold hover:bg-orange-400 transition-colors shadow-lg shadow-orange-500/20">
                     View on Marketplace →
                   </Link>
-                  <Link
-                    href={`/nft-profile/${walletAddress}`}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/15 text-white/60 text-xs font-semibold hover:bg-white/8 hover:text-white transition-colors"
-                  >
+                  <Link href={`/profile/${walletAddress}`} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-white/15 text-white/60 text-xs font-semibold hover:bg-white/8 hover:text-white transition-colors">
                     My Profile →
                   </Link>
                 </div>
@@ -411,8 +438,8 @@ export default function NFTStudioPage() {
 
             {/* Main Grid */}
             <div className="grid lg:grid-cols-5 gap-4">
-              {/* LEFT */}
               <div className="lg:col-span-3 space-y-4">
+
                 <SectionCard>
                   <div className="flex items-center justify-between">
                     <div><Label>Step 01</Label><p className="text-white font-semibold">Connect Wallet</p></div>
@@ -641,14 +668,14 @@ export default function NFTStudioPage() {
               </div>
             </div>
 
-            {/* ── Trending NFTs — Dynamic ── */}
+            {/* Trending NFTs */}
             <div className="mt-16">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-4">
                   <Label className="mb-0">Trending NFTs</Label>
-                  <div className="flex-1 h-px bg-white/5 w-20" />
+                  <div className="h-px bg-white/5 w-20" />
                 </div>
-                <a href="/nft-marketplace" className="text-orange-400 text-xs hover:text-orange-300 transition-colors">View all →</a>
+                <Link href="/nft-marketplace" className="text-orange-400 text-xs hover:text-orange-300 transition-colors">View all →</Link>
               </div>
 
               {trendingLoading ? (
@@ -665,7 +692,9 @@ export default function NFTStudioPage() {
                 </div>
               ) : trendingNfts.length > 0 ? (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {trendingNfts.map((nft) => <TrendingCard key={nft.id} nft={nft} />)}
+                  {trendingNfts.map((nft) => (
+                    <TrendingCard key={nft.id} nft={nft} walletAddress={walletAddress} />
+                  ))}
                 </div>
               ) : (
                 <div className="text-center py-12 text-white/20 text-sm">

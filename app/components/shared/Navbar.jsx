@@ -49,7 +49,7 @@ export default function Navbar() {
       dropdown: [
         { label: "Create - Mint your NFT", href: "/nft-studio" },
         { label: "Publish your NFT", href: "/nft-studio" },
-        { label: "Purchase NFT", href: "/purchase" },
+        //{ label: "Purchase NFT", href: "/purchase" },
         { label: "MarketPlace NFT", href: "/nft-marketplace" },
         { label: "Profile NFT", href: "/nft-profile" },
         {

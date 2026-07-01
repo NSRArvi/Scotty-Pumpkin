@@ -63,7 +63,7 @@ export default function ProfilePage() {
   const urlWallet                    = params?.wallet;
   const { connected, walletAddress } = useSolanaWallet();
 
-  // Profile wallet — URL এ থাকলে সেটা, না হলে connected wallet
+  // Profile wallet — Use the wallet address from the URL if available; otherwise, use the connected wallet.
   const profileWallet = urlWallet || walletAddress;
   const isOwnProfile  = profileWallet === walletAddress;
 

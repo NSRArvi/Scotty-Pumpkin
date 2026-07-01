@@ -46,7 +46,7 @@ export default function BuyModal({ nft, buyerWallet, onClose, onSuccess }) {
     setStep("paying");
 
     try {
-      // ── ১. Prepare — seller wallet ও platform wallet নাও ─────────────
+      // ── ১. Prepare — seller wallet and platform get  wallet  ─────────────
       const prepRes  = await fetch(`${API_URL}/buy/prepare/${nft.id}`);
       const prepData = await prepRes.json();
       if (!prepData.success) throw new Error(prepData.message);
@@ -65,7 +65,7 @@ export default function BuyModal({ nft, buyerWallet, onClose, onSuccess }) {
       const connection  = new Connection(rpcUrl, "confirmed");
       const buyerPubkey = new PublicKey(buyerWallet);
 
-      // ── ৩. Transaction build করো ──────────────────────────────────────
+      // ── ৩. Transaction build  ──────────────────────────────────────
       const tx = new Transaction();
 
       // Seller send to (total - platform fee)
@@ -78,7 +78,8 @@ export default function BuyModal({ nft, buyerWallet, onClose, onSuccess }) {
       );
 
       // Platform fee  (3%)
-      if (platform_wallet && platformFee > 0) {
+      
+      if (platform_wallet && platform_wallet.length > 30 && platformFee > 0) {
         tx.add(
           SystemProgram.transfer({
             fromPubkey: buyerPubkey,
@@ -124,11 +125,19 @@ export default function BuyModal({ nft, buyerWallet, onClose, onSuccess }) {
       setStep("done");
       onSuccess && onSuccess(confirmData.data);
 
-    } catch (err) {
-      console.error("Buy error:", err);
-      setError(err.message);
-      setStep("error");
-    }
+    }  catch (err) {
+  console.error("Buy error:", err);
+  
+  // error message বের করো
+  const msg = err?.message 
+    || err?.error?.message 
+    || (typeof err === "string" ? err : null)
+    || JSON.stringify(err)
+    || "Unknown error occurred";
+    
+  setError(msg);
+  setStep("error");
+}
   }
 
   return (
