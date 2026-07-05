@@ -12,13 +12,13 @@ import { useSearchParams } from "next/navigation";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 const CATEGORIES = ["all", "art", "fashion", "jewelry", "music", "video", "digital"];
 
-// ── Reusable ──────────────────────────────────────────────────────────────
+// ── Reusable ─────────────────────────────────────────────────────────────
 
 function Badge({ children, color = "orange" }) {
   const colors = {
-    orange: "bg-orange-500/15 text-orange-400 border-orange-500/20",
-    green:  "bg-emerald-500/15 text-emerald-400 border-emerald-500/20",
-    gray:   "bg-white/8 text-white/40 border-white/10",
+    orange: "bg-orange-500/15 text-orange-500 border-orange-500/20",
+    green:  "bg-emerald-500/15 text-emerald-600 border-emerald-500/20",
+    gray:   "bg-black/6 text-black/40 border-black/10",
   };
   return (
     <span className={`px-2 py-0.5 rounded-full border text-[10px] font-semibold uppercase tracking-wider ${colors[color]}`}>
@@ -31,7 +31,7 @@ function Spinner() {
   return <div className="w-5 h-5 rounded-full border-2 border-orange-400 border-t-transparent animate-spin" />;
 }
 
-// ── NFT Card ──────────────────────────────────────────────────────────────
+// ── NFT Card ─────────────────────────────────────────────────────────────
 
 function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySuccess }) {
   const [showListModal, setShowListModal] = useState(false);
@@ -56,14 +56,14 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
 
   return (
     <>
-      <div className="group rounded-2xl border border-white/8 bg-white/3 hover:border-white/15 transition-all overflow-hidden flex flex-col">
+      <div className="group rounded-2xl border border-black/8 bg-white shadow-sm hover:border-black/15 hover:shadow-md transition-all overflow-hidden flex flex-col">
         <Link href={`/nft-marketplace/${nft.mint_address || nft.id}`}>
         {/* Image */}
-        <div className="relative aspect-square bg-white/4 overflow-hidden">
+        <div className="relative aspect-square bg-black/4 overflow-hidden">
           {nft.image_url ? (
             <img src={nft.image_url} alt={nft.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-white/10">
+            <div className="w-full h-full flex items-center justify-center text-black/15">
               <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <rect x="3" y="3" width="18" height="18" rx="2" strokeWidth={1} />
                 <path strokeLinecap="round" strokeWidth={1} d="M3 16l5-5 4 4 3-3 6 6" />
@@ -79,30 +79,30 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
           <div>
             {/* NFT name → single page link */}
             <Link href={`/nft-marketplace/${nft.mint_address || nft.id}`}>
-              <p className="text-white font-semibold text-sm truncate">{nft.name}</p>
+              <p className="text-black font-semibold text-sm truncate">{nft.name}</p>
             </Link>
-            <p className="text-white/30 text-xs font-mono truncate mt-0.5">
+            <p className="text-black/35 text-xs font-mono truncate mt-0.5">
               {nft.mint_address ? `${nft.mint_address.slice(0,6)}...${nft.mint_address.slice(-4)}` : "—"}
             </p>
           </div>
 
           <div className="flex items-end justify-between">
             <div>
-              <p className="text-white/30 text-[10px] uppercase tracking-wider mb-0.5">Price</p>
-              <p className="text-orange-400 font-bold text-lg font-mono">
+              <p className="text-black/35 text-[10px] uppercase tracking-wider mb-0.5">Price</p>
+              <p className="text-orange-500 font-bold text-lg font-mono">
                 {nft.is_listed ? `${parseFloat(nft.list_price).toFixed(3)} SOL` : "—"}
               </p>
             </div>
-            {nft.royalty > 0 && <p className="text-white/20 text-[10px]">{nft.royalty}% royalty</p>}
+            {nft.royalty > 0 && <p className="text-black/30 text-[10px]">{nft.royalty}% royalty</p>}
           </div>
 
-          <div className="mt-auto pt-2 border-t border-white/5 space-y-2">
+          <div className="mt-auto pt-2 border-t border-black/6 space-y-2">
             {isOwner || myNftsMode ? (
               nft.is_listed ? (
                 <button
                   onClick={handleUnlist}
                   disabled={loading}
-                  className="w-full py-2 rounded-xl border border-white/10 text-white/50 text-xs font-semibold hover:bg-white/8 hover:text-white transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-40"
+                  className="w-full py-2 rounded-xl border border-black/10 text-black/50 text-xs font-semibold hover:bg-black/5 hover:text-black transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-40"
                 >
                   {loading ? <Spinner /> : "Unlist from Marketplace"}
                 </button>
@@ -134,7 +134,7 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
                 Buy Now
               </Link>
             ) : (
-              <div className="w-full py-2 rounded-xl border border-white/8 text-white/20 text-xs font-medium text-center">
+              <div className="w-full py-2 rounded-xl border border-black/8 text-black/25 text-xs font-medium text-center">
                 Not for sale
               </div>
             )}
@@ -143,7 +143,7 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
               <a
                 href={`https://explorer.solana.com/address/${nft.mint_address}?cluster=devnet`}
                 target="_blank" rel="noreferrer"
-                className="block text-center text-white/25 text-[10px] hover:text-white/50 transition-colors"
+                className="block text-center text-black/30 text-[10px] hover:text-black/60 transition-colors"
               >
                 View on Explorer ↗
               </a>
@@ -155,28 +155,28 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
 
       {/* List Modal */}
       {showListModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-[#111] p-6 space-y-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="w-full max-w-sm rounded-2xl border border-black/10 bg-white shadow-xl p-6 space-y-5">
             <div>
-              <p className="text-white font-bold text-lg">List NFT for Sale</p>
-              <p className="text-white/40 text-sm mt-1 truncate">{nft.name}</p>
+              <p className="text-black font-bold text-lg">List NFT for Sale</p>
+              <p className="text-black/40 text-sm mt-1 truncate">{nft.name}</p>
             </div>
             {nft.image_url && <img src={nft.image_url} alt={nft.name} className="w-full h-40 object-cover rounded-xl" />}
             <div className="space-y-2">
-              <label className="text-[11px] font-medium text-white/40 uppercase tracking-wider">Listing Price (SOL)</label>
+              <label className="text-[11px] font-medium text-black/40 uppercase tracking-wider">Listing Price (SOL)</label>
               <div className="flex items-center gap-2">
                 <input
                   type="number" min="0" step="0.001"
                   value={listPrice}
                   onChange={(e) => setListPrice(e.target.value)}
                   placeholder="e.g. 0.5"
-                  className="flex-1 px-3.5 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/25 outline-none focus:border-orange-500/60 transition-all"
+                  className="flex-1 px-3.5 py-2.5 rounded-lg bg-black/5 border border-black/10 text-black text-sm placeholder:text-black/30 outline-none focus:border-orange-500/60 transition-all"
                 />
-                <span className="text-white/40 text-sm">SOL</span>
+                <span className="text-black/40 text-sm">SOL</span>
               </div>
             </div>
             <div className="flex gap-3">
-              <button onClick={() => setShowListModal(false)} className="flex-1 py-2.5 rounded-xl border border-white/10 text-white/50 text-sm font-semibold hover:bg-white/8 transition-all cursor-pointer">Cancel</button>
+              <button onClick={() => setShowListModal(false)} className="flex-1 py-2.5 rounded-xl border border-black/10 text-black/50 text-sm font-semibold hover:bg-black/5 transition-all cursor-pointer">Cancel</button>
               <button
                 onClick={handleList}
                 disabled={loading || !listPrice}
@@ -205,7 +205,7 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
   );
 }
 
-// ── Newly Minted NFT Banner ───────────────────────────────
+// ── Newly Minted NFT Banner ──────────────────────────────────────
 // NFT Studio থেকে redirect হলে এই banner দেখাবে
 function NewlyMintedBanner({ mintAddress, onDismiss }) {
   return (
@@ -217,8 +217,8 @@ function NewlyMintedBanner({ mintAddress, onDismiss }) {
           </svg>
         </div>
         <div>
-          <p className="text-emerald-400 font-semibold text-sm">NFT minted successfully!</p>
-          <p className="text-white/30 text-xs font-mono truncate max-w-xs">{mintAddress}</p>
+          <p className="text-emerald-600 font-semibold text-sm">NFT minted successfully!</p>
+          <p className="text-black/35 text-xs font-mono truncate max-w-xs">{mintAddress}</p>
         </div>
       </div>
       <div className="flex items-center gap-3">
@@ -230,7 +230,7 @@ function NewlyMintedBanner({ mintAddress, onDismiss }) {
         </Link>
         <button
           onClick={onDismiss}
-          className="text-white/30 hover:text-white/60 transition-colors text-lg leading-none"
+          className="text-black/30 hover:text-black/60 transition-colors text-lg leading-none"
         >
           ✕
         </button>
@@ -239,7 +239,7 @@ function NewlyMintedBanner({ mintAddress, onDismiss }) {
   );
 }
 
-// ── Main Page ─────────────────────────────────────────────────────────────
+// ── Main Page ────────────────────────────────────────────────────────────
 
 export default function MarketplacePage() {
   const {
@@ -281,7 +281,7 @@ export default function MarketplacePage() {
     finally { setLoading(false); }
   }, [page, search, category, sort]);
 
-  // ── Fetch My NFTs ──────────────────────────────────
+  // ── Fetch My NFTs ──────────────────────────────
   const fetchMyNfts = useCallback(async () => {
     if (!walletAddress) return;
     setLoading(true);
@@ -298,7 +298,7 @@ export default function MarketplacePage() {
     else if (activeTab === "my-nfts" && walletAddress) fetchMyNfts();
   }, [activeTab, fetchMarketplace, fetchMyNfts, walletAddress]);
 
-  // ── List ───────────────────────────────────────────
+  // ── List ──────────────────────────────
   async function handleList(nftId, price) {
     try {
       const res  = await fetch(`${API_URL}/marketplace/list`, {
@@ -312,7 +312,7 @@ export default function MarketplacePage() {
     } catch (e) { setError(e.message); }
   }
 
-  // ── Unlist ─────────────────────────────────────────
+  // ── Unlist ──────────────────────────────
   async function handleUnlist(nftId) {
     try {
       const res  = await fetch(`${API_URL}/marketplace/unlist`, {
@@ -334,7 +334,7 @@ export default function MarketplacePage() {
   const displayNfts = activeTab === "my-nfts" ? myNfts : nfts;
 
   return (
-    <div className="min-h-screen bg-[#0A0A0B] text-white">
+    <div className="min-h-screen bg-[#F3EFE6] text-black">
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-orange-500/4 blur-3xl" />
         <div className="absolute bottom-0 -right-60 w-[500px] h-[500px] rounded-full bg-purple-600/4 blur-3xl" />
@@ -342,7 +342,7 @@ export default function MarketplacePage() {
 
       {/* Toast */}
       {toast && (
-        <div className="fixed top-6 right-6 z-50 px-5 py-3 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium shadow-xl">
+        <div className="fixed top-6 right-6 z-50 px-5 py-3 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-600 text-sm font-medium shadow-xl">
           {toast}
         </div>
       )}
@@ -361,7 +361,7 @@ export default function MarketplacePage() {
                 <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-none">
                   Market<span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">place</span>
                 </h1>
-                <p className="text-white/30 text-sm mt-3">Buy & sell NFTs. List free — pay 3% only on sale.</p>
+                <p className="text-black/40 text-sm mt-3">Buy & sell NFTs. List free — pay 3% only on sale.</p>
               </div>
 
               {/* WalletButton —  wallet support */}
@@ -375,14 +375,14 @@ export default function MarketplacePage() {
 
             {/* Error */}
             {error && (
-              <div className="mb-6 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-center gap-2">
+              <div className="mb-6 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 text-sm flex items-center gap-2">
                 <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /></svg>
                 {error}
               </div>
             )}
 
             {/* Tabs */}
-            <div className="flex gap-1 p-1 rounded-xl bg-white/4 border border-white/8 w-fit mb-8">
+            <div className="flex gap-1 p-1 rounded-xl bg-white border border-black/8 shadow-sm w-fit mb-8">
               {[
                 { key: "marketplace", label: "Marketplace" },
                 { key: "my-nfts",    label: "My NFTs" },
@@ -390,11 +390,11 @@ export default function MarketplacePage() {
                 <button
                   key={tab.key}
                   onClick={() => { setActiveTab(tab.key); setError(""); }}
-                  className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer ${activeTab === tab.key ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20" : "text-white/40 hover:text-white"}`}
+                  className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer ${activeTab === tab.key ? "bg-orange-500 text-white shadow-lg shadow-orange-500/20" : "text-black/40 hover:text-black"}`}
                 >
                   {tab.label}
                   {tab.key === "my-nfts" && myNfts.length > 0 && (
-                    <span className="ml-2 px-1.5 py-0.5 rounded-full bg-white/10 text-[10px] text-white/60">{myNfts.length}</span>
+                    <span className="ml-2 px-1.5 py-0.5 rounded-full bg-black/8 text-[10px] text-black/60">{myNfts.length}</span>
                   )}
                 </button>
               ))}
@@ -404,12 +404,12 @@ export default function MarketplacePage() {
             {activeTab === "marketplace" && (
               <div className="flex flex-wrap gap-3 mb-8">
                 <div className="relative flex-1 min-w-[200px]">
-                  <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" /></svg>
+                  <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-black/25" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" /></svg>
                   <input
                     type="text" placeholder="Search NFTs..."
                     value={search}
                     onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                    className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-sm placeholder:text-white/25 outline-none focus:border-orange-500/60 transition-all"
+                    className="w-full pl-9 pr-4 py-2.5 rounded-xl bg-white border border-black/10 text-black text-sm placeholder:text-black/30 outline-none focus:border-orange-500/60 transition-all"
                   />
                 </div>
                 <div className="flex gap-1 flex-wrap">
@@ -417,7 +417,7 @@ export default function MarketplacePage() {
                     <button
                       key={c}
                       onClick={() => { setCategory(c); setPage(1); }}
-                      className={`px-3 py-2 rounded-xl text-xs font-semibold capitalize transition-all cursor-pointer ${category === c ? "bg-orange-500 text-white" : "bg-white/5 border border-white/8 text-white/40 hover:text-white hover:border-white/20"}`}
+                      className={`px-3 py-2 rounded-xl text-xs font-semibold capitalize transition-all cursor-pointer ${category === c ? "bg-orange-500 text-white" : "bg-white border border-black/8 text-black/40 hover:text-black hover:border-black/20"}`}
                     >
                       {c}
                     </button>
@@ -426,7 +426,8 @@ export default function MarketplacePage() {
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
-                  className="px-3.5 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white/60 text-sm outline-none focus:border-orange-500/60 cursor-pointer appearance-none"
+                  style={{ colorScheme: "light" }}
+                  className="px-3.5 py-2.5 rounded-xl bg-white border border-black/10 text-black/60 text-sm outline-none focus:border-orange-500/60 cursor-pointer appearance-none"
                 >
                   <option value="latest">Latest</option>
                   <option value="price_asc">Price: Low → High</option>
@@ -438,7 +439,7 @@ export default function MarketplacePage() {
             {/* My NFTs — wallet connect prompt */}
             {activeTab === "my-nfts" && !connected && (
               <div className="text-center py-20 space-y-4">
-                <p className="text-white/30 text-lg">Connect your wallet to see your NFTs</p>
+                <p className="text-black/40 text-lg">Connect your wallet to see your NFTs</p>
                 <WalletButton />
               </div>
             )}
@@ -450,16 +451,16 @@ export default function MarketplacePage() {
                   <div className="flex items-center justify-center py-20">
                     <div className="flex flex-col items-center gap-4">
                       <div className="w-8 h-8 rounded-full border-2 border-orange-400 border-t-transparent animate-spin" />
-                      <p className="text-white/30 text-sm">Loading NFTs...</p>
+                      <p className="text-black/40 text-sm">Loading NFTs...</p>
                     </div>
                   </div>
                 ) : displayNfts.length === 0 ? (
                   <div className="text-center py-20 space-y-3">
                     <div className="text-5xl">🎨</div>
-                    <p className="text-white/40 text-lg font-medium">
+                    <p className="text-black/50 text-lg font-medium">
                       {activeTab === "my-nfts" ? "You haven't minted any NFTs yet" : "No NFTs listed yet"}
                     </p>
-                    <p className="text-white/20 text-sm">
+                    <p className="text-black/30 text-sm">
                       {activeTab === "my-nfts" ? "Go to NFT Studio to mint your first NFT" : "Be the first to list!"}
                     </p>
                     {activeTab === "my-nfts" && (
@@ -490,15 +491,15 @@ export default function MarketplacePage() {
                     <button
                       onClick={() => setPage((p) => Math.max(1, p - 1))}
                       disabled={page === 1}
-                      className="px-4 py-2 rounded-xl border border-white/10 text-white/40 text-sm hover:bg-white/8 hover:text-white transition-all disabled:opacity-30 cursor-pointer"
+                      className="px-4 py-2 rounded-xl border border-black/10 bg-white text-black/40 text-sm hover:bg-black/5 hover:text-black transition-all disabled:opacity-30 cursor-pointer"
                     >
                       ← Prev
                     </button>
-                    <span className="text-white/30 text-sm px-3">Page {page} / {lastPage}</span>
+                    <span className="text-black/40 text-sm px-3">Page {page} / {lastPage}</span>
                     <button
                       onClick={() => setPage((p) => Math.min(lastPage, p + 1))}
                       disabled={page === lastPage}
-                      className="px-4 py-2 rounded-xl border border-white/10 text-white/40 text-sm hover:bg-white/8 hover:text-white transition-all disabled:opacity-30 cursor-pointer"
+                      className="px-4 py-2 rounded-xl border border-black/10 bg-white text-black/40 text-sm hover:bg-black/5 hover:text-black transition-all disabled:opacity-30 cursor-pointer"
                     >
                       Next →
                     </button>

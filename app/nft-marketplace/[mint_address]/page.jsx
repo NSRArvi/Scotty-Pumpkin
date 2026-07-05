@@ -10,7 +10,7 @@ import BuyModal from "@/app/components/BuyModal";
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
 function Skeleton({ className }) {
-  return <div className={`animate-pulse bg-white/5 rounded-xl ${className}`} />;
+  return <div className={`animate-pulse bg-black/5 rounded-xl ${className}`} />;
 }
 
 export default function NftDetailPage() {
@@ -40,14 +40,14 @@ export default function NftDetailPage() {
   const explorerBase = network === "mainnet-beta" ? "" : "?cluster=devnet";
 
   return (
-    <div className="min-h-screen bg-[#0A0A0B] text-white">
+    <div className="min-h-screen bg-[#F3EFE6] text-black">
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full bg-orange-500/4 blur-3xl" />
         <div className="absolute bottom-0 -right-60 w-[500px] h-[500px] rounded-full bg-purple-600/4 blur-3xl" />
       </div>
 
       {toast && (
-        <div className="fixed top-6 right-6 z-50 px-5 py-3 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-sm font-medium shadow-xl">
+        <div className="fixed top-6 right-6 z-50 px-5 py-3 rounded-xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-600 text-sm font-medium shadow-xl">
           {toast}
         </div>
       )}
@@ -57,13 +57,13 @@ export default function NftDetailPage() {
           <div className="pt-12 pb-24">
 
             {/* Back */}
-            <a href="/nft-marketplace" className="inline-flex items-center gap-2 text-white/40 text-sm hover:text-white transition-colors mb-8">
+            <a href="/nft-marketplace" className="inline-flex items-center gap-2 text-black/40 text-sm hover:text-black transition-colors mb-8">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
               Back to Marketplace
             </a>
 
             {error && (
-              <div className="px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm mb-8">{error}</div>
+              <div className="px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 text-sm mb-8">{error}</div>
             )}
 
             {loading ? (
@@ -81,11 +81,11 @@ export default function NftDetailPage() {
 
                 {/* Left — Image */}
                 <div className="space-y-4">
-                  <div className="rounded-2xl overflow-hidden border border-white/8 bg-white/3 aspect-square">
+                  <div className="rounded-2xl overflow-hidden border border-black/8 bg-white shadow-sm aspect-square">
                     {nft.image_url ? (
                       <img src={nft.image_url} alt={nft.name} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-white/10">
+                      <div className="w-full h-full flex items-center justify-center text-black/15">
                         <svg className="w-20 h-20" fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2" strokeWidth={1} /><path strokeLinecap="round" strokeWidth={1} d="M3 16l5-5 4 4 3-3 6 6" /></svg>
                       </div>
                     )}
@@ -94,12 +94,12 @@ export default function NftDetailPage() {
                   {/* Links */}
                   <div className="flex gap-3">
                     <a href={`https://explorer.solana.com/address/${nft.mint_address}${explorerBase}`} target="_blank" rel="noreferrer"
-                      className="flex-1 py-2.5 rounded-xl border border-white/10 text-white/40 text-xs font-semibold text-center hover:bg-white/8 hover:text-white transition-all">
+                      className="flex-1 py-2.5 rounded-xl border border-black/10 bg-white text-black/50 text-xs font-semibold text-center hover:bg-black/5 hover:text-black transition-all">
                       Solana Explorer ↗
                     </a>
                     {nft.metadata_uri && (
                       <a href={nft.metadata_uri} target="_blank" rel="noreferrer"
-                        className="flex-1 py-2.5 rounded-xl border border-white/10 text-white/40 text-xs font-semibold text-center hover:bg-white/8 hover:text-white transition-all">
+                        className="flex-1 py-2.5 rounded-xl border border-black/10 bg-white text-black/50 text-xs font-semibold text-center hover:bg-black/5 hover:text-black transition-all">
                         IPFS Metadata ↗
                       </a>
                     )}
@@ -112,34 +112,34 @@ export default function NftDetailPage() {
                   {/* Title & category */}
                   <div>
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="px-2.5 py-0.5 rounded-full bg-white/8 border border-white/10 text-white/40 text-[10px] font-semibold uppercase tracking-wider">{nft.category}</span>
-                      {nft.is_listed && <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/20 text-emerald-400 text-[10px] font-semibold uppercase tracking-wider">Listed</span>}
-                      {nft.edition_type === "limited" && <span className="px-2.5 py-0.5 rounded-full bg-orange-500/15 border border-orange-500/20 text-orange-400 text-[10px] font-semibold uppercase tracking-wider">Limited</span>}
+                      <span className="px-2.5 py-0.5 rounded-full bg-black/6 border border-black/10 text-black/50 text-[10px] font-semibold uppercase tracking-wider">{nft.category}</span>
+                      {nft.is_listed && <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/20 text-emerald-600 text-[10px] font-semibold uppercase tracking-wider">Listed</span>}
+                      {nft.edition_type === "limited" && <span className="px-2.5 py-0.5 rounded-full bg-orange-500/15 border border-orange-500/20 text-orange-500 text-[10px] font-semibold uppercase tracking-wider">Limited</span>}
                     </div>
                     <h1 className="text-3xl md:text-4xl font-black tracking-tight">{nft.name}</h1>
-                    {nft.symbol && <p className="text-white/30 font-mono text-sm mt-1">{nft.symbol}</p>}
+                    {nft.symbol && <p className="text-black/40 font-mono text-sm mt-1">{nft.symbol}</p>}
                   </div>
 
                   {/* Description */}
                   {nft.description && (
-                    <p className="text-white/50 text-sm leading-relaxed">{nft.description}</p>
+                    <p className="text-black/60 text-sm leading-relaxed">{nft.description}</p>
                   )}
 
                   {/* Price */}
-                  <div className="rounded-2xl border border-white/8 bg-white/3 p-5 space-y-4">
+                  <div className="rounded-2xl border border-black/8 bg-white shadow-sm p-5 space-y-4">
                     <div className="flex items-end justify-between">
                       <div>
-                        <p className="text-white/30 text-xs uppercase tracking-wider mb-1">
+                        <p className="text-black/40 text-xs uppercase tracking-wider mb-1">
                           {nft.is_listed ? "Current Price" : "Not Listed"}
                         </p>
-                        <p className="text-orange-400 font-black text-4xl font-mono">
+                        <p className="text-orange-500 font-black text-4xl font-mono">
                           {nft.is_listed ? `${parseFloat(nft.list_price).toFixed(3)} SOL` : "—"}
                         </p>
                       </div>
                       {nft.royalty > 0 && (
                         <div className="text-right">
-                          <p className="text-white/20 text-xs">Creator Royalty</p>
-                          <p className="text-white/50 text-sm font-semibold">{nft.royalty}%</p>
+                          <p className="text-black/30 text-xs">Creator Royalty</p>
+                          <p className="text-black/60 text-sm font-semibold">{nft.royalty}%</p>
                         </div>
                       )}
                     </div>
@@ -155,24 +155,24 @@ export default function NftDetailPage() {
                         </button>
                       ) : (
                         <div className="space-y-2">
-                          <p className="text-white/30 text-xs text-center">Connect wallet to buy</p>
+                          <p className="text-black/40 text-xs text-center">Connect wallet to buy</p>
                           <WalletButton />
                         </div>
                       )
                     )}
                     {isOwner && (
-                      <div className="py-3 rounded-xl border border-white/8 text-center text-white/30 text-sm">
+                      <div className="py-3 rounded-xl border border-black/8 text-center text-black/40 text-sm">
                         You own this NFT
                         {!nft.is_listed && (
-                          <a href="/nft-marketplace" className="ml-2 text-orange-400 underline text-xs">List it for sale →</a>
+                          <a href="/nft-marketplace" className="ml-2 text-orange-500 underline text-xs">List it for sale →</a>
                         )}
                       </div>
                     )}
                   </div>
 
                   {/* Details */}
-                  <div className="rounded-2xl border border-white/8 bg-white/3 p-5 space-y-3">
-                    <p className="text-white/50 text-xs font-semibold uppercase tracking-wider mb-4">Details</p>
+                  <div className="rounded-2xl border border-black/8 bg-white shadow-sm p-5 space-y-3">
+                    <p className="text-black/50 text-xs font-semibold uppercase tracking-wider mb-4">Details</p>
                     {[
                       { label: "Mint Address",  value: `${nft.mint_address?.slice(0,8)}...${nft.mint_address?.slice(-6)}`, mono: true },
                       { label: "Owner",         value: `${nft.wallet_address?.slice(0,8)}...${nft.wallet_address?.slice(-6)}`, mono: true },
@@ -180,22 +180,22 @@ export default function NftDetailPage() {
                       { label: "Collection",    value: nft.collection?.name || "None" },
                       { label: "Minted",        value: nft.minted_at ? new Date(nft.minted_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "—" },
                     ].map((row) => (
-                      <div key={row.label} className="flex justify-between items-center text-sm py-2 border-b border-white/5 last:border-0">
-                        <span className="text-white/30">{row.label}</span>
-                        <span className={`text-white/70 ${row.mono ? "font-mono text-xs" : ""}`}>{row.value}</span>
+                      <div key={row.label} className="flex justify-between items-center text-sm py-2 border-b border-black/6 last:border-0">
+                        <span className="text-black/40">{row.label}</span>
+                        <span className={`text-black/80 ${row.mono ? "font-mono text-xs" : ""}`}>{row.value}</span>
                       </div>
                     ))}
                   </div>
 
                   {/* Traits */}
                   {nft.attributes?.length > 0 && (
-                    <div className="rounded-2xl border border-white/8 bg-white/3 p-5">
-                      <p className="text-white/50 text-xs font-semibold uppercase tracking-wider mb-4">Traits</p>
+                    <div className="rounded-2xl border border-black/8 bg-white shadow-sm p-5">
+                      <p className="text-black/50 text-xs font-semibold uppercase tracking-wider mb-4">Traits</p>
                       <div className="grid grid-cols-2 gap-2">
                         {nft.attributes.map((attr, i) => (
                           <div key={i} className="px-3 py-2.5 rounded-xl bg-orange-500/8 border border-orange-500/15 text-center">
-                            <p className="text-orange-400/60 text-[10px] uppercase tracking-wider mb-0.5">{attr.trait_type}</p>
-                            <p className="text-white/80 text-sm font-semibold">{attr.value}</p>
+                            <p className="text-orange-500/70 text-[10px] uppercase tracking-wider mb-0.5">{attr.trait_type}</p>
+                            <p className="text-black/80 text-sm font-semibold">{attr.value}</p>
                           </div>
                         ))}
                       </div>

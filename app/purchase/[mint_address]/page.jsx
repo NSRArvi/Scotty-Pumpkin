@@ -8,6 +8,8 @@ import WalletButton from "@/app/components/WalletButton";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
+
+
 // ── Payment Methods — Currently only SOL is active; the others are marked as "Coming Soon" ──────────────
 // Once SPUMP/USFF tokens are available in the future, simply set `active: true` to enable them.
 const PAYMENT_METHODS = [
@@ -83,7 +85,7 @@ export default function PurchasePage() {
   const [step, setStep]   = useState("idle"); // idle | paying | verifying | done | error
   const [error, setError] = useState("");
   const [txSig, setTxSig] = useState("");
-
+  const [platformFeePercent, setPlatformFeePercent] = useState(3);
   // ── Load NFT ────────────────────────────────────────
   useEffect(() => {
     if (!mintAddress) return;
@@ -103,10 +105,19 @@ export default function PurchasePage() {
       .finally(() => setLoading(false));
   }, [mintAddress]);
 
+  useEffect(() => {
+  fetch(`${API_URL}/config`)
+    .then((r) => r.json())
+    .then((d) => {
+      if (d.success) setPlatformFeePercent(d.data.platform_fee_percent);
+    })
+    .catch(() => {});
+  }, []);
+
   const method        = PAYMENT_METHODS.find((m) => m.id === selected);
   const basePrice     = nft ? parseFloat(nft.list_price) : 0;
-  const platformFee   = basePrice * 0.03;
-  const youPay         = basePrice - platformFee; // seller receives this; buyer pays full basePrice
+  const platformFee = basePrice * (platformFeePercent / 100);
+  const youPay      = basePrice - platformFee; // seller receives this; buyer pays full basePrice
   const isOwner        = nft?.wallet_address === walletAddress;
 
   const deliveryWallet = deliveryMode === "connected" ? walletAddress : walletInput;
@@ -416,7 +427,7 @@ export default function PurchasePage() {
                   <span className="text-secondary font-medium text-base">{basePrice.toFixed(4)} SOL</span>
                 </div>
                 <div className="flex justify-between items-center py-2.5 border-b border-secondary/[0.07]">
-                  <span className="text-secondary/60 text-sm font-light">Platform Fee (3%):</span>
+                  <span className="text-secondary/60 text-sm font-light">Platform Fee ({platformFeePercent}%):</span>
                   <span className="text-secondary/70 text-sm font-light">included</span>
                 </div>
                 <div className="flex justify-between items-center py-2.5">
