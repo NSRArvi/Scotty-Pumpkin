@@ -167,12 +167,20 @@ function TrendingCard({ nft, walletAddress }) {
               View
             </Link>
             {nft.is_listed && nft.wallet_address !== walletAddress && (
-              <button
-                onClick={() => setShowBuyModal(true)}
-                className="flex-1 py-1.5 rounded-lg bg-orange-500 text-white text-xs font-semibold hover:bg-orange-400 transition-colors cursor-pointer"
+              // <button
+              //   onClick={() => setShowBuyModal(true)}
+              //   className="flex-1 py-1.5 rounded-lg bg-orange-500 text-white text-xs font-semibold hover:bg-orange-400 transition-colors cursor-pointer"
+              // >
+              //   Buy Now
+              // </button>
+
+              // ── Buy Now → deferant Purchase page ──
+              <Link
+                href={`/purchase/${nft.mint_address}`}
+                className=" flex justify-center flex-1 py-1.5 rounded-lg bg-orange-500 text-white text-xs font-semibold hover:bg-orange-400 transition-colors cursor-pointer"
               >
                 Buy Now
-              </button>
+              </Link>
             )}
           </div>
         </div>
