@@ -358,7 +358,7 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
         {/* Image */}
         <div className="relative aspect-square bg-black/4 overflow-hidden">
           {nft.image_url ? (
-            <img src={`https://ipfs.io/ipfs/${nft.image_hash}`} alt={nft.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <img src={`${API_URL}/image/hash/${nft.image_hash}`} alt={nft.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-black/15">
               <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">

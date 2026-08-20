@@ -15,7 +15,7 @@ const CURRENCY_ICON = { spump: "🎃", usdc: "💵" };
 const formatSolPrice = (price) => {
   return Number(price).toLocaleString(undefined, {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 9,
+    maximumFractionDigits: 6,
   });
 };
 

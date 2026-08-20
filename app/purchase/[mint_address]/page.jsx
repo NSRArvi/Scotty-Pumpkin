@@ -19,7 +19,7 @@ const USDC_MINT_FALLBACK =
 const formatPrice = (price) => {
   return Number(price || 0).toLocaleString(undefined, {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 8,
+    maximumFractionDigits: 6,
   });
 };
 
@@ -43,7 +43,7 @@ async function fetchSpumpPerUsdc() {
     const res  = await fetch(`${API_URL}/buy/spump-price`);
     const data = await res.json();
     if (data?.success && data.spump_per_usdc > 0) {
-      return { spumpPerUsdc: data.spump_per_usdc, decimals: data.decimals ?? 6, usdcDecimals: data.usdc_decimals ?? 6, error: null };
+      return { spumpPerUsdc: data.spump_per_usdc, decimals: data.decimals ?? 6, usdcDecimals: data.usdc_decimals ?? 6, source: data.source ?? null, error: null };
     }
     return { spumpPerUsdc: null, error: data?.message || "Rate temporarily unavailable." };
   } catch (_) {
@@ -109,6 +109,7 @@ export default function PurchasePage() {
 
   const [selected, setSelected]           = useState("spump");
   const [spumpPerUsdc, setSpumpPerUsdc]   = useState(null); // SPUMP units per 1 USDC
+  const [rateSource, setRateSource]       = useState(null); // "jupiter" | "raydium" — which source the live rate came from
   const [spumpDecimals, setSpumpDecimals] = useState(6);
   const [usdcDecimals, setUsdcDecimals]   = useState(6);
   const [rateLoading, setRateLoading]     = useState(false);
@@ -171,8 +172,11 @@ export default function PurchasePage() {
   // ── SPUMP/USDC live rate — fetched upfront (not gated on `selected`)
   // since we always need it the moment list_currency and the buyer's
   // chosen currency differ, regardless of which one is picked first.
-  const loadRate = useCallback(() => {
-    setRateLoading(true);
+  // `silent` = true for background polling refreshes, so the "Loading
+  // rate..." UI only ever shows on the very first fetch — not every 30s,
+  // which would flicker the already-displayed rate for no reason.
+  const loadRate = useCallback((silent = false) => {
+    if (!silent) setRateLoading(true);
     setRateError("");
     fetchSpumpPerUsdc()
       .then(r => {
@@ -180,14 +184,27 @@ export default function PurchasePage() {
           setSpumpPerUsdc(r.spumpPerUsdc);
           setSpumpDecimals(r.decimals);
           setUsdcDecimals(r.usdcDecimals);
-        } else {
+          setRateSource(r.source);
+        } else if (!silent) {
+          // Don't blow away an already-good rate with an error just
+          // because one background refresh failed — keep showing the
+          // last known-good value and try again on the next poll.
           setRateError(r.error || "Rate unavailable.");
         }
       })
-      .finally(() => setRateLoading(false));
+      .finally(() => { if (!silent) setRateLoading(false); });
   }, []);
 
-  useEffect(() => { loadRate(); }, [loadRate]);
+  // Fetch immediately (foreground, shows loading state), then keep
+  // polling silently in the background so the displayed rate stays live
+  // without the buyer needing to reload the page. 30s matches the
+  // backend's own 60s cache — polling faster wouldn't get fresher data,
+  // just wasted requests.
+  useEffect(() => {
+    loadRate(false);
+    const intervalId = setInterval(() => loadRate(true), 30000);
+    return () => clearInterval(intervalId);
+  }, [loadRate]);
 
   // ── Calculations ──────────────────────────────────────────
   // While `pricing` hasn't loaded yet, fall back to a naive local
@@ -732,7 +749,28 @@ export default function PurchasePage() {
               )}
 
               {spumpPerUsdc && (
-                <InfoRow icon="🔗" label="Token Rate" value={`1 USDC ≈ ${spumpPerUsdc.toLocaleString()} SPUMP`} valueClass="text-amber-600 font-mono text-xs" />
+                <InfoRow
+                  icon="🔗"
+                  label="Token Rate"
+                  value={
+                    <span className="inline-flex items-center gap-1.5">
+                      {`1 USDC ≈ ${spumpPerUsdc.toLocaleString()} SPUMP`}
+                      {rateSource && (
+                        <span
+                          className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wide ${
+                            rateSource === "jupiter"
+                              ? "bg-emerald-500/15 text-emerald-600"
+                              : "bg-purple-500/15 text-purple-600"
+                          }`}
+                          title={rateSource === "jupiter" ? "Live rate from Jupiter" : "Live rate from Raydium (Jupiter unavailable)"}
+                        >
+                          {rateSource === "jupiter" ? "Jupiter" : "Raydium"}
+                        </span>
+                      )}
+                    </span>
+                  }
+                  valueClass="text-amber-600 font-mono text-xs"
+                />
               )}
 
               <InfoRow

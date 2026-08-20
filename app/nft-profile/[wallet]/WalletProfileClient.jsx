@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import { useSolanaWallet } from "@/hooks/useWallet";
 import WalletButton from "@/app/components/WalletButton";
+import StorageRenewalCard from "@/app/components/StorageRenewalCard";
 
 const API_URL          = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 const SPUMP_MINT       = process.env.NEXT_PUBLIC_SPUMP_MINT_ADDRESS;
@@ -40,12 +41,20 @@ async function fetchSplBalance(walletAddress, mintAddress) {
 const formatSolPrice = (price) => {
   return Number(price).toLocaleString(undefined, {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 8,
+    maximumFractionDigits: 6,
   });
 };
 
 function Skeleton({ className }) {
   return <div className={`animate-pulse bg-black/5 rounded-xl ${className}`} />;
+}
+
+// Same threshold as StorageRenewalCard's own badge logic — an NFT
+// "needs attention" once it's within 30 days of its storage renewal
+// date, or already past it.
+function daysUntil(dateStr) {
+  if (!dateStr) return null;
+  return Math.ceil((new Date(dateStr) - new Date()) / (1000 * 60 * 60 * 24));
 }
 
 function StatCard({ label, value, sub }) {
@@ -107,7 +116,7 @@ function NftCard({ nft }) {
 export default function WalletProfileClient() {
   const params                       = useParams();
   const urlWallet                    = params?.wallet;
-  const { connected, walletAddress } = useSolanaWallet();
+  const { connected, walletAddress, signTransaction } = useSolanaWallet();
 
   // Profile wallet — Use the wallet address from the URL if available; otherwise, use the connected wallet.
   const profileWallet = urlWallet || walletAddress;
@@ -158,6 +167,19 @@ export default function WalletProfileClient() {
     .join(" + ") || null;
 
   const tabNfts = activeTab === "owned" ? nfts : activeTab === "listed" ? listedNfts : soldNfts;
+
+  // Storage renewal is owner-only on the backend (NftController::renewStorage
+  // checks nft.wallet_address === request wallet), so this banner only makes
+  // sense — and only appears — when viewing your OWN profile.
+  const storageAlerts = isOwnProfile
+    ? nfts
+        .filter((n) => { const d = daysUntil(n.storage_paid_until); return d !== null && d <= 30; })
+        .sort((a, b) => daysUntil(a.storage_paid_until) - daysUntil(b.storage_paid_until))
+    : [];
+
+  function handleStorageRenewed(updated) {
+    setNfts((prev) => prev.map((n) => (n.id === updated.id ? { ...n, storage_paid_until: updated.storage_paid_until } : n)));
+  }
 
   if (!profileWallet && !connected) {
     return (
@@ -224,6 +246,32 @@ export default function WalletProfileClient() {
               <StatCard label="SPUMP Balance" value={spumpBalance != null ? formatSolPrice(spumpBalance) : "—"} sub="🎃 SPUMP" />
               <StatCard label="USDC Balance"  value={usdcBalance != null ? formatSolPrice(usdcBalance) : "—"}  sub="💵 USDC" />
             </div>
+
+            {/* Storage attention — NFTs you own whose IPFS hosting is expiring
+                within 30 days or already lapsed. Owner-only (see storageAlerts
+                above), so this never appears when viewing someone else's profile. */}
+            {storageAlerts.length > 0 && (
+              <div className="mb-8 space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="h-px w-8 bg-orange-500/40" />
+                  <span className="text-[10px] tracking-[0.2em] uppercase font-semibold text-orange-500">
+                    Storage Needs Attention ({storageAlerts.length})
+                  </span>
+                </div>
+                <div className="grid md:grid-cols-2 gap-3">
+                  {storageAlerts.map((n) => (
+                    <StorageRenewalCard
+                      key={n.id}
+                      nft={n}
+                      walletAddress={walletAddress}
+                      signTransaction={signTransaction}
+                      compact
+                      onRenewed={handleStorageRenewed}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Tabs */}
             <div className="flex gap-1 p-1 rounded-xl bg-white border border-black/8 shadow-sm w-fit mb-8">

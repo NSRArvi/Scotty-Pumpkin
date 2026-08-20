@@ -6,6 +6,7 @@ import Container from "../../components/shared/Container";
 import { useSolanaWallet } from "@/hooks/useWallet";
 import WalletButton from "@/app/components/WalletButton";
 import BuyModal from "@/app/components/BuyModal";
+import StorageRenewalCard from "@/app/components/StorageRenewalCard";
 import Link from "next/link";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
@@ -23,7 +24,7 @@ function Skeleton({ className }) {
 export default function NftDetailClient() {
   const params                        = useParams();
   const mintAddress                   = params?.mint_address;
-  const { connected, walletAddress }  = useSolanaWallet();
+  const { connected, walletAddress, signTransaction } = useSolanaWallet();
 
   const [nft, setNft]               = useState(null);
   const [loading, setLoading]       = useState(true);
@@ -139,13 +140,13 @@ export default function NftDetailClient() {
                     {nft.metadata_uri && (
                       <a href={nft.metadata_uri} target="_blank" rel="noreferrer"
                         className="flex-1 py-2.5 rounded-xl border border-black/10 bg-white text-black/50 text-xs font-semibold text-center hover:bg-black/5 hover:text-black transition-all">
-                        IPFS Metadata ↗
+                        NFT Metadata ↗
                       </a>
                     )}
                   </div>
 
                   {/* External links — website / Discord / Twitter / Sosay, each optional */}
-                  {(nft.external_website || nft.external_discord || nft.external_twitter || nft.external_sosay) && (
+                  {(nft.external_website || nft.external_social || nft.external_twitter || nft.external_sosay || nft.external_telegram || nft.external_whatsapp) && (
                     <div className="flex gap-2 flex-wrap">
                       {nft.external_website && (
                         <a href={nft.external_website} target="_blank" rel="noreferrer"
@@ -154,11 +155,30 @@ export default function NftDetailClient() {
                           Website
                         </a>
                       )}
-                      {nft.external_discord && (
-                        <a href={nft.external_discord} target="_blank" rel="noreferrer"
-                          className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-black/10 bg-white text-black/60 text-xs font-semibold hover:bg-black/5 hover:text-black transition-all">
-                          <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.79 19.79 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.056 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.073.073 0 01.078.009c.12.099.246.198.373.292a.077.077 0 01-.006.127c-.598.35-1.22.645-1.873.892a.076.076 0 00-.04.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.84 19.84 0 006.002-3.03.077.077 0 00.032-.055c.5-5.177-.838-9.674-3.549-13.66a.06.06 0 00-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.947 2.419-2.157 2.419z" /></svg>
-                          Discord
+                      {nft.external_social && (
+                        <a
+                          href={nft.external_social}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-black/10 bg-white text-black/60 text-xs font-semibold hover:bg-black/5 hover:text-black transition-all"
+                        >
+                          {/* Social Media Icon */}
+                          <svg
+                            className="w-3.5 h-3.5"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <circle cx="12" cy="12" r="9" />
+                            <circle cx="8.5" cy="10" r="1" fill="currentColor" stroke="none" />
+                            <circle cx="15.5" cy="10" r="1" fill="currentColor" stroke="none" />
+                            <path d="M7.5 14.5c1.2 1.2 2.7 1.8 4.5 1.8s3.3-.6 4.5-1.8" />
+                          </svg>
+
+                          Social Media
                         </a>
                       )}
                       {nft.external_twitter && (
@@ -175,6 +195,39 @@ export default function NftDetailClient() {
                               icon renders directly rather than a generic placeholder glyph. */}
                           <img src="https://sosay.org/favicon.ico" alt="" className="w-3.5 h-3.5 rounded-sm" />
                           Sosay
+                        </a>
+                      )}
+
+                      {nft.external_whatsapp && (
+                        <a
+                          href={`https://wa.me/${String(nft.external_whatsapp).replace(/\D/g, '').replace(/^0/, '880')}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-black/10 bg-white text-black/60 text-xs font-semibold hover:bg-black/5 hover:text-black transition-all"
+                        >
+                          {/* WhatsApp Icon */}
+                          <svg
+                            className="w-3.5 h-3.5"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                          >
+                            <path d="M20.52 3.48A11.86 11.86 0 0012.06 0C5.5 0 .16 5.34.16 11.91c0 2.1.55 4.15 1.6 5.96L.05 24l6.27-1.64a11.9 11.9 0 005.74 1.47h.01c6.56 0 11.9-5.34 11.9-11.91 0-3.18-1.24-6.17-3.45-8.44zM12.07 21.8a9.87 9.87 0 01-5.03-1.38l-.36-.21-3.72.97.99-3.63-.23-.37a9.84 9.84 0 01-1.51-5.27c0-5.45 4.44-9.89 9.9-9.89 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 012.9 7c0 5.45-4.44 9.88-9.93 9.88zm5.42-7.4c-.3-.15-1.78-.88-2.05-.98-.27-.1-.47-.15-.67.15-.2.3-.77.98-.94 1.18-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.21 5.08 4.5.71.31 1.27.49 1.7.63.71.23 1.35.2 1.86.12.57-.08 1.78-.73 2.03-1.43.25-.7.25-1.3.17-1.43-.07-.12-.27-.2-.57-.35z" />
+                          </svg>
+
+                          WhatsApp
+                        </a>
+                      )}
+                      {nft.external_telegram && (
+                        <a
+                          href={nft.external_telegram}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-black/10 bg-white text-black/60 text-xs font-semibold hover:bg-black/5 hover:text-black transition-all"
+                        >
+                          <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M21.8 3.2L18.6 20c-.24 1.19-.88 1.48-1.78.92l-4.9-3.61-2.36 2.27c-.26.26-.48.48-.98.48l.35-4.99 9.08-8.2c.4-.35-.09-.55-.62-.2L6.16 13.85 1.3 12.33c-1.06-.33-1.08-1.06.22-1.57L20.5 3.3c.89-.33 1.67.21 1.3-.1z" />
+                          </svg>
+                          Telegram
                         </a>
                       )}
                     </div>
@@ -251,6 +304,18 @@ export default function NftDetailClient() {
                       </div>
                     )}
                   </div>
+
+                  {/* Storage — shows whether this NFT's asset (image/metadata on
+                      IPFS) is healthy, expiring soon, or lapsed. Only the current
+                      owner (nft.wallet_address, kept in sync on every sale — see
+                      BuyController) sees the renew action; everyone else sees the
+                      status read-only, which doubles as a trust signal for buyers. */}
+                  <StorageRenewalCard
+                    nft={nft}
+                    walletAddress={walletAddress}
+                    signTransaction={signTransaction}
+                    onRenewed={(updated) => setNft((prev) => ({ ...prev, storage_paid_until: updated.storage_paid_until, storage_status: "active" }))}
+                  />
 
                   {/* Other copies of this edition currently for sale */}
                   {editionListings && editionListings.length > 0 && (

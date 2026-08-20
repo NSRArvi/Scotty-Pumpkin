@@ -37,6 +37,22 @@ const FALLBACK_TREASURY_WALLET = process.env.NEXT_PUBLIC_TREASURY_WALLET || "";
 const FALLBACK_SPUMP_MINT = "AKdCsQHoLKCpu3n2QcMS3BK8vQTWDcSDpujLr8UjeyNT";
 const FALLBACK_USDC_MINT  = process.env.NEXT_PUBLIC_USDC_MINT_ADDRESS || "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
 
+// Storage fee rate FALLBACK ONLY — the real, admin-configurable rate is
+// PlatformSetting `storage_fee_per_mb_spump`, fetched live from
+// /api/config (see storageFeeRatePerMb state below), same as mint_price
+// and every other admin-controlled setting on this page. This constant
+// is just what's shown for a split second before that fetch resolves.
+// The authoritative, payment-critical number always still comes back
+// from POST /nft/create (storage_fee_spump) — that's what actually gets
+// charged on-chain, never this client-side estimate, since backend's
+// mint() verifies payment with a very tight 0.0005 SPUMP tolerance.
+const FALLBACK_STORAGE_FEE_PER_MB = 10;
+function estimateStorageFeeSpump(fileSizeBytes, ratePerMb) {
+  if (!fileSizeBytes) return 0;
+  const sizeMB = fileSizeBytes / (1024 * 1024);
+  return sizeMB * (ratePerMb ?? FALLBACK_STORAGE_FEE_PER_MB);
+}
+
 // ── Check connected wallet's live SOL balance (still needed for network/rent fees) ──
 async function getWalletSolBalance(walletAddress, rpcUrl) {
   const { Connection, PublicKey, LAMPORTS_PER_SOL } = await import("@solana/web3.js");
@@ -69,9 +85,10 @@ async function getTokenRateInfo() {
 }
 
 // ── Mint on Solana (payment + mint combined in ONE atomic transaction) ─────
-// paymentCurrency is "spump" or "usdc" — mint_price/price_after_discount
-// (set by the admin) are denominated in SPUMP; if the minter pays in USDC,
-// the amount is converted via the live rate before building the transfer.
+// paymentCurrency is "spump" or "usdc" — paymentAmountSpump passed in here
+// is ALREADY mint-price + storage-fee combined (see mintOneCopy below),
+// denominated in SPUMP; if the minter pays in USDC, the amount is
+// converted via the live rate before building the transfer.
 async function mintOnSolana(metadataUri, walletAddress, signTransaction, signAllTransactions, paymentAmountSpump = 0, paymentCurrency = "spump", tokenMints = {}, treasuryWallet = "") {
   const { createUmi }              = await import("@metaplex-foundation/umi-bundle-defaults");
   const { walletAdapterIdentity }  = await import("@metaplex-foundation/umi-signer-wallet-adapters");
@@ -108,8 +125,8 @@ async function mintOnSolana(metadataUri, walletAddress, signTransaction, signAll
     : (tokenMints.spumpMint || FALLBACK_SPUMP_MINT);
   const decimals     = paymentCurrency === "usdc" ? usdcDecimals : spumpDecimals;
 
-  // mint_price/price_after_discount are set by the admin in SPUMP —
-  // convert to USDC if that's what the minter is paying with.
+  // paymentAmountSpump (mint price + storage fee combined) is denominated
+  // in SPUMP — convert to USDC if that's what the minter is paying with.
   let paymentAmount = paymentAmountSpump;
   if (paymentCurrency === "usdc" && paymentAmountSpump > 0) {
     if (!spumpPerUsdc) {
@@ -120,9 +137,9 @@ async function mintOnSolana(metadataUri, walletAddress, signTransaction, signAll
 
   // Pre-flight balance checks — fail fast with a clear message instead
   // of a confusing wallet-simulation error. Two separate checks: the
-  // token (SPUMP or USDC) for the actual mint price, and a small
-  // amount of SOL for the unavoidable Solana network/rent fee (paid
-  // in SOL no matter what — a protocol-level requirement).
+  // token (SPUMP or USDC) for mint price + storage fee combined, and a
+  // small amount of SOL for the unavoidable Solana network/rent fee
+  // (paid in SOL no matter what — a protocol-level requirement).
   const [tokenBalance, solBalance] = await Promise.all([
     getWalletTokenBalance(walletAddress, mintAddress, rpcUrl, decimals),
     getWalletSolBalance(walletAddress, rpcUrl),
@@ -130,7 +147,7 @@ async function mintOnSolana(metadataUri, walletAddress, signTransaction, signAll
 
   if (paymentAmount > 0 && tokenBalance < paymentAmount) {
     throw new Error(
-      `Insufficient ${paymentCurrency.toUpperCase()} balance. This mint needs ${formatSolPrice(paymentAmount)} ${paymentCurrency.toUpperCase()}, ` +
+      `Insufficient ${paymentCurrency.toUpperCase()} balance. This mint (price + 1 year storage) needs ${formatSolPrice(paymentAmount)} ${paymentCurrency.toUpperCase()}, ` +
       `but your wallet only has ${formatSolPrice(tokenBalance)} ${paymentCurrency.toUpperCase()}.`
     );
   }
@@ -151,9 +168,11 @@ async function mintOnSolana(metadataUri, walletAddress, signTransaction, signAll
     uri:   metadataUri,
   });
 
-  // If this mint isn't free, append a token transfer (SPUMP or USDC)
-  // to the treasury wallet in the SAME transaction, so the payment and
-  // the mint either both succeed or both fail.
+  // If anything is owed (mint price and/or storage fee isn't zero),
+  // append a token transfer (SPUMP or USDC) to the treasury wallet in
+  // the SAME transaction, so the payment and the mint either both
+  // succeed or both fail. Note this is charged even when mint itself
+  // is free-listed — storage fee is never waived by free listing.
   if (paymentAmount > 0) {
     const treasuryAddress = treasuryWallet || FALLBACK_TREASURY_WALLET;
     if (!treasuryAddress) {
@@ -203,10 +222,8 @@ async function mintOnSolana(metadataUri, walletAddress, signTransaction, signAll
 
   const [transactionSig] = base58.deserialize(signatureBytes);
   const confirmed = await waitForTransactionVisible(transactionSig, rpcUrl);
-  // if (!confirmed) throw new Error("Transaction confirmed by wallet but not yet visible via RPC. Signature: " + transactionSig);
-  // return { mintAddress: assetSigner.publicKey.toString(), transactionSig };
 
-    if (!confirmed) {
+  if (!confirmed) {
     console.warn(
       "RPC delay. Continuing anyway:",
       transactionSig
@@ -217,8 +234,6 @@ async function mintOnSolana(metadataUri, walletAddress, signTransaction, signAll
     mintAddress: assetSigner.publicKey.toString(),
     transactionSig,
   };
-
-
 }
 
 async function waitForTransactionVisible(signature, rpcUrl, maxAttempts = 30, delayMs = 2500) {
@@ -270,6 +285,21 @@ function TrendingCard({ nft, walletAddress }) {
 
   function showToastMsg(msg) { setToast(msg); setTimeout(() => setToast(""), 3000); }
 
+  // Storage countdown — helps a browsing buyer see at a glance whether
+  // this NFT's asset storage is healthy, expiring soon, or lapsed.
+  // Non-owners can't renew it (see NftController::renewStorage — only
+  // wallet_address, i.e. current owner, is authorized), this is purely
+  // informational here.
+  function storageBadge() {
+    if (!nft.storage_paid_until) return null;
+    const until = new Date(nft.storage_paid_until);
+    const daysLeft = Math.ceil((until - new Date()) / (1000 * 60 * 60 * 24));
+    if (daysLeft < 0) return { text: "Storage expired", cls: "bg-red-500/15 border-red-500/25 text-red-500" };
+    if (daysLeft <= 30) return { text: `Storage renews in ${daysLeft}d`, cls: "bg-amber-500/15 border-amber-500/25 text-amber-600" };
+    return null; // healthy — no need to clutter the card
+  }
+  const badge = storageBadge();
+
   return (
     <>
       {toast && (
@@ -293,7 +323,12 @@ function TrendingCard({ nft, walletAddress }) {
               <div className="absolute top-2 right-2">
                 <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-600 text-[10px] font-semibold">Listed</span>
               </div>
-            )}c
+            )}
+            {badge && (
+              <div className="absolute top-2 left-2">
+                <span className={`px-2 py-0.5 rounded-full border text-[10px] font-semibold ${badge.cls}`}>{badge.text}</span>
+              </div>
+            )}
           </div>
         </Link>
 
@@ -368,7 +403,9 @@ export default function NftStudioClient() {
   const [traits, setTraits]           = useState([]);
 
   const [externalWebsite, setExternalWebsite] = useState("");
-  const [externalDiscord, setExternalDiscord] = useState("");
+  const [externalSocial, setExternalSocial]   = useState("");
+  const [externalTelegram, setExternalTelegram] = useState("");
+  const [externalWhatsapp, setExternalWhatsapp] = useState("");
   const [externalTwitter, setExternalTwitter] = useState("");
   const [externalSosay, setExternalSosay]     = useState("");
   const [unlockableContent, setUnlockableContent] = useState("");
@@ -377,11 +414,10 @@ export default function NftStudioClient() {
   const [collections, setCollections]             = useState([]);
   const [collectionId, setCollectionId]           = useState("");
 
-  // ── Pricing & discounts — "Step 04" UI removed. mint_price, discount %,
-  // discount_amount and price_after_discount are no longer computed here —
-  // they come straight from the database via /api/config (see useEffect
-  // below), so the backend (PlatformSetting table) is the single source of
-  // truth and the frontend just displays what it's given.
+  // ── Pricing & discounts — mint_price, discount %, discount_amount and
+  // price_after_discount come straight from the database via /api/config
+  // (see useEffect below), so the backend (PlatformSetting table) is the
+  // single source of truth and the frontend just displays what it's given.
   const [mintPrice, setMintPrice]                        = useState(0.5);
   const [isFreeListing, setIsFreeListing]                = useState(true);
   const [mintDiscountPercent, setMintDiscountPercent]    = useState(0);
@@ -393,7 +429,23 @@ export default function NftStudioClient() {
   const hasMintDiscount  = mintDiscountPercent > 0;
   const hasBuyerDiscount = buyerDiscountPercent > 0;
 
-  const totalCost = Number(priceAfter.toFixed(9));
+  // ── Storage fee (1 year of IPFS hosting for this NFT's asset) ──────────
+  // storageFeeEstimate: a rough client-side number shown as soon as a
+  // file is picked, purely so the UI isn't blank while waiting on the
+  // server. storageFeeSpump: the AUTHORITATIVE value returned by
+  // POST /nft/create once the image is actually uploaded and its real
+  // byte size is known server-side — this is what actually gets charged.
+  // This fee is charged EVERY time (mint is never storage-fee-free, even
+  // when the mint itself is free-listed), because it's a real hosting
+  // cost, not a promotional price.
+  const [storageFeeSpump, setStorageFeeSpump] = useState(0);
+  const [storageFeeRatePerMb, setStorageFeeRatePerMb] = useState(FALLBACK_STORAGE_FEE_PER_MB);
+  const storageFeeEstimate = uploadedFileObj ? estimateStorageFeeSpump(uploadedFileObj.size, storageFeeRatePerMb) : 0;
+  const effectiveStorageFeeSpump = storageFeeSpump || storageFeeEstimate;
+
+  // Total the wallet will actually be asked to sign for, per copy:
+  // (mint price after discount) + (storage fee for 1 year).
+  const totalPerCopySpump = Number((priceAfter + effectiveStorageFeeSpump).toFixed(9));
 
   const [step, setStep]         = useState("idle");
   const [error, setError]       = useState("");
@@ -401,13 +453,15 @@ export default function NftStudioClient() {
   const [mintStep, setMintStep] = useState("");
 
   // ── Edition / Total Supply minting progress ─────────────────────────────
-  // A "limited" edition of N now creates N mintable copies on the backend
-  // (see /nft/create). Each copy is a separate on-chain token, so each one
-  // still needs its own wallet approval — we mint them one at a time and
-  // track progress + which copies are left if the user stops partway.
-  const [editionMeta, setEditionMeta]   = useState(null); // { metadataUri, totalCopies }
+  // A "limited" edition of N creates N mintable copies on the backend
+  // (see /nft/create). Each copy is a separate on-chain token sharing the
+  // same artwork, so each one still needs its own wallet approval AND its
+  // own storage-fee payment (each copy is billed 1 year of storage
+  // individually) — we mint them one at a time and track progress + which
+  // copies are left if the user stops partway.
+  const [editionMeta, setEditionMeta]   = useState(null); // { metadataUri, totalCopies, storageFeeSpump }
   const [remainingIds, setRemainingIds] = useState([]);
-  const [mintedCopies, setMintedCopies] = useState([]);   // [{ nftId, mintAddress, transactionSig }]
+  const [mintedCopies, setMintedCopies] = useState([]);   // [{ nftId, mintAddress, transactionSig, storagePaidUntil }]
 
   const [trendingNfts, setTrendingNfts]       = useState([]);
   const [trendingLoading, setTrendingLoading] = useState(true);
@@ -417,6 +471,7 @@ export default function NftStudioClient() {
   // can pay in either SPUMP or USDC (converted via the live rate).
   const [mintCurrency, setMintCurrency] = useState("spump");
   const [spumpPerUsdc, setSpumpPerUsdc] = useState(null);
+  const [rateSource, setRateSource] = useState(null); // "jupiter" | "raydium" — which source the live rate came from
   // Live token mint addresses from the backend's /api/config — this is the
   // same source config('services.tokens.spump_mint') reads from, so it
   // can never drift out of sync with what the backend actually verifies
@@ -424,18 +479,31 @@ export default function NftStudioClient() {
   const [tokenMints, setTokenMints] = useState({ spumpMint: FALLBACK_SPUMP_MINT, usdcMint: FALLBACK_USDC_MINT });
   const [treasuryWallet, setTreasuryWallet] = useState(FALLBACK_TREASURY_WALLET);
 
+  // Fetch immediately, then keep polling so the displayed rate/source stay
+  // live without needing a page reload. 30s matches the backend's own 60s
+  // cache — polling faster wouldn't get fresher data.
   useEffect(() => {
-    fetch(`${API_URL}/buy/spump-price`)
-      .then(r => r.json())
-      .then(d => { if (d?.success) setSpumpPerUsdc(d.spump_per_usdc ?? null); })
-      .catch(() => {});
+    function loadRate() {
+      fetch(`${API_URL}/buy/spump-price`)
+        .then(r => r.json())
+        .then(d => {
+          if (d?.success) {
+            setSpumpPerUsdc(d.spump_per_usdc ?? null);
+            setRateSource(d.source ?? null);
+          }
+        })
+        .catch(() => {});
+    }
+    loadRate();
+    const intervalId = setInterval(loadRate, 30000);
+    return () => clearInterval(intervalId);
   }, []);
 
-  // mint_price/discountAmount/priceAfter below are all in SPUMP (the
-  // base/reference currency) — convert to USDC for display when that's
-  // what's selected, dividing by spump_per_usdc (Jupiter's live rate:
-  // e.g. if 1 USDC = 1000 SPUMP, spump_per_usdc = 1000, so X SPUMP =
-  // X/1000 USDC).
+  // mint_price/discountAmount/priceAfter/storage fee below are all in
+  // SPUMP (the base/reference currency) — convert to USDC for display
+  // when that's what's selected, dividing by spump_per_usdc (Jupiter's
+  // live rate: e.g. if 1 USDC = 1000 SPUMP, spump_per_usdc = 1000, so
+  // X SPUMP = X/1000 USDC).
   function toMintCurrency(amountInSpump) {
     if (mintCurrency !== "usdc") return amountInSpump;
     if (!spumpPerUsdc) return null; // rate not loaded yet
@@ -443,6 +511,12 @@ export default function NftStudioClient() {
   }
   const mintUnit = mintCurrency.toUpperCase();
 
+  function formatDate(d) {
+    if (!d) return "—";
+    try {
+      return new Date(d).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+    } catch (_) { return "—"; }
+  }
 
   const loadTrending = useCallback(() => {
     fetch(`${API_URL}/marketplace?sort=latest&per_page=4`)
@@ -488,6 +562,9 @@ export default function NftStudioClient() {
         setDiscountAmount(Number(d.data.discount_amount) || 0);
         setPriceAfter(Number(d.data.price_after_discount) || 0);
         setBuyerDiscountPercent(Number(d.data.buyer_discount_percent) || 0);
+        if (d.data.storage_fee_per_mb_spump != null) {
+          setStorageFeeRatePerMb(Number(d.data.storage_fee_per_mb_spump) || FALLBACK_STORAGE_FEE_PER_MB);
+        }
         if (d.data.spump_mint || d.data.usdc_mint) {
           setTokenMints({
             spumpMint: d.data.spump_mint || FALLBACK_SPUMP_MINT,
@@ -519,7 +596,9 @@ export default function NftStudioClient() {
     if (!uploadedFileObj)             return setError("Please upload an artwork.");
     if (!title.trim())                return setError("Please enter NFT title.");
     if (!description.trim())          return setError("Please enter a description.");
-    if (!isFreeListing && priceAfter > 0 && !treasuryWallet) {
+    // Storage fee is charged every mint (never waived by free listing),
+    // so the treasury wallet must be configured even for free-listed mints.
+    if (!treasuryWallet) {
       return setError("Payments are not configured yet (missing treasury wallet). Please contact support.");
     }
 
@@ -547,7 +626,9 @@ export default function NftStudioClient() {
       }
       formData.append("royalty", royalty.toString());
       if (externalWebsite.trim())    formData.append("external_website", externalWebsite.trim());
-      if (externalDiscord.trim())    formData.append("external_discord", externalDiscord.trim());
+      if (externalSocial.trim())     formData.append("external_social", externalSocial.trim());
+      if (externalTelegram.trim())   formData.append("external_telegram", externalTelegram.trim());
+      if (externalWhatsapp.trim())   formData.append("external_whatsapp", externalWhatsapp.trim());
       if (externalTwitter.trim())    formData.append("external_twitter", externalTwitter.trim());
       if (externalSosay.trim())      formData.append("external_sosay", externalSosay.trim());
       if (unlockableContent.trim())  formData.append("unlockable_content", unlockableContent.trim());
@@ -576,11 +657,21 @@ export default function NftStudioClient() {
       const { metadata_uri, nft_ids } = apiData.data;
       const idsToMint = Array.isArray(nft_ids) && nft_ids.length ? nft_ids : [apiData.data.nft_id];
 
-      setEditionMeta({ metadataUri: metadata_uri, totalCopies: idsToMint.length, createData: apiData.data });
+      // Authoritative storage fee for THIS upload's real file size, as
+      // computed server-side (see backend patch: create() now returns
+      // storage_fee_spump). Falls back to the rough client estimate only
+      // if the backend hasn't been patched yet — but the on-chain payment
+      // itself must always use this server value once available, since
+      // the backend verifies against its own calculation, not the client's.
+      const serverStorageFee = Number(apiData.data.storage_fee_spump ?? 0);
+      const resolvedStorageFee = serverStorageFee > 0 ? serverStorageFee : storageFeeEstimate;
+      setStorageFeeSpump(resolvedStorageFee);
+
+      setEditionMeta({ metadataUri: metadata_uri, totalCopies: idsToMint.length, createData: apiData.data, storageFeeSpump: resolvedStorageFee });
       setMintedCopies([]);
       setStep("minting");
 
-      await mintCopiesSequentially(idsToMint, metadata_uri, apiData.data);
+      await mintCopiesSequentially(idsToMint, metadata_uri, apiData.data, [], resolvedStorageFee);
       loadTrending();
     } catch (err) {
       setStep("error"); setMintStep(""); setError(err.message);
@@ -588,8 +679,16 @@ export default function NftStudioClient() {
   }
 
   // ── Mints one on-chain copy for a given DB row + confirms it with the backend ──
-  async function mintOneCopy(nftId, metadataUri) {
-    const paymentAmountSpump = isFreeListing ? 0 : priceAfter;
+  // Payment = (mint price after discount) + (storage fee for 1 year of
+  // hosting) — storage fee is included EVERY time, even when the mint
+  // price itself is free, because it's a real hosting cost that isn't
+  // waived by free listing (see backend mint(): expectedAmountSpump =
+  // price_after_discount + storage_fee_spump).
+  async function mintOneCopy(nftId, metadataUri, storageFeeForThisEdition) {
+    const mintPriceComponent    = isFreeListing ? 0 : priceAfter;
+    const storageFeeComponent   = storageFeeForThisEdition ?? effectiveStorageFeeSpump;
+    const paymentAmountSpump    = Number((mintPriceComponent + storageFeeComponent).toFixed(9));
+
     const { mintAddress, transactionSig } = await mintOnSolana(
       metadataUri, walletAddress, signTransaction, signAllTransactions, paymentAmountSpump, mintCurrency, tokenMints, treasuryWallet
     );
@@ -604,25 +703,28 @@ export default function NftStudioClient() {
         : "";
       throw new Error(fieldErrors || confirmData.message || "Confirm failed");
     }
-    return { nftId, mintAddress, transactionSig };
+    return {
+      nftId,
+      mintAddress,
+      transactionSig,
+      storagePaidUntil: confirmData.data?.storage_paid_until ?? null,
+    };
   }
 
   // ── Mints every remaining copy of the edition, one wallet approval each.
   // If one fails/is cancelled partway, whatever already minted stays minted —
   // the leftover ids are saved so the user can hit "Continue" instead of
   // starting the whole edition over.
-  async function mintCopiesSequentially(ids, metadataUri, createData, previousMinted = []) {
+  async function mintCopiesSequentially(ids, metadataUri, createData, previousMinted = [], storageFeeForThisEdition) {
     const done = [];
     for (let i = 0; i < ids.length; i++) {
       setMintStep(
         ids.length > 1
-          ? `Minting copy ${i + 1} of ${ids.length}...`
-          : (!isFreeListing && priceAfter > 0
-              ? `Charging ${toMintCurrency(priceAfter) !== null ? formatSolPrice(toMintCurrency(priceAfter)) : formatSolPrice(priceAfter)} ${mintUnit} & minting on Solana...`
-              : "Minting on Solana...")
+          ? `Minting copy ${i + 1} of ${ids.length} (incl. 1yr storage)...`
+          : "Charging mint price + 1yr storage & minting on Solana..."
       );
       try {
-        const result = await mintOneCopy(ids[i], metadataUri);
+        const result = await mintOneCopy(ids[i], metadataUri, storageFeeForThisEdition);
         done.push(result);
       } catch (err) {
         const soFar = [...previousMinted, ...done];
@@ -651,13 +753,14 @@ export default function NftStudioClient() {
       explorer_url: `https://explorer.solana.com/address/${last.mintAddress}?cluster=devnet`,
       total_minted: allMinted.length,
       total_copies: editionMeta?.totalCopies ?? allMinted.length,
+      storage_paid_until: last.storagePaidUntil,
     });
   }
 
   async function handleContinueMinting() {
     if (!remainingIds.length || !editionMeta) return;
     setError(""); setStep("minting");
-    await mintCopiesSequentially(remainingIds, editionMeta.metadataUri, editionMeta.createData, mintedCopies);
+    await mintCopiesSequentially(remainingIds, editionMeta.metadataUri, editionMeta.createData, mintedCopies, editionMeta.storageFeeSpump);
   }
 
   const loading = step === "uploading" || step === "minting";
@@ -690,6 +793,7 @@ export default function NftStudioClient() {
                   { label: "Mint Discount",          value: `-${mintDiscountPercent}%` },
                   { label: "Buyer Discount",          value: `-${buyerDiscountPercent}%` },
                   { label: "Free Listing • Sale Fee", value: `${platformFeePercent}%` },
+                  { label: "Storage Rate",            value: `${storageFeeRatePerMb} SPUMP/MB/yr` },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-2">
                     {i > 0 && <div className="w-px h-4 bg-black/10" />}
@@ -744,9 +848,18 @@ export default function NftStudioClient() {
                   <div className="px-3 py-2 rounded-lg bg-white border border-black/8 flex items-center gap-2">
                     <a href={success.explorer_url} target="_blank" rel="noreferrer" className="text-orange-500 underline text-xs">Solana Explorer ↗</a>
                     <span className="text-black/20">•</span>
-                    <a href={success.image_url} target="_blank" rel="noreferrer" className="text-orange-500 underline text-xs">IPFS Image ↗</a>
+                    <a href={success.image_url} target="_blank" rel="noreferrer" className="text-orange-500 underline text-xs">NFT Image ↗</a>
+                  </div>
+                  <div className="px-3 py-2 rounded-lg bg-white border border-black/8 sm:col-span-2 flex items-center justify-between">
+                    <span className="text-black/40">Storage paid until</span>
+                    <span className="text-emerald-600 font-semibold">{formatDate(success.storage_paid_until)}</span>
                   </div>
                 </div>
+                <p className="text-emerald-700/70 text-[11px] leading-relaxed">
+                  This covers 1 year of asset hosting. Whoever owns this NFT when it's due is responsible for the
+                  renewal payment to keep the image/metadata online — ownership always transfers with the NFT on-chain,
+                  but the storage renewal responsibility transfers with it too.
+                </p>
                 <div className="flex flex-wrap gap-3 pt-1">
                   <Link href={`/nft-marketplace/${success.mint_address}`} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-orange-500 text-white text-xs font-bold hover:bg-orange-400 transition-colors shadow-lg shadow-orange-500/20">
                     View on Marketplace →
@@ -802,6 +915,16 @@ export default function NftStudioClient() {
                       </div>
                     )}
                   </div>
+                  {uploadedFileObj && (
+                    <div className="flex items-center justify-between px-3.5 py-2.5 rounded-lg bg-black/[0.02] border border-black/6 text-xs">
+                      <span className="text-black/40">
+                        {(uploadedFileObj.size / (1024 * 1024)).toFixed(2)} MB — est. storage fee (1 yr)
+                      </span>
+                      <span className="text-black/60 font-mono font-medium">
+                        ~{formatSolPrice(storageFeeEstimate)} SPUMP
+                      </span>
+                    </div>
+                  )}
                 </SectionCard>
 
                 <SectionCard>
@@ -884,8 +1007,16 @@ export default function NftStudioClient() {
                       <Input type="url" placeholder="https://yoursite.com" value={externalWebsite} onChange={(e) => setExternalWebsite(e.target.value)} />
                     </div>
                     <div className="space-y-1.5">
-                      <FieldLabel>Discord</FieldLabel>
-                      <Input type="url" placeholder="https://discord.gg/..." value={externalDiscord} onChange={(e) => setExternalDiscord(e.target.value)} />
+                      <FieldLabel>Social Media</FieldLabel>
+                      <Input type="url" placeholder="https://instagram.com/... or any social link" value={externalSocial} onChange={(e) => setExternalSocial(e.target.value)} />
+                    </div>
+                    <div className="space-y-1.5">
+                      <FieldLabel>Telegram</FieldLabel>
+                      <Input type="url" placeholder="https://t.me/..." value={externalTelegram} onChange={(e) => setExternalTelegram(e.target.value)} />
+                    </div>
+                    <div className="space-y-1.5">
+                      <FieldLabel>WhatsApp</FieldLabel>
+                      <Input type="url" placeholder="https://wa.me/..." value={externalWhatsapp} onChange={(e) => setExternalWhatsapp(e.target.value)} />
                     </div>
                     <div className="space-y-1.5">
                       <FieldLabel>Twitter / X</FieldLabel>
@@ -922,11 +1053,6 @@ export default function NftStudioClient() {
                   </div>
                 </SectionCard>
 
-                {/* ── "Step 04 — Pricing & Discounts" removed ──────────────────
-                    Free listing / mint discount / buyer discount are no longer
-                    creator-editable here; they're pulled straight from the
-                    platform_settings table via /api/config (see useEffect above)
-                    and reflected directly in the Cost Breakdown card below. */}
               </div>
 
               {/* RIGHT */}
@@ -977,6 +1103,7 @@ export default function NftStudioClient() {
                       { label: "Mint price",    value: isFreeListing ? "Free" : (toMintCurrency(mintPrice) === null ? "Loading rate..." : `${formatSolPrice(toMintCurrency(mintPrice))} ${mintUnit}`) },
                       { label: `Discount${hasMintDiscount ? ` (${mintDiscountPercent}%)` : ""}`, value: toMintCurrency(discountAmount) === null ? "..." : `-${formatSolPrice(toMintCurrency(discountAmount))} ${mintUnit}` },
                       { label: "After discount", value: isFreeListing ? "Free" : (toMintCurrency(priceAfter) === null ? "Loading rate..." : `${formatSolPrice(toMintCurrency(priceAfter))} ${mintUnit}`) },
+                      { label: "Storage fee (1 year hosting)", value: toMintCurrency(effectiveStorageFeeSpump) === null ? "Loading rate..." : `${formatSolPrice(toMintCurrency(effectiveStorageFeeSpump))} ${mintUnit}` },
                     ].map((row, i, arr) => (
                       <div key={i} className={`flex justify-between items-center text-sm ${i < arr.length - 1 ? "pb-3 border-b border-black/5" : ""}`}>
                         <span className="text-black/50 font-light">{row.label}</span>
@@ -986,27 +1113,44 @@ export default function NftStudioClient() {
                   </div>
                   {mintCurrency === "usdc" && spumpPerUsdc && (
                     <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-black/[0.02] border border-black/6">
-                      <span className="text-black/35 text-[11px]">Live rate (Jupiter)</span>
+                      <span className="text-black/35 text-[11px] inline-flex items-center gap-1.5">
+                        Live rate
+                        {rateSource && (
+                          <span
+                            className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wide ${
+                              rateSource === "jupiter"
+                                ? "bg-emerald-500/15 text-emerald-600"
+                                : "bg-purple-500/15 text-purple-600"
+                            }`}
+                            title={rateSource === "jupiter" ? "Live rate from Jupiter" : "Live rate from Raydium (Jupiter unavailable)"}
+                          >
+                            {rateSource === "jupiter" ? "Jupiter" : "Raydium"}
+                          </span>
+                        )}
+                      </span>
                       <span className="text-black/45 text-[11px] font-mono">1 USDC ≈ {formatSolPrice(spumpPerUsdc)} SPUMP</span>
                     </div>
                   )}
                   <div className="mt-4 flex flex-col gap-1 px-4 py-3.5 rounded-xl bg-orange-500/10 border border-orange-500/20">
                     <div className="flex justify-between items-center">
-                      <span className="text-orange-500 font-semibold text-sm uppercase tracking-wider">You'll pay</span>
+                      <span className="text-orange-500 font-semibold text-sm uppercase tracking-wider">You'll pay {editionType === "limited" && Number(totalSupply) > 1 ? "(per copy)" : ""}</span>
                       <span className="text-orange-500 font-bold text-2xl font-mono">
-                        {isFreeListing ? "Free" : (toMintCurrency(priceAfter) === null ? "Loading..." : `${formatSolPrice(toMintCurrency(priceAfter))} ${mintUnit}`)}
+                        {toMintCurrency(totalPerCopySpump) === null ? "Loading..." : `${formatSolPrice(toMintCurrency(totalPerCopySpump))} ${mintUnit}`}
                       </span>
                     </div>
                   </div>
                   <p className="mt-2 text-black/35 text-[11px] leading-relaxed">
-                    Note: A small amount of SOL is required in the wallet to cover Solana network fees for Minting.
+                    Storage fee covers 1 year of IPFS hosting for this artwork and applies even on free-listed mints —
+                    it's a hosting cost, not a mint price. Renewal is required annually to keep the asset online, and
+                    that responsibility moves with the NFT to whoever owns it. A small amount of SOL is also needed
+                    in the wallet to cover Solana network fees for minting.
                   </p>
                 </SectionCard>
 
                 <button
                   onClick={handleMint}
-                  disabled={loading || !connected || (mintCurrency === "usdc" && !isFreeListing && priceAfter > 0 && !spumpPerUsdc)}
-                  className={`w-full py-4 rounded-2xl font-bold text-sm tracking-wider transition-all ${loading ? "bg-orange-500/40 text-white/60 cursor-not-allowed" : !connected ? "bg-black/5 text-black/20 cursor-not-allowed border border-black/8" : (mintCurrency === "usdc" && !isFreeListing && priceAfter > 0 && !spumpPerUsdc) ? "bg-black/5 text-black/20 cursor-not-allowed border border-black/8" : "bg-orange-500 text-white hover:bg-orange-400 cursor-pointer shadow-xl shadow-orange-500/25 active:scale-[0.98]"}`}
+                  disabled={loading || !connected || (mintCurrency === "usdc" && totalPerCopySpump > 0 && !spumpPerUsdc)}
+                  className={`w-full py-4 rounded-2xl font-bold text-sm tracking-wider transition-all ${loading ? "bg-orange-500/40 text-white/60 cursor-not-allowed" : !connected ? "bg-black/5 text-black/20 cursor-not-allowed border border-black/8" : (mintCurrency === "usdc" && totalPerCopySpump > 0 && !spumpPerUsdc) ? "bg-black/5 text-black/20 cursor-not-allowed border border-black/8" : "bg-orange-500 text-white hover:bg-orange-400 cursor-pointer shadow-xl shadow-orange-500/25 active:scale-[0.98]"}`}
                 >
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">
@@ -1014,7 +1158,7 @@ export default function NftStudioClient() {
                       {mintStep || "Processing..."}
                     </span>
                   ) : !connected ? "Connect wallet to mint"
-                    : (mintCurrency === "usdc" && !isFreeListing && priceAfter > 0 && !spumpPerUsdc) ? "Loading rate..."
+                    : (mintCurrency === "usdc" && totalPerCopySpump > 0 && !spumpPerUsdc) ? "Loading rate..."
                     : "Mint NFT →"}
                 </button>
 
@@ -1023,6 +1167,7 @@ export default function NftStudioClient() {
                     `${category.charAt(0).toUpperCase() + category.slice(1)}`,
                     editionType === "limited" ? `${totalSupply} copies` : "Unlimited",
                     `${royalty}% royalty`,
+                    "1yr storage incl.",
                   ].map((tag) => (
                     <span key={tag} className="px-2.5 py-1 rounded-full border border-black/8 bg-white text-black/40 text-[11px]">{tag}</span>
                   ))}
