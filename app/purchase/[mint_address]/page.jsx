@@ -101,8 +101,16 @@ export default function PurchasePage() {
   // minted_count, which is always 0 or 1) while the backend checks
   // against a different one (collection-wide buyer count).
   const [pricing, setPricing]     = useState(null);
+  // Distinguishes "still loading" (pricing === null, priceError === "")
+  // from "backend couldn't price this" (priceError set) — without this,
+  // a failed /buy/prepare silently left pricing null forever and the UI
+  // fell back to a naive, discount/fee-less estimate with no indication
+  // anything was wrong.
+  const [priceError, setPriceError] = useState("");
 
-  const [platformFeePercent, setPlatformFeePercent]     = useState(3);
+  // Platform fee is now a flat SOL amount admin-configures — no longer
+  // a percentage, so no state is needed for it here beyond the actual
+  // computed amount already carried in `pricing.platform_fee`.
   const [hasBuyerDiscount, setHasBuyerDiscount]         = useState(false);
   const [buyerDiscountPercent, setBuyerDiscountPercent] = useState(0);
   const [buyerDiscountMaxUses, setBuyerDiscountMaxUses] = useState(0);
@@ -130,7 +138,6 @@ export default function PurchasePage() {
       .then(r => r.json())
       .then(d => {
         if (!d.success) return;
-        setPlatformFeePercent(d.data.platform_fee_percent ?? 3);
         if (d.data.usdc_mint) setUsdcMint(d.data.usdc_mint);
       })
       .catch(() => {});
@@ -165,8 +172,19 @@ export default function PurchasePage() {
     if (!nft?.id) return;
     fetch(`${API_URL}/buy/prepare/${nft.id}`)
       .then(r => r.json())
-      .then(d => { if (d.success) setPricing(d.data); })
-      .catch(() => {});
+      .then(d => {
+        if (d.success) {
+          setPricing(d.data);
+          setPriceError("");
+        } else {
+          // Don't silently fall back to the naive (discount/fee-less)
+          // estimate below — that showed a plausible-looking but wrong
+          // total (e.g. platform fee reading as 0) with no indication
+          // the real, backend-computed price couldn't be loaded.
+          setPriceError(d.message || "Unable to price this item right now. Please try again shortly.");
+        }
+      })
+      .catch(() => setPriceError("Unable to price this item right now. Please try again shortly."));
   }, [nft?.id]);
 
   // ── SPUMP/USDC live rate — fetched upfront (not gated on `selected`)
@@ -299,6 +317,7 @@ export default function PurchasePage() {
     if (!isValidDeliveryWallet)                 { setError("Please enter a valid delivery wallet address."); return; }
     if (isOwner)                                { setError("You cannot buy your own NFT."); return; }
     if (displayTotal == null)                   { setError("Rate not loaded yet. Please wait a moment."); return; }
+    if (priceError)                             { setError(priceError); return; }
 
     setStep("paying");
     try {
@@ -325,7 +344,7 @@ export default function PurchasePage() {
       const {
         seller_wallet, creator_wallet, platform_wallet,
         price_after_discount, platform_fee, royalty_amount, royalty_percent,
-        seller_receives, is_resale, platform_fee_percent, list_currency,
+        seller_receives, is_resale, list_currency,
       } = prepData.data;
 
       const { Connection, PublicKey, Transaction } = await import("@solana/web3.js");
@@ -734,7 +753,7 @@ export default function PurchasePage() {
 
               <InfoRow
                 icon="🔁"
-                label={`Platform Fee (${platformFeePercent}%)`}
+                label="Platform Fee"
                 value={dPlatformFee != null ? `${formatPrice(dPlatformFee)} ${selected.toUpperCase()}` : "…"}
                 valueClass="text-secondary/50 font-mono"
               />
@@ -917,10 +936,15 @@ export default function PurchasePage() {
                 <p className="text-black/35 text-[11px] leading-relaxed">
                   *Note: A small amount of SOL is required in the wallet to cover Solana network fees for this purchase.
                 </p>
+                {priceError && (
+                  <p className="text-red-500 text-xs font-medium leading-relaxed">
+                    {priceError}
+                  </p>
+                )}
                 <button
-                  disabled={step === "paying" || step === "verifying" || isOwner || !nft?.is_listed || displayTotal == null}
+                  disabled={step === "paying" || step === "verifying" || isOwner || !nft?.is_listed || displayTotal == null || !!priceError}
                   className={`w-full py-4 rounded-2xl font-semibold text-base text-white tracking-wide transition-colors cursor-pointer flex items-center justify-center gap-2 ${
-                    (step === "paying" || step === "verifying" || isOwner || !nft?.is_listed || displayTotal == null)
+                    (step === "paying" || step === "verifying" || isOwner || !nft?.is_listed || displayTotal == null || !!priceError)
                       ? "bg-secondary/20 cursor-not-allowed"
                       : "bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20"
                   }`}
@@ -928,7 +952,8 @@ export default function PurchasePage() {
                 >
                   {step === "paying" || step === "verifying" ? (
                     <><Spinner /> Processing...</>
-                  ) : !nft?.is_listed ? "Not Available"
+                  ) : priceError ? "Pricing Unavailable"
+                    : !nft?.is_listed ? "Not Available"
                     : isOwner ? "You Own This NFT"
                     : displayTotal == null ? "Loading rate..."
                     : `Confirm Purchase — ${displayPrice}`}

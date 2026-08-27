@@ -37,20 +37,23 @@ const FALLBACK_TREASURY_WALLET = process.env.NEXT_PUBLIC_TREASURY_WALLET || "";
 const FALLBACK_SPUMP_MINT = "AKdCsQHoLKCpu3n2QcMS3BK8vQTWDcSDpujLr8UjeyNT";
 const FALLBACK_USDC_MINT  = process.env.NEXT_PUBLIC_USDC_MINT_ADDRESS || "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU";
 
-// Storage fee rate FALLBACK ONLY — the real, admin-configurable rate is
-// PlatformSetting `storage_fee_per_mb_spump`, fetched live from
-// /api/config (see storageFeeRatePerMb state below), same as mint_price
-// and every other admin-controlled setting on this page. This constant
+// Storage fee rate FALLBACK ONLY — the real rate is admin-configured in
+// USD (PlatformSetting `storage_fee_per_mb_usd`) and converted live into
+// SPUMP server-side; this page still just consumes the resulting
+// `storage_fee_per_mb_spump` figure from /api/config (see
+// storageFeeRatePerMb state below), same as mint_price and every other
+// admin-controlled setting on this page. This constant
 // is just what's shown for a split second before that fetch resolves.
 // The authoritative, payment-critical number always still comes back
 // from POST /nft/create (storage_fee_spump) — that's what actually gets
 // charged on-chain, never this client-side estimate, since backend's
 // mint() verifies payment with a very tight 0.0005 SPUMP tolerance.
-const FALLBACK_STORAGE_FEE_PER_MB = 10;
+// const FALLBACK_STORAGE_FEE_PER_MB = 10;
 function estimateStorageFeeSpump(fileSizeBytes, ratePerMb) {
   if (!fileSizeBytes) return 0;
   const sizeMB = fileSizeBytes / (1024 * 1024);
-  return sizeMB * (ratePerMb ?? FALLBACK_STORAGE_FEE_PER_MB);
+  // return sizeMB * (ratePerMb ?? FALLBACK_STORAGE_FEE_PER_MB);
+  return sizeMB * ratePerMb;
 }
 
 // ── Check connected wallet's live SOL balance (still needed for network/rent fees) ──
@@ -439,7 +442,7 @@ export default function NftStudioClient() {
   // when the mint itself is free-listed), because it's a real hosting
   // cost, not a promotional price.
   const [storageFeeSpump, setStorageFeeSpump] = useState(0);
-  const [storageFeeRatePerMb, setStorageFeeRatePerMb] = useState(FALLBACK_STORAGE_FEE_PER_MB);
+  const [storageFeeRatePerMb, setStorageFeeRatePerMb] = useState(0);
   const storageFeeEstimate = uploadedFileObj ? estimateStorageFeeSpump(uploadedFileObj.size, storageFeeRatePerMb) : 0;
   const effectiveStorageFeeSpump = storageFeeSpump || storageFeeEstimate;
 
@@ -466,9 +469,13 @@ export default function NftStudioClient() {
   const [trendingNfts, setTrendingNfts]       = useState([]);
   const [trendingLoading, setTrendingLoading] = useState(true);
 
-  const [platformFeePercent, setPlatformFeePercent] = useState(3);
-  // Mint price/network fee are set by the admin in SPUMP; the minter
-  // can pay in either SPUMP or USDC (converted via the live rate).
+  // Platform fee is now a flat SOL amount admin-configures, expressed
+  // here in SPUMP (converted live server-side — see /api/config).
+  const [platformFeeSpump, setPlatformFeeSpump] = useState(0);
+  // Mint price is set by the admin in SOL and converted live into the
+  // SPUMP figure below (see /api/config) — SOL itself is never a
+  // payment option here. The minter can pay in either SPUMP or USDC
+  // (converted via the live rate).
   const [mintCurrency, setMintCurrency] = useState("spump");
   const [spumpPerUsdc, setSpumpPerUsdc] = useState(null);
   const [rateSource, setRateSource] = useState(null); // "jupiter" | "raydium" — which source the live rate came from
@@ -555,7 +562,7 @@ export default function NftStudioClient() {
       .then((r) => r.json())
       .then((d) => {
         if (!d.success) return;
-        setPlatformFeePercent(d.data.platform_fee_percent);
+        setPlatformFeeSpump(Number(d.data.platform_fee_spump) || 0);
         setIsFreeListing(!!d.data.is_free_listing);
         setMintPrice(Number(d.data.mint_price_spump) || 0);
         setMintDiscountPercent(Number(d.data.mint_discount_percent) || 0);
@@ -563,7 +570,7 @@ export default function NftStudioClient() {
         setPriceAfter(Number(d.data.price_after_discount) || 0);
         setBuyerDiscountPercent(Number(d.data.buyer_discount_percent) || 0);
         if (d.data.storage_fee_per_mb_spump != null) {
-          setStorageFeeRatePerMb(Number(d.data.storage_fee_per_mb_spump) || FALLBACK_STORAGE_FEE_PER_MB);
+          setStorageFeeRatePerMb(Number(d.data.storage_fee_per_mb_spump));
         }
         if (d.data.spump_mint || d.data.usdc_mint) {
           setTokenMints({
@@ -786,13 +793,13 @@ export default function NftStudioClient() {
               </h1>
               <p className="text-black/50 text-base font-light max-w-xl leading-relaxed">
                 Mint digital prestige — art, fashion, jewelry, video & digital goods. List free. Pay only{" "}
-                <span className="text-orange-500 font-medium">3%</span> when sold.
+                <span className="text-orange-500 font-medium">a flat fee</span> when sold.
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3 px-5 py-4 rounded-xl border border-black/8 bg-white shadow-sm">
                 {[
                   { label: "Mint Discount",          value: `-${mintDiscountPercent}%` },
                   { label: "Buyer Discount",          value: `-${buyerDiscountPercent}%` },
-                  { label: "Free Listing • Sale Fee", value: `${platformFeePercent}%` },
+                  { label: "Platform Fee", value: `${platformFeeSpump} SPUMP` },
                   { label: "Storage Rate",            value: `${storageFeeRatePerMb} SPUMP/MB/yr` },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-2">
@@ -1100,11 +1107,19 @@ export default function NftStudioClient() {
                   <Label>Cost Breakdown</Label>
                   <div className="space-y-3">
                     {[
-                      { label: "Mint price",    value: isFreeListing ? "Free" : (toMintCurrency(mintPrice) === null ? "Loading rate..." : `${formatSolPrice(toMintCurrency(mintPrice))} ${mintUnit}`) },
-                      { label: `Discount${hasMintDiscount ? ` (${mintDiscountPercent}%)` : ""}`, value: toMintCurrency(discountAmount) === null ? "..." : `-${formatSolPrice(toMintCurrency(discountAmount))} ${mintUnit}` },
-                      { label: "After discount", value: isFreeListing ? "Free" : (toMintCurrency(priceAfter) === null ? "Loading rate..." : `${formatSolPrice(toMintCurrency(priceAfter))} ${mintUnit}`) },
-                      { label: "Storage fee (1 year hosting)", value: toMintCurrency(effectiveStorageFeeSpump) === null ? "Loading rate..." : `${formatSolPrice(toMintCurrency(effectiveStorageFeeSpump))} ${mintUnit}` },
-                    ].map((row, i, arr) => (
+                      { label: "Mint price",    raw: isFreeListing ? 0 : mintPrice, value: isFreeListing ? "Free" : (toMintCurrency(mintPrice) === null ? "Loading rate..." : `${formatSolPrice(toMintCurrency(mintPrice))} ${mintUnit}`) },
+                      { label: `Discount${hasMintDiscount ? ` (${mintDiscountPercent}%)` : ""}`, raw: discountAmount, value: toMintCurrency(discountAmount) === null ? "..." : `-${formatSolPrice(toMintCurrency(discountAmount))} ${mintUnit}` },
+                      { label: "After discount", raw: isFreeListing ? 0 : priceAfter, value: isFreeListing ? "Free" : (toMintCurrency(priceAfter) === null ? "Loading rate..." : `${formatSolPrice(toMintCurrency(priceAfter))} ${mintUnit}`) },
+                      { label: "Storage fee (1 year hosting)", raw: effectiveStorageFeeSpump, value: toMintCurrency(effectiveStorageFeeSpump) === null ? "Loading rate..." : `${formatSolPrice(toMintCurrency(effectiveStorageFeeSpump))} ${mintUnit}` },
+                    ]
+                      // Rows whose underlying SPUMP amount is genuinely 0 (free
+                      // mint, no discount configured, etc.) are skipped rather
+                      // than shown as "0 SPUMP" — a row still fetching its live
+                      // rate shows raw > 0 with value "Loading rate...", so this
+                      // never hides a row that's just loading, only ones that
+                      // are truly zero.
+                      .filter((row) => row.raw > 0)
+                      .map((row, i, arr) => (
                       <div key={i} className={`flex justify-between items-center text-sm ${i < arr.length - 1 ? "pb-3 border-b border-black/5" : ""}`}>
                         <span className="text-black/50 font-light">{row.label}</span>
                         <span className="text-black/80 font-medium font-mono">{row.value}</span>
@@ -1140,10 +1155,7 @@ export default function NftStudioClient() {
                     </div>
                   </div>
                   <p className="mt-2 text-black/35 text-[11px] leading-relaxed">
-                    Storage fee covers 1 year of IPFS hosting for this artwork and applies even on free-listed mints —
-                    it's a hosting cost, not a mint price. Renewal is required annually to keep the asset online, and
-                    that responsibility moves with the NFT to whoever owns it. A small amount of SOL is also needed
-                    in the wallet to cover Solana network fees for minting.
+                     <strong>Note:</strong>  Network Fee + Transaction Fee + Metaplex Core-related costs are fixed by Solana.
                   </p>
                 </SectionCard>
 

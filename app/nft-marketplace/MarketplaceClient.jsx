@@ -850,7 +850,7 @@ export default function MarketplaceClient() {
                 <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-none">
                   Market<span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">place</span>
                 </h1>
-                <p className="text-black/40 text-sm mt-3">Buy & sell NFTs. List free — pay 3% only on sale.</p>
+                <p className="text-black/40 text-sm mt-3">Buy & sell NFTs. List free —  Pay only on sale.</p>
               </div>
 
               {/* WalletButton —  wallet support */}
