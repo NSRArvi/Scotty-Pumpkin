@@ -8,6 +8,7 @@ import WalletButton from "@/app/components/WalletButton";
 import BuyModal from "@/app/components/BuyModal";
 import StorageRenewalCard from "@/app/components/StorageRenewalCard";
 import Link from "next/link";
+import { Country } from "country-state-city";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
@@ -241,6 +242,7 @@ export default function NftDetailClient() {
                   <div>
                     <div className="flex items-center gap-2 mb-2">
                       <span className="px-2.5 py-0.5 rounded-full bg-black/6 border border-black/10 text-black/50 text-[10px] font-semibold uppercase tracking-wider">{nft.category}</span>
+                      {nft.country && <span className="px-2.5 py-0.5 rounded-full bg-black/6 border border-black/10 text-black/50 text-[10px] font-semibold uppercase tracking-wider">{Country.getCountryByCode(nft.country)?.name || nft.country}</span>}
                       {nft.is_listed && <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/20 text-emerald-600 text-[10px] font-semibold uppercase tracking-wider">Listed</span>}
                       {nft.edition_type === "limited" && <span className="px-2.5 py-0.5 rounded-full bg-orange-500/15 border border-orange-500/20 text-orange-500 text-[10px] font-semibold uppercase tracking-wider">Limited</span>}
                       {nft.total_supply > 1 && (
@@ -350,6 +352,7 @@ export default function NftDetailClient() {
                       { label: "Owner",         value: `${nft.wallet_address?.slice(0,8)}...${nft.wallet_address?.slice(-6)}`, mono: true },
                       { label: "Edition",       value: nft.edition_type === "limited" ? `Limited — ${nft.total_supply} copies` : "Unlimited" },
                       { label: "Collection",    value: nft.collection?.name || "None" },
+                      { label: "Country",       value: nft.country ? (Country.getCountryByCode(nft.country)?.name || nft.country) : "None" },
                       { label: "Minted",        value: nft.minted_at ? new Date(nft.minted_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : "—" },
                     ].map((row) => (
                       <div key={row.label} className="flex justify-between items-center text-sm py-2 border-b border-black/6 last:border-0">

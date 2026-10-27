@@ -5,6 +5,17 @@ import { useParams } from "next/navigation";
 import { useSolanaWallet } from "@/hooks/useWallet";
 import WalletButton from "@/app/components/WalletButton";
 import StorageRenewalCard from "@/app/components/StorageRenewalCard";
+import { Country } from "country-state-city";
+
+const CATEGORIES = ['art', 'music', 'gaming', 'sports',
+        'photography', 'collectible', 'utility', 'other',
+        'fashion', 'jewelry', 'video', 'digital'];
+// Full ISO 3166-1 country list — see NftStudioClient.jsx for details.
+const COUNTRIES = Country.getAllCountries();
+const countryLabel = (isoCode) => {
+  const c = Country.getCountryByCode(isoCode);
+  return c ? `${c.flag} ${c.name}` : isoCode;
+};
 
 const API_URL          = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 const SPUMP_MINT       = process.env.NEXT_PUBLIC_SPUMP_MINT_ADDRESS;
@@ -57,6 +68,89 @@ function daysUntil(dateStr) {
   return Math.ceil((new Date(dateStr) - new Date()) / (1000 * 60 * 60 * 24));
 }
 
+// Links this wallet to the email the owner logs into Sosay with, so
+// NFTs minted by this wallet can be matched to their Sosay account and
+// shown under Sosay's NFT marketplace category. Own-profile only.
+// NOTE: this does not verify wallet-signature or email ownership — see
+// WalletController::linkEmail for what's still needed before this
+// should drive anything sensitive.
+function SosayEmailCard({ walletAddress }) {
+  const [email, setEmail]     = useState("");
+  const [saved, setSaved]     = useState(null); // last-saved value, for "unsaved changes" state
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving]   = useState(false);
+  const [msg, setMsg]         = useState("");
+
+  useEffect(() => {
+    if (!walletAddress) return;
+    fetch(`${API_URL}/wallet/email/${walletAddress}`)
+      .then((r) => r.json())
+      .then((d) => {
+        const e = d?.data?.email || "";
+        setEmail(e);
+        setSaved(e);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, [walletAddress]);
+
+  async function handleSave() {
+    setSaving(true);
+    setMsg("");
+    try {
+      const res = await fetch(`${API_URL}/wallet/email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ wallet_address: walletAddress, email: email || null }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSaved(email);
+        setMsg(email ? "Email linked." : "Email removed.");
+      } else {
+        setMsg(data.message || "Could not save.");
+      }
+    } catch {
+      setMsg("Could not save.");
+    } finally {
+      setSaving(false);
+      setTimeout(() => setMsg(""), 3000);
+    }
+  }
+
+  const dirty = email !== saved;
+
+  return (
+    <div className="mb-10 rounded-2xl border border-black/8 bg-white shadow-sm p-5">
+      <div className="flex items-center gap-2 mb-1">
+        <span className="text-lg">🔗</span>
+        <p className="text-black font-semibold text-sm">Link Sosay Email</p>
+      </div>
+      <p className="text-black/40 text-xs mb-3">
+        Enter the email you log into Sosay with so your NFTs can show up under the NFT category on sosay.org/spump-market.
+      </p>
+      <div className="flex flex-col sm:flex-row gap-2">
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={loading || saving}
+          placeholder="you@example.com"
+          className="flex-1 px-3.5 py-2.5 rounded-xl bg-black/4 border border-black/10 text-black text-sm outline-none focus:border-orange-500/60 disabled:opacity-50"
+        />
+        <button
+          onClick={handleSave}
+          disabled={loading || saving || !dirty}
+          className="px-5 py-2.5 rounded-xl bg-orange-500 text-white text-sm font-semibold hover:bg-orange-400 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+        >
+          {saving ? "Saving..." : "Save"}
+        </button>
+      </div>
+      {msg && <p className="text-black/40 text-xs mt-2">{msg}</p>}
+    </div>
+  );
+}
+
 function StatCard({ label, value, sub }) {
   return (
     <div className="rounded-2xl border border-black/8 bg-white shadow-sm p-5 text-center">
@@ -67,12 +161,47 @@ function StatCard({ label, value, sub }) {
   );
 }
 
-function NftCard({ nft }) {
+function NftCard({ nft, editable = false, collections = [], walletAddress, onDetailsChanged }) {
   const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK || "devnet";
   const cluster = network === "mainnet-beta" ? "" : "?cluster=devnet";
   const [explicitRevealed, setExplicitRevealed] = useState(false);
+  const [savingField, setSavingField] = useState(null); // "collection_id" | "category" | "country" | null
+  const [detailMsg, setDetailMsg]     = useState("");
+
+  // Edit collection / category / country after minting — for NFTs that
+  // were minted without picking one, or to correct one later. Owner-only
+  // on the backend (NftController::updateDetails), so this control is
+  // only rendered on your own profile (editable prop). One field per
+  // call — each select saves itself independently.
+  async function handleDetailChange(field, value) {
+    setSavingField(field);
+    setDetailMsg("");
+    try {
+      const res = await fetch(`${API_URL}/nft/${nft.id}/details`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          wallet_address: walletAddress,
+          [field]: value, // "" → clear (collection/country only; category can't be blanked)
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        onDetailsChanged?.(data.data);
+        setDetailMsg("Saved");
+      } else {
+        setDetailMsg(data.message || "Could not save.");
+      }
+    } catch {
+      setDetailMsg("Could not save.");
+    } finally {
+      setSavingField(null);
+      setTimeout(() => setDetailMsg(""), 2500);
+    }
+  }
   return (
-    <a href={`/nft-marketplace/${nft.mint_address}`} className="group rounded-2xl border border-black/8 bg-white shadow-sm hover:border-black/15 hover:shadow-md transition-all overflow-hidden flex flex-col cursor-pointer">
+    <div className="group rounded-2xl border border-black/8 bg-white shadow-sm hover:border-black/15 hover:shadow-md transition-all overflow-hidden flex flex-col">
+    <a href={`/nft-marketplace/${nft.mint_address}`} className="flex flex-col flex-1 cursor-pointer">
       <div className="relative aspect-square bg-black/4 overflow-hidden">
         {nft.image_url ? (
           <img src={nft.image_url} alt={nft.name} className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${nft.is_explicit && !explicitRevealed ? "blur-xl scale-110" : ""}`} />
@@ -92,6 +221,9 @@ function NftCard({ nft }) {
         )}
         <div className="absolute top-2 left-2">
           <span className="px-2 py-0.5 rounded-full bg-black/60 text-white/80 text-[10px] font-semibold capitalize">{nft.category}</span>
+          {nft.country && (
+            <span className="ml-1 px-2 py-0.5 rounded-full bg-black/60 text-white/80 text-[10px] font-semibold">{countryLabel(nft.country)}</span>
+          )}
         </div>
         {nft.is_listed && (
           <div className="absolute top-2 right-2">
@@ -102,6 +234,9 @@ function NftCard({ nft }) {
       <div className="p-4 flex flex-col gap-2 flex-1">
         <p className="text-black font-semibold text-sm truncate">{nft.name}</p>
         <p className="text-black/35 text-xs font-mono truncate">{nft.mint_address?.slice(0,8)}...{nft.mint_address?.slice(-4)}</p>
+        <p className="text-black/40 text-[11px] truncate">
+          {nft.collection?.name ? `📁 ${nft.collection.name}` : "No collection"}
+        </p>
         <div className="mt-auto flex items-center justify-between pt-2 border-t border-black/6">
           <p className="text-orange-500 font-bold text-sm font-mono">
             {nft.is_listed ? `${formatSolPrice(nft.list_price)} ${(nft.list_currency || "spump").toUpperCase()}` : "—"}
@@ -110,6 +245,56 @@ function NftCard({ nft }) {
         </div>
       </div>
     </a>
+
+      {editable && (
+        <div className="px-4 pb-4 -mt-1 space-y-1.5">
+          <select
+            value={nft.collection_id ?? ""}
+            onChange={(e) => handleDetailChange("collection_id", e.target.value)}
+            disabled={savingField !== null}
+            style={{ colorScheme: "light" }}
+            className="w-full px-2.5 py-2 rounded-lg bg-black/4 border border-black/10 text-black/70 text-xs outline-none focus:border-orange-500/60 cursor-pointer disabled:opacity-50"
+          >
+            <option value="">— No collection —</option>
+            {collections.map((c) => (
+              <option key={c.id} value={c.id}>{c.name}</option>
+            ))}
+          </select>
+          {collections.length === 0 && (
+            <p className="text-black/30 text-[10px]">No collections exist yet.</p>
+          )}
+
+          <select
+            value={nft.category ?? ""}
+            onChange={(e) => handleDetailChange("category", e.target.value)}
+            disabled={savingField !== null}
+            style={{ colorScheme: "light" }}
+            className="w-full px-2.5 py-2 rounded-lg bg-black/4 border border-black/10 text-black/70 text-xs outline-none focus:border-orange-500/60 cursor-pointer disabled:opacity-50 capitalize"
+          >
+            {CATEGORIES.map((c) => (
+              <option key={c} value={c} className="capitalize">{c.charAt(0).toUpperCase() + c.slice(1)}</option>
+            ))}
+          </select>
+
+          <select
+            value={nft.country ?? ""}
+            onChange={(e) => handleDetailChange("country", e.target.value)}
+            disabled={savingField !== null}
+            style={{ colorScheme: "light" }}
+            className="w-full px-2.5 py-2 rounded-lg bg-black/4 border border-black/10 text-black/70 text-xs outline-none focus:border-orange-500/60 cursor-pointer disabled:opacity-50"
+          >
+            <option value="">— No country —</option>
+            {COUNTRIES.map((c) => (
+              <option key={c.isoCode} value={c.isoCode}>{c.flag} {c.name}</option>
+            ))}
+          </select>
+
+          {(savingField || detailMsg) && (
+            <p className="text-black/40 text-[10px]">{savingField ? "Saving..." : detailMsg}</p>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -126,6 +311,7 @@ export default function WalletProfileClient() {
   const [soldNfts, setSoldNfts]   = useState([]);
   const [loading, setLoading]     = useState(true);
   const [activeTab, setActiveTab] = useState("owned");
+  const [collections, setCollections]   = useState([]);
   const [spumpBalance, setSpumpBalance] = useState(null);
   const [usdcBalance, setUsdcBalance]   = useState(null);
 
@@ -155,6 +341,15 @@ export default function WalletProfileClient() {
 
   useEffect(() => { fetchProfile(); }, [fetchProfile]);
 
+  // Collection dropdown options for the per-NFT picker below.
+  useEffect(() => {
+    if (!isOwnProfile) return;
+    fetch(`${API_URL}/collections?per_page=100`)
+      .then((r) => r.json())
+      .then((d) => { if (d.success) setCollections(d.data?.data || d.data || []); })
+      .catch(() => {});
+  }, [isOwnProfile]);
+
   const listedNfts   = nfts.filter((n) => n.is_listed);
   const unlistedNfts = nfts.filter((n) => !n.is_listed);
   const listedValueByCurrency = listedNfts.reduce((acc, n) => {
@@ -176,6 +371,18 @@ export default function WalletProfileClient() {
         .filter((n) => { const d = daysUntil(n.storage_paid_until); return d !== null && d <= 30; })
         .sort((a, b) => daysUntil(a.storage_paid_until) - daysUntil(b.storage_paid_until))
     : [];
+
+  // The backend moves every copy of the same edition this wallet still
+  // owns, so mirror that here instead of only patching the one card.
+  function handleDetailsChanged(updated) {
+    setNfts((prev) => prev.map((n) => (
+      n.id === updated.id ||
+      (updated.edition_group_id && n.edition_group_id === updated.edition_group_id)
+        ? { ...n, collection_id: updated.collection_id, collection: updated.collection ?? null,
+            category: updated.category, country: updated.country }
+        : n
+    )));
+  }
 
   function handleStorageRenewed(updated) {
     setNfts((prev) => prev.map((n) => (n.id === updated.id ? { ...n, storage_paid_until: updated.storage_paid_until } : n)));
@@ -237,6 +444,8 @@ export default function WalletProfileClient() {
                 </a>
               </div>
             </div>
+
+            {isOwnProfile && <SosayEmailCard walletAddress={walletAddress} />}
 
             {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10">
@@ -319,7 +528,16 @@ export default function WalletProfileClient() {
               </div>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {tabNfts.map((nft) => <NftCard key={nft.id} nft={nft} />)}
+                {tabNfts.map((nft) => (
+                  <NftCard
+                    key={nft.id}
+                    nft={nft}
+                    editable={isOwnProfile}
+                    collections={collections}
+                    walletAddress={walletAddress}
+                    onDetailsChanged={handleDetailsChanged}
+                  />
+                ))}
               </div>
             )}
 

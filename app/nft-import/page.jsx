@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Container from "../components/shared/Container";
 import { useSolanaWallet } from "@/hooks/useWallet";
 import WalletButton from "@/app/components/WalletButton";
 import Link from "next/link";
+import { Country } from "country-state-city";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
@@ -13,6 +14,9 @@ const CATEGORIES = [
   "photography", "collectible", "utility", "other",
   "fashion", "jewelry", "video", "digital",
 ];
+
+// Full ISO 3166-1 country list — see NftStudioClient.jsx for details.
+const COUNTRIES = Country.getAllCountries();
 
 function Spinner() {
   return (
@@ -41,10 +45,21 @@ export default function ImportNftPage() {
 
   const [mintAddress, setMintAddress] = useState("");
   const [category, setCategory]       = useState("other");
+  const [country, setCountry]         = useState("");
+  const [collectionId, setCollectionId] = useState("");
+  const [collections, setCollections] = useState([]);
 
   const [step, setStep]         = useState("idle"); // idle | previewing | preview | importing | done | error
   const [preview, setPreview]   = useState(null);
   const [error, setError]       = useState("");
+
+  // Collection dropdown options — same source as NFT Studio / Profile.
+  useEffect(() => {
+    fetch(`${API_URL}/collections?per_page=100`)
+      .then((r) => r.json())
+      .then((d) => { if (d.success) setCollections(d.data?.data || d.data || []); })
+      .catch(() => {});
+  }, []);
 
   function reset() {
     setStep("idle");
@@ -85,6 +100,8 @@ export default function ImportNftPage() {
           mint_address:   mintAddress.trim(),
           wallet_address: walletAddress,
           category,
+          country: country || undefined,
+          collection_id: collectionId || undefined,
         }),
       });
       const data = await res.json();
@@ -167,17 +184,52 @@ export default function ImportNftPage() {
             )}
 
             {step === "preview" && (
-              <div>
-                <label className="text-black/40 text-[10px] uppercase tracking-wider">Category</label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="mt-1 w-full rounded-xl border border-black/10 px-3 py-2.5 text-sm text-black bg-white capitalize focus:outline-none focus:border-orange-400"
-                >
-                  {CATEGORIES.map((c) => (
-                    <option key={c} value={c} className="capitalize">{c}</option>
-                  ))}
-                </select>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-black/40 text-[10px] uppercase tracking-wider">Category</label>
+                  <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="mt-1 w-full rounded-xl border border-black/10 px-3 py-2.5 text-sm text-black bg-white capitalize focus:outline-none focus:border-orange-400"
+                  >
+                    {CATEGORIES.map((c) => (
+                      <option key={c} value={c} className="capitalize">{c}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-black/40 text-[10px] uppercase tracking-wider">Country</label>
+                  <select
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    style={{ colorScheme: "light" }}
+                    className="mt-1 w-full rounded-xl border border-black/10 px-3 py-2.5 text-sm text-black bg-white focus:outline-none focus:border-orange-400"
+                  >
+                    <option value="">— No country —</option>
+                    {COUNTRIES.map((c) => (
+                      <option key={c.isoCode} value={c.isoCode}>{c.flag} {c.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="text-black/40 text-[10px] uppercase tracking-wider">Collection</label>
+                  <select
+                    value={collectionId}
+                    onChange={(e) => setCollectionId(e.target.value)}
+                    style={{ colorScheme: "light" }}
+                    className="mt-1 w-full rounded-xl border border-black/10 px-3 py-2.5 text-sm text-black bg-white focus:outline-none focus:border-orange-400"
+                  >
+                    <option value="">— No collection —</option>
+                    {collections.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                  </select>
+                  {collections.length === 0 && (
+                    <p className="text-black/30 text-[11px] mt-1">No collections exist yet.</p>
+                  )}
+                </div>
               </div>
             )}
 
@@ -220,7 +272,7 @@ export default function ImportNftPage() {
                 Go to My NFTs
               </Link>
               <button
-                onClick={() => { setMintAddress(""); reset(); }}
+                onClick={() => { setMintAddress(""); setCategory("other"); setCountry(""); setCollectionId(""); reset(); }}
                 className="flex-1 py-2.5 rounded-xl border border-black/10 text-black/50 text-sm font-semibold hover:bg-black/5 transition-all"
               >
                 Import Another

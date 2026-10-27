@@ -1,17 +1,25 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import Container from "../components/shared/Container";
 import { useSolanaWallet } from "@/hooks/useWallet";
 import WalletButton from "@/app/components/WalletButton";
+import DocsButton from "../components/shared/DocsButton";
 import BuyModal from "@/app/components/BuyModal";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Country } from "country-state-city";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 const CATEGORIES = ['art', 'music', 'gaming', 'sports',
         'photography', 'collectible', 'utility', 'other',
         'fashion', 'jewelry', 'video', 'digital'];
+// Full ISO 3166-1 country list — see NftStudioClient.jsx for details.
+const COUNTRIES = Country.getAllCountries();
+const countryLabel = (isoCode) => {
+  const c = Country.getCountryByCode(isoCode);
+  return c ? `${c.flag} ${c.name}` : isoCode;
+};
 const formatSolPrice = (price) => {
     return Number(price).toLocaleString(undefined, {
       minimumFractionDigits: 0,
@@ -235,6 +243,7 @@ function Badge({ children, color = "orange" }) {
     orange: "bg-orange-500/15 text-orange-500 border-orange-500/20",
     green:  "bg-emerald-500/15 text-emerald-600 border-emerald-500/20",
     gray:   "bg-black/6 text-black/40 border-black/10",
+    white:  "bg-white text-black border-black/10",
   };
   return (
     <span className={`px-2 py-0.5 rounded-full border text-[10px] font-semibold uppercase tracking-wider ${colors[color]}`}>
@@ -358,7 +367,11 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
         {/* Image */}
         <div className="relative aspect-square bg-black/4 overflow-hidden">
           {nft.image_url ? (
-            <img src={`${API_URL}/image/hash/${nft.image_hash}`} alt={nft.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <img
+              src={nft.image_hash ? `${API_URL}/image/hash/${nft.image_hash}` : nft.image_url}
+              alt={nft.name}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-black/15">
               <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -367,8 +380,11 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
               </svg>
             </div>
           )}
-          <div className="absolute top-2 left-2"><Badge color="gray">{nft.category}</Badge></div>
-          {nft.is_listed && <div className="absolute top-2 right-2"><Badge color="green">Listed</Badge></div>}
+          <div className="absolute top-2 left-2 flex gap-1">
+            <Badge color="white">{nft.category}</Badge>
+            {nft.country && <Badge color="white">{countryLabel(nft.country)}</Badge>}
+          </div>
+          {nft.is_listed && <div className="absolute top-2 right-2"><Badge color="white">Listed</Badge></div>}
         </div>
         </Link>
         {/* Info */}
@@ -413,13 +429,22 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
           <div className="mt-auto pt-2 border-t border-black/6 space-y-2">
             {isOwner || myNftsMode ? (
               nft.is_listed ? (
-                <button
-                  onClick={handleUnlist}
-                  disabled={loading}
-                  className="w-full py-2 rounded-xl border border-black/10 text-black/50 text-xs font-semibold hover:bg-black/5 hover:text-black transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-40"
-                >
-                  {loading ? <Spinner /> : "Unlist from Marketplace"}
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setShowListModal(true)}
+                    disabled={loading}
+                    className="flex-1 py-2 rounded-xl bg-orange-500 text-white text-xs font-semibold hover:bg-orange-400 transition-colors cursor-pointer flex items-center justify-center gap-2 disabled:opacity-40"
+                  >
+                    Edit Price
+                  </button>
+                  <button
+                    onClick={handleUnlist}
+                    disabled={loading}
+                    className="flex-1 py-2 rounded-xl border border-black/10 text-black/50 text-xs font-semibold hover:bg-black/5 hover:text-black transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-40"
+                  >
+                    {loading ? <Spinner /> : "Unlist"}
+                  </button>
+                </div>
               ) : (
                 <button
                   onClick={() => setShowListModal(true)}
@@ -472,7 +497,7 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="w-full max-w-sm rounded-2xl border border-black/10 bg-white shadow-xl p-6 space-y-5">
             <div>
-              <p className="text-black font-bold text-lg">List NFT for Sale</p>
+              <p className="text-black font-bold text-lg">{nft.is_listed ? "Update Listing Price" : "List NFT for Sale"}</p>
               <p className="text-black/40 text-sm mt-1 truncate">{nft.name}</p>
             </div>
             {nft.image_url && <img src={nft.image_url} alt={nft.name} className="w-full h-40 object-cover rounded-xl" />}
@@ -507,9 +532,11 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
                 <span className="text-black/40 text-sm">{listCurrency.toUpperCase()}</span>
               </div>
             </div>
-             <p className="text-black/35 text-[11px] leading-relaxed">
-              Note: A small amount of SOL is required in the wallet to cover Solana network fees for this listing transaction.
-            </p>
+             {!nft.is_listed && (
+               <p className="text-black/35 text-[11px] leading-relaxed">
+                 Note: A small amount of SOL is required in the wallet to cover Solana network fees for this listing transaction.
+               </p>
+             )}
             <div className="flex gap-3">
               <button onClick={() => setShowListModal(false)} className="flex-1 py-2.5 rounded-xl border border-black/10 text-black/50 text-sm font-semibold hover:bg-black/5 transition-all cursor-pointer">Cancel</button>
               <button
@@ -517,7 +544,7 @@ function NftCard({ nft, walletAddress, onList, onUnlist, myNftsMode, onBuySucces
                 disabled={loading || !listPrice}
                 className="flex-1 py-2.5 rounded-xl bg-orange-500 text-white text-sm font-semibold hover:bg-orange-400 transition-colors cursor-pointer disabled:opacity-40 flex items-center justify-center gap-2"
               >
-                {loading ? <Spinner /> : "Confirm Listing"}
+                {loading ? <Spinner /> : (nft.is_listed ? "Update Price" : "Confirm Listing")}
               </button>
             </div>
           </div>
@@ -611,7 +638,7 @@ function useContentProtection() {
   }, []);
 }
 
-export default function MarketplaceClient() {
+function MarketplaceClientInner() {
   useContentProtection();
 
   const {
@@ -625,7 +652,12 @@ export default function MarketplaceClient() {
 
   const [delegateWallet, setDelegateWallet] = useState("");
 
-  const [activeTab, setActiveTab] = useState("marketplace");
+  // Read ?tab= on first load so links like /nft-marketplace?tab=my-nfts
+  // (e.g. from the Import NFT success screen) actually land on that tab
+  // instead of always defaulting to "marketplace".
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get("tab") === "my-nfts" ? "my-nfts" : "marketplace";
+  const [activeTab, setActiveTab] = useState(initialTab);
 
   const [nfts, setNfts]         = useState([]);
   const [myNfts, setMyNfts]     = useState([]);
@@ -635,6 +667,7 @@ export default function MarketplaceClient() {
 
   const [search, setSearch]     = useState("");
   const [category, setCategory] = useState("all");
+  const [country, setCountry]   = useState("all");
   const [collectionId, setCollectionId] = useState("all");
   const [collections, setCollections]   = useState([]);
   const [sort, setSort]         = useState("latest");
@@ -658,6 +691,7 @@ export default function MarketplaceClient() {
       const params = new URLSearchParams({ page, sort });
       if (search) params.append("search", search);
       if (category !== "all") params.append("category", category);
+      if (country !== "all") params.append("country", country);
       if (collectionId !== "all") params.append("collection_id", collectionId);
       const res  = await fetch(`${API_URL}/marketplace?${params}`);
       const data = await res.json();
@@ -667,7 +701,7 @@ export default function MarketplaceClient() {
       }
     } catch (e) { setError("Failed to load marketplace."); }
     finally { setLoading(false); }
-  }, [page, search, category, collectionId, sort]);
+  }, [page, search, category, country, collectionId, sort]);
 
   // ── Fetch My NFTs ──────────────────────────────
   const fetchMyNfts = useCallback(async () => {
@@ -697,47 +731,56 @@ export default function MarketplaceClient() {
   // ── List ──────────────────────────────
   async function handleList(nft, price, currency) {
     try {
-      if (!delegateWallet) {
-        setError("Marketplace isn't fully configured yet (missing delegate wallet). Please contact support.");
-        return;
-      }
       if (!nft.mint_address) {
         setError("This NFT is missing its on-chain mint address and can't be listed.");
         return;
       }
 
-      const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK || "devnet";
-      const rpcUrl  = process.env.NEXT_PUBLIC_SOLANA_RPC_URL
-        || (network === "mainnet-beta"
-            ? "https://api.mainnet-beta.solana.com"
-            : "https://api.devnet.solana.com");
+      // Already listed → this is a PRICE UPDATE, not a fresh listing.
+      // The platform's transfer-delegate authority on this asset was
+      // already granted when it was first listed and is still in
+      // place (unlisting is what revokes it) — re-running the on-chain
+      // grant step here would just cost the seller an extra wallet
+      // signature for nothing. Skip straight to updating the DB row.
+      if (!nft.is_listed) {
+        if (!delegateWallet) {
+          setError("Marketplace isn't fully configured yet (missing delegate wallet). Please contact support.");
+          return;
+        }
 
-      // On-chain step first: approve the platform as this asset's
-      // transfer delegate, so a sale later can actually move
-      // ownership. You sign this now with your own wallet — the
-      // platform can't touch your NFT until someone actually buys it
-      // and pays. Which instruction this needs depends on how the NFT
-      // was minted (this platform's own Studio = mpl-core; imported
-      // NFTs are usually the older/most common Solana standard).
-      const tokenStandard = nft.token_standard || "mpl_core";
+        const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK || "devnet";
+        const rpcUrl  = process.env.NEXT_PUBLIC_SOLANA_RPC_URL
+          || (network === "mainnet-beta"
+              ? "https://api.mainnet-beta.solana.com"
+              : "https://api.devnet.solana.com");
 
-      if (tokenStandard === "mpl_core") {
-        await grantTransferDelegate({
-          mintAddress: nft.mint_address,
-          walletAddress,
-          signTransaction,
-          signAllTransactions,
-          delegateWallet,
-          rpcUrl,
-        });
-      } else {
-        await grantSplTokenDelegate({
-          mintAddress: nft.mint_address,
-          walletAddress,
-          signTransaction,
-          delegateWallet,
-          rpcUrl,
-        });
+        // On-chain step first: approve the platform as this asset's
+        // transfer delegate, so a sale later can actually move
+        // ownership. You sign this now with your own wallet — the
+        // platform can't touch your NFT until someone actually buys it
+        // and pays. Which instruction this needs depends on how the NFT
+        // was minted (this platform's own Studio = mpl-core; imported
+        // NFTs are usually the older/most common Solana standard).
+        const tokenStandard = nft.token_standard || "mpl_core";
+
+        if (tokenStandard === "mpl_core") {
+          await grantTransferDelegate({
+            mintAddress: nft.mint_address,
+            walletAddress,
+            signTransaction,
+            signAllTransactions,
+            delegateWallet,
+            rpcUrl,
+          });
+        } else {
+          await grantSplTokenDelegate({
+            mintAddress: nft.mint_address,
+            walletAddress,
+            signTransaction,
+            delegateWallet,
+            rpcUrl,
+          });
+        }
       }
 
       // list_price is stored EXACTLY as entered, denominated in
@@ -752,9 +795,10 @@ export default function MarketplaceClient() {
           list_price: price,
           list_currency: currency || "spump",
         }),
+
       });
       const data = await res.json();
-      if (data.success) { showToast("NFT listed successfully! 🎉"); fetchMyNfts(); fetchMarketplace(); }
+      if (data.success) { showToast(nft.is_listed ? "Price updated! 🎉" : "NFT listed successfully! 🎉"); fetchMyNfts(); fetchMarketplace(); }
       else setError(data.message);
     } catch (e) {
       console.error("List error:", e);
@@ -855,9 +899,17 @@ export default function MarketplaceClient() {
 
               {/* WalletButton —  wallet support */}
               <div className="flex items-center gap-3">
+                {/* <Link
+                  href="/nft-marketplace/help"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-black/10 bg-white text-black/50 text-xs font-medium hover:bg-black/5 hover:text-black transition-all shrink-0"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  Help
+                </Link> */}
                 {connected && walletIcon && (
                   <img src={walletIcon} alt="wallet" className="w-5 h-5 rounded-full" />
                 )}
+                <DocsButton href="/docs/marketplace" />
                 <WalletButton />
               </div>
             </div>
@@ -926,6 +978,17 @@ export default function MarketplaceClient() {
                     <option key={c} value={c}>
                       {c.charAt(0).toUpperCase() + c.slice(1)}
                     </option>
+                  ))}
+                </select>
+                <select
+                  value={country}
+                  onChange={(e) => { setCountry(e.target.value); setPage(1); }}
+                  style={{ colorScheme: "light" }}
+                  className="px-3.5 py-2.5 rounded-xl bg-white border border-black/10 text-black/60 text-sm outline-none focus:border-orange-500/60 cursor-pointer appearance-none max-w-[180px]"
+                >
+                  <option value="all">All Countries</option>
+                  {COUNTRIES.map((c) => (
+                    <option key={c.isoCode} value={c.isoCode}>{c.flag} {c.name}</option>
                   ))}
                 </select>
                 <select
@@ -1028,5 +1091,35 @@ export default function MarketplaceClient() {
         </Container>
       </div>
     </div>
+  );
+}
+
+// useSearchParams() (used above to read ?tab=) requires a Suspense
+// boundary around it, or Next.js can't statically prerender this page
+// at build time (CSR bailout error). Wrapping the actual page content
+// here — rather than in page.jsx — keeps this self-contained.
+function MarketplaceLoadingFallback() {
+  return (
+    <div className="min-h-screen bg-[#F3EFE6] flex items-center justify-center">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl w-full px-6">
+        {[...Array(8)].map((_, i) => (
+          <div key={i} className="rounded-2xl border border-black/8 bg-white overflow-hidden animate-pulse">
+            <div className="aspect-square bg-black/5" />
+            <div className="p-4 space-y-2">
+              <div className="h-3 bg-black/5 rounded w-3/4" />
+              <div className="h-3 bg-black/5 rounded w-1/2" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function MarketplaceClient() {
+  return (
+    <Suspense fallback={<MarketplaceLoadingFallback />}>
+      <MarketplaceClientInner />
+    </Suspense>
   );
 }

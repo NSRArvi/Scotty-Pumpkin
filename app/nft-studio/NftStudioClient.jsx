@@ -5,11 +5,22 @@ import Link from "next/link";
 import Container from "../components/shared/Container";
 import { useSolanaWallet } from "@/hooks/useWallet";
 import WalletButton from "@/app/components/WalletButton";
+import DocsButton from "../components/shared/DocsButton";
 import BuyModal from "@/app/components/BuyModal";
+import { Country } from "country-state-city";
 
 const CATEGORIES = ['art', 'music', 'gaming', 'sports',
         'photography', 'collectible', 'utility', 'other',
         'fashion', 'jewelry', 'video', 'digital'];
+// Full ISO 3166-1 country list from the country-state-city package.
+// We store the isoCode ('BD', 'FR', ...) — backend just checks it's a
+// 2-letter code (NftController::COUNTRY_CODE_REGEX), no fixed list to
+// keep in sync.
+const COUNTRIES = Country.getAllCountries();
+const countryLabel = (isoCode) => {
+  const c = Country.getCountryByCode(isoCode);
+  return c ? `${c.flag} ${c.name}` : isoCode;
+};
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
 
 const formatSolPrice = (price) => {
@@ -92,10 +103,10 @@ async function getTokenRateInfo() {
 // is ALREADY mint-price + storage-fee combined (see mintOneCopy below),
 // denominated in SPUMP; if the minter pays in USDC, the amount is
 // converted via the live rate before building the transfer.
-async function mintOnSolana(metadataUri, walletAddress, signTransaction, signAllTransactions, paymentAmountSpump = 0, paymentCurrency = "spump", tokenMints = {}, treasuryWallet = "") {
+async function mintOnSolana(metadataUri, walletAddress, signTransaction, signAllTransactions, paymentAmountSpump = 0, paymentCurrency = "spump", tokenMints = {}, treasuryWallet = "", nftName = "NFT", royaltyBasisPoints = 0) {
   const { createUmi }              = await import("@metaplex-foundation/umi-bundle-defaults");
   const { walletAdapterIdentity }  = await import("@metaplex-foundation/umi-signer-wallet-adapters");
-  const { create, mplCore }        = await import("@metaplex-foundation/mpl-core");
+  const { create, mplCore, ruleSet }        = await import("@metaplex-foundation/mpl-core");
   const { generateSigner, base58, publicKey: umiPublicKey } = await import("@metaplex-foundation/umi");
   const { transferTokens, findAssociatedTokenPda, createAssociatedToken, mplToolbox } = await import("@metaplex-foundation/mpl-toolbox");
   const { PublicKey, Connection }  = await import("@solana/web3.js");
@@ -167,8 +178,16 @@ async function mintOnSolana(metadataUri, walletAddress, signTransaction, signAll
   // Base instruction: create the NFT asset.
   let builder = create(umi, {
     asset: assetSigner,
-    name:  "NFT",
+    name:   nftName || "NFT",
     uri:   metadataUri,
+    plugins: royaltyBasisPoints > 0 ? [
+    {
+      type:        "Royalties",
+      basisPoints: royaltyBasisPoints,
+      creators:    [{ address: umi.identity.publicKey, percentage: 100 }],
+      ruleSet:     ruleSet("None"),
+    },
+  ] : [],
   });
 
   // If anything is owed (mint price and/or storage fee isn't zero),
@@ -338,7 +357,9 @@ function TrendingCard({ nft, walletAddress }) {
         <div className="p-3.5 space-y-3">
           <div>
             <p className="text-black/80 text-xs font-semibold tracking-wider truncate">{nft.name}</p>
-            <p className="text-black/40 text-[10px] capitalize mt-0.5">{nft.category}</p>
+            <p className="text-black/40 text-[10px] capitalize mt-0.5">
+              {nft.category}{nft.country ? ` · ${Country.getCountryByCode(nft.country)?.name || nft.country}` : ""}
+            </p>
           </div>
 
           <div className="flex items-center justify-between">
@@ -400,6 +421,7 @@ export default function NftStudioClient() {
   const [description, setDescription] = useState("");
   const [symbol, setSymbol]           = useState("");
   const [category, setCategory]       = useState("art");
+  const [country, setCountry]         = useState("");
   const [editionType, setEditionType] = useState("limited");
   const [totalSupply, setTotalSupply] = useState(1);
   const [royalty, setRoyalty]         = useState(5);
@@ -611,7 +633,7 @@ export default function NftStudioClient() {
 
     setStep("uploading");
     try {
-      setMintStep("Uploading to IPFS...");
+      setMintStep("Uploading your NFT...");
       const formData = new FormData();
       formData.append("wallet_address", walletAddress);
       formData.append("name",           title);
@@ -619,6 +641,7 @@ export default function NftStudioClient() {
       formData.append("symbol",         symbol || "NFT");
       formData.append("image",          uploadedFileObj);
       formData.append("category",       category);
+      if (country) formData.append("country", country);
       formData.append("edition_type",   editionType);
       if (editionType === "limited") formData.append("total_supply", totalSupply);
       if (collectionId)              formData.append("collection_id", collectionId);
@@ -697,7 +720,7 @@ export default function NftStudioClient() {
     const paymentAmountSpump    = Number((mintPriceComponent + storageFeeComponent).toFixed(9));
 
     const { mintAddress, transactionSig } = await mintOnSolana(
-      metadataUri, walletAddress, signTransaction, signAllTransactions, paymentAmountSpump, mintCurrency, tokenMints, treasuryWallet
+      metadataUri, walletAddress, signTransaction, signAllTransactions, paymentAmountSpump, mintCurrency, tokenMints,treasuryWallet,title, Math.round((Number(royalty) || 0) * 100)
     );
     const confirmRes  = await fetch(`${API_URL}/nft/mint`, {
       method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -784,13 +807,17 @@ export default function NftStudioClient() {
 
             {/* Header */}
             <div className="mb-14">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="h-px flex-1 max-w-[40px] bg-orange-500/40" />
-                <span className="text-[10px] tracking-[0.2em] uppercase font-semibold text-orange-500">Scotty Pumpkin Ecosystem</span>
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="h-px flex-1 max-w-[40px] bg-orange-500/40" />
+                  <span className="text-[10px] tracking-[0.2em] uppercase font-semibold text-orange-500">Scotty Pumpkin Ecosystem</span>
+                </div>
+                <DocsButton href="/docs/nft-studio" />
               </div>
               <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-none mb-6">
                 NFT<span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-orange-600">Studio</span>
               </h1>
+              
               <p className="text-black/50 text-base font-light max-w-xl leading-relaxed">
                 Mint digital prestige — art, fashion, jewelry, video & digital goods. List free. Pay only{" "}
                 <span className="text-orange-500 font-medium">a flat fee</span> when sold.
@@ -947,7 +974,7 @@ export default function NftStudioClient() {
                     <div className="col-span-2 space-y-1.5">
                       <FieldLabel>Collection</FieldLabel>
                       <Select value={collectionId} onChange={(e) => setCollectionId(e.target.value)}>
-                        <option value="">— No collection —</option>
+                        <option value="">— All collection —</option>
                         {collections.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
                       </Select>
                       {collections.length === 0 && (
@@ -965,6 +992,15 @@ export default function NftStudioClient() {
                       <Select value={editionType} onChange={(e) => setEditionType(e.target.value)}>
                         <option value="unlimited">Unlimited</option>
                         <option value="limited">Limited</option>
+                      </Select>
+                    </div>
+                    <div className="col-span-2 space-y-1.5">
+                      <FieldLabel>Country</FieldLabel>
+                      <Select value={country} onChange={(e) => setCountry(e.target.value)}>
+                        <option value="">— All country —</option>
+                        {COUNTRIES.map((c) => (
+                          <option key={c.isoCode} value={c.isoCode}>{c.flag} {c.name}</option>
+                        ))}
                       </Select>
                     </div>
                     {editionType === "limited" && (
@@ -1015,15 +1051,15 @@ export default function NftStudioClient() {
                     </div>
                     <div className="space-y-1.5">
                       <FieldLabel>Social Media</FieldLabel>
-                      <Input type="url" placeholder="https://instagram.com/... or any social link" value={externalSocial} onChange={(e) => setExternalSocial(e.target.value)} />
+                      <Input type="url" placeholder="https://facebook.com/... or any social link" value={externalSocial} onChange={(e) => setExternalSocial(e.target.value)} />
                     </div>
-                    <div className="space-y-1.5">
+                    {/* <div className="space-y-1.5">
                       <FieldLabel>Telegram</FieldLabel>
                       <Input type="url" placeholder="https://t.me/..." value={externalTelegram} onChange={(e) => setExternalTelegram(e.target.value)} />
-                    </div>
+                    </div> */}
                     <div className="space-y-1.5">
                       <FieldLabel>WhatsApp</FieldLabel>
-                      <Input type="url" placeholder="https://wa.me/..." value={externalWhatsapp} onChange={(e) => setExternalWhatsapp(e.target.value)} />
+                      <Input type="url" placeholder="Phone Number..." value={externalWhatsapp} onChange={(e) => setExternalWhatsapp(e.target.value)} />
                     </div>
                     <div className="space-y-1.5">
                       <FieldLabel>Twitter / X</FieldLabel>
@@ -1177,6 +1213,7 @@ export default function NftStudioClient() {
                 <div className="flex flex-wrap gap-2">
                   {[
                     `${category.charAt(0).toUpperCase() + category.slice(1)}`,
+                    ...(country ? [countryLabel(country)] : []),
                     editionType === "limited" ? `${totalSupply} copies` : "Unlimited",
                     `${royalty}% royalty`,
                     "1yr storage incl.",
